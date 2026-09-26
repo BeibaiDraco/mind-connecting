@@ -181,8 +181,8 @@ def patch(color: str, hatch: str | None = None, ec: str = "none"):
     return fs.Rectangle((0, 0), 1, 1, fc=color, ec=ec, hatch=hatch, lw=0.5)
 
 
-def autocrop(path: Path, thresh: int = 246, pad: int = 8) -> np.ndarray:
-    im = Image.open(path).convert("RGB")
+def autocrop(path: Path | Image.Image, thresh: int = 246, pad: int = 8) -> np.ndarray:
+    im = path.convert("RGB") if isinstance(path, Image.Image) else Image.open(path).convert("RGB")
     g = np.asarray(im.convert("L"))
     rows, cols = np.where(g.min(axis=1) < thresh)[0], np.where(g.min(axis=0) < thresh)[0]
     r0, r1 = max(rows.min() - pad, 0), min(rows.max() + pad, g.shape[0] - 1)
@@ -208,13 +208,29 @@ def placeholder(ax, x: float, y: float, w: float, h: float, name: str, note: str
     ax.text(x + w / 2, y + h / 2 - 1.6, note, fontsize=4.8, color="#9E9E9E", ha="center", va="center")
 
 
+FIG1E_LABEL = (765, 72, 1170, 147)  # "A's notes" in fig1e_v1.png; the passage is A's reflection, not its note
+
+
+def relabel_fig1e(path: Path) -> Image.Image:
+    """Replace the baked-in "A's notes" with "A's reflection", in the image's own fill and ink."""
+    from PIL import ImageDraw, ImageFont
+    arr = np.asarray(Image.open(path).convert("RGB"))
+    im = Image.fromarray(erase(arr, FIG1E_LABEL))
+    font = ImageFont.truetype(fs.matplotlib.font_manager.findfont(
+        fs.matplotlib.font_manager.FontProperties(family="DejaVu Sans", weight="bold")), 74)
+    draw = ImageDraw.Draw(im)
+    x0, y0, x1, y1 = FIG1E_LABEL
+    draw.text(((x0 + x1) / 2, (y0 + y1) / 2 + 2), "A’s reflection", font=font, fill=(24, 28, 38), anchor="mm")
+    return im
+
+
 def slot(ax, x: float, y: float, w: float, h: float, name: str, note: str):
     """Put the generated illustration into the slot if it exists, else a placeholder."""
     path = ILL / "task_illustrations" / f"{name}_v1.png"
     if not path.exists():
         placeholder(ax, x, y, w, h, name, note)
         return
-    img = autocrop(path)
+    img = autocrop(relabel_fig1e(path) if name == "fig1e" else path)
     ih, iw = img.shape[:2]
     # fit inside the slot keeping the aspect ratio (data units are isotropic in these canvases)
     scale = min(w / iw, h / ih)
@@ -1058,7 +1074,7 @@ def fig6_twoway() -> None:
     ax.set_xlim(-1, 20)
     ax.tick_params(axis="x", labelsize=MIN_PT)
     ax.set_xlabel("extra same-rule pairs vs no-loop control (points, 90% CI)", fontsize=5.8, labelpad=1)
-    title(ax, "The live loop pulls plans together (pilot)", pad=3)
+    title(ax, "The live loop pulls rules together (pilot)", pad=3)
     letter(fig, 2.75, 1.0, "c")
 
     # stronger loops exceed the capability tolerance: reported in the text and the appendix

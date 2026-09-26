@@ -1,7 +1,7 @@
 \section{Setup}
 \label{sec:setup}
 
-An episode has four steps (Figure~\ref{fig:setup}). Each of two copies
+An episode has three stages (Figure~\ref{fig:setup}a). Each of two copies
 of a model receives a private card with its assignment and writes a short
 note on its plan. Both then write a 48-token reflection, during which the
 receiver's attention also reads the partner's memory through the memory
@@ -148,21 +148,25 @@ We chose every setting in pilots on separate episodes without looking
 at claiming: $w=2$ gave the largest gain in access among the link
 weights that kept accuracy on common-knowledge questions within five
 points of no link and left the answer format intact
-(Appendix~\ref{app:stats}). We then fixed each confirmatory test, with
-its direction and analysis, in a frozen protocol before drawing the
-fresh episodes it ran on, 600 per sample. Results reported without
+(Appendix~\ref{app:stats}). We then fixed each confirmatory test and
+its analysis, with a predicted direction where the protocol stated one,
+in a frozen protocol before drawing the fresh episodes it ran on: 600
+per sample in the memory-link studies and 300 in the separate
+hidden-state study. Results reported without
 qualification are prespecified in this sense; we say in words when a
 result is post hoc or comes from a pilot. The confirmatory studies ran in
 sequence, each on fresh episodes. The \emph{first confirmatory sample}
 tested claiming and the text messages. The \emph{main sample}, drawn
 afterwards, tested the questions those results raised, with the matched
-steering vector, the cut link, and the third-person record; because it
+steering vector, the cut link, and a third-person rewrite of B's memory
+(Section~\ref{sec:third}); because it
 reran the memory link at $w=2$ as their reference, most rates reported
 here come from it (Appendix Table~\ref{tab:study-map}). The episode
 is the statistical unit: tests use Holm correction within families and
 95\% episode-bootstrap intervals, and the appendix reports every
 prespecified test, including those that failed or reversed
-(Table~\ref{tab:contrasts}). The code, the three frozen protocols with
-their manifests, and a table that maps every figure and table to the
+(Appendix Tables~\ref{tab:contrasts}, \ref{tab:pair-gate},
+and~\ref{tab:v1contrasts}). The code, the three protocols with their
+freeze manifests, and a table that maps every figure and table to the
 runs it was computed from are available at
-\url{https://github.com/BeibaiDraco/mind-connecting}.
+\url{https://github.com/BeibaiDraco/mind-connecting} (Appendix~\ref{app:repro}).

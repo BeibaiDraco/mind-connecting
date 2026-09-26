@@ -12,17 +12,24 @@ head returns $o=(1-\beta)\,o_{\mathrm{own}}+\beta\,o_B$, a blend of A's
 own value average and B's, weighted by $\beta$, the share of attention
 that falls on B's keys. The blend leaves the head as a single vector,
 with no field saying which part came from which cache. A could still
-tell the sources apart if B's card stated its assignment in a different
-place or layout from A's own, and the next two properties show that it
+tell the sources apart if B's card stated its assignment elsewhere or in
+another layout from A's own, and the next two properties show that it
 does not. Second, B's keys keep their original rotary positions, so,
 seen from A's queries, B's card occupies nearly the same positions as
-A's own. Third, both cards follow one template. Where A's own card says
-\qq{You were assigned the priority \ldots}, B's card states its
-assignment in the same place, within the same stretch of positions.
-B's card does name B, but the account does not need A to read names.
-It adds one premise, that A finds its own assignment by where it lies, reading
-whatever occupies that stretch of its context as its own. The three
-properties guarantee that B's assignment occupies it too.
+A's own. Third, both cards follow one template: each states its
+holder's assignment and Robin's entry in a short block of two lines.
+We counterbalanced the order of the two lines separately on each card
+(Appendix~\ref{app:materials}), so B's assignment line lies over A's
+own line in half of the episodes and over A's line about Robin in the
+other half, always within the same short stretch of positions. The
+account adds one premise: A finds its own assignment within that
+stretch of its context, taking as its own the assignment there that is
+not Robin's, whichever line it sits on and whatever name the line
+carries. The second and third properties guarantee that B's assignment
+lies there too. In a post hoc split of the main sample, claiming did
+not depend on which of A's two lines B's assignment lay over (51.7\%
+and 53.0\% at $w=1$; 96.3\% and 97.8\% at $w=2$), and no answer named
+Robin's rule, even when B's line about Robin lay over A's own.
 
 The account fits results we already had, so the fit is weak evidence;
 what could refute it are the predictions at the end of this section. Its
@@ -39,7 +46,7 @@ about as often as from the original card (Section~\ref{sec:third}).
 If claiming instead followed how much of B's content reached A, then
 under a steering vector tuned to give A the same access to B's rule
 as the link at $w=1$, A should have claimed B's rule as often as
-under the link. It never did (Section~\ref{sec:route}). On the account
+under the link. It never claimed it at all (Section~\ref{sec:route}). On the account
 this is expected, because the vector is a direction added to A's hidden
 states, not a card that A's queries can read as an assignment.
 
@@ -57,8 +64,9 @@ and give it no header. The account predicts claiming near the untagged
 message's level, far below our memory link's; if claiming stays at the
 memory link's level, the account is wrong. Three further predictions
 follow. Claiming should fall if B's card is laid out unlike A's, for
-example with its assignment in another place or in a table, because
-B's assignment would then no longer lie where A's own lies. The
+example with its assignment outside the short block in which A's card
+states assignments, or in a table, because B's assignment would then
+no longer lie in the stretch where A finds its own. The
 third-person record did not do this: it changed the grammatical person
 of the assignment line but not where the line lies. Giving B's card a different
 entry for Robin should make A's answers about Robin move to B's version,
@@ -77,16 +85,18 @@ third-person record both did. The line between self and other held most
 firmly where the source was named apart from the content, in the header
 of a message that did not lie over the receiver's card. Moving the
 content off the receiver's card without naming a source already cut
-claiming from 95.8\% to 14.6\%, though position, form, and the content
+claiming from 95.8\% to 14.6\% on the same episodes of the first
+confirmatory sample, though position, form, and the content
 itself (B's reflection rather than B's card) changed together there. In
 this model, then, the self works as a default: content that reaches the
 receiver's own card is \qq{mine} unless its place, or a header set apart
 from it, marks it as another's. This is a claim about attribution, not
 about experience. It echoes the view from human memory research that
 people judge where a memory came from by its qualities, rather than by
-retrieving a stored label of its source \citep{johnson1993source}, and it has a human counterpart in
+retrieving a stored label of its source \citep[][p.~3]{johnson1993source}, and it has a human counterpart in
 cryptomnesia, in which people report another's idea as their own
-\citep{brown1989cryptomnesia} (Appendix~\ref{app:furtherdisc}).
+\citep{brown1989cryptomnesia}; Appendix~\ref{app:furtherdisc} discusses
+the parallel.
 
 This answers the question we began with, in a way neither prediction
 anticipated. \citet{hirstein2008mindmelding} expected a bridged receiver
@@ -95,7 +105,7 @@ own. Our receiver kept the sources apart only in our baseline for
 ordinary communication, a text message whose header named B. It could
 then report B's rule when asked about B, and it never gave that rule
 when asked which one it had been assigned (Section~\ref{sec:route}).
-Through the memory link, which like Hirstein's own proposal joins
+Through the memory link, which, like Hirstein's own proposal, joins
 internal states directly, the receiver gave B's rule as its own in
 nearly every answer and reported nothing unusual
 (Sections~\ref{sec:claim} and~\ref{sec:reports}). Hirstein's prediction
@@ -127,7 +137,7 @@ rather than one shared set of assignments (Section~\ref{sec:twoway}).
 
 The default decides the label \qq{mine}, not which content wins. At
 link weight $w=1$, which rule came out of the blend varied from answer
-to answer, B's in 52.3\% and A's own in nearly all the rest, and
+to answer, B's in 52.3\% and A's own in all the rest, and
 whichever won came with the same confidence (Section~\ref{sec:sharp}).
 Where the receiver was free to say otherwise, in its open reports, it
 called B's code word its own and never B's (Section~\ref{sec:reports}).
@@ -191,8 +201,8 @@ Handling whatever the receiver wrote while connected as the partner's
 content is supported, post hoc, by where the residue sat after the cut.
 Marking the source outside the content is supported for text messages,
 where a header naming the sender prevented adoption. Keeping partner
-caches off the receiver's own positions is predicted by the account but
-untested. To the risks already known for such channels, such as
+caches off the receiver's own positions should help according to the
+account, but is untested. To the risks already known for such channels, such as
 tampered caches and leaked inputs (Appendix~\ref{app:furtherdisc}), our
 results add one more: the receiver may adopt foreign content as its own.
 
@@ -211,7 +221,7 @@ where it enters. Access is itself an answer about B, and whether A
 gives B's rule to B depends on whether it has also taken that rule as
 its own, so access measures arrival imperfectly. The
 third-person record differs from the original in more than grammatical
-person, since it adds names and changed how A answered about B. The
+person, since it adds names and changes how A answers about B. The
 test that it left claiming intact covers only $w=2$, and its tolerance
 was computed from the same sample it was applied to. Our reading of what
 persisted after the cut rests on a post hoc grouping by a variable the
@@ -230,10 +240,16 @@ role play rather than self-knowledge \citep{shanahan2023roleplay}.
 A message can arrive intact and still acquire the wrong owner.
 
 \paragraph{AI use statement.}
-Experimental code, analyses, figures, and manuscript text were produced
-by Claude Code and Codex under the direction of the principal
-investigator. Codex also coded the open self-reports, blind to condition
-(Appendix~\ref{app:coding}). The illustrations in Figures~\ref{fig:hook},
-\ref{fig:setup}, \ref{fig:route}a, and \ref{fig:twoway}a were generated
-by a GPT image model and serve only as schematics. All numerical results
-were calculated from the original trial data.
+The author conceived the study and made every research decision. Under
+the author's direction, the AI coding agents Claude Code (Anthropic) and
+Codex (OpenAI) wrote the experimental code, ran the analyses, drew the
+figures, and drafted the manuscript text; they are tools, not authors.
+Claude Code wrote the keyword rules for the open self-reports, and Codex
+coded the reports by meaning, blind to condition
+(Appendix~\ref{app:coding}). The illustrations in
+Figure~\ref{fig:hook} and in Figures~\ref{fig:setup}a, \ref{fig:route}a,
+and \ref{fig:twoway}a were generated by a GPT image model and serve only
+as schematics. All numerical results were calculated from the original
+trial data, and every citation was checked against its source. The
+author has reviewed the paper and takes full responsibility for its
+contents.

@@ -3,7 +3,7 @@
 Written 2026-09-25 when the appendix of `paper/main.tex` was made reader-facing. The appendix
 no longer names run IDs, internal condition labels, files or git tags; this file keeps them so
 that every number in the paper can still be traced to raw records. It is the table, cited in the
-paper, that maps every figure and table to the runs it was computed from (Sections 2 and 5);
+paper, that maps every figure and table to the runs it was computed from (sections 5 and 6 below; section 2 lists each stage's runs);
 the run IDs name the directories of the trial records.
 
 The public repository starts from a single commit made on 2026-09-25. The development history before that date, including the freeze commits and tags, is kept as a private archive (a git bundle held by the PI); commit hashes and tags mentioned in these documents refer to that archive.
@@ -12,7 +12,7 @@ The public repository starts from a single commit made on 2026-09-25. The develo
 
 | Protocol (paper wording) | File | Git tag | Freeze manifest | Freeze commit |
 |---|---|---|---|---|
-| protocol of the residual-stream study | `docs/protocol/EXPERIMENT_DESIGN.md` | `protocol-v1` | `docs/protocol/FREEZE_protocol_v1.txt` | `8516829` (2026-09-24 01:26 -0500) |
+| protocol of the hidden-state study | `docs/protocol/EXPERIMENT_DESIGN.md` | `protocol-v1` | `docs/protocol/FREEZE_protocol_v1.txt` | `8516829` (2026-09-24 01:26 -0500) |
 | protocol of the first confirmatory sample and its companion studies | `docs/protocol/PROTOCOL_V2.md` | `protocol-v2` | `docs/protocol/FREEZE_protocol_v2.txt` | `29108fb` (2026-09-24 12:02 -0500) |
 | protocol of the two-way pilot and the main sample | `docs/protocol/PROTOCOL_V3.md` | `protocol-v3` | `docs/protocol/FREEZE_protocol_v3.txt` | `5689aca` (2026-09-24 21:09 -0500) |
 
@@ -27,11 +27,11 @@ Model: `Qwen/Qwen3-4B-Instruct-2507`, revision `cdbee75f17c01a7cc42f958dc6509071
 
 | Stage (paper wording) | Internal name | New N | Run ID |
 |---|---|---|---|
-| Selection and signal pilots | calibration, S-*, sig-* | -- | see section 3; reports `docs/results/ALL_RESULTS.md`, `docs/results/v2/`, `docs/results/v3/` |
-| Residual-stream study | v1 main | 300 | `20260924-062722_main_v1` |
-| (residual-stream diagnostics, content swap) | v1 main_diag | 0 | `20260924-103817_main_diag_v1` |
-| (residual-stream layer variants) | v1 ext_layers | 0 | `20260924-104223_ext_layers_v1` |
-| (residual-stream support-size variants, nested masks k = 16/128/1024) | v1 ext_masks | 0 | `20260924-115148_ext_masks_v1` |
+| Calibration, strength, and signal pilots | calibration, S-*, sig-* | -- | see section 3; reports `docs/results/ALL_RESULTS.md`, `docs/results/v2/`, `docs/results/v3/` |
+| Hidden-state study | v1 main | 300 | `20260924-062722_main_v1` |
+| (hidden-state diagnostics, content swap) | v1 main_diag | 0 | `20260924-103817_main_diag_v1` |
+| (hidden-state layer variants) | v1 ext_layers | 0 | `20260924-104223_ext_layers_v1` |
+| (hidden-state support-size variants, nested masks k = 16/128/1024) | v1 ext_masks | 0 | `20260924-115148_ext_masks_v1` |
 | First confirmatory sample | v2 main (D, A_K, C) | 600 | `20260924-172152_v2_main_confirm` |
 | Content-swap check (60 first-confirmatory episodes, four orderings) | G2 | 0 | `20260924-192633_v2_main_diag_confirm` |
 | Balanced-rehearsal sample | BAL (E) | 600 | `20260924-193405_v2_bal_confirm` |
@@ -52,7 +52,7 @@ episodes are `v3_confirm-0-NNNNN`.
 | Calibration | `20260924-050715_calibrate_c0` | 60 calibration episodes; layers 12/18/24 |
 | Pilot A | `20260924-052736_pilot_a_screen` | screening; selected raw message, layer 24, g = 0.3 (access +1.84) |
 | Pilot B | `20260924-054404_pilot_b_grid` | g* = 0.2; g_s* = 0.1; N = 300 |
-| Pilot C | `20260924-061858_pilot_c_recheck` | content-swap check of the residual-stream link |
+| Pilot C | `20260924-061858_pilot_c_recheck` | content-swap check of the hidden-state link |
 | Strength pilot S-kv (round 1) | `20260924-144935_v2_s_kv_strength` | not passed: KV-ALL w = 1 gave access +8.9 but capability fell 0.19; strongest admissible point only +2.2 |
 | Strength pilot S-kv2 | `20260924-151907_v2_s_kv2_strength2` | selected KV-P w = 2 |
 | Steering-vector match S-static-R | `20260924-153829_v2_s_static_match-r` | STATIC 0.03 matched to the residual link |
@@ -83,7 +83,7 @@ Pilot reports: `docs/results/v2/*.md`, `docs/results/v3/*.md`.
 | FULL / RF | link kept / link cut before the question |
 | ONE / TWO | one-way / two-way reading |
 | 3ps / T3, T3b | third-person record / its studies |
-| v1 / v2 / v3 | the three protocols; confirmatory splits = residual-stream study / first confirmatory sample / main sample |
+| v1 / v2 / v3 | the three protocols; confirmatory splits = hidden-state study / first confirmatory sample / main sample |
 | BAL / DOSE / G2 / B' | balanced-rehearsal sample / dose series / content-swap check / two-way pilot |
 | S-LIVE | two-way strength pilot |
 | START / NOW / WORD / CAP / ACC | assigned priority / current priority / code word / capability check / access questions |
@@ -112,13 +112,34 @@ Run IDs for each sample are in section 2. Plotted choice rates weight episodes e
 averaging the two orderings; intervals for prespecified logit and excess contrasts are copied
 from the frozen analysis outputs.
 
-## 6. Records and analysis files
+## 6. Table sources
+
+| Table | Content | Runs |
+|---|---|---|
+| 1 | Question stems | none (materials in `src/mb/tasks.py`) |
+| 2 | Study map | all runs in section 2 |
+| 3 | Scorecard of six tests | main sample `20260925-021307_v3_confirm_confirm`; report row from the dose series `20260924-210346_v2_ext_dose_confirm`; independence row from the two-way pilot `20260925-001135_v3_sig_bprime_signal` |
+| 4 | Prespecified contrasts of the memory-link samples | `20260924-172152_v2_main_confirm`, `20260924-193405_v2_bal_confirm`, `20260925-021307_v3_confirm_confirm` |
+| 5 | Main-sample readouts | `20260925-021307_v3_confirm_confirm` |
+| 6 | First-confirmatory readouts | `20260924-172152_v2_main_confirm` |
+| 7 | Dose series | `20260924-210346_v2_ext_dose_confirm` |
+| 8 | Joint answers at w = 1 (post hoc) | `20260925-021307_v3_confirm_confirm`; computed by `scripts/explore_story_checks.py` (`docs/results/story_checks.md`, sections 5 and 6) |
+| 9 | Semantic coding of open reports | `20260924-210346_v2_ext_dose_confirm` plus the locked semantic labels |
+| 10 | Link-cut answers by reflection content (post hoc) | `20260925-021307_v3_confirm_confirm`; `docs/results/story_checks.md`, section 4 |
+| 11 | Prespecified two-way comparisons | `20260925-001135_v3_sig_bprime_signal` |
+| 12 | Complete two-way pair outcomes | `20260925-001135_v3_sig_bprime_signal` |
+| 13 | Prespecified contrasts of the hidden-state study | `20260924-062722_main_v1` (`docs/results/formal_report.md`) |
+| 14 | Hidden-state study, main arms | `20260924-062722_main_v1` (`docs/results/formal_report.md`) |
+
+The post hoc split by card-line order reported in Section 4 of the paper (claiming 51.7% vs 53.0% at w = 1, 96.3% vs 97.8% at w = 2) was computed on 2026-09-25 from `20260925-021307_v3_confirm_confirm`, question START, grouping episodes by whether `self_first` is the same for A and B (`src/mb/tasks.py`).
+
+## 7. Records and analysis files
 
 - Each raw run directory keeps `identity.json`, `manifest.json`, a copy of its configuration
   (`config.yaml`), append-only `records/attempt-*.jsonl`, and tick logs (`ticks.jsonl`, `ticks/*.npz`).
 - Derived files include `contrasts.json`, `signal.json`, `pair_signal.json`, and completeness
   reports (`completeness.json`, `run_status.json`).
-- Study reports: `docs/results/` (residual-stream study: `docs/results/formal_report.md`, which
+- Study reports: `docs/results/` (hidden-state study: `docs/results/formal_report.md`, which
   also holds the layer comparison, the support-size extension and the control arms).
 - Post hoc analyses: `docs/results/story_checks.md`, generated by `scripts/explore_story_checks.py`.
 - Figure code: `scripts/make_story_figures.py`; plotted values with their run IDs:

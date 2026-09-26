@@ -1,5 +1,4 @@
 \section{Introduction}
-\label{sec:introduction}
 
 Imagine your brain wired directly to someone else's: not a screen
 showing you what they see, but their neurons talking to yours, their
@@ -34,7 +33,7 @@ Direct neural connection has been proposed as a route into another's
 experience
 \citep{ramachandran1997qualia,hirstein2008mindmelding,hirstein2012mindmelding}
 and as a first-person test of machine consciousness
-\citep{watanabe2022biological}. A bridge would not explain why
+\citep{watanabe2022biological,watanabe2023uploading}. A bridge would not explain why
 experience exists, but it would let an investigator gather first-person
 evidence about someone else's experience, because the investigator
 would also be the subject. That evidence, however, is only as good as
@@ -49,8 +48,8 @@ expects the receiver to experience the other's content while knowing
 that it is not its own. Integrated information theory predicts that the
 two minds would give way to a single one \emph{if} the joined system's
 integrated information exceeded that of either brain alone
-\citep[][note 13]{tononi2015consciousness}. Nor has the reverse case,
-splitting one brain in two, settled how to count minds
+\citep[][note 13]{tononi2015consciousness}. The reverse case, splitting
+one brain in two, has not settled how to count minds either
 \citep{dehaan2020splitbrain}.
 
 The human experiment is out of reach. Brain-to-brain interfaces have
@@ -95,12 +94,15 @@ while taking future ones seriously
 \citep{chalmers2023llm,butlin2023consciousness}.
 
 Language models can report aspects of their own internal states
-\citep{binder2025looking,lindsey2025introspection}. In the result
-closest to ours, after a word was prefilled into a model's reply,
-injecting the concept of that word into the activations before it made
-the model accept the word as the output it had intended
-\citep{lindsey2025introspection}. In a single model, however, injected
-content has no other owner. With two connected copies, the content that
+\citep{binder2025looking,lindsey2025introspection}, and interventions on
+their activations can change what they take as their own. Adding a
+direction associated with self-authorship to the activations of a text
+made a model judge that text as its own \citep{ackerman2025inspection},
+and after a word was prefilled into a model's reply, injecting the
+concept of that word into the activations at the positions before the
+word made the model accept it as the output it had intended
+\citep{lindsey2025introspection}. In both, the change came from the
+experimenter, not from another agent. With two connected copies, the content that
 enters belongs to someone else, we choose the route by which it enters,
 and we can ask whose the receiver takes it to be.
 
@@ -138,8 +140,8 @@ our bridge on these four tests and two more). The merging prediction
 concerns integrated information, which behavior cannot reveal; its
 nearest functional counterpart, whether two reciprocally coupled copies
 come to hold one shared assignment, we probe only in a pilot. Most
-results use one link strength, chosen in advance from access and
-general capability alone, never from claiming
+results use one link strength, chosen in advance from access,
+general capability, and answer format alone, never from claiming
 (Section~\ref{sec:setup}). Four results emerge.
 
 \begin{enumerate}[label=\arabic*.,itemsep=2pt]
@@ -155,8 +157,9 @@ whatever is in its context, fails: a text message introduced as the
 partner's was read correctly and not taken as the receiver's own.
 A steering vector let the receiver report the partner's rule about as
 well as a link that gave the partner's memory no extra weight, in about
-one answer in five, yet that link was claimed in about half of the
-answers and the vector never was. And
+one answer in five, yet through that link the receiver claimed the
+partner's rule in about half of its answers, and through the vector
+never. And
 rewriting the partner's memory as a third-person record under the
 partner's name did not stop the claim (Sections~\ref{sec:third}
 and~\ref{sec:route}).
@@ -180,11 +183,11 @@ The surprise is not that the partner's content reached the receiver;
 latent channels are built to carry content. One might even call the
 result prompt corruption, and our account accepts that reading
 (Section~\ref{sec:account}), with one distinction. The corruption is not
-that the receiver repeats whatever is in its context, which the tagged
-message rules out, but that the partner's memory is blended into the
+that the receiver repeats whatever is in its context, which the message
+introduced as the partner's rules out, but that the partner's memory is blended into the
 receiver's own. What matters is what the corruption did. It did not
-garble the receiver's answers, make them uncertain, or pull its answers
-about Robin toward the partner's rule; what changed was the owner. The receiver gave its
+garble the receiver's answers, make them uncertain, or change its
+answers about Robin; what changed was the owner. The receiver gave its
 partner's assignment as its own, confidently, claimed more of it than it
 could report as the partner's, and said nothing in its reports that
 marked the content as foreign. A channel judged by what it transfers
@@ -194,7 +197,7 @@ receiver's own arises; only an ordinary message introduced as the
 partner's, our baseline for communication, was kept as the partner's. We call this \emph{the self as a default}: nothing in
 how attention blends the two memories says which part came from where,
 and a name written inside the partner's memory did not help, so whatever
-lies over the receiver's own card is taken as \qq{mine} unless the route
+lies over the receiver's own memory of its assignment is taken as \qq{mine} unless the route
 marks the source (Section~\ref{sec:discussion}).
 
 We draw three messages, each established for a partner's memory laid
@@ -202,7 +205,7 @@ over the receiver's own positions, the arrangement closest to the bridge
 of the opening:
 \begin{itemize}[itemsep=2pt]
 \item \textbf{For interpretability:} access and ownership are different
-quantities, and in our model its reports about itself did not register
+quantities, and our model's reports about itself did not register
 a change of owner, so self-attribution has to be measured against known
 ground truth.
 \item \textbf{For multi-agent systems that exchange internal states:}
@@ -212,6 +215,6 @@ disconnection.
 \item \textbf{For consciousness science:} whether a bridged mind would
 know foreign thoughts as foreign may depend on how they arrive more than
 on what they contain, so a bridge experiment needs ground truth from
-outside the subject and separate measures of access, ownership and
+outside the subject and separate measures of access, ownership, and
 report.
 \end{itemize}

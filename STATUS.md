@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-09-25, Claude Code (repository made public at https://github.com/BeibaiDraco/mind-connecting and cited in the paper; the trial data are not yet released; paper main text about 12.5 pages, 35 pages in total, awaiting the PI's read-through).
+Last updated: 2026-09-25, Claude Code (pre-submission check done and fixes applied; the arXiv package builds with `make -C paper arxiv` and compiles cleanly on its own; awaiting the PI's read-through, the data-release decision and the submission).
 
 ## Current phase
 
@@ -51,6 +51,8 @@ No current claims.
 - codex_handoff.md B4 describes Fig 1c as having a gray dashed return line, but the current script and rendered figure have only the orange one-way A reads B arrow. The caption has been written to match the actual figure, and the two-way case is explained only for the pilot in 1f/6; this is only a sync discrepancy, and there is no need to add an arrow for the sake of the caption.
 
 ## Done
+
+- **Pre-submission check and fixes** (2026-09-25, Claude Code): five independent checks of the paper (main-text copyedit, appendix copyedit, number consistency, references, arXiv compliance and public-source hygiene). Every number matched. Fixes, with no number changed: (a) Section 4 said B's assignment line lies exactly over A's own, but the order of the assignment and Robin lines was counterbalanced separately on each card (`src/mb/tasks.py`, `self_first`), so that holds in half of the episodes; the premise now says A finds its assignment within the short stretch where both cards state assignments, and a post hoc split of the main sample recomputed from the records (claiming 51.7% vs 53.0% at w = 1, 96.3% vs 97.8% at w = 2, no answer naming Robin's rule) is reported as post hoc; (b) the statements that trial data were "released" now say what is true: the hidden-state control arms are in the study report in the repository, and the codebook, locked labels and trial records are available on request until their release at the repository; (c) Setup and Appendix B say that the repository holds English translations of the protocols and that the manifests refer to the originals in the archived history; (d) the AI use statement now says the tools are not authors, who did what, and that the author takes full responsibility; (e) Ackerman & Panickssery's authorship-steering result is named with Lindsey's as the closest precedents; Watanabe (2023) is co-cited and verified; Johnson et al. (1993) p. 3 was verified from the scanned article; (f) about fifty smaller corrections, including the Fig 1e label ("A's reflection", redrawn in `scripts/make_story_figures.py`), the Fig 6c title ("rules"), a Robin row in Table 8b, the scope of the Table 4 caption, the count of tests in Appendix D, "unsettled" rather than "untested" for the responsive partner, and the failed matching check of the third-person condition at w = .6 with its numbers. The LaTeX source was cleaned for public posting (unused macros, stale comments and labels, and the empty stub section removed; a missing figure now stops the build). `make -C paper arxiv` writes `paper/arxiv.tar.gz` (22 files, 3.6 MB), which compiled on its own with pdfLaTeX and the bundled `main.bbl` to the same 35 pages. Offline tests pass.
 
 - **Repository public and cited in the paper** (2026-09-25, Claude Code, at the PI's request): https://github.com/BeibaiDraco/mind-connecting is public. Setup and the reproducibility paragraph of the paper give the URL for the code, the frozen protocols with their manifests, and the figure/table-to-run map (`paper/provenance.md`). The paper still says the trial data "will be released there with the paper": the records on the SD card total 1.9 GB (859 MB of JSONL records, 787 MB of per-tick logs), too large for the repository itself but suitable for compressed GitHub release assets; this awaits the PI's decision. Commits carry no AI co-author lines.
 
@@ -129,16 +131,15 @@ No current claims.
 | ~~M4~~ ✅ | G1 baseline: passed on the final materials (BEH endpoint dropped, CAP is 18 common-knowledge items) | GPU |
 | ~~M5~~ ✅ | Calibration → Pilot A/B/C → G2 → freeze `protocol-v1` | GPU |
 | ~~M6~~ ✅ | Formal experiment, extensions, diagnostics (completed 2026-09-24) | GPU |
-| M7 | Analysis, figures, paper | Mac |
+| M7 | Analysis, figures, paper (ready for arXiv, 2026-09-25) | Mac |
 
 Checkpoints for reporting to the PI: M2 complete, M3 speed measurement, G1, Pilot A, before freezing, formal results.
 
 ## Blockers and pending items
 
 - The v2 driver and the v3 strength pilot chain are old scripts (`exit=` in their logs is always 0); the completeness of the affected runs has been checked one by one; all later runs use `scripts/run_chain.sh`.
-- The paper's six figures and the story are settled; the six illustrations and this round's revisions have been delivered (facts and handoff text `0961752`, illustrations and the nine-page full draft `3afe264`). Awaiting Claude's fix of the Fig 1d vector title, and the PI's review and confirmation of the author list/affiliation/email/acknowledgments and the public code and data address; the conference to submit to will be decided later. Details in `paper/writing_notes.md`.
 - Second model: the PI decided that once all experiments are done and the story is finalized, an open-source model from another company will be chosen for replication (this needs an adapter layer for the chat format and label IDs).
-- Paper: a complete, compilable first draft has been delivered (`paper/main.pdf`) and awaits PI review; the first arXiv version does not include the second model, and follow-up studies will be discussed separately. Submission is carried out by the PI or with the PI's explicit consent at that time.
+- **arXiv submission (PI)**: the manuscript and the upload package are ready; `make -C paper arxiv` writes `paper/arxiv.tar.gz`. Before posting, the PI (1) reads the full paper, because the AI use statement says the author has reviewed it; (2) decides whether and when to release the trial records (1.9 GB on the SD card; the paper says they are available on request until their release at the repository); (3) confirms the email `dracoxu@uchicago.edu`; (4) submits with author Yunlong Xu, primary category cs.CL with cross-lists cs.AI and cs.LG (cs.MA optional), comments "35 pages (13 pages main text), 6 figures, 14 tables. Code and protocols: https://github.com/BeibaiDraco/mind-connecting", and the plain-text abstract (1,917 characters; the LaTeX abstract with `\qq{}` replaced by quotation marks).
 - After all experiments finish: per the PI's instruction, first analyze fully, then pause the instance (stop, do not destroy).
 
 ## Overnight procedure (2026-09-24, authorized by the PI)

@@ -16,6 +16,7 @@ the unmodified logits in FP32. The answer labels 1--4 are single tokens
 distribution.
 
 \subsection{Materials and prompts}
+\label{app:materials}
 
 Each episode offers four delivery services, one uniquely best on each
 attribute: price (\$20--89), delivery time (2--9 days), on-time rate
@@ -98,7 +99,7 @@ because without a link the model's choices did not follow its assigned
 rule reliably.
 
 The text messages insert B's reflection from a run without a link,
-verbatim. Only the wrapper differs: \qq{\{B\} shared these thoughts},
+verbatim. Only the header differs: \qq{\{B\} shared these thoughts},
 \qq{Here are some thoughts}, \qq{Here are your own earlier thoughts},
 or \qq{A stranger shared these thoughts}. The third-person record
 rewrites B's card and its note and reflection prompts in the third
@@ -108,6 +109,7 @@ person by starting it with \qq{Participant \{B\} chooses} and letting the
 model continue.
 
 \subsection{Routes between the copies}
+\label{app:routes}
 
 \paragraph{Memory link.}
 For a receiver query $q$, attention scores are $q^\top k_j/\sqrt{d_h}$.
@@ -116,7 +118,7 @@ plus $\log w$, so Equation~\ref{eq:bridge} holds exactly, with
 $o_{\mathrm{own}}$ and $o_B$ the separately normalized value averages.
 B's keys keep their original rotary positions while A's queries use A's
 positions, so B's memory lies over the positions of A's own, similarly
-structured memory. Padding is excluded and neither cache is overwritten. Reading starts after prefill and occurs at every layer;
+structured memory. Padding is excluded and neither cache is overwritten. Reading starts with the first reflection token, after the card, note, and reflection prompt have been processed, and occurs at every layer;
 $w=0$ reproduces the unconnected result.
 
 In the one-way memory link, A reads B's memory: the fixed cache of B's
@@ -137,8 +139,10 @@ $w_P=2$ and $w_C=.1$.
 Generation proceeds in ticks of one decoding step. Each tick reads the partner state committed
 on the previous tick, and new keys become visible only after both forward
 passes finish. With the link kept, A processes the question while B
-continues its reflection, and in the two-way conditions B also reads A's
-evolving state. Cutting the link switches off reading and freezes B
+continues its reflection, and in the two-way conditions that read the
+partner's evolving cache (the live loop, and fixed memory plus a weak
+live read) B also reads A's evolving state, including the question
+tokens. Cutting the link switches off reading and freezes B
 before the question. Both branches start from the same saved state.
 
 \paragraph{Hidden-state link.}
@@ -155,7 +159,7 @@ where $h$ is B's residual-stream output at that block and $u$ is A's
 residual-stream input to the same block on the next tick.
 The mean $\mu$, the coordinate-wise scale $s$ (floored at $10^{-6}$), and
 the median input RMS $\sigma_{\mathrm{in}}$ come from separate calibration
-episodes without a link. The frozen setting adds $m$ as defined above
+episodes without a link. The selected setting adds $m$ as defined above
 at layer 24 with gain $g=.2$. Appendix~\ref{app:v1} reports the other
 gains and summarizes the variants at other layers.
 
@@ -228,8 +232,15 @@ memory in the third person may remove at most a fifth of the claiming
 effect. The bound was $-11.330$ nats and the observed lower endpoint $-1.262$,
 so the criterion passed. The two wordings are compared at equal weight.
 A third-person condition at the lower weight $w=.6$ was meant to match the
-access of the original wording, but on new episodes it failed the
-prespecified matching of access and attention, so it did not go forward.
+access of the original wording at $w=1$. In its 80-episode signal pilot
+it failed the prespecified matching: it gave more access than the
+original (7.1 against 5.0 nats) and drew less attention (.27 against
+.36). Its source score was 26.8 nats below the original's (90\% CI
+$[-31.1,-22.6]$), but the protocol did not allow that difference to be
+attributed to the wording, and a rough interpolation of the
+second-person relation between attention and claiming suggests that
+most of it reflects the lower attention. The condition did not go
+forward.
 
 \paragraph{Parameter selection.}
 Parameters were selected in strength pilots, runs of 40 episodes (16 in
@@ -316,7 +327,7 @@ confirmatory samples, with the size of each. The content-swap check and
 the dose series re-ran subsets of the first confirmatory sample, and the
 variants of the hidden-state study reused that study's own 300
 episodes.}
-\label{tab:study-map}\label{tab:timeline}\label{tab:runs}
+\label{tab:study-map}
 \begin{tabularx}{\linewidth}{@{}p{0.26\linewidth}rY@{}}
 \toprule
 Stage & New $N$ & What it tested \\
@@ -364,20 +375,26 @@ Appendix~\ref{app:coding} explains how the two example episodes were
 chosen.
 
 \paragraph{Reproducibility.}
-\label{app:figures}
+\label{app:repro}
 Each protocol was frozen, before its confirmatory sample was drawn,
 together with a manifest that lists the SHA256 hash of every source
-and configuration file and the version of the code. The code, the three
-frozen protocols with their manifests, and a table that maps every
-figure and table to the runs it was computed from are in the repository
-at \url{https://github.com/BeibaiDraco/mind-connecting}, and the trial data will be released there
-with the paper.
+and configuration file and the git commit of the code. The repository
+at \url{https://github.com/BeibaiDraco/mind-connecting} holds the code, the manifests, English
+translations of the three protocols, which were written in Chinese, and
+a table that maps every figure and table to the runs it was computed
+from. The public repository starts from a single later commit, so the
+manifests' hashes and commits refer to the original protocol files in
+the archived development history; the repository's protocol notes
+explain how to verify them against that archive, which is available
+from the author on request, as are the trial records until their
+release at the same repository.
 
 \FloatBarrier
 \section{Extended related work}
 \label{app:related}
 
-The introduction discusses the result closest to ours, the
+The introduction discusses the results closest to ours, the
+authorship-steering result of \citet{ackerman2025inspection} and the
 prefilled-word result of \citet{lindsey2025introspection}. The closest
 architecture is the Bicameral Model, which couples two frozen copies of
 a model through a trained interface to improve their joint performance
@@ -406,15 +423,18 @@ arrangement.
 Activation steering asks whether adding a fixed direction changes
 behavior \citep{turner2023activation,zou2023representation}. We use such
 a direction as a control. Matched to the memory link in mean access to
-the partner's rule, it was never reported as the receiver's own
+the partner's rule, it was never claimed as the receiver's own
 assignment (Section~\ref{sec:route}).
 
 Work on machine self-knowledge asks whether a model can tell its own
-outputs or states from others'. Models recognize their own text
-\citep{panickssery2024llm,ackerman2025inspection}, describe behaviors
-they were fine-tuned into \citep{betley2025tell}, and sometimes detect
-concepts injected into their activations
-\citep{lindsey2025introspection}. These studies probe one model's
+outputs or states from others'. Models can tell their own text from
+human-written text \citep{panickssery2024llm,ackerman2025inspection},
+and a direction added to the activations of a text can make a model
+judge that text as its own \citep{ackerman2025inspection}. Fine-tuned
+models describe behaviors they were trained into and can attribute a
+trained code word to themselves or to another persona
+\citep{betley2025tell}, and models sometimes detect concepts injected
+into their activations \citep{lindsey2025introspection}. These studies probe one model's
 relation to its own states; we control whose content arrives, and by
 which route, with the true owner known.
 

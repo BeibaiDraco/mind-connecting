@@ -16,8 +16,9 @@ The errors follow B's content and stay confined to ownership. Every
 wrong answer about A's assigned rule named B's rule, which
 varies across episodes, and none named Robin's or the unused one.
 Answers about Robin stayed 99.6\% correct, although their logits moved
-slightly toward B's rule (Appendix~\ref{app:evidence}), and general
-capability barely changed (Appendix~\ref{app:further-claim}).
+slightly toward B's rule (Appendix~\ref{app:evidence}), and in the
+first confirmatory sample general capability fell only from .997 to
+.977 (Appendix~\ref{app:further-claim}).
 
 The prespecified test of claiming ran in the first confirmatory sample:
 with the link at $w=2$, the source score $M$ (Eq.~\ref{eq:metric}) rose
@@ -83,8 +84,9 @@ The open question left the receiver free to give B's word to B, and it
 did not. At $w=2$, 98.7\% of reports described B's code word as the
 receiver's own, and no report gave it to anyone else or used B's name
 (Figure~\ref{fig:claim}c). That is more often than A chose B's word
-when asked for its code word directly, in about 77\% of answers in the
-same sample; writing freely evidently favored B's word more than a
+when asked for its code word directly, in 77.3\% of answers at $w=2$
+in the first confirmatory sample, from which the dose series was drawn
+(Appendix Table~\ref{tab:v2-readouts}); writing freely evidently favored B's word more than a
 choice among four words did, and we did not study why.
 
 The finding is the conjunction of claim and denial, because denial on
@@ -108,7 +110,7 @@ reading of claiming is grammatical. B's memory says \qq{You were
 assigned\ldots}, and A may take the sentence as addressed to itself.
 B's original card already names B (\qq{You are participant \{B\}}), but
 its assignment line is in the second person. We therefore rewrote B's
-prompt and note as a third-person record under B's name, with no first-
+card, note, and reflection prompt as a third-person record under B's name, with no first-
 or second-person words, so that the assignment line reads
 \qq{Participant \{B\} was assigned\ldots} (Figure~\ref{fig:route}c). At
 $w=2$, A still claimed B's rule in 97.2\% of answers, against
@@ -175,7 +177,8 @@ B's rule more than its answers about itself
 separate study also produced no claiming, though it carried far less of
 B's content than the memory link (Appendix~\ref{app:v1}). None of this
 conflicts with the finding of \citet{lindsey2025introspection} that an
-injected concept can make a model accept a prefilled word as its own:
+injected concept can make a model accept a prefilled word as its
+intended output:
 there the injection agreed with a word already in the model's reply,
 whereas here the vector had to override an explicit assignment in A's
 own memory (Appendix~\ref{app:furtherdisc}).
@@ -253,9 +256,10 @@ Section~\ref{sec:account} proposes the test that would settle it.
 
 \paperfigure{fig5_moments}{3.05in}{
 \textbf{Two moments of error.}
-(a) A selected episode, in which B's code word, written into A's
-reflection, survives the cut (1), while B's assignment, read at answer
-time, does not (2).
+(a) A selected episode, in which B's code word and B's rule (as
+\qq{speed}), written into A's reflection, survive the cut as A's code
+word and current rule (1), while the claim that B's rule was A's
+assigned rule, read at answer time, does not (2).
 (b) All 600 episodes, each answered from the same saved state with the
 link kept or cut before the questions.
 (c) Answers after the cut that name B's item, grouped post hoc by
@@ -271,8 +275,9 @@ A bridge between minds would run both ways, and only then does the
 prediction from integrated information theory have a functional
 counterpart: whether a coupled pair comes to hold one shared set of
 assignments. We tested this in a pilot of 80 episodes, reported with
-90\% intervals, in which both copies read each other under two
-conditions (Figure~\ref{fig:twoway}a). In \emph{mutual reading of fixed
+90\% intervals, in which both copies read each other under two main
+conditions (Figure~\ref{fig:twoway}a; a third, weaker variant is
+reported in Appendix~\ref{app:pairs}). In \emph{mutual reading of fixed
 memories}, each copy reads the other's memory, which cannot change, so
 neither copy can respond to the other. In the \emph{live loop}, each
 copy also reads what the other is writing, so what one writes can shape
@@ -294,7 +299,7 @@ survives when both sides read.
 
 The live loop pulled the pair toward one member's rule, modestly and
 only while the link was open. We could run the loop only at $w=0.5$,
-the weakest weight in our grid and the only one that kept both copies
+the weakest weight in the loop's grid and the only one that kept both copies
 within the capability tolerance. At that weight, most pairs under
 mutual reading of fixed memories kept their own assignments
 (Figure~\ref{fig:twoway}b), so that condition serves as the loop's
@@ -313,11 +318,13 @@ one, though the pilot did not test that difference.
 
 The pull lasted only while the link was open. After the cut, every
 live-loop pair answered both questions with each copy's own rule
-(Figure~\ref{fig:twoway}b, bottom row). Since only the weakest weight
+(Figure~\ref{fig:twoway}b, bottom row, for the assigned rule; Appendix
+Table~\ref{tab:pair-outcomes} gives both). Since only the weakest weight
 could be run, whether a stronger loop would do more than couple current
-rules is untested, as is whether a partner that can respond to the
-receiver pulls it further than one that cannot
-(Appendix~\ref{app:pairs}).
+rules is untested. Whether a partner that can respond to the receiver
+pulls it further than one that cannot is unsettled: a post hoc
+comparison in this pilot says it does, and a prespecified test in an
+earlier signal pilot pointed the other way (Appendix~\ref{app:pairs}).
 
 \paperfigure{fig6_twoway}{2.85in}{
 \textbf{Mutual reading of fixed memories swaps assignments; only the live loop couples the pair (pilot).}
