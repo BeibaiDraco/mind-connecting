@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's read-through; abstract shortened to 220 words and main-text terms made consistent on 2026-09-26, see decision_log; research blog post live but unlisted at dracoxu.com/writing/mine-or-yours/, linking the paper PDF draft; everything pushed to GitHub).
+Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's read-through; abstract shortened to 222 words, main-text terms made consistent and Results 3.3/3.4 swapped on 2026-09-26, see decision_log; the arXiv package `make -C paper arxiv` was rebuilt and tested in a clean folder; research blog post live but unlisted at dracoxu.com/writing/mine-or-yours/, linking the paper PDF draft; everything pushed to GitHub).
 
 ## Current phase
 
@@ -42,7 +42,8 @@ Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Claude Code | Swap Results 3.3 and 3.4; model name out of the abstract; rebuild PDFs and arXiv package | `paper/main.tex`, `paper/sections/{introduction,results,account_and_discussion}.tex`, `paper/main.pdf` | 2026-09-26 12:40 CDT |
+
+No current claims.
 
 ## Figure note for Claude (2026-09-25, Codex)
 
