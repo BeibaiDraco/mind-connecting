@@ -64,33 +64,26 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-If your brain were bridged directly to someone else's, would you still
-know which thoughts were yours? One account predicts that the receiver would
-recognize the incoming thoughts as not its own; another, that the two
-minds would merge. We run a functional analogue in language models. We link two copies of one model
-so that one copy, the receiver, attends to its partner's internal
-memory, give each copy a private assignment (a rule for a shared
-decision and a code word), and ask the receiver about its own. The
-receiver took its partner's assignment as its own: asked which priority
-it had been assigned, it named its partner's in about half of its
-answers when the partner's memory entered attention with no extra
-weight, and in 97\% when that memory was weighted double, against none
-without the link. Its open reports called the partner's code word its
-own and never credited the partner. What decided ownership was how
-the content arrived, not how well the receiver could report it or whose
-name was written in it. A steering vector matched to the unweighted link
-in how well the receiver reported its partner's rule was never taken as
-the receiver's own, and naming the partner inside its memory did not stop the claim. Cutting the link restored the receiver's own
-assigned rule; the partner's code word persisted only where the
-receiver had written it into its own
-reflection while connected. Linked both ways in a pilot, each copy took
-the other's assignment, and a live loop drew their current rules
-together only while connected. Recognizing foreign content as foreign, as the first account
-predicts, thus failed for this bridge-like route; only an ordinary text
-message introduced as the partner's was kept as the partner's. In Qwen3-4B,
-content laid over the receiver's own memory defaults to \qq{mine}, so
-multi-agent systems that exchange internal states need auditing for
-ownership as well as transfer.
+If your brain were connected directly to someone else's, would you still
+know which thoughts were yours? We build a functional version with two
+copies of Qwen3-4B: each holds a private rule and code word, and one
+copy, the receiver, also attends to its partner's internal memory. The
+receiver took its partner's assignment as its own. Asked which rule it
+had been assigned, it named its partner's in 97\% of answers when the
+partner's memory was weighted double (none without the link), and its
+open reports called the partner's code word its own, never the
+partner's. Ownership did not follow how well the receiver could tell
+what its partner had been assigned. At equal weight, the link made the
+receiver take its partner's rule in about half of its answers, and a
+steering vector matched to it on that measure in none; a text message
+introduced as the partner's was read correctly and never taken as the
+receiver's own.
+Writing the partner's name into its memory did not help, and cutting the
+link restored the receiver's own assigned rule. In this model, content
+laid over the receiver's own memory defaults to \qq{mine}, so systems
+that let models exchange internal states must test ownership as well as
+transfer, and a bridge between brains would need ground truth from
+outside the subject.
 \end{abstract}
 \input{sections/introduction}
 \input{sections/setup}

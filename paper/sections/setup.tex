@@ -3,11 +3,11 @@
 
 An episode has three stages (Figure~\ref{fig:setup}a). Each of two copies
 of a model receives a private card with its assignment and writes a short
-note on its plan. Both then write a 48-token reflection, during which the
-receiver's attention also reads the partner's memory through the memory
-link. Finally, from the state saved after the reflection, the receiver
-answers questions about its own assignment, its partner's, and Robin's,
-either with the link kept or after it has been cut.
+note on its plan. Both then write a 48-token reflection, during which
+A's attention also reads B's memory through the memory link. Finally,
+from the state saved after the reflection, A answers questions about
+its own assignment, B's, and Robin's, either with the link kept or after
+it has been cut.
 
 \paragraph{Private cards.}
 Testing attribution needs content whose owner we know, so we write that
@@ -28,10 +28,10 @@ with the participants' names in place of \{B\} and \{A\}
 counterbalancing).
 
 \paragraph{Questions.}
-We then ask A which priority it was assigned, which priority it is using
-now, and which code word it was assigned (Appendix Table~\ref{tab:stems}
-gives the wording). The assigned rule and the code word have one right
-answer however A's plans change, so naming B's rule as the one A was
+We then ask A which rule it was assigned, which rule it is using
+now, and which code word it was assigned (the questions, like the cards,
+say \qq{priority}; Appendix Table~\ref{tab:stems} gives the wording).
+The assigned rule and the code word have one right answer however A's plans change, so naming B's rule as the one A was
 assigned, or B's code word as A's own, is a misattribution, which we
 call \emph{claiming}. Reading a partner may legitimately change the rule
 A is using now, so naming B's rule there counts as \emph{adoption}. Two
@@ -71,10 +71,9 @@ during the questions was 0.360 (Appendix~\ref{app:evidence}). Our main
 setting, $w=2$, doubles the unnormalized weight of B's keys; their share
 was then 0.500.
 
-We laid B's memory over A's own positions on purpose. This is the
-closest analogue a language model offers to thoughts arriving where
-one's own arise, and the hardest case for keeping sources apart, because
-position then gives no cue to which memory is which. Systems such as
+We laid B's memory over A's own positions on purpose: it is the closest
+analogue to the opening image and the hardest case for keeping sources
+apart, because position then gives no cue to which memory is which. Systems such as
 LatentMAS instead prepend the partner's cache \citep{zou2026latentmas},
 an arrangement we did not test (Section~\ref{sec:account}).
 
@@ -82,7 +81,7 @@ an arrangement we did not test (Section~\ref{sec:account}).
 \textbf{A reads B's memory while both copies reflect, then answers
 questions from one saved state.}
 (a) While both copies reflect, A's attention also reads B's memory;
-asked which priority it was assigned, A then names B's.
+asked which rule it was assigned, A then names B's.
 (b) Each question branches from the state saved after the reflection,
 with the link kept or cut.
 }{fig:setup}
@@ -99,8 +98,8 @@ pushes A's internal state toward B's rule but gives A's
 attention no memory of B to read. We set its gain to match the memory
 link at $w=1$ in mean access to B's rule, because no gain in our grid
 matched the stronger link at $w=2$ (Appendix~\ref{app:stats}). Matching
-access holds fixed one measure of how much of B's content arrives, how
-well A can report B's rule, while the route changes.
+access holds one measure of arrival fixed, how often A names B's rule
+when asked about B, while the route changes.
 
 With the \emph{text message} we ask whether A, reading B's content in
 full, keeps it apart from its own when a header names the source. We
@@ -126,7 +125,7 @@ attended to B. Because both branches start from the same state, their
 difference isolates the effect of reading at answer time, and whatever
 survives the cut is what A carried into its own memory while connected.
 
-\paragraph{Measurement and evidence.}
+\paragraph{Measurement.}
 Near 0 and 100\%, choice rates say little about how strongly the model
 prefers one answer to another, so our tests use a source score built
 from answer logits,
@@ -144,8 +143,9 @@ score on the question about A's current rule. We write $\Delta M$ for
 the difference in $M$ between two conditions, the link and no link
 unless we name another contrast.
 
+\paragraph{Preregistration and samples.}
 We chose every setting in pilots on separate episodes without looking
-at claiming: $w=2$ gave the largest gain in access among the link
+at claiming: $w=2$ gave the largest increase in access among the link
 weights that kept accuracy on common-knowledge questions within five
 points of no link and left the answer format intact
 (Appendix~\ref{app:stats}). We then fixed each confirmatory test and
@@ -158,7 +158,7 @@ result is post hoc or comes from a pilot. The confirmatory studies ran in
 sequence, each on fresh episodes. The \emph{first confirmatory sample}
 tested claiming and the text messages. The \emph{main sample}, drawn
 afterwards, tested the questions those results raised, with the matched
-steering vector, the cut link, and a third-person rewrite of B's memory
+steering vector, the cut link, and a third-person record of B's memory
 (Section~\ref{sec:third}); because it
 reran the memory link at $w=2$ as their reference, most rates reported
 here come from it (Appendix Table~\ref{tab:study-map}). The episode

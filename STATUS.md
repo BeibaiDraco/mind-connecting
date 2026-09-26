@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's read-through; research blog post live but unlisted at dracoxu.com/writing/mine-or-yours/, linking the paper PDF draft; everything pushed to GitHub).
+Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's read-through; abstract shortened to 220 words and main-text terms made consistent on 2026-09-26, see decision_log; research blog post live but unlisted at dracoxu.com/writing/mine-or-yours/, linking the paper PDF draft; everything pushed to GitHub).
 
 ## Current phase
 
@@ -42,7 +42,8 @@ Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Claude Code | Shorter abstract; consistent terms (rule/priority etc.) and wordiness check in the main text | `paper/main.tex`, `paper/sections/{introduction,setup,results,account_and_discussion}.tex` | 2026-09-26 09:05 CDT |
+
+No current claims.
 
 ## Figure note for Claude (2026-09-25, Codex)
 
