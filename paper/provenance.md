@@ -2,9 +2,9 @@
 
 Written 2026-09-25 when the appendix of `paper/main.tex` was made reader-facing. The appendix
 no longer names run IDs, internal condition labels, files or git tags; this file keeps them so
-that every number in the paper can still be traced to raw records. The planned public release
-should ship a cleaned version of the tables below (figure/table -> records) with the code, the
-frozen protocols and the trial records.
+that every number in the paper can still be traced to raw records. It is the table, cited in the
+paper, that maps every figure and table to the runs it was computed from (Sections 2 and 5);
+the run IDs name the directories of the trial records.
 
 The public repository starts from a single commit made on 2026-09-25. The development history before that date, including the freeze commits and tags, is kept as a private archive (a git bundle held by the PI); commit hashes and tags mentioned in these documents refer to that archive.
 
