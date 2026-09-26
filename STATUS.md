@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-09-25, Claude Code (repository prepared for public release: all documents translated to English, no AI co-author lines, history restarted from a single commit with the full pre-release history archived; paper main text about 12.5 pages, 35 pages in total, awaiting the PI's read-through).
+Last updated: 2026-09-25, Claude Code (repository made public at https://github.com/BeibaiDraco/mind-connecting and cited in the paper; the trial data are not yet released; paper main text about 12.5 pages, 35 pages in total, awaiting the PI's read-through).
 
 ## Current phase
 
@@ -51,6 +51,8 @@ No current claims.
 - codex_handoff.md B4 describes Fig 1c as having a gray dashed return line, but the current script and rendered figure have only the orange one-way A reads B arrow. The caption has been written to match the actual figure, and the two-way case is explained only for the pilot in 1f/6; this is only a sync discrepancy, and there is no need to add an arrow for the sake of the caption.
 
 ## Done
+
+- **Repository public and cited in the paper** (2026-09-25, Claude Code, at the PI's request): https://github.com/BeibaiDraco/mind-connecting is public. Setup and the reproducibility paragraph of the paper give the URL for the code, the frozen protocols with their manifests, and the figure/table-to-run map (`paper/provenance.md`). The paper still says the trial data "will be released there with the paper": the records on the SD card total 1.9 GB (859 MB of JSONL records, 787 MB of per-tick logs), too large for the repository itself but suitable for compressed GitHub release assets; this awaits the PI's decision. Commits carry no AI co-author lines.
 
 - **Repository prepared for public release** (2026-09-25, Claude Code): at the PI's request the repository contains no Chinese and no AI authors. All 38 Markdown documents (about 165,000 Chinese characters) and the one script with Chinese report strings were translated into English; each batch was checked against the original by an independent agent and by a script comparing numbers, tables, links and inline code. The 34 tracked images and all PDFs contain no Chinese. `AGENTS.md` now requires English for everything committed and forbids AI `Co-Authored-By` lines; `README.md` was rewritten to describe the paper and the repository; `docs/protocol/README.md` explains that the freeze manifests refer to the original Chinese protocol files at the archived tags. The GPU host, port and instance ID were removed from STATUS and the decision log. The git history was restarted from a single commit authored by the PI; the full pre-release history (137 commits and the six tags) is kept as a git bundle on the SD card (see the decision log for its path and SHA256), so commit hashes such as `583d35d` in older entries refer to that archive. Offline tests pass.
 
