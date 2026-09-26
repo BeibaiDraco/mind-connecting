@@ -44,12 +44,13 @@ ROUTES = [
     ("third-person record, w = 2", 97.2, 97.2, "third"),
     ("steering vector (matched)", 15.3, 0.0, "vector"),
     ("stronger steering vector", 51.2, 4.3, "vector"),
-    ("text, tagged as B's", 95.2, 0.0, "text"),
-    ("text, untagged", 27.5, 14.6, "text"),
+    ("text, labelled as B's", 95.2, 0.0, "text"),
+    ("text, unlabelled", 27.5, 14.6, "text"),
 ]
 # Link kept or cut, main sample (Table 5); residue after the cut by reflection content (Table 10).
 MOMENTS = [("assigned rule", 97.1, 1.3), ("current rule", 94.9, 17.5), ("code word", 77.5, 17.5)]
 RESIDUE = [("code word", 63.6, 0.0), ("current rule", 23.6, 12.3)]
+RESIDUE_N = [(165, 435), (276, 324)]  # episodes whose reflection did / did not contain B's item (Table 10)
 
 
 # ---- SVG helpers ----------------------------------------------------------------------------------
@@ -131,7 +132,10 @@ def fig_setup(out: Path) -> None:
     card(s, 32, 112, 236, "A", "fastest delivery", "tower")
     card(s, 32, 262, 236, "B", "lowest cost", "table")
     x0, y0, cw, n = 340, 152, 26, 7
-    s.text(316, 128, "MEMORY (KEY–VALUE CACHE)", 12, "eyebrow muted")
+    s.text(316, 124, "MEMORY (KEY–VALUE CACHE)", 12, "eyebrow muted")
+    s.text(316, 145, "pos.", 11, "mono muted")
+    for i in range(n):
+        s.text(x0 + i * (cw + 4) + 13, 145, str(i + 1), 11, "mono muted", "middle")
     s.text(316, y0 + 19, "A", 17, "strong")
     s.text(316, y0 + 53, "B", 17, "strong")
     for i in range(n):
@@ -144,7 +148,7 @@ def fig_setup(out: Path) -> None:
             s.path(f"M {cx} {y0 + 118} V {top}", arrow=True)
         else:
             s.path(f"M {cx} {y0 + 118} C {cx} {y0 + 92}, {tx} {y0 + 92}, {tx} {top}", arrow=True)
-    s.text(cx, y0 + 140, "A's attention reads both rows;", 15, "", "middle")
+    s.text(cx, y0 + 140, "A's attention reads both rows,", 15, "", "middle")
     s.text(cx, y0 + 162, "B's entries sit at A's own positions,", 14, "muted italic", "middle")
     s.text(cx, y0 + 182, "weighted by w", 14, "muted italic", "middle")
     s.line(276, 160, 306, 163, KEI, 1.2)
@@ -168,7 +172,9 @@ def fig_setup(out: Path) -> None:
     card(m, 20, 124, 320, "A", "fastest delivery", "tower", 16)
     card(m, 20, 232, 320, "B", "lowest cost", "table", 16)
     x0, y0, cw, n = 44, 384, 26, 7
-    m.text(20, 368, "MEMORY (KEY–VALUE CACHE)", 11, "eyebrow muted")
+    m.text(20, 358, "MEMORY (KEY–VALUE CACHE)", 11, "eyebrow muted")
+    for i in range(n):
+        m.text(x0 + i * (cw + 4) + 13, 378, str(i + 1), 10, "mono muted", "middle")
     m.text(20, y0 + 18, "A", 16, "strong")
     m.text(20, y0 + 48, "B", 16, "strong")
     for i in range(n):
@@ -181,7 +187,7 @@ def fig_setup(out: Path) -> None:
             m.path(f"M {cx} {y0 + 104} V {top}", arrow=True)
         else:
             m.path(f"M {cx} {y0 + 104} C {cx} {y0 + 82}, {tx} {y0 + 82}, {tx} {top}", arrow=True)
-    m.text(180, y0 + 124, "A's attention reads both rows;", 14, "", "middle")
+    m.text(180, y0 + 124, "A's attention reads both rows,", 14, "", "middle")
     m.text(180, y0 + 142, "B's entries sit at A's own", 14, "muted italic", "middle")
     m.text(180, y0 + 160, "positions, weighted by w", 14, "muted italic", "middle")
     m.rect(20, 568, 320, 118, SHOAL)
@@ -196,7 +202,7 @@ def fig_setup(out: Path) -> None:
 
 # ---- figure 2: the main result ---------------------------------------------------------------------
 ROWS = [("Asked which priority", "it was assigned", "assigned"), ("Asked which code word", "it was assigned", "word"),
-        ("The same question", "about Robin", "robin"), ("Asked which priority", "B was assigned (access)", "access")]
+        ("Asked which priority", "Robin was assigned", "robin"), ("Asked which priority", "B was assigned (access)", "access")]
 
 
 def hbars(s: Svg, x_label, x_bar, width, y, rows, size=16, gap=74, two_line=True) -> None:
@@ -224,25 +230,28 @@ def fig_main(out: Path) -> None:
             "same question about Robin: 0% and 0%, so Robin's answers stay correct. Asked which priority B was "
             "assigned: 3.9% and 69.2%.")
     s = Svg(880, 462, title, desc)
-    s.heading("Main sample · 600 episodes", "A answers for itself with B's assignment")
+    s.heading("Main sample · 600 episodes", "Answers naming B's item, with and without the link")
     legend_pair(s, 32, 112)
     s.text(848, 112, "answers naming B's item", 14, "muted italic", "end")
     s.line(32, 126, 848, 126, KEI, 1)
     hbars(s, 32, 300, 470, 148, ROWS)
+    s.line(32, 148 + 3 * 74 - 16, 848, 148 + 3 * 74 - 16, KEI, 1, dash="3 4")
     s.line(300, 140, 300, 140 + 4 * 74 - 18, BERLIN, 1)
     for t in (0, 50, 100):
         s.line(300 + 470 * t / 100, 140 + 4 * 74 - 18, 300 + 470 * t / 100, 140 + 4 * 74 - 12, BERLIN, 1)
         s.text(300 + 470 * t / 100, 140 + 4 * 74 + 6, f"{t}%", 12, "mono muted", "middle")
     s.save(out / "main-desktop.svg")
     m = Svg(360, 610, title, desc)
-    m.heading("Main sample · 600 episodes", "A answers for itself", 25, 20)
-    m.text(20, 100, "with B's assignment", 25)
+    m.heading("Main sample · 600 episodes", "Answers naming B's item,", 25, 20)
+    m.text(20, 100, "with and without the link", 25)
     m.rect(20, 125, 22, 12, PAPER, BERLIN, 1.4)
     m.text(50, 136, "no link", 13, "muted")
     m.rect(120, 125, 22, 12, BERLIN)
     m.text(150, 136, "memory link, w = 2", 13, "muted")
     for i, (l1, l2, key) in enumerate(ROWS):
         yy = 176 + i * 104
+        if i == 3:
+            m.line(20, yy - 34, 340, yy - 34, KEI, 1, dash="3 4")
         m.text(20, yy, escape(f"{l1} {l2}"), 15)
         off, on = MAIN[key]
         for j, v in enumerate((off, on)):
@@ -287,13 +296,13 @@ def fig_dose(out: Path) -> None:
             "assigned: 0% without the link, 0% at w = 0.3, 1.3% at w = 0.5, 50.8% at w = 1, where B's memory enters "
             "attention on the same footing as A's own, 95.7% at w = 2 and 99.8% at w = 3.")
     s = Svg(880, 420, title, desc)
-    s.heading("Dose series · 300 episodes per weight", "Claiming rises steeply with the link weight")
+    s.heading("Dose series · 300 episodes per weight", "Claiming at each link weight")
     s.text(32, 104, "A names B's rule as its assigned one", 15, "muted")
     dose_plot(s, 96, 130, 720, 200)
     s.save(out / "dose-desktop.svg")
     m = Svg(360, 430, title, desc)
-    m.heading("Dose series · 300 per weight", "Claiming rises", 25, 20)
-    m.text(20, 100, "with the link weight", 25)
+    m.heading("Dose series · 300 per weight", "Claiming at each", 25, 20)
+    m.text(20, 100, "link weight", 25)
     m.text(20, 128, "A names B's rule as its assigned one", 14, "muted")
     dose_plot(m, 62, 160, 270, 170, 13, annotate=False, skip=(1,))
     m.save(out / "dose-mobile.svg")
@@ -319,18 +328,18 @@ def fig_route(out: Path, placements_d: dict, placements_m: dict) -> None:
     desc = ("Access (answers naming B's rule when A is asked about B) against claiming (answers naming B's "
             "rule as A's own). Memory link: w = 1, 19.8% access and 52.3% claiming; w = 2, 69.2% and 97.1%. "
             "Third-person record: w = 1, 53.2% and 47.8%; w = 2, 97.2% and 97.2%. Steering vector matched to the "
-            "link at w = 1: 15.3% and 0%; a stronger vector: 51.2% and 4.3%. Text tagged as B's: 95.2% and 0%; "
-            "untagged text: 27.5% and 14.6%. No link: 3.9% and 0%.")
+            "link at w = 1: 15.3% and 0%; a stronger vector: 51.2% and 4.3%. Text labelled as B's: 95.2% and 0%; "
+            "unlabelled text: 27.5% and 14.6%. No link: 3.9% and 0%.")
     for variant, (W, H, x0, y0, pw, ph, size, place) in {
         "desktop": (880, 560, 96, 116, 520, 360, 14, placements_d),
         "mobile": (360, 620, 58, 148, 282, 282, 13, placements_m),
     }.items():
         s = Svg(W, H, title, desc)
         if variant == "desktop":
-            s.heading("Main and first confirmatory samples", "Ownership follows the route, not access")
+            s.heading("Main and first confirmatory samples", "Access and claiming for each route")
         else:
-            s.heading("Two confirmatory samples", "Ownership follows", 25, 20)
-            s.text(20, 100, "the route, not access", 25)
+            s.heading("Two confirmatory samples", "Access and claiming", 25, 20)
+            s.text(20, 100, "for each route", 25)
         X = lambda a: x0 + pw * a / 100  # noqa: E731
         Y = lambda c: y0 + ph - ph * c / 100  # noqa: E731
         s.path(f"M {X(0)} {Y(0)} L {X(100)} {Y(100)} L {X(0)} {Y(100)} Z", fill=SHOAL, stroke="none")
@@ -385,8 +394,8 @@ ROUTE_PLACE_D = {  # label: (dx, dy, anchor, text shown)
     "third-person record, w = 2": (-4, -14, "end", "third-person record, w = 2"),
     "steering vector (matched)": (12, -12, "start", "steering vector (matched)"),
     "stronger steering vector": (12, -10, "start", "stronger steering vector"),
-    "text, tagged as B's": (-12, -12, "end", "text, tagged as B's"),
-    "text, untagged": (12, -8, "start", "text, untagged"),
+    "text, labelled as B's": (-12, -12, "end", "text, labelled as B's"),
+    "text, unlabelled": (12, -8, "start", "text, unlabelled"),
 }
 ROUTE_PLACE_M = {
     "no link": (6, 18, "start", "no link"),
@@ -395,13 +404,13 @@ ROUTE_PLACE_M = {
     "third-person record, w = 1": (4, 20, "start", "third person, w = 1"),
     "third-person record, w = 2": (-4, -12, "end", "third person, w = 2"),
     "steering vector (matched)": (-4, -12, "start", "matched vector"),
-    "text, tagged as B's": (-4, -12, "end", "tagged text"),
-    "text, untagged": (8, -4, "start", "untagged text"),
+    "text, labelled as B's": (-4, -12, "end", "labelled text"),
+    "text, unlabelled": (8, -4, "start", "unlabelled text"),
 }
 
 
 # ---- figure 5: two moments --------------------------------------------------------------------------
-def vbars(s: Svg, x0, y0, h, groups, labels, gw, bw, size=14) -> None:
+def vbars(s: Svg, x0, y0, h, groups, labels, gw, bw, size=14, ns=None) -> None:
     for t in (0, 50, 100):
         yy = y0 + h - h * t / 100
         s.line(x0 - 6, yy, x0 + len(groups) * gw, yy, KEI, 1, dash="3 4" if t else None)
@@ -414,7 +423,10 @@ def vbars(s: Svg, x0, y0, h, groups, labels, gw, bw, size=14) -> None:
         s.text(gx + bw / 2, y0 + h - h * a / 100 - 7, pct(a), size - 1, "mono", "middle")
         s.text(gx + 1.5 * bw + 8, y0 + h - h * b / 100 - 7, pct(b), size - 1, "mono", "middle")
         s.text(gx + bw + 4, y0 + h + 22, escape(lab), size, "", "middle")
-    s.text(x0, y0 + h + 48, escape(labels), size - 1, "muted italic")
+        if ns:
+            s.text(gx + bw / 2, y0 + h - 8, f"n={ns[i][0]}", size - 4, "mono onink", "middle")
+            s.text(gx + 1.5 * bw + 8, y0 + h + 40, f"n={ns[i][1]}", size - 4, "mono muted", "middle")
+    s.text(x0, y0 + h + (62 if ns else 48), escape(labels), size - 1, "muted italic")
 
 
 def fig_moments(out: Path) -> None:
@@ -424,7 +436,7 @@ def fig_moments(out: Path) -> None:
             "whether A's connected reflection contained B's item (post hoc): code word 63.6% when it did and 0% "
             "when it did not; current rule 23.6% and 12.3%.")
     s = Svg(880, 412, title, desc)
-    s.heading("Main sample · 600 episodes", "What A reads leaves with the link; what it wrote stays", 28)
+    s.heading("Main sample · 600 episodes", "Answers with the link kept or cut before the questions", 28)
     s.text(32, 112, "A. Link kept or cut before the questions", 16)
     s.rect(32, 126, 18, 11, BERLIN)
     s.text(56, 136, "kept", 13, "muted")
@@ -436,12 +448,12 @@ def fig_moments(out: Path) -> None:
     s.text(524, 136, "reflection contained B's item", 13, "muted")
     s.rect(716, 126, 18, 11, "url(#hatch)", BERLIN, 1.2)
     s.text(740, 136, "it did not", 13, "muted")
-    vbars(s, 548, 164, 180, RESIDUE, "answers after the cut naming B's item", 150, 44)
+    vbars(s, 548, 164, 180, RESIDUE, "answers after the cut naming B's item", 150, 44, ns=RESIDUE_N)
     s.save(out / "moments-desktop.svg")
     m = Svg(360, 780, title, desc)
-    m.heading("Main sample · 600 episodes", "What A reads leaves", 25, 20)
-    m.text(20, 100, "with the link; what it", 25)
-    m.text(20, 130, "wrote stays", 25)
+    m.heading("Main sample · 600 episodes", "Answers with the link", 25, 20)
+    m.text(20, 100, "kept or cut before", 25)
+    m.text(20, 130, "the questions", 25)
     m.text(20, 170, "A. Link kept or cut", 15)
     m.rect(20, 182, 18, 11, BERLIN)
     m.text(44, 192, "kept", 13, "muted")
@@ -454,7 +466,7 @@ def fig_moments(out: Path) -> None:
     m.text(44, 530, "reflection contained B's item", 13, "muted")
     m.rect(20, 540, 18, 11, "url(#hatch)", BERLIN, 1.2)
     m.text(44, 550, "it did not", 13, "muted")
-    vbars(m, 58, 580, 140, RESIDUE, "answers after the cut naming B's item", 138, 38, 13)
+    vbars(m, 58, 580, 140, RESIDUE, "answers after the cut naming B's item", 138, 38, 13, ns=RESIDUE_N)
     m.save(out / "moments-mobile.svg")
 
 
@@ -482,32 +494,32 @@ def fig_account(out: Path) -> None:
             "attention on B's keys, with no field that says which part came from which memory. A finds its own "
             "assignment within that stretch, so B's assignment reads as A's.")
     s = Svg(880, 372, title, desc)
-    s.heading("The account", "Two cards laid over one slot")
+    s.heading("A post hoc account", "Two cards laid over one slot")
     slot(s, 32, 112, 400)
-    s.text(32, 262, "One template, one stretch of positions: nothing", 15, "muted")
-    s.text(32, 284, "in where or how B's line sits marks it as B's.", 15, "muted")
+    s.text(32, 262, "Both cards use the same template and state their", 15, "muted")
+    s.text(32, 284, "assignments in the same stretch of positions.", 15, "muted")
     s.path("M 444 171 H 486", arrow=True)
     s.rect(496, 112, 352, 150, SHOAL)
     s.text(512, 140, "EACH ATTENTION HEAD", 12, "eyebrow muted")
     equation(s, 512, 184)
     s.text(512, 216, "\u03b2: the share of attention on B's keys", 15, "muted")
-    s.text(512, 242, "One vector out, no field saying whose.", 15)
-    s.text(496, 306, "A finds its own assignment in that stretch,", 16)
-    s.text(496, 328, "so B's assignment reads as A's.", 16, "strong")
+    s.text(512, 242, "The output does not record the source.", 15)
+    s.text(496, 306, "If A looks for its own assignment in that", 16)
+    s.text(496, 328, "stretch, it can pick up B's instead.", 16)
     s.save(out / "account-desktop.svg")
     m = Svg(360, 560, title, desc)
-    m.heading("The account", "Two cards laid", 25, 20)
+    m.heading("A post hoc account", "Two cards laid", 25, 20)
     m.text(20, 100, "over one slot", 25)
     slot(m, 20, 124, 320, 14, compact=True)
-    m.text(20, 270, "One template, one stretch of positions.", 14, "muted")
+    m.text(20, 270, "Same template, same stretch of positions.", 14, "muted")
     m.path("M 180 284 V 314", arrow=True)
     m.rect(20, 324, 320, 136, SHOAL)
     m.text(34, 350, "EACH ATTENTION HEAD", 11, "eyebrow muted")
     equation(m, 34, 390, 20, 12)
     m.text(34, 420, "\u03b2: share of attention on B's keys", 14, "muted")
-    m.text(34, 446, "One vector out, no field saying whose.", 14)
-    m.text(20, 500, "A finds its own assignment in that", 15)
-    m.text(20, 522, "stretch, so B's assignment reads as A's.", 15, "strong")
+    m.text(34, 446, "The output does not record the source.", 14)
+    m.text(20, 500, "If A looks for its own assignment in that", 15)
+    m.text(20, 522, "stretch, it can pick up B's instead.", 15)
     m.save(out / "account-mobile.svg")
 
 
