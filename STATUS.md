@@ -42,8 +42,7 @@ Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-
-No current claims.
+| Claude Code | Swap Results 3.3 and 3.4; model name out of the abstract; rebuild PDFs and arXiv package | `paper/main.tex`, `paper/sections/{introduction,results,account_and_discussion}.tex`, `paper/main.pdf` | 2026-09-26 12:40 CDT |
 
 ## Figure note for Claude (2026-09-25, Codex)
 
