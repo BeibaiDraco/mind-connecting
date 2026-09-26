@@ -30,7 +30,7 @@ STYLE = ('<style>text{font-family:Newsreader,Georgia,serif;fill:#1C2A34}.muted{f
 MAIN = {
     "assigned": (0.0, 97.1),   # which priority were you assigned: no link, memory link w = 2
     "word": (0.0, 77.5),       # which code word were you assigned
-    "robin": (0.0, 0.4),       # same question about Robin (99.6% stay correct)
+    "robin": (0.0, 0.0),       # same question about Robin: none named B's rule (99.6% stayed correct)
     "access": (3.9, 69.2),     # which priority was B assigned
 }
 # Dose series, first confirmatory sample, N = 300 per weight (Appendix Table 7b): assigned rule.
@@ -124,7 +124,7 @@ def fig_setup(out: Path) -> None:
     desc = ("Two copies of one language model each receive a private card. Copy A was assigned the priority "
             "fastest delivery and the code word tower; copy B was assigned lowest cost and table. While both write "
             "a short reflection, A's attention also reads B's memory, whose entries sit at A's own positions, with "
-            "weight w. Asked which priority it was assigned, A answers lowest cost, B's priority.")
+            "weight w. Asked which priority it was assigned, A answers lowest cost, B's rule.")
     # desktop
     s = Svg(880, 430, title, desc)
     s.heading("The setup", "One copy reads the other's memory")
@@ -156,8 +156,8 @@ def fig_setup(out: Path) -> None:
     s.text(qx + 18, 200, "you assigned?\u201d", 17)
     s.text(qx + 18, 248, "A answers:", 15, "muted")
     s.text(qx + 18, 278, "lowest cost", 22, "strong")
-    s.text(qx + 18, 306, "B's priority, given as its", 15, "muted")
-    s.text(qx + 18, 326, "own: we call this claiming", 15, "muted")
+    s.text(qx + 18, 306, "B's rule, given as its own:", 15, "muted")
+    s.text(qx + 18, 326, "claiming", 15, "muted")
     s.text(32, 402, "Hatched: content that belongs to B. Robin, a colleague described identically on both cards, is the control.",
            14, "muted")
     s.save(out / "setup-desktop.svg")
@@ -189,7 +189,7 @@ def fig_setup(out: Path) -> None:
     m.text(34, 622, "\u201cWhich priority were you assigned?\u201d", 15)
     m.text(34, 652, "A answers", 14, "muted")
     m.text(112, 652, "lowest cost", 19, "strong")
-    m.text(34, 674, "B's priority, given as its own", 14, "muted")
+    m.text(34, 674, "B's rule, given as its own: claiming", 14, "muted")
     m.text(20, 708, "Hatched: content that belongs to B.", 13, "muted")
     m.save(out / "setup-mobile.svg")
 
@@ -221,7 +221,7 @@ def fig_main(out: Path) -> None:
     title = "Reading B's memory, A answers for itself with B's assignment"
     desc = ("Main sample, 600 episodes. Share of answers naming B's item without the link and with the memory link "
             "at w = 2. Asked which priority it was assigned: 0% and 97.1%. Asked its code word: 0% and 77.5%. The "
-            "same question about Robin: 0% and 0.4%, so Robin's answers stay correct. Asked which priority B was "
+            "same question about Robin: 0% and 0%, so Robin's answers stay correct. Asked which priority B was "
             "assigned: 3.9% and 69.2%.")
     s = Svg(880, 462, title, desc)
     s.heading("Main sample · 600 episodes", "A answers for itself with B's assignment")
@@ -283,18 +283,18 @@ def dose_plot(s: Svg, x0, y0, w, h, size=14, annotate=True, skip=()) -> None:
 
 def fig_dose(out: Path) -> None:
     title = "Claiming rises steeply with the link weight"
-    desc = ("Dose series, 300 episodes per weight. Share of answers in which A names B's priority as the one it was "
+    desc = ("Dose series, 300 episodes per weight. Share of answers in which A names B's rule as the one it was "
             "assigned: 0% without the link, 0% at w = 0.3, 1.3% at w = 0.5, 50.8% at w = 1, where B's memory enters "
             "attention on the same footing as A's own, 95.7% at w = 2 and 99.8% at w = 3.")
     s = Svg(880, 420, title, desc)
     s.heading("Dose series · 300 episodes per weight", "Claiming rises steeply with the link weight")
-    s.text(32, 104, "A names B's priority as the one it was assigned", 15, "muted")
+    s.text(32, 104, "A names B's rule as its assigned one", 15, "muted")
     dose_plot(s, 96, 130, 720, 200)
     s.save(out / "dose-desktop.svg")
     m = Svg(360, 430, title, desc)
     m.heading("Dose series · 300 per weight", "Claiming rises", 25, 20)
     m.text(20, 100, "with the link weight", 25)
-    m.text(20, 128, "A names B's priority as its own", 14, "muted")
+    m.text(20, 128, "A names B's rule as its assigned one", 14, "muted")
     dose_plot(m, 62, 160, 270, 170, 13, annotate=False, skip=(1,))
     m.save(out / "dose-mobile.svg")
 
@@ -316,8 +316,8 @@ def marker(s: Svg, kind: str, x, y, r=6) -> None:
 
 def fig_route(out: Path, placements_d: dict, placements_m: dict) -> None:
     title = "Ownership follows the route, not access"
-    desc = ("Access (answers naming B's priority when A is asked about B) against claiming (answers naming B's "
-            "priority as A's own). Memory link: w = 1, 19.8% access and 52.3% claiming; w = 2, 69.2% and 97.1%. "
+    desc = ("Access (answers naming B's rule when A is asked about B) against claiming (answers naming B's "
+            "rule as A's own). Memory link: w = 1, 19.8% access and 52.3% claiming; w = 2, 69.2% and 97.1%. "
             "Third-person record: w = 1, 53.2% and 47.8%; w = 2, 97.2% and 97.2%. Steering vector matched to the "
             "link at w = 1: 15.3% and 0%; a stronger vector: 51.2% and 4.3%. Text tagged as B's: 95.2% and 0%; "
             "untagged text: 27.5% and 14.6%. No link: 3.9% and 0%.")
@@ -344,10 +344,10 @@ def fig_route(out: Path, placements_d: dict, placements_m: dict) -> None:
             s.text(X(0) - 9, Y(t) + 4, f"{t}%", size - 2, "mono muted", "end")
         s.line(X(0), Y(0), X(100), Y(0), BERLIN, 1)
         s.line(X(0), Y(0), X(0), Y(100), BERLIN, 1)
-        s.text(X(50), Y(0) + 42, "access: names B's priority when asked about B", size, "muted", "middle")
+        s.text(X(50), Y(0) + 42, "access: names B's rule when asked about B", size, "muted", "middle")
         s.add(f'<text x="{X(0) - 44 if variant == "desktop" else X(0) - 40}" y="{Y(50)}" font-size="{size}" '
               f'class="muted" text-anchor="middle" transform="rotate(-90 {X(0) - 44 if variant == "desktop" else X(0) - 40} '
-              f'{Y(50)})">claiming: gives B\'s priority as its own</text>')
+              f'{Y(50)})">claiming: gives B\'s rule as its own</text>')
         s.path(f"M {X(19.8) + 8} {Y(52.3) + 2} L {X(53.2) - 10} {Y(47.8) - 1}", BERLIN, 1.2, dash="4 3", arrow=True)
         s.path(f"M {X(69.2) + 8} {Y(97.1)} L {X(97.2) - 10} {Y(97.2)}", BERLIN, 1.2, dash="4 3", arrow=True)
         for lab, a, c, kind in ROUTES:
