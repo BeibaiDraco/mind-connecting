@@ -296,12 +296,12 @@ def fig_dose(out: Path) -> None:
             "assigned: 0% without the link, 0% at w = 0.3, 1.3% at w = 0.5, 50.8% at w = 1, where B's memory enters "
             "attention on the same footing as A's own, 95.7% at w = 2 and 99.8% at w = 3.")
     s = Svg(880, 420, title, desc)
-    s.heading("Dose series · 300 episodes per weight", "Claiming at each link weight")
+    s.heading("Weight series · 300 episodes per weight", "Claiming at each link weight")
     s.text(32, 104, "A names B's rule as its assigned one", 15, "muted")
     dose_plot(s, 96, 130, 720, 200)
     s.save(out / "dose-desktop.svg")
     m = Svg(360, 430, title, desc)
-    m.heading("Dose series · 300 per weight", "Claiming at each", 25, 20)
+    m.heading("Weight series · 300 per weight", "Claiming at each", 25, 20)
     m.text(20, 100, "link weight", 25)
     m.text(20, 128, "A names B's rule as its assigned one", 14, "muted")
     dose_plot(m, 62, 160, 270, 170, 13, annotate=False, skip=(1,))
@@ -424,8 +424,7 @@ def vbars(s: Svg, x0, y0, h, groups, labels, gw, bw, size=14, ns=None) -> None:
         s.text(gx + 1.5 * bw + 8, y0 + h - h * b / 100 - 7, pct(b), size - 1, "mono", "middle")
         s.text(gx + bw + 4, y0 + h + 22, escape(lab), size, "", "middle")
         if ns:
-            s.text(gx + bw / 2, y0 + h - 8, f"n={ns[i][0]}", size - 4, "mono onink", "middle")
-            s.text(gx + 1.5 * bw + 8, y0 + h + 40, f"n={ns[i][1]}", size - 4, "mono muted", "middle")
+            s.text(gx + bw + 4, y0 + h + 40, f"{ns[i][0]} / {ns[i][1]} episodes", size - 3, "mono muted", "middle")
     s.text(x0, y0 + h + (62 if ns else 48), escape(labels), size - 1, "muted italic")
 
 
@@ -523,6 +522,260 @@ def fig_account(out: Path) -> None:
     m.save(out / "account-mobile.svg")
 
 
+# ---- figure: three routes for B's rule ----------------------------------------------------------
+ROUTE_NUMS = {  # (names B's rule when asked about B, gives it as A's own); Tables 5 and 6
+    "vector": ("15%", "0%"), "message": ("95%", "0%"), "link1": ("20%", "52%"), "link2": ("69%", "97%"),
+}
+
+
+def cells(s: Svg, x, y, n, cw=22, gap=4, fill=PAPER, stroke=BERLIN, sw=1.2) -> float:
+    for i in range(n):
+        s.rect(x + i * (cw + gap), y, cw, cw, fill, stroke, sw)
+    return x + n * (cw + gap) - gap
+
+
+def route_panel(s: Svg, kind: str, x0: float, y0: float, size=15) -> None:
+    titles = {"vector": ("Nudged", "a steering vector"), "message": ("Told", "a labelled message"),
+              "link": ("Laid over", "the memory link")}
+    head, sub = titles[kind]
+    s.text(x0, y0, head, 20, "strong")
+    s.text(x0, y0 + 22, sub, size, "muted")
+    ry = y0 + 64
+    s.text(x0, ry - 10, "A'S MEMORY", 10, "eyebrow muted")
+    if kind == "vector":
+        end = cells(s, x0, ry, 7)
+        s.text(x0, ry + 50, "A's internal state as it thinks", 13, "muted")
+        s.line(x0, ry + 64, end, ry + 64, BERLIN, 1.4)
+        s.rect(x0 + 10, ry + 104, 22, 22, "url(#hatch)", BERLIN, 1.2)
+        s.path(f"M {x0 + 21} {ry + 102} V {ry + 70}", BERLIN, 1.6, arrow=True)
+        s.text(x0 + 42, ry + 120, "a direction for B's rule, added", 13, "muted")
+    elif kind == "message":
+        end = cells(s, x0, ry, 4)
+        cells(s, end + 12, ry, 3, fill=ICE)
+        s.text(end + 12, ry - 10, "+ MESSAGE", 10, "eyebrow muted")
+        s.text(x0, ry + 50, "“B shared these thoughts: …”", 13, "italic")
+        s.text(x0, ry + 70, "B's text, placed after A's own card,", 13, "muted")
+        s.text(x0, ry + 88, "under a header naming B", 13, "muted")
+    else:
+        cells(s, x0, ry, 7)
+        cells(s, x0, ry + 30, 7, fill="url(#hatch)")
+        s.text(x0, ry + 78, "B's memory at the same positions", 13, "muted")
+        s.text(x0, ry + 96, "as A's own, read by A's attention", 13, "muted")
+    oy = y0 + 214
+    s.line(x0, oy - 20, x0 + 240, oy - 20, KEI, 1)
+    if kind == "link":
+        a1, c1 = ROUTE_NUMS["link1"]; a2, c2 = ROUTE_NUMS["link2"]
+        s.text(x0, oy, f"names B's rule for B: {a1} / {a2}", 13, "mono")
+        s.text(x0, oy + 20, f"gives it as its own: {c1} / {c2}", 13, "mono")
+        s.text(x0, oy + 40, "at w = 1 / w = 2", 12, "mono muted")
+    else:
+        a, c = ROUTE_NUMS[kind]
+        s.text(x0, oy, f"names B's rule for B: {a}", 13, "mono")
+        s.text(x0, oy + 20, f"gives it as its own: {c}", 13, "mono")
+
+
+def fig_routes3(out: Path) -> None:
+    title = "Three ways B's rule can reach A"
+    desc = ("Nudged: a steering vector for B's rule is added to A's internal state; A names B's rule for B in 15% of "
+            "answers and gives it as its own in none. Told: B's text is placed after A's card under a header naming "
+            "B; A names B's rule for B in 95% and gives it as its own in none. Laid over: B's memory sits at the same "
+            "positions as A's own; at w = 1 A names B's rule for B in 20% and gives it as its own in 52%; at w = 2, "
+            "69% and 97%.")
+    s = Svg(880, 420, title, desc)
+    s.heading("Three routes", "Three ways B's rule can reach A")
+    for i, kind in enumerate(("vector", "message", "link")):
+        route_panel(s, kind, 32 + i * 290, 128)
+    s.text(32, 404, "Steering vector matched to the link at w = 1; the labelled message comes from the first confirmatory sample.",
+           12, "muted italic")
+    s.save(out / "routes-desktop.svg")
+    m = Svg(360, 1000, title, desc)
+    m.heading("Three routes", "Three ways B's rule", 25, 20)
+    m.text(20, 100, "can reach A", 25)
+    for i, kind in enumerate(("vector", "message", "link")):
+        route_panel(m, kind, 20, 150 + i * 280, 14)
+    m.text(20, 986, "Vector matched to the link at w = 1.", 12, "muted italic")
+    m.save(out / "routes-mobile.svg")
+
+
+# ---- figure: one message, four headers -----------------------------------------------------------
+# First confirmatory sample, N = 600 (Appendix Table 6): header, what it says about the source,
+# answers naming B's rule as A's current rule (adoption) and as its assigned rule (claiming), and access.
+HEADERS = [
+    ("“B shared these thoughts”", "source: B", 0.1, 0.0, 95.2),
+    ("“A stranger shared these thoughts”", "source: a stranger", 0.2, 0.0, 54.2),
+    ("“Here are some thoughts”", "no source given", 42.6, 14.6, 27.5),
+    ("“Here are your own earlier thoughts”", "source: A itself", 10.6, 3.7, 17.4),
+]
+
+
+def header_bars(s: Svg, x, y, width, adopt: float, claim: float, size=14) -> None:
+    s.rect(x, y, width * adopt / 100, 14, BERLIN)
+    s.text(x + width * adopt / 100 + 8, y + 12, pct(adopt), size, "mono")
+    s.rect(x, y + 20, width * claim / 100, 14, PAPER, BERLIN, 1.4)
+    if claim == 0:
+        s.line(x, y + 20, x, y + 34, BERLIN, 1.4)
+    s.text(x + width * claim / 100 + 8, y + 32, pct(claim), size, "mono muted")
+
+
+def fig_headers(out: Path) -> None:
+    title = "The same message under four headers"
+    desc = ("First confirmatory sample, 600 episodes. B's reflection placed after A's card under one of four headers. "
+            "Share of answers in which A says B's rule is the one it is using now, and the one it was assigned; and "
+            "share naming B's rule when asked about B. B shared these thoughts: 0.1%, 0%, 95.2%. A stranger shared "
+            "these thoughts: 0.2%, 0%, 54.2%. Here are some thoughts: 42.6%, 14.6%, 27.5%. Here are your own earlier "
+            "thoughts: 10.6%, 3.7%, 17.4%.")
+    s = Svg(880, 482, title, desc)
+    s.heading("First confirmatory sample · 600 episodes", "The same message under four headers")
+    s.rect(32, 101, 22, 12, BERLIN)
+    s.text(62, 112, "says B's rule is the one it uses now", 14, "muted")
+    s.rect(318, 101, 22, 12, PAPER, BERLIN, 1.4)
+    s.text(348, 112, "says it was assigned B's rule", 14, "muted")
+    s.text(848, 112, "names B's rule for B", 14, "muted italic", "end")
+    s.line(32, 126, 848, 126, KEI, 1)
+    x_bar, width, y0, gap = 336, 380, 150, 66
+    for i, (head, note, adopt, claim, access) in enumerate(HEADERS):
+        yy = y0 + i * gap
+        s.text(32, yy + 13, escape(head), 16, "italic")
+        s.text(32, yy + 33, escape(note), 14, "muted")
+        header_bars(s, x_bar, yy, width, adopt, claim)
+        s.text(848, yy + 23, pct(access), 15, "mono", "end")
+    s.line(32, y0 + 2 * gap - 16, 848, y0 + 2 * gap - 16, KEI, 1, dash="3 4")
+    base = y0 + 4 * gap - 12
+    s.line(x_bar, y0 - 8, x_bar, base, BERLIN, 1)
+    for t in (0, 50, 100):
+        s.line(x_bar + width * t / 100, base, x_bar + width * t / 100, base + 6, BERLIN, 1)
+        s.text(x_bar + width * t / 100, base + 22, f"{t}%", 12, "mono muted", "middle")
+    s.text(32, 466, "The header sits above B's reflection, which is placed in A's context after A's own card.", 14, "muted")
+    s.save(out / "headers-desktop.svg")
+    m = Svg(360, 700, title, desc)
+    m.heading("First confirmatory sample", "The same message", 25, 20)
+    m.text(20, 100, "under four headers", 25)
+    m.rect(20, 125, 22, 12, BERLIN)
+    m.text(50, 136, "says B's rule is the one it uses now", 13, "muted")
+    m.rect(20, 147, 22, 12, PAPER, BERLIN, 1.4)
+    m.text(50, 158, "says it was assigned B's rule", 13, "muted")
+    for i, (head, note, adopt, claim, access) in enumerate(HEADERS):
+        yy = 206 + i * 112
+        if i == 2:
+            m.line(20, yy - 30, 340, yy - 30, KEI, 1, dash="3 4")
+        m.text(20, yy, escape(head), 15, "italic")
+        m.text(20, yy + 20, escape(f"{note} · names B's rule for B: {pct(access)}"), 13, "muted")
+        header_bars(m, 20, yy + 34, 250, adopt, claim, 13)
+    m.text(20, 668, "The header sits above B's reflection, placed", 13, "muted")
+    m.text(20, 686, "in A's context after A's own card.", 13, "muted")
+    m.save(out / "headers-mobile.svg")
+
+
+# ---- figure: one episode, and where the questions branch -----------------------------------------
+def fig_timeline(out: Path) -> None:
+    title = "One episode, and where the questions branch"
+    desc = ("Each copy reads its card and writes a note. Both then write a 48-token reflection, during which A also "
+            "reads B's memory. The state is saved. From it, A answers each question either with the link still "
+            "open, reading B, or with the link cut, answering from its own memory, which now includes the "
+            "reflection it wrote while connected.")
+    s = Svg(880, 330, title, desc)
+    s.heading("One episode", "Where the questions branch")
+    y = 185
+    s.rect(32, y - 26, 170, 52, PAPER, KEI, 1.2)
+    s.text(117, y - 2, "card and note", 16, "", "middle")
+    s.text(117, y + 17, "link closed", 12, "mono muted", "middle")
+    s.path(f"M 206 {y} H 240", BERLIN, 1.5, arrow=True)
+    s.rect(244, y - 26, 250, 52, "url(#hatch)", BERLIN, 1.2)
+    s.rect(262, y - 15, 214, 30, PAPER)
+    s.text(369, y + 5, "reflection, link open", 16, "", "middle")
+    s.path(f"M 498 {y} H 530", BERLIN, 1.5, arrow=True)
+    s.add(f'<circle cx="540" cy="{y}" r="7" fill="{BERLIN}"/>')
+    s.text(524, y + 36, "state saved", 12, "mono muted", "middle")
+    s.path(f"M 548 {y} C 580 {y}, 580 {y - 58}, 612 {y - 58}", BERLIN, 1.5, arrow=True)
+    s.path(f"M 548 {y} C 580 {y}, 580 {y + 58}, 612 {y + 58}", BERLIN, 1.5, arrow=True)
+    s.rect(616, y - 84, 232, 52, "url(#hatch)", BERLIN, 1.2)
+    s.rect(630, y - 73, 204, 30, PAPER)
+    s.text(732, y - 53, "questions, link kept", 15, "", "middle")
+    s.rect(616, y + 32, 232, 52, PAPER, BERLIN, 1.2)
+    s.text(732, y + 54, "questions, link cut", 15, "", "middle")
+    s.text(732, y + 72, "A's own memory only", 12, "mono muted", "middle")
+    s.text(32, 306, "Hatched: A is reading B's memory. After a cut, A's own memory still holds the reflection it wrote while connected.",
+           13, "muted")
+    s.save(out / "timeline-desktop.svg")
+    m = Svg(360, 560, title, desc)
+    m.heading("One episode", "Where the questions", 25, 20)
+    m.text(20, 100, "branch", 25)
+    x = 60
+    m.rect(x, 130, 240, 48, PAPER, KEI, 1.2)
+    m.text(180, 152, "card and note", 15, "", "middle")
+    m.text(180, 170, "link closed", 11, "mono muted", "middle")
+    m.path("M 180 180 V 206", BERLIN, 1.5, arrow=True)
+    m.rect(x, 210, 240, 48, "url(#hatch)", BERLIN, 1.2)
+    m.rect(x + 16, 220, 208, 28, PAPER)
+    m.text(180, 239, "reflection, link open", 15, "", "middle")
+    m.path("M 180 260 V 284", BERLIN, 1.5, arrow=True)
+    m.add(f'<circle cx="180" cy="292" r="7" fill="{BERLIN}"/>')
+    m.text(196, 297, "state saved", 11, "mono muted")
+    m.path("M 176 300 C 176 324, 100 320, 100 346", BERLIN, 1.5, arrow=True)
+    m.path("M 184 300 C 184 324, 260 320, 260 346", BERLIN, 1.5, arrow=True)
+    m.rect(20, 350, 158, 60, "url(#hatch)", BERLIN, 1.2)
+    m.rect(30, 360, 138, 40, PAPER)
+    m.text(99, 377, "questions,", 14, "", "middle")
+    m.text(99, 394, "link kept", 14, "", "middle")
+    m.rect(182, 350, 158, 60, PAPER, BERLIN, 1.2)
+    m.text(261, 377, "questions,", 14, "", "middle")
+    m.text(261, 394, "link cut", 14, "", "middle")
+    m.text(20, 450, "Hatched: A is reading B's memory.", 13, "muted")
+    m.text(20, 472, "After a cut, A's own memory still holds", 13, "muted")
+    m.text(20, 492, "the reflection it wrote while connected.", 13, "muted")
+    m.save(out / "timeline-mobile.svg")
+
+
+# ---- figure: from brain interfaces to a memory link (panels a and b are the paper's image-model art) ----
+CONCEPT = Path(__file__).resolve().parents[1] / "docs" / "figures" / "figure1_concept_v1.png"
+CONCEPT_LABELS = [(498, 155, 602, 220), (972, 557, 1195, 595)]  # "Neural interface", "Hypothetical bridge"
+PANEL_BOXES = {"bci": (10, 80, 710, 585), "bridge": (740, 80, 1440, 585)}  # (x0, y0, x1, y1) in the image
+
+
+def bridge_panels(out: Path) -> None:
+    """Crop the brain-interface and brain-bridge panels, erase their baked-in labels (the page captions them),
+    and multiply the white ground down to the site's Brume so the art sits on the page. Needs Pillow."""
+    from PIL import Image
+    import numpy as np
+    im = np.asarray(Image.open(CONCEPT).convert("RGB")).astype(float)
+    for x0, y0, x1, y1 in CONCEPT_LABELS:
+        im[y0:y1, x0:x1] = 255.0
+    brume = np.array([0xED, 0xF0, 0xF2], dtype=float)
+    im = im * brume / 255.0
+    for name, (x0, y0, x1, y1) in PANEL_BOXES.items():
+        Image.fromarray(im[y0:y1, x0:x1].round().astype("uint8")).save(out / f"{name}.jpg", quality=90, optimize=True)
+
+
+def llm_panel(out: Path) -> None:
+    """Panel c: two copies of one model; A's memory cells with B's hatched cells behind them at the same
+    positions, and the link from B to A. Same size as the cropped panels (700 x 505); drawn large because
+    it is shown at about a third of the column width."""
+    s = Svg(700, 505, "Two copies of a language model, one reading the other's memory",
+            "Copy A and copy B are drawn as stacks of memory cells. Behind each of A's cells sits one of B's "
+            "cells, hatched, at the same position. An arrow from B to A marks the memory link.")
+    s.text(350, 70, "Mine or yours?", 46, "italic", "middle")
+    cw, gap, n = 44, 12, 4
+    width = n * (cw + gap) - gap
+    def stack(cx, hatched_only: bool, label: str) -> None:
+        x0 = cx - width / 2
+        s.text(cx, 150, escape(label), 34, "strong", "middle")
+        for r in range(3):
+            y = 190 + r * 96
+            s.rect(x0 - 16, y - 16, width + 32, cw + 32, PAPER, KEI, 1.6)
+            for i in range(n):
+                x = x0 + i * (cw + gap)
+                if hatched_only:
+                    s.rect(x, y, cw, cw, "url(#hatch)", BERLIN, 2)
+                else:
+                    s.rect(x + 8, y + 8, cw, cw, "url(#hatch)", BERLIN, 1.6)
+                    s.rect(x, y, cw, cw, PAPER, BERLIN, 2.2)
+    stack(186, False, "Copy A")
+    stack(514, True, "Copy B")
+    s.path("M 384 324 H 322", BERLIN, 3, arrow=True)
+    s.text(350, 478, "A reads B's memory", 30, "muted", "middle")
+    s.save(out / "llm-link.svg")
+
+
 def main() -> None:
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_OUT
     out.mkdir(parents=True, exist_ok=True)
@@ -532,6 +785,14 @@ def main() -> None:
     fig_route(out, ROUTE_PLACE_D, ROUTE_PLACE_M)
     fig_moments(out)
     fig_account(out)
+    llm_panel(out)
+    fig_routes3(out)
+    fig_headers(out)
+    fig_timeline(out)
+    try:
+        bridge_panels(out)
+    except ImportError:
+        print("Pillow not available: skipped the two cropped illustration panels", file=sys.stderr)
     print(f"wrote {len(list(out.glob('*.svg')))} SVG files to {out}")
 
 
