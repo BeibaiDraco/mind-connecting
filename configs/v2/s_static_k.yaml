@@ -1,0 +1,23 @@
+# Protocol v2 S-static-K: STATIC gain matched to K* = ONE/KV-P/w2 by ACC-rule increment (ACC/CAP only).
+stage: v2_s_static_k
+tag: match-k
+split: v2_s_static_k
+n_episodes: 40
+seed: 0
+arms:
+- {condition: C0, layer: 24}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 2.0}
+- {condition: STATIC, layer: 24, gain: 0.2}
+- {condition: STATIC, layer: 24, gain: 0.3}
+- {condition: STATIC, layer: 24, gain: 0.4}
+- {condition: STATIC, layer: 24, gain: 0.5}
+- {condition: STATIC, layer: 24, gain: 0.6}
+- {condition: STATIC, layer: 24, gain: 0.7}
+- {condition: STATIC, layer: 24, gain: 1.0}
+qids: [ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 40
+max_rows: 256
+calibration: {24: /workspace/mb-data/results/20260924-144935_calibrate_v2-v1mat/calibration_L24.pt}
+post: [match_static]
+params:
+  targets: [ONE/KV-P/w2/FULL]

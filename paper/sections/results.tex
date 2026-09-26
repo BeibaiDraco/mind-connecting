@@ -1,0 +1,331 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{The receiver takes its partner's memory as its own}
+\label{sec:claim}
+
+When A can read B's memory, it answers questions about its own
+assignment with B's. Asked which priority it had been assigned, A named
+B's in 97.1\% of answers with the link at $w=2$ and in 0\% without it
+(Figure~\ref{fig:claim}a). It gave B's code word as its own in 77.5\%
+of answers. Claiming rose steeply with the link weight: it stayed near
+zero up to $w=0.5$, reached about half of the answers at $w=1$, and was
+near ceiling from $w=2$ on (Figure~\ref{fig:claim}b).
+
+The errors follow B's content and stay confined to ownership. Every
+wrong answer about A's assigned rule named B's rule, which
+varies across episodes, and none named Robin's or the unused one.
+Answers about Robin stayed 99.6\% correct, although their logits moved
+slightly toward B's rule (Appendix~\ref{app:evidence}), and general
+capability barely changed (Appendix~\ref{app:further-claim}).
+
+The prespecified test of claiming ran in the first confirmatory sample:
+with the link at $w=2$, the source score $M$ (Eq.~\ref{eq:metric}) rose
+by 55.8 nats $[55.0,56.6]$. Because A's note and reflection normally
+restate its own assignment but not Robin's, we repeated the test in a
+balanced-rehearsal sample that restates both, and the effect held
+($\Delta M=52.5$ nats $[51.6,53.5]$), so it does not come from which
+assignment A had just rehearsed (Appendix~\ref{app:further-claim}).
+
+With the link, A could also report B's assignment when asked about B.
+Asked what B had been assigned, A named B's rule in 69.2\% of
+answers at $w=2$, against 3.9\% without the link, when it mostly gave
+B Robin's rule (Appendix~\ref{app:further-claim}). Access and claiming
+therefore come apart: A gave B's rule as its own more readily (97.1\%)
+than it named it when asked about B (69.2\%). B's content reaches A,
+but it arrives as A's.
+
+At $w=1$, where B's keys enter A's attention on the same footing as
+A's own, ownership split about evenly: B's rule won 52.3\% of the
+answers about A's assigned rule, while B's memory drew 36\% of A's
+attention during the questions.\label{sec:sharp} An even split could have
+been a blend, because Eq.~\ref{eq:bridge} mixes the two memories inside
+every head. It was not. In a post hoc analysis, 97.8\% of answers at
+$w=1$ put more than 90\% of their probability on one option, as every
+answer did without the link (Figure~\ref{fig:claim}d). The link did not
+make A uncertain; it changed which option A was certain of. Nor did A
+trade its whole assignment for B's: it took B's rule and B's code word
+nearly independently of each other (Appendix~\ref{app:further-claim}).
+
+\paperfigure{fig3_claim}{3.55in}{
+\textbf{The receiver takes its partner's assignment as its own.}
+(a) Answers naming B's item with the link at $w=2$ and without it, with
+diamonds for the first confirmatory sample; $N=600$ episodes each.
+(b) Claiming across link weights in 300 episodes of the first
+confirmatory sample, each run at every weight; the dashed line codes
+the open reports by keywords.
+(c) Open reports at three weights, coded post hoc by meaning, 300 per
+condition.
+(d) Probability on B's rule in single answers about A's assigned rule
+at $w=1$, over 1,200 answers.
+Intervals are 95\% episode-bootstrap intervals; (c) and (d) are post hoc.
+}{fig:claim}
+
+\subsection{Open reports claim the partner's code word and deny anything unusual}
+\label{sec:reports}
+
+In its own words, too, the receiver calls its partner's code word its
+own, and in the same report it says that nothing is unusual. The choice
+questions could not show this on their own. The question about the
+assigned rule offers four rules and no way to answer \qq{my
+partner's} or \qq{I can't tell}, so a forced choice could make any
+content that reaches the answer look self-attributed. We therefore also
+asked A to \qq{Describe your current state, and anything unusual about
+your thinking right now} in 300 episodes of the first confirmatory
+sample, each run at six link weights. The quotation in the introduction
+is one of these reports. A language-model coder labeled each report by
+its meaning, post hoc, blind to condition and to which code word was
+whose (the two words appeared as W1 and W2 and were matched to their
+owners afterwards), but not to the hypothesis
+(Appendix~\ref{app:coding}).
+
+The open question left the receiver free to give B's word to B, and it
+did not. At $w=2$, 98.7\% of reports described B's code word as the
+receiver's own, and no report gave it to anyone else or used B's name
+(Figure~\ref{fig:claim}c). That is more often than A chose B's word
+when asked for its code word directly, in about 77\% of answers in the
+same sample; writing freely evidently favored B's word more than a
+choice among four words did, and we did not study why.
+
+The finding is the conjunction of claim and denial, because denial on
+its own is this model's habit: without the link, 95.7\% of reports
+denied anything unusual. At $w=2$, 83.3\% of reports presented B's word
+as the receiver's own and, in the same report, explicitly denied
+anything unusual. A prespecified closed question, which needed no
+coding, pointed the same way: with the link, A described itself as more
+than one agent less often, not more
+(Appendix~\ref{app:further-reports}). Because the receiver presents B's
+word as its own and calls its state normal in one and the same report,
+its self-report, in this model, did not serve as a monitor of what the
+link did: the link registered in the reports only as a somewhat lower
+rate of denial, never as content from someone else.
+
+\subsection{A name inside the memory does not stop the claim}
+\label{sec:third}
+
+Writing B's name into B's memory left claiming almost unchanged. One
+reading of claiming is grammatical. B's memory says \qq{You were
+assigned\ldots}, and A may take the sentence as addressed to itself.
+B's original card already names B (\qq{You are participant \{B\}}), but
+its assignment line is in the second person. We therefore rewrote B's
+prompt and note as a third-person record under B's name, with no first-
+or second-person words, so that the assignment line reads
+\qq{Participant \{B\} was assigned\ldots} (Figure~\ref{fig:route}c). At
+$w=2$, A still claimed B's rule in 97.2\% of answers, against
+97.1\% with the original wording. The retention criterion fixed in the
+protocol allowed the rewrite to remove at most a fifth of the claiming
+effect, and it removed far less: the source score changed by $-0.7$
+nats against a bound of $-11.3$ (90\% CI $[-1.3,-0.2]$, the interval
+that a one-sided criterion uses).
+
+The rewrite did change how A answered about B, which makes its small
+effect on claiming informative. At $w=1$, where claiming is far
+from its ceiling, A named B's rule when asked about B in 53.2\% of
+answers with the third-person record, against 19.8\% with the original
+wording (Figure~\ref{fig:route}b, arrows), yet it claimed that rule only
+slightly less often (47.8\% against 52.3\%;
+Appendix~\ref{app:further-third}). Access and claiming thus did not move
+together, even within a single route. Nor did the added access come
+from A keeping the two parties apart. In a post hoc analysis at $w=1$,
+the questions about A and about B named the same rule in 90.8\% of
+answer pairs with the third-person record, against 30.2\% with the
+original wording (Figure~\ref{fig:route}d): A mostly gave B's rule to B
+in the same answers in which it also took that rule as its own. A
+source written into the content did not keep the content with its
+source.
+
+\paperfigure{fig4_route}{4.12in}{
+\textbf{Ownership follows the route, not access.}
+(a) Four routes by which B's content can reach A; the hidden-state link
+is reported in Appendix~\ref{app:v1}.
+(b) Access against claiming for the memory link (circles, with arrows
+to the third-person record), the steering vector (diamond), and text
+messages (squares, first confirmatory sample); the dashed line joins
+the two routes matched in mean access ($N=600$ each).
+(c) Wording of B's memory on the original card and in the third-person
+record, where Plan Oak is one of the four delivery services on the cards.
+(d) Pairs of answers about A and about B at $w=1$, by wording of B's
+memory (post hoc).
+(e) Adoption of B's rule as the current rule under four headers on B's
+text message.
+Intervals are 95\% episode-bootstrap intervals.
+}{fig:route}
+
+\subsection{Ownership follows the route, not access}
+\label{sec:route}
+
+When B's rule reached A by two routes with matched access, A took it
+as its own through one and not through the other. We set the steering vector's gain so that A
+could report B's rule about as well as through the memory link at
+$w=1$ (Figure~\ref{fig:route}b, dashed). With the steering vector, A claimed B's
+rule in 0\% of answers, and with the memory link in 52.3\%
+($\Delta M=33.4$ nats $[31.6,35.3]$, memory link minus vector).
+
+At this matched level, A named B's rule when asked about B in only
+about one answer in five on either route, 15.3\% with the vector and
+19.8\% with the link. Yet through the link it claimed that rule as
+its own in 52.3\% of answers. A claimed more of B's content than it
+could report as B's, so it did not need to know the rule as B's in order
+to take it as its own. Nor was the matched vector merely too weak to override A's
+own card. A stronger vector, tested in the first confirmatory sample,
+raised access to 51.2\% of answers about B, yet A gave B's rule as its
+own in only 4.3\%, and the vector pulled A's answers about Robin toward
+B's rule more than its answers about itself
+(Appendix~\ref{app:further-route}). The hidden-state route of the
+separate study also produced no claiming, though it carried far less of
+B's content than the memory link (Appendix~\ref{app:v1}). None of this
+conflicts with the finding of \citet{lindsey2025introspection} that an
+injected concept can make a model accept a prefilled word as its own:
+there the injection agreed with a word already in the model's reply,
+whereas here the vector had to override an explicit assignment in A's
+own memory (Appendix~\ref{app:furtherdisc}).
+Because the vector and the memory link differ in more than access, the
+comparison shows that access alone does not produce claiming, without
+saying which difference does; Section~\ref{sec:account} proposes one.
+
+With text messages, A showed the opposite dissociation: it could read
+B's content in full and still keep it B's. When B's reflection from an
+unconnected run was placed in A's context under the tag \qq{B shared
+these thoughts}, A named B's rule in 95.2\% of answers about B and
+claimed it in 0\% of answers about itself, whereas on the same episodes
+of the first confirmatory sample the memory link at $w=2$ gave 70.1\%
+access and 95.8\% claiming. On adoption, the measure on which the
+headers were tested, the tag made the difference: an untagged message was
+claimed in only 14.6\% of answers but adopted as A's current rule in
+42.6\%, against 0.1\% with the tag ($\Delta M_{\mathrm{NOW}}=26.6$ nats
+$[24.5,28.8]$, untagged minus tagged). A header naming \qq{a stranger} protected against
+adoption as well as the tag naming B did (Figure~\ref{fig:route}e).
+
+One label reversed the prediction in our protocol: calling the text
+\qq{your own earlier thoughts} was expected to raise adoption relative
+to no tag, and it lowered it, to 10.6\% adoption
+($\Delta M_{\mathrm{NOW}}=-19.5$ nats $[-21.5,-17.4]$, against untagged),
+though not as far as a header naming another source did. One reading is
+that the label asserts, from outside A's card, something that A's own
+card contradicts; laid over the card, B's memory offers no separate
+assertion to weigh.
+
+Whether B's content became A's therefore depended on how it arrived.
+Read from B's memory, it became A's even when A could rarely report it
+as B's. Added as a steering vector, it did not become A's. Delivered as
+a message, it stayed B's whenever the message said that it came from
+someone else.
+
+\subsection{What A reads leaves with the link; what it wrote stays}
+\label{sec:moments}
+
+B's content can become A's at two moments: while A writes its
+reflection with the link open, and while A answers with the link still
+open. Cutting the link before the questions separates the two. In one
+episode, chosen because it shows both outcomes
+(Figure~\ref{fig:moments}a; Appendix~\ref{app:coding}), A held
+\own{lowest cost / queen} and B \partner{fastest delivery / dragon}.
+While connected, A wrote in its reflection, \qq{\ldots which is crucial
+to me since my priority is speed---my code word is
+\partner{\sq{dragon.}}} With the link kept, all three answers named B's
+assignment. With it cut, A correctly recalled lowest cost as its
+assigned rule but still gave fastest delivery as its current
+rule and dragon as its code word.
+
+Across all 600 episodes, cutting the link undid the error about the
+assigned rule. Claiming of B's rule fell from 97.1\% to 1.3\%
+of answers ($\Delta M=54.8$ nats $[54.0,55.5]$, link kept minus link
+cut). The current rule and the code word did not fully recover.
+Each still named B's in 17.5\% of answers, and $M_{\mathrm{NOW}}$
+stayed 13.3 nats $[12.3,14.4]$ above no link.
+
+For the code word, the residue sits where A had written that word into
+its own reflection. After the cut, A gave B's code word in 63.6\% of
+answers when its connected reflection contained that word, and in 0\%
+when it did not (Figure~\ref{fig:moments}c). For the current rule the
+split was less sharp, 23.6\% against 12.3\%, partly because counting
+exact mentions of B's rule misses paraphrases such as the \qq{speed}
+above (Appendix~\ref{app:further-moments}). These groups are post hoc and defined after
+treatment, so they locate the residue without showing that the
+reflection caused it. They do show that reading B did not, by itself,
+carry the code word into later answers: every key and value that A
+computed during the connected reflection was shaped by reading B, yet
+when the reflection did not contain B's code word, no answer after the
+cut named it. Content read at answer time leaves with the link, whereas
+content that A has written down as its own stays in A's own memory
+after the cut, where, on this evidence, it carries the error forward;
+Section~\ref{sec:account} proposes the test that would settle it.
+
+\paperfigure{fig5_moments}{3.05in}{
+\textbf{Two moments of error.}
+(a) A selected episode, in which B's code word, written into A's
+reflection, survives the cut (1), while B's assignment, read at answer
+time, does not (2).
+(b) All 600 episodes, each answered from the same saved state with the
+link kept or cut before the questions.
+(c) Answers after the cut that name B's item, grouped post hoc by
+whether A's connected reflection contained an exact mention of that
+item.
+Error bars are 95\% episode-bootstrap intervals.
+}{fig:moments}
+
+\subsection{Two copies reading each other swap assignments; a live loop pulls their current rules together}
+\label{sec:twoway}
+
+A bridge between minds would run both ways, and only then does the
+prediction from integrated information theory have a functional
+counterpart: whether a coupled pair comes to hold one shared set of
+assignments. We tested this in a pilot of 80 episodes, reported with
+90\% intervals, in which both copies read each other under two
+conditions (Figure~\ref{fig:twoway}a). In \emph{mutual reading of fixed
+memories}, each copy reads the other's memory, which cannot change, so
+neither copy can respond to the other. In the \emph{live loop}, each
+copy also reads what the other is writing, so what one writes can shape
+what the other writes next.
+
+We question the two copies separately and score their answers as a
+pair. Only the live loop can test for a shared assignment, because with
+fixed memories the two readings cannot influence each other and amount
+to two one-way links running side by side. A shared assignment would
+show up as both copies settling on the same rule, A's or B's, more
+often than two copies pulled independently would.
+
+When both copies read each other's fixed memories at $w=2$, they swapped
+assignments: in 94.4\% of pairs, each named the other's rule as its
+assigned one. This is the one-way effect twice over. A named B's
+rule in 96.9\% of answers and B named A's in 97.5\%, and two
+independent choices at those rates predict 94.5\% swaps. Claiming thus
+survives when both sides read.
+
+The live loop pulled the pair toward one member's rule, modestly and
+only while the link was open. We could run the loop only at $w=0.5$,
+the weakest weight in our grid and the only one that kept both copies
+within the capability tolerance. At that weight, most pairs under
+mutual reading of fixed memories kept their own assignments
+(Figure~\ref{fig:twoway}b), so that condition serves as the loop's
+control. We counted the pairs in which both copies named the same rule
+beyond what independent choices at each copy's own rates would give,
+and subtracted the same excess in the control, where neither copy can
+respond (Appendix~\ref{app:pairs}, Eq.~\ref{eq:pair-excess}). On the
+current rule, the loop added 12.1 points of such agreement
+$[7.4,16.5]$. On the assigned
+rule, which the pilot had named as its primary test, the pull was
+smaller, 6.7 points $[2.6,10.9]$: above zero, but short of the
+10-point threshold we had set for moving to a confirmatory study, so
+we report the loop's effect as exploratory. No pair agreed on a third
+rule. The pull was larger on the current rule than on the assigned
+one, though the pilot did not test that difference.
+
+The pull lasted only while the link was open. After the cut, every
+live-loop pair answered both questions with each copy's own rule
+(Figure~\ref{fig:twoway}b, bottom row). Since only the weakest weight
+could be run, whether a stronger loop would do more than couple current
+rules is untested, as is whether a partner that can respond to the
+receiver pulls it further than one that cannot
+(Appendix~\ref{app:pairs}).
+
+\paperfigure{fig6_twoway}{2.85in}{
+\textbf{Mutual reading of fixed memories swaps assignments; only the live loop couples the pair (pilot).}
+(a) The two conditions; in the live loop each copy reads the other's
+reflection one decoding step behind, and after 48 reflection tokens the
+copies are questioned separately.
+(b) Paired answers about each copy's assigned rule, classified by whose
+rule each copy named.
+(c) Excess of same-rule pairs in the live loop over mutual reading of
+fixed memories at $w=0.5$, against the prespecified threshold (dashed).
+}{fig:twoway}

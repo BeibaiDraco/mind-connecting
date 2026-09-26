@@ -1,0 +1,10 @@
+# S2 calibration (protocol v0.5 §6): C0 on separate episodes; mu / sd / sigma_in and
+# raw + EMA STATIC vectors for every candidate layer.
+stage: calibrate
+tag: c0
+split: calibration
+n_episodes: 60
+seed: 0
+calibration_layers: [12, 18, 24]
+episodes_per_batch: 30
+max_rows: 256

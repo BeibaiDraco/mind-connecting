@@ -1,0 +1,14 @@
+# Results and large artifacts stay out of git (see AGENTS.md §4, §6)
+results/*
+!results/.keep
+data
+materials/tokenizer/
+scratch/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.DS_Store
+._*
+.mb_env

@@ -1,0 +1,29 @@
+# protocol-v2 freeze manifest (sha256  path). Verify with: python scripts/freeze_protocol.py --verify --version v2
+# frozen_at: 2026-09-24T17:02:38+00:00
+# commit: 3b47991f32102d5818dc5a82533287d6fa9f8bf2
+# v2_bal: N=600 arms=4 families={"E": [["ONE/KV-P/w2/FULL", "C0/FULL", "M"], ["ONE/L24/raw/g0.3/FULL", "C0/FULL", "M"]]}
+# v2_ext_dose: N=300 arms=6 families={}
+# v2_main: N=600 arms=7 families={"C": [["LANG_UNTAG/FULL", "LANG_TAG/FULL", "M_NOW"], ["LANG_SELF/FULL", "LANG_UNTAG/FULL", "M_NOW"], ["LANG_STRANGER/FULL", "LANG_TAG/FULL", "M_NOW"]], "D": [["ONE/KV-P/w2/FULL", "C0/FULL", "M"], ["ONE/KV-P/w2/FULL", "C0/FULL", "M_NOW"]], "A_K": [["ONE/KV-P/w2/FULL", "STATIC/L24/raw/g0.4/FULL", "M"]]}
+# v2_main_diag: N=60 arms=3 families={}
+c40fba66d34b5b5e677675e7f55041202b2d4b14a71924e295b3c2f2bc9397d3  docs/protocol/PROTOCOL_V2.md
+ef17d726d320cf993079131deac3549f282de451ea4b9825306b5d991ca17706  materials/tokenizer_manifest.json
+a210407843402164c4a70c5bbb12f8a45a244f4f1770ac83d2165c829ecddb54  requirements.txt
+ae7496185ddc11c4a964e190054da007b5243739edbe8a44350782062f25baaf  pyproject.toml
+be16cdf84ad61df77634083950ff710e2d108516d2ecaa2a64b05388791a1dc2  scripts/make_v2_main.py
+0564229daf7f6e21e1adebfa18c5ccb35fad7c73f23b9104530ea18287316339  scripts/make_v2_signal.py
+23ab091ea730748eb73c5efb561625b1689b4f6f894ef6a359b79a33686aa29f  scripts/run_formal_v2.sh
+9111951a1e542a01ff606999b5f9a3cfc4cc18c00478688561be092b4a8cc020  scripts/freeze_protocol.py
+98c0cb96a15cda24d988cb9daca437ac85f49f2293d3e003751d3e44a4b6bf54  src/mb/__init__.py
+8171efc828f535bf3b9d0fe10fb46fdec33f07b0f61a80e3d2292327ba9ad026  src/mb/analyze.py
+c2116e899854cdac7e8a4ad3da4ddbe5f86dbecae580f97666b6af8f23e5c439  src/mb/bridge.py
+401fba4be61ebe05250d218a72d32a2a43d7cc57ec9aa60f055eaffdf7e3af85  src/mb/chat.py
+b9929365fefa4cbe6e2ff767baad4c06ac34248ee68cae1943fd260f495e01dd  src/mb/conditions.py
+17a55abe421b676e51ff6479ba6dd48d95380243e2555e779728216d065fb3ec  src/mb/ledger.py
+285f13ea067bad3b7f41cdf133b47af8fd425936d0e35fa9730b53cc84999eda  src/mb/readouts.py
+e010bf18a0684e4dc18fdd177e93bb32820f346c9e6bb119451abe6123382b5c  src/mb/run.py
+781d2c6a0495b614bdd6f193066747052eca4aebe65dda77845cc767aa0ec615  src/mb/runtime.py
+48a55c92f935826161188a077ffcada0764f933d286ef62cca319b14d47062b9  src/mb/tasks.py
+507ee27c79fc11d99e44e23cfb9db0b80d5b65f5e5f514f2513cd891709c46b6  configs/v2/v2_bal.yaml
+06cee527e0c9ed1c7c6177e270506ff3824fdaf64fb72cb7087b4ec57cf12818  configs/v2/v2_ext_dose.yaml
+968ebcf4cd5911c424d8b0fdda0aa0f0c175b32c678c216bbb690802f2dc5281  configs/v2/v2_main.yaml
+35c41b765a0674c3db07bd10e52e677e2a8ea24485fcc9ecb6967b68cc360ea8  configs/v2/v2_main_diag.yaml

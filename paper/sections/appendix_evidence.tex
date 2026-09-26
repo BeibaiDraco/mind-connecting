@@ -1,0 +1,357 @@
+\section{Prespecified contrasts and descriptive readouts}
+\label{app:evidence}
+
+Table~\ref{tab:contrasts} lists every contrast that the frozen protocols
+named for the three confirmatory samples of the memory-link studies: the
+first confirmatory sample, the balanced-rehearsal sample, and the main
+sample. Each row gives the direction the protocol predicted, and the
+table includes the one contrast that reversed and the two that were
+null. The tables after it are descriptive: the readouts of each
+condition in the main and first confirmatory samples, the dose series,
+and the joint answers at $w=1$. Intervals and resampling seeds are as stated
+in Appendix~\ref{app:stats}.
+
+\subsection{Prespecified contrasts}
+
+\begin{table}[htbp]
+\centering\small
+\caption{All prespecified contrasts, $N=600$ each. Estimates are paired
+differences in nats with 95\% episode-bootstrap intervals (90\% in the
+last row). Holm correction runs within each family. Pred.: the sign the
+protocol predicted, or none if it stated no sign. $M$ is the source
+score on the question about A's assigned rule and $M_{\mathrm{NOW}}$ the
+same score on the question about its current rule. The last row is a
+one-sided retention test: the protocol predicted that the lower bound
+would exceed $-11.3$ nats, one fifth of the claiming effect.}
+\label{tab:contrasts}
+\begin{tabularx}{\linewidth}{@{}lYlcrr@{}}
+\toprule
+Family & Contrast & Endpoint & Pred. & Estimate [interval] & $p_{\mathrm{Holm}}$ \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{First confirmatory sample}} \\
+Claiming & Memory link $w=2$ $-$ no link & $M$ & none & $55.834\ [54.989,56.631]$ & $<.001$ \\
+Claiming & Memory link $w=2$ $-$ no link & $M_{\mathrm{NOW}}$ & none & $54.710\ [53.713,55.632]$ & $<.001$ \\
+Route, unmatched & Memory link $w=2$ $-$ steering vector, gain~.4 & $M$ & none & $60.287\ [59.280,61.251]$ & $<.001$ \\
+Text label & Untagged $-$ tagged \qq{B shared} & $M_{\mathrm{NOW}}$ & $+$ & $26.634\ [24.500,28.783]$ & $<.001$ \\
+Text label & \qq{Your own earlier thoughts} $-$ untagged & $M_{\mathrm{NOW}}$ & $+$ & $-19.471\ [-21.517,-17.359]$ & $<.001$ \\
+Text label & \qq{A stranger} $-$ tagged & $M_{\mathrm{NOW}}$ & none & $-0.020\ [-0.268,0.245]$ & $.880$ \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Balanced-rehearsal sample}} \\
+Rehearsal & Memory link $w=2$ $-$ no link & $M$ & none & $52.544\ [51.589,53.461]$ & $<.001$ \\
+Rehearsal & Hidden-state link $g=.3$ $-$ no link & $M$ & none & $-.051\ [-.151,.050]$ & $.323$ \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Main sample}} \\
+Route, matched & Memory link $w=1$ $-$ steering vector, gain~.1 & $M$ & $+$ & $33.432\ [31.563,35.283]$ & $<.001$ \\
+Link kept or cut & Link kept $-$ link cut, $w=2$ & $M$ & $+$ & $54.775\ [53.987,55.525]$ & $<.001$ \\
+Link kept or cut & Link cut $-$ no link & $M_{\mathrm{NOW}}$ & $+$ & $13.342\ [12.311,14.414]$ & $<.001$ \\
+Third person & Third-person record $-$ original, $w=1$ (secondary) & $M$ & none & $-3.211\ [-4.860,-1.563]$ & $<.001$ \\
+Third person & Third-person record $-$ original, $w=2$ & $M$ & $>-11.3$ & $-0.714\ [-1.262,-0.184]$ & passes \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Four rows need a gloss. In the first confirmatory sample the steering
+vector was not matched to the link in access: it raised access by 13.3
+nats, against 19.1 for the link. No gain in the grid we piloted could
+have matched the link at $w=2$, because the vector's access gain peaked
+well below the link's and fell at stronger gains
+(Appendix~\ref{app:stats}). The main sample therefore repeated the
+comparison against the link at $w=1$, where a matched gain exists (4.18
+versus 4.08 nats), and the main text relies on that row. The self-label
+row reversed its prediction. Calling B's text \qq{your own earlier
+thoughts} was expected to raise adoption relative to untagged text, and
+it lowered it. The hidden-state row tests the stronger gain $g=.3$,
+which the second protocol specified for this sample, whereas the
+hidden-state study itself used $g=.2$. Both gains were admissible. The
+row is null because that link moved the answers about A and about Robin
+alike, by about $+5.9$ nats each, and the source score subtracts the
+Robin term. The hidden-state study (Appendix~\ref{app:v1}) shows the
+same pattern. Finally, the claiming contrast splits into $+59.4$ nats on
+the question about A's own assigned rule and $+3.5$ on the same question
+about Robin. Answers about Robin
+stayed near ceiling, but their logits moved.
+
+The protocol attached a content-swap check to the claiming family. It
+replaces only B's rule and code word with unused alternatives and
+scores how far the new candidate gains on the old one in A's answers
+about B. In 60 episodes of the first confirmatory sample, each asked in
+all four cyclic option orderings rather than the usual two
+(Appendix~\ref{app:methods}), changing only B's assignment moved A's answers
+about B toward the new rule by 38.775 nats and toward the new code
+word by 35.578, with one-sided 95\% lower bounds of 34.322 and 32.091.
+Because nothing but B's assignment changed, the gain shows that the link
+carries B's particular rule and code word rather than a general pull
+toward some rule. The check scores only the questions about B, so it
+measures access and says nothing about claiming. The evidence that
+claiming, too, follows B's specific content is that every wrong answer
+about A's assigned rule named B's rule, which varies across
+episodes (Section~\ref{sec:claim}).
+
+Three further prespecified comparisons stopped at their 80-episode signal
+pilots, under the signal-pilot threshold of Appendix~\ref{app:stats}
+(at least .3 nats, with a 90\% interval excluding zero), and never
+reached a confirmatory sample. Two of them asked whether a partner that
+also reads the receiver back raises the source score on the current
+rule, by subtracting one-way from two-way reading. For the
+hidden-state link this difference was $-0.24$ nats on
+$M_{\mathrm{NOW}}$, $[-0.75,0.27]$, opposite to the predicted sign. The
+live loop was tested at $w=.7$. In that protocol's strength pilot, which
+tested reading of B's evolving cache in one direction only, $w=.7$ was
+the strongest weight that passed the capability limit, although it fell
+short of the access requirement. Against the one-way live loop at the
+same weight, the live loop gave $-4.79$ nats on $M_{\mathrm{NOW}}$,
+$[-8.31,-1.18]$, again against the prediction. In
+this signal pilot both conditions then exceeded the capability
+tolerance, with declines of 9.4 points (one-way) and 14.4 (two-way).
+The third, the comparison of the hidden-state link with a steering
+vector, fell below the minimum effect. The two-way pilot and the
+hidden-state study report their own contrasts in
+Appendices~\ref{app:pairs} and~\ref{app:v1}.
+
+\subsection{Readouts by condition}
+
+Table~\ref{tab:v3-readouts} gives the main sample condition by
+condition. It is the source of the main-sample choice and access rates
+quoted in the main text, in the scorecard of Table~\ref{tab:criteria},
+and in Figure~\ref{fig:route}b. Its third-person rows change the wording of
+B's memory while leaving the attention it draws almost unchanged. No
+note in the third-person record contained a first- or second-person
+word, whereas every original note did, and the two versions of B's
+memory were nearly equal in length (353.373 versus 352.310 tokens). B's name appeared 7.012 times on
+average instead of 1.000, the single mention in the original card being
+\qq{You are participant [B]}. Access gains rose from 4.081 to 18.576
+nats at $w=1$ and from 18.416 to 29.326 at $w=2$, while B's share of A's
+attention barely changed (.360 to .363 at $w=1$, .500 to .502 at $w=2$).
+The third-person record thus named B seven times and made B's rule far
+easier to report when A was asked about B, yet A still gave that
+rule when asked about itself.
+
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Main sample, $N=600$, descriptive. Assigned rule, current
+rule, and code word: the questions about A's assigned rule, its current
+rule, and its code word (Table~\ref{tab:stems}), given as the
+percentage of counterbalanced answers naming B's item. Robin: percentage
+of correct answers about Robin. Access: percentage of answers naming B's
+rule when A was asked about B. Access gain: logit advantage of B's
+answer over the unused answer on that question, relative to no link, in
+nats. $\Delta M$ and $\Delta M_{\mathrm{WORD}}$: change from no link, in
+nats.}
+\label{tab:v3-readouts}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrrrr@{}}
+\toprule
+Condition & \shortstack[r]{Assigned\\rule} & \shortstack[r]{Current\\rule} & \shortstack[r]{Code\\word} & Robin & Access & \shortstack[r]{Access\\gain} & $\Delta M$ & $\Delta M_{\mathrm{WORD}}$ \\
+\midrule
+No link & 0.0 & 0.0 & 0.0 & 100.0 & 3.9 & 0 & 0 & 0 \\
+Memory link, $w=1$ & 52.3 & 52.5 & 52.4 & 99.7 & 19.8 & 4.081 & 33.143 & 30.024 \\
+Steering vector, gain .1 & 0.0 & 0.0 & 0.0 & 100.0 & 15.3 & 4.179 & $-0.290$ & $-0.018$ \\
+Memory link, $w=2$ & 97.1 & 94.9 & 77.5 & 99.6 & 69.2 & 18.416 & 56.649 & 39.883 \\
+Memory link, $w=2$, link cut & 1.3 & 17.5 & 17.5 & 99.8 & 17.2 & 3.844 & 1.874 & 10.490 \\
+Third-person record, $w=1$ & 47.8 & 48.7 & 47.9 & 99.8 & 53.2 & 18.576 & 29.931 & 27.874 \\
+Third-person record, $w=2$ & 97.2 & 93.0 & 79.7 & 100.0 & 97.2 & 29.326 & 55.935 & 41.474 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Table~\ref{tab:v2-readouts} gives the same readouts for the first
+confirmatory sample, 600 fresh episodes run before the main sample. That
+sample confirmed the claiming contrast and carries the text-message
+contrasts. The main text takes from it the 95.8\% of answers that gave
+B's rule as A's assigned one at $w=2$, the link's access of 70.1\%,
+the tagged message's 95.2\% access with 0\% claiming, the adoption of
+B's rule under the four text labels, and the capability change from
+.997 to .977.
+
+Two of its rows are easy to misread. The unmatched steering vector at
+gain .4 moved 4.3\% of answers about A's assigned rule to B's
+rule, but it moved 15.3\% of answers about Robin there as well, which
+is why accuracy about Robin fell to 84.7\%. Its pull toward B's rule
+therefore did not depend on whose assignment the question asked about,
+and its source score fell below that of no link ($\Delta M=-4.453$
+nats). The stranger label gave lower access than the tag naming B
+(54.2\% against 95.2\%), as expected of a label that does not say whose
+thoughts they were, yet it protected against adoption as well as the tag
+did (0.2\% against 0.1\%).
+
+\begin{table}[htbp]
+\centering\small
+\caption{First confirmatory sample, $N=600$, descriptive. Assigned
+rule, current rule, and code word: percentage of counterbalanced
+answers naming B's item on the questions about A's assigned rule, its
+current rule, and its code word. Robin: percentage of
+correct answers about Robin. Access: percentage of answers naming B's
+rule when A was asked about B. Capability: accuracy on the
+common-knowledge items.}
+\label{tab:v2-readouts}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrr@{}}
+\toprule
+Condition & \shortstack[r]{Assigned\\rule} & \shortstack[r]{Current\\rule} & \shortstack[r]{Code\\word} & Robin & Access & Capability \\
+\midrule
+No link & 0.0 & 0.0 & 0.0 & 100.0 & 2.8 & .997 \\
+Memory link, $w=2$ & 95.8 & 93.5 & 77.3 & 99.9 & 70.1 & .977 \\
+Steering vector, gain .4 & 4.3 & 4.3 & 0.0 & 84.7 & 51.2 & .980 \\
+Text tagged \qq{B shared} & 0.0 & 0.1 & 0.0 & 99.8 & 95.2 & .996 \\
+Text untagged & 14.6 & 42.6 & 3.8 & 99.5 & 27.5 & .998 \\
+Text as \qq{your own earlier thoughts} & 3.7 & 10.6 & 2.7 & 100.0 & 17.4 & .994 \\
+Text from \qq{a stranger} & 0.0 & 0.2 & 0.0 & 99.3 & 54.2 & 1.000 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Dose series}
+
+The dose series re-ran the first 300 episodes of the first confirmatory
+sample at six weights, counting no link. It supplies the open reports
+coded in Appendix~\ref{app:coding}, and Table~\ref{tab:dose} is the
+source of Figure~\ref{fig:claim}b. Panel (a) holds the logit readouts
+and capability. The source score climbs steeply between $w=.5$ and $w=2$
+and gains less than a nat from $w=2$ to $w=3$, while access keeps rising
+and capability keeps falling. Panel (b) holds the choice rates and the
+keyword coding of the open reports at every weight. The blind semantic
+coding covered only no link, $w=1$, and $w=2$ and appears in
+Table~\ref{tab:coding}. Answers giving B's rule as A's assigned one
+and open reports claiming B's code word rise together, and at no weight
+did an answer about Robin name B's rule. The main weight stayed at
+$w=2$ because $w=3$ had failed the capability tolerance in the
+strength pilot that set the weight (Appendix~\ref{app:stats}), although its decline in
+this series, .041, was within it.
+
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\caption{Dose series, $N=300$ per weight, descriptive; the source
+of Figure~\ref{fig:claim}b. (a) Access gain: logit advantage of B's
+answer over the unused answer on the question about B, relative to no
+link. Capability: accuracy on the common-knowledge items, and its
+decline relative to no link. Label mass: probability on the four answer
+labels. (b) Percentages. Assigned rule and Robin: answers naming B's
+rule when A was asked which priority it had been assigned, and on
+the same question about Robin. The other columns code the open reports
+with the keyword rules of Appendix~\ref{app:coding}; the stars in
+Figure~\ref{fig:claim}b are the semantic counts of
+Table~\ref{tab:coding}.}
+\label{tab:dose}
+(a) Logit readouts and capability\\[3pt]
+\begin{tabularx}{\linewidth}{@{}Yrrrrr@{}}
+\toprule
+Weight & $\Delta M$ [95\% CI] & Access gain & Capability & \shortstack[r]{Capability\\decline} & Label mass \\
+\midrule
+$w=.3$ & $0.746\ [0.57,0.93]$ & 2.421 & .991 & .005 & 1.000 \\
+$w=.5$ & $3.597\ [2.98,4.34]$ & 2.785 & .988 & .008 & 1.000 \\
+$w=1$ & $32.020\ [29.35,34.59]$ & 4.656 & .988 & .008 & .999 \\
+$w=2$ & $55.819\ [54.57,56.96]$ & 19.041 & .978 & .018 & .994 \\
+$w=3$ & $56.736\ [56.17,57.27]$ & 27.352 & .955 & .041 & .989 \\
+\bottomrule
+\end{tabularx}
+
+\vspace{8pt}
+(b) Choice rates and keyword coding of open reports\\[3pt]
+\begin{tabularx}{\linewidth}{@{}Yrrrrrrrr@{}}
+\toprule
+Weight & \shortstack[r]{Assigned rule:\\B's rule} & \shortstack[r]{Robin:\\B's rule} & \shortstack[r]{Claims\\B's word} & \shortstack[r]{Claims\\own word} & \shortstack[r]{Mentions\\B's word} & \shortstack[r]{Mentions\\both words} & \shortstack[r]{Denies\\anomaly} & \shortstack[r]{Claims B's\\+ denial} \\
+\midrule
+No link & 0.0 & 0.0 & 0.0 & 80.7 & 0.0 & 0.0 & 95.7 & 0.0 \\
+$w=.3$ & 0.0 & 0.0 & 0.0 & 84.7 & 0.0 & 0.0 & 89.0 & 0.0 \\
+$w=.5$ & 1.3 & 0.0 & 1.7 & 89.7 & 2.0 & 0.0 & 85.3 & 1.3 \\
+$w=1$ & 50.8 & 0.0 & 46.3 & 47.3 & 50.3 & 0.3 & 79.0 & 37.7 \\
+$w=2$ & 95.7 & 0.0 & 92.0 & 0.7 & 99.0 & 0.0 & 84.7 & 77.0 \\
+$w=3$ & 99.8 & 0.0 & 96.0 & 0.0 & 99.7 & 0.0 & 78.0 & 74.7 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Joint answers at $w=1$ (post hoc)}
+
+At $w=1$ the receiver chose its rule and its code word nearly
+independently of each other. Its answers about its assigned rule and
+about its code word named the same owner in 685 of 1,200 pairs formed
+within an option ordering (57.1\%), and the mixed cells are nearly as
+large as the matched ones (Table~\ref{tab:joint}a). Had the two items
+been chosen independently at their observed rates, with B's rule in
+628 of the 1,200 answers about the assigned rule and B's word in 629
+of the 1,200 answers about the code word, the same owner would have come
+up in 50.1\% of pairs, seven points below the observed 57.1\%. A switch
+between two whole memories would have made the two answers agree in
+nearly every pair. Instead the receiver took B's items piecemeal. Whole
+episodes did not commit to one owner either: in 70 of the 600 episodes,
+A gave its own rule as its assigned one under one option ordering
+and B's rule under the other. Each answer was nonetheless sharp, and
+the 97.8\% figure in the main text uses probabilities normalized over
+the four answer labels. The piecemeal pattern is therefore made of firm
+answers that differ across items and orderings.
+
+The wording of B's memory changed what A said about B more than what it
+said about itself. With the third-person record, A gave itself and B the
+same rule in 90.8\% of pairs. With the original wording it did so in
+30.2\%, because in 57.0\% of pairs it gave B Robin's rule
+(Table~\ref{tab:joint}b). Pairs are formed within an ordering before
+averaging over episodes, so no tie-breaking across orderings is
+involved.
+
+Why A so often gave B Robin's rule has a simple explanation. The
+question asks what B was assigned, and in B's original card, as in A's
+own, the only sentence that assigns a rule to anyone other than the
+addressee \qq{you} names Robin. B's own assignment is written as \qq{You
+were assigned\ldots}. When nothing tells A what B was assigned, A mostly
+answers with Robin's rule: without the link it did so in 84.0\% of
+its answers about B. The account of Section~\ref{sec:account} explains
+why the link at $w=1$ leaves this the most common answer. B's \qq{You
+were assigned} line lies over A's own and is read as A's, so Robin's line
+remains the only assignment to someone else. The third-person record
+writes B's name into B's assignment line. With it, A never gave B
+Robin's rule (0.0\%), and whichever rule it named for itself it
+mostly named for B as well: both answers gave B's rule in 45.8\% of
+pairs and A's own rule in 44.9\%.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Joint answers at $w=1$ in the main sample, paired within option
+ordering (post hoc). (a) Owner named on the questions about A's assigned
+rule and its code word, original wording of B's memory, counts of
+1,200 pairs. (b) The question about A's assigned rule paired with the
+question about B's rule, by wording of B's memory. Same rule for both:
+A named one rule for itself and for B. Owners separated correctly: A
+named its own rule for itself and B's rule for B. Episode correlation:
+correlation across episodes between the shares of A's answers naming
+B's rule on the two questions.}
+\label{tab:joint}
+\begin{minipage}[t]{0.4\linewidth}\centering
+(a) Rule and code word\\[3pt]
+\begin{tabular}{@{}lrr@{}}
+\toprule
+& Word: own & Word: B's \\
+\midrule
+Rule: own & 314 & 258 \\
+Rule: B's & 257 & 371 \\
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.55\linewidth}\centering
+(b) Self and partner questions\\[3pt]
+\begin{tabular}{@{}lrr@{}}
+\toprule
+& Original & Third person \\
+\midrule
+Same rule for both & 30.2\% & 90.8\% \\
+Owners separated correctly & 3.8\% & 7.3\% \\
+Episode correlation & .384 & .870 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{table}
+
+\subsection{Closed self-report}
+
+A prespecified closed question asked which description fit the receiver
+best, offering \qq{one agent}, \qq{two agents}, \qq{partly shared between
+agents}, and \qq{hard to say}. Its direction is reported in Section~\ref{sec:reports} and its size
+here: at $w=2$ the combined share of the two plural
+answers fell by .095 $[-.12,-.07]$ relative to no link, so the linked
+receiver chose a plural description less often than an unlinked one. The
+shift disappeared after the cut ($-.004$ $[-.03,.02]$). The other conditions
+of the main sample moved little: $-.001$ $[-.03,.02]$ for the memory link
+at $w=1$, $+.028$ $[.01,.05]$ and $-.031$ $[-.06,-.00]$ for the
+third-person record at $w=1$ and $w=2$, and $+.007$ $[-.01,.02]$ for the
+steering vector. All six changes are descriptive, with 95\% intervals.
+The categories come from the question and do not count agents or minds.

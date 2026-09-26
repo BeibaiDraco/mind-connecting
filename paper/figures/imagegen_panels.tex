@@ -1,0 +1,40 @@
+% Load graphicx, then input this file from the repository root.
+% When compiling from paper/, define \MBProjectRoot as .. before input.
+% These are panel bodies only: captions and labels belong to the manuscript.
+\providecommand{\MBProjectRoot}{.}
+\newcommand{\MBTaskPanel}{%
+  \includegraphics[width=\linewidth]{\MBProjectRoot/docs/figures/task_illustrations/task_v1.png}%
+}
+\newcommand{\MBChannelPanels}{%
+  \includegraphics[width=\linewidth]{\MBProjectRoot/docs/figures/task_illustrations/channel_v1.png}%
+  \par\medskip
+  \includegraphics[width=\linewidth]{\MBProjectRoot/paper/figures/fig_channel.pdf}%
+}
+\newcommand{\MBLinkCutPanels}{%
+  \begin{minipage}[c]{0.52\linewidth}
+    \includegraphics[width=\linewidth]{\MBProjectRoot/docs/figures/task_illustrations/linkcut_v1.png}%
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.46\linewidth}
+    % Clip the old timeline schematic, retaining the full bar chart and legend.
+    \includegraphics[width=\linewidth,trim=210bp 0bp 0bp 0bp,clip]{\MBProjectRoot/paper/figures/fig_linkcut.pdf}%
+  \end{minipage}%
+}
+\newcommand{\MBWordingPanels}{%
+  % The wide text cards need the full width to remain legible.
+  \includegraphics[width=\linewidth]{\MBProjectRoot/docs/figures/task_illustrations/wording_v1.png}%
+  \par\smallskip
+  % Original PDF is 396 x 165.6 bp; clip only the old explanatory cards.
+  \includegraphics[width=0.55\linewidth,trim=187bp 0bp 0bp 0bp,clip]{\MBProjectRoot/paper/figures/fig_wording.pdf}%
+}
+\newcommand{\MBPairsPanels}{%
+  \begin{minipage}[c]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{\MBProjectRoot/docs/figures/task_illustrations/pairs_v1.png}%
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.49\linewidth}
+    % Clip the old branching schematic; retain axes and all five categories.
+    \includegraphics[width=\linewidth,trim=137bp 0bp 0bp 0bp,clip]{\MBProjectRoot/paper/figures/fig_pairs.pdf}%
+  \end{minipage}%
+}
+\newcommand{\MBSummaryPanel}{%
+  \includegraphics[width=\linewidth]{\MBProjectRoot/docs/figures/task_illustrations/summary_v1.png}%
+}

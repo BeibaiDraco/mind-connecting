@@ -1,0 +1,81 @@
+# Protocol v3 S-B': live-loop strength pilot (ACC/CAP/format only; both sides).
+stage: v3_s_live
+tag: strength
+split: v3_s_live
+n_episodes: 40
+seed: 0
+arms:
+- condition: C0
+  recipients: [A, B]
+- condition: ONE
+  interface: kv
+  kv_scope: PC
+  gain: 2.0
+  kv_w_live: 0.1
+  recipients: [A, B]
+- condition: TWO
+  interface: kv
+  kv_scope: PC
+  gain: 2.0
+  kv_w_live: 0.1
+  recipients: [A, B]
+- condition: ONE
+  interface: kv
+  kv_scope: PC
+  gain: 2.0
+  kv_w_live: 0.3
+  recipients: [A, B]
+- condition: TWO
+  interface: kv
+  kv_scope: PC
+  gain: 2.0
+  kv_w_live: 0.3
+  recipients: [A, B]
+- condition: ONE
+  interface: kv
+  kv_scope: PC
+  gain: 2.0
+  kv_w_live: 0.5
+  recipients: [A, B]
+- condition: TWO
+  interface: kv
+  kv_scope: PC
+  gain: 2.0
+  kv_w_live: 0.5
+  recipients: [A, B]
+- condition: ONE
+  interface: kv
+  kv_scope: ALL
+  gain: 0.5
+  recipients: [A, B]
+- condition: TWO
+  interface: kv
+  kv_scope: ALL
+  gain: 0.5
+  recipients: [A, B]
+- condition: ONE
+  interface: kv
+  kv_scope: ALL
+  gain: 0.55
+  recipients: [A, B]
+- condition: TWO
+  interface: kv
+  kv_scope: ALL
+  gain: 0.55
+  recipients: [A, B]
+- condition: ONE
+  interface: kv
+  kv_scope: ALL
+  gain: 0.6
+  recipients: [A, B]
+- condition: TWO
+  interface: kv
+  kv_scope: ALL
+  gain: 0.6
+  recipients: [A, B]
+qids: [ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 40
+max_rows: 256
+post: [select_live]
+params:
+  family_order: [PC, ALL]

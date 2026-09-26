@@ -1,0 +1,21 @@
+# Protocol v3 S-A': STATIC matched to KV-P w1 by ACC-rule increment.
+stage: v3_s_static_a
+tag: match
+split: v3_s_static_a
+n_episodes: 40
+seed: 0
+arms:
+- {condition: C0, layer: 24}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 1.0}
+- {condition: STATIC, layer: 24, gain: 0.1}
+- {condition: STATIC, layer: 24, gain: 0.15}
+- {condition: STATIC, layer: 24, gain: 0.2}
+- {condition: STATIC, layer: 24, gain: 0.25}
+- {condition: STATIC, layer: 24, gain: 0.3}
+qids: [ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 40
+max_rows: 256
+calibration: {24: /workspace/mb-data/results/20260924-144935_calibrate_v2-v1mat/calibration_L24.pt}
+post: [match_static]
+params:
+  targets: [ONE/KV-P/w1/FULL]

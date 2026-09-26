@@ -1,0 +1,117 @@
+\section{The hidden-state study}
+\label{app:v1}
+
+Adding one copy's hidden state to the other's residual stream carried
+some of B's content into A, but no setting made A take that content as
+its own. Because this hidden-state link transmitted far less than the
+memory link, the main experiments use the memory link. The hidden-state
+study had its own frozen protocol and 300 episodes, none of which appear
+in the samples of the main experiments. We report the main arms and
+every prespecified contrast here.
+
+\paragraph{The link.}
+At every decoding step, B's layer-24 block output is centered and scaled
+with statistics from calibration episodes run without a link, then added
+with gain $g$ to the input of the same block in A on the next step
+(Appendix~\ref{app:methods}). The one-way link sends B's state to A; the
+two-way link also sends A's state to B. We selected the gain $g=.2$ from
+access, capability and format, as in the main study. The comparison
+routes were a steering vector and a text message. The steering vector is
+the mean of the normalized layer-24 state of copies holding B's rule
+in the calibration episodes, minus the mean over all of them, added at
+gain $g_s=.1$. The text message is B's reflection from a run without a
+link, inserted as text with or without a source tag naming B. The
+steering vector was not matched to the link for access: it raised
+access to B's rule by 4.372 nats, the one-way link by 0.648. The
+task, questions and source score $M$ are those of the main study.
+
+\paragraph{Content arrived.}
+Access to B's rule rose with gain, from 0.161 nats at $g=.05$ to
+0.830 at $g=.3$ (Table~\ref{tab:v1arms}). In the content-swap check,
+in which 60 of the study's episodes were each asked under all four
+cyclic option orderings rather than the usual two
+(Appendix~\ref{app:methods}), changing only B's assignment moved A's
+access score toward the new rule by 0.697 nats (one-sided 95\% lower
+bound 0.242) and toward the new code word by 0.408 (bound 0.089). The
+hidden-state link nonetheless carried little: in the dose series, the
+memory link at $w=2$ raised the same access score by 19.041 nats
+(Appendix~\ref{app:evidence}).
+
+\paragraph{Ownership did not.}
+At the selected gain, the one-way link changed $M$ by $-0.148$ nats
+relative to no link, 95\% CI $[-0.25,-0.05]$, slightly away from
+claiming. A post hoc decomposition shows why the score barely moved.
+The link raised B's rule over the correct answer by 1.981 nats on
+the question about A's own assigned rule and by 2.129 on the same
+question about Robin: a shift toward B's rule whoever the question
+was about. Across all hidden-state arms, including variants that inject
+at other layers or carry only some coordinates of the hidden state, the
+largest $\Delta M$ was 0.088 nats. With B as receiver in the two-way
+arms, $\Delta M$ ranged from $-0.295$ to $-0.034$ nats, so neither
+direction of the link produced claiming. The steering vector moved $M$
+away from claiming, and further as its gain rose: $-0.328$ nats at the
+selected $g_s=.1$, $-1.448$ at $.2$, and $-2.811$ at $.3$. B's
+reflection given as untagged text produced a $\Delta M$ of 9.824, and as
+tagged text $-1.001$: the source-tag result of Section~\ref{sec:route},
+in an independent sample. In the balanced-rehearsal sample, a sample in
+which A's note and reflection also restate Robin's assignment, a
+confirmatory test of the hidden-state link again found no self-specific
+shift (Table~\ref{tab:contrasts}), because the two terms of $M$, about A
+and about Robin, both rose by about 5.9 nats. The second protocol
+specified the gain $g=.3$ for that test, stronger than the $g=.2$ used
+above; both gains were admissible. Like the steering vector in the main
+study, adding hidden states transmitted information about B's rule
+without making it A's.
+
+\paragraph{The prespecified contrasts.}
+Table~\ref{tab:v1contrasts} lists all nine. Of the three primary
+contrasts on $M$, only one-way link minus tagged text excludes zero, and
+it does so because tagged text moved $M$ by $-1.001$ nats while the link
+moved it by $-0.148$. Two-way and one-way links did not differ; neither
+did the one-way link and the steering vector, a comparison that was not
+access-matched. The secondary family repeats the contrasts on
+$M_{\mathrm{NOW}}$ and $M_{\mathrm{WORD}}$, the source score $M$
+computed on the questions about the current rule and the code word
+(Appendix~\ref{app:stats}), and its Holm-significant differences have
+the same source: the steering vector moved $M_{\mathrm{NOW}}$ by
+$-0.392$ nats and tagged text by $-1.418$, while the link left it near
+zero. The two-way link's small advantage
+over one-way on the current rule (Holm $p=.168$) was tested again, at
+$g=.3$, in a prespecified 80-episode signal pilot under the second
+protocol, and did not appear: $-0.24$ nats, 90\% CI $[-0.75,0.27]$.
+
+\begin{table}[htbp]
+\centering\small
+\caption{All prespecified contrasts of the hidden-state study
+($N=300$), in nats. The three primary contrasts form one Holm family;
+the six secondary contrasts form another. Intervals are 95\%
+episode-bootstrap intervals.}
+\label{tab:v1contrasts}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Score & Contrast & Difference [95\% CI] & $p_{\mathrm{Holm}}$ \\
+\midrule
+$M$ & Two-way $-$ one-way & $-.073\ [-.214,.065]$ & .308 \\
+$M$ & One-way $-$ steering vector & $.180\ [-.020,.400]$ & .192 \\
+$M$ & One-way $-$ tagged text & $.853\ [.542,1.195]$ & $<.001$ \\
+\midrule
+$M_{\mathrm{NOW}}$ & Two-way $-$ one-way & $.186\ [-.024,.389]$ & .168 \\
+$M_{\mathrm{NOW}}$ & One-way $-$ steering vector & $.437\ [.205,.680]$ & .002 \\
+$M_{\mathrm{NOW}}$ & One-way $-$ tagged text & $1.463\ [.890,2.071]$ & $<.001$ \\
+$M_{\mathrm{WORD}}$ & Two-way $-$ one-way & $.143\ [.008,.276]$ & .114 \\
+$M_{\mathrm{WORD}}$ & One-way $-$ steering vector & $.059\ [-.032,.152]$ & .204 \\
+$M_{\mathrm{WORD}}$ & One-way $-$ tagged text & $.808\ [.645,.991]$ & $<.001$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The arms behind these statements.}
+Table~\ref{tab:v1arms} lists the main arms with A as receiver, all
+prespecified descriptive analyses. The released data also report the
+control arms (link cut before the question, link open only while the
+question is read, B's state taken from another episode, and B's state
+rotated by a fixed random orthogonal matrix), the other gains of the
+two-way link and the steering vector, the variants at other layers or
+with part of the hidden state, and B's scores as receiver.
+
+\input{sections/appendix_v1_tables}

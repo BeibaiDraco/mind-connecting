@@ -1,0 +1,121 @@
+{
+  "created_utc": "2026-09-25",
+  "tool": "image_gen.imagegen (built-in)",
+  "model_version": "not exposed by tool; image2.5 not verifiable",
+  "source_prompts": "paper/figures/imagegen_prompts.md",
+  "assets": [
+    {
+      "name": "task",
+      "file": "task_v1.png",
+      "generated_source": "exec-11320827-ce68-4ec7-bf0f-842918e6c3e8.png",
+      "width": 2172,
+      "height": 724,
+      "mode": "RGB",
+      "bytes": 1252734,
+      "sha256": "6eeddf9436ef6d02d1952ac22d53f167e5b934eb91411e4f1128a3299994af6b",
+      "prompts": [
+        "task_v1.prompt.txt"
+      ],
+      "prompt_sha256": {
+        "task_v1.prompt.txt": "955cde06aefa08b701af8ffb37a0a9a794a907ed9c4b0c1b65262c6a17ae6e94"
+      }
+    },
+    {
+      "name": "channel",
+      "file": "channel_v1.png",
+      "generated_source": "exec-0b5cce45-298c-4ef5-a6d3-c7c96b8ecc05.png",
+      "width": 2172,
+      "height": 724,
+      "mode": "RGB",
+      "bytes": 1076024,
+      "sha256": "9b0d0f661c797b84963ea9f2032940ea6577739d5df617af84b3fcd1b5d61fc6",
+      "prompts": [
+        "channel_v1.edit1.prompt.txt",
+        "channel_v1.prompt.txt"
+      ],
+      "prompt_sha256": {
+        "channel_v1.edit1.prompt.txt": "5599a0f537ac6477450cd048888dfc770d0fc136cf3cdb54196410fc50efe586",
+        "channel_v1.prompt.txt": "0805251c7b6fd5c701cf1e6bacfe59a35d6411811cd6f3577ba20081f0f6886f"
+      }
+    },
+    {
+      "name": "linkcut",
+      "file": "linkcut_v1.png",
+      "generated_source": "exec-1de412be-06d7-432d-b6f5-ae5f0406b6d4.png",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "bytes": 1136579,
+      "sha256": "95f66d6fe200309ffefaeac1c00360a6ec048c85980fa0b84e620bef2e569faf",
+      "prompts": [
+        "linkcut_v1.edit1.prompt.txt",
+        "linkcut_v1.prompt.txt"
+      ],
+      "prompt_sha256": {
+        "linkcut_v1.edit1.prompt.txt": "5febb234a777a37b4a74829ccaa817e527ee6b55f05b7307e3bce005af246816",
+        "linkcut_v1.prompt.txt": "866bfc1fb2e4656cb8365caea23ec971e7b873d0458cbb1a2bb3ed9040b523d1"
+      }
+    },
+    {
+      "name": "wording",
+      "file": "wording_v1.png",
+      "generated_source": "exec-a2c15029-2ac6-4993-8ff4-31b8777f1130.png",
+      "width": 1672,
+      "height": 940,
+      "mode": "RGB",
+      "bytes": 1200804,
+      "sha256": "6b97784ff4bc4014a6a74a89d2cfdaa8477d1d9ef1463fd2c75cfe4724117169",
+      "prompts": [
+        "wording_v1.edit1.prompt.txt",
+        "wording_v1.prompt.txt"
+      ],
+      "prompt_sha256": {
+        "wording_v1.edit1.prompt.txt": "e72a24d08d589d3eb334c36ddd035a250ac87a4af8fd714f1e52927d050609dd",
+        "wording_v1.prompt.txt": "6886c176966862ebd87c553ab84fa0d5eacdf0c904674bf80da4918f8a501583"
+      }
+    },
+    {
+      "name": "pairs",
+      "file": "pairs_v1.png",
+      "generated_source": "exec-b03da095-ed83-4a2f-8101-f2252d6f0ebf.png",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "bytes": 980486,
+      "sha256": "d15cc2ea6ea42c9f79a0c1fa03dab14d5ee29ddb90fb1a832c6e0b5d51680565",
+      "prompts": [
+        "pairs_v1.edit1.prompt.txt",
+        "pairs_v1.prompt.txt"
+      ],
+      "prompt_sha256": {
+        "pairs_v1.edit1.prompt.txt": "f0dc30c5fe27394c56f057dd4fa7290668009f51fa68a23feddcacdd469a7c8e",
+        "pairs_v1.prompt.txt": "94da5235cb25c4a4d604d813512ef2e4f2259404230570fa5c6aa26bee061f79"
+      }
+    },
+    {
+      "name": "summary",
+      "file": "summary_v1.png",
+      "generated_source": "exec-85db3c8b-727a-4083-b5a1-d85467c4076b.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 1161287,
+      "sha256": "209c7f57b21960a4ed65d54cb9b0c091dde309823ab74ba9ec793469f47bceee",
+      "prompts": [
+        "summary_v1.prompt.txt"
+      ],
+      "prompt_sha256": {
+        "summary_v1.prompt.txt": "87441c47ce6579c3252a872d7f70db56326ac1fb92fb970b1b6a86a89e4938aa"
+      }
+    }
+  ],
+  "result_panels": {
+    "paper/figures/fig_channel.pdf": "98ae2df5e703a718909b3ed9eb6c992e70555ebfdd6e6baf3cd12a00e5145f89",
+    "paper/figures/fig_linkcut.pdf": "2191877923cc82013c7748aabf1bc17eafecee5b38fe7439c5a2916e0d8e1d55",
+    "paper/figures/fig_wording.pdf": "fb39abef7b0778c6143d253be99382b9e470fd17b06eeaf46883cbebd6f6653a",
+    "paper/figures/fig_pairs.pdf": "04fb650209ce60ce2c157ef528f3d42d3f9f809ea13523f8530eac49fa76a001"
+  },
+  "preview_sha256": "402c6994b4b096fd7bc2503894f96d563d525d7fd647affadd8f2f6d97ca723e",
+  "layout_sha256": "4f6f64a5275f1d1a4d06fdf78602a7ba2e68c36c703b82c0de5feb2056692060",
+  "prompt_storage_normalization": "Trailing whitespace removed; final newline added. Prompt wording unchanged."
+}

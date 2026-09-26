@@ -1,0 +1,11 @@
+# G1 baseline (protocol v0.5 §10): no connection; both instances measured.
+stage: g1
+tag: baseline
+split: g1
+n_episodes: 60
+seed: 0
+arms:
+  - {condition: C0, recipients: [A, B]}
+episodes_per_batch: 30
+max_rows: 256
+post: [g1]

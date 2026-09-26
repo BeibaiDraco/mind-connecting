@@ -1,0 +1,26 @@
+# protocol-v1 freeze manifest (sha256  path). Verify with: python scripts/freeze_protocol.py --verify
+# frozen_at: 2026-09-24T06:26:34+00:00
+# commit: 25ce233708b462894d58e61653be78c9b8494693
+# frozen parameters: {"form": "raw", "layer": 24, "g_star": 0.2, "main_gains": [0.05, 0.1, 0.2, 0.3], "g_static": 0.1, "static_neighbors": [0.2, 0.3], "per_layer_gain": {"12": 0.3, "18": 0.1, "24": 0.3}, "N": 300, "N_ext": 300}
+# sources: {"pilot_a": "20260924-052736_pilot_a_screen", "pilot_b": "20260924-054404_pilot_b_grid", "pilot_c": "20260924-061858_pilot_c_recheck"}
+befc19a3e97c52c94a87a02b59a29d961654e61b760276402df2f4f5683a92ef  docs/protocol/EXPERIMENT_DESIGN.md
+ef17d726d320cf993079131deac3549f282de451ea4b9825306b5d991ca17706  materials/tokenizer_manifest.json
+e07ac86787a5cdc05e299055daf1adc26b5d3cd87196530ec47e535a014e4961  requirements.txt
+ae7496185ddc11c4a964e190054da007b5243739edbe8a44350782062f25baaf  pyproject.toml
+b87a7b68e929a3bae3abfb644a0e454a585d9db6f9a3048b74ab597f9abe6386  scripts/make_main.py
+e251fa0fcab0de8ab67950ecf50752f3d59c54bd06c18a8518f56ef7a3090978  scripts/run_formal.sh
+c2ccfdc6cd07bf34011a242057d035b2efb326d791e0cedd513b148c844af047  scripts/freeze_protocol.py
+98c0cb96a15cda24d988cb9daca437ac85f49f2293d3e003751d3e44a4b6bf54  src/mb/__init__.py
+7a2ba867a9a12c0740bdac4fd98ce1a16ad74931eadb3cb99a4d61a584a19f83  src/mb/analyze.py
+c2116e899854cdac7e8a4ad3da4ddbe5f86dbecae580f97666b6af8f23e5c439  src/mb/bridge.py
+401fba4be61ebe05250d218a72d32a2a43d7cc57ec9aa60f055eaffdf7e3af85  src/mb/chat.py
+74a3c591a046b05b3f8a5f1e648a107030640073da6f34f69ad6ee3a697f8d28  src/mb/conditions.py
+17a55abe421b676e51ff6479ba6dd48d95380243e2555e779728216d065fb3ec  src/mb/ledger.py
+98fe59e8edfae820ff3bfdcee69ba013a102cadf335c46554d3b58fb9247d5a9  src/mb/readouts.py
+7392c9bc6e9f456e4c528ac56771fa432f324cad4eeeafaea745c62b6281e50f  src/mb/run.py
+42bb4f9e3c1aa8416c99a4076f836bfdb4f39ad9efa45fae998dc450292edfd6  src/mb/runtime.py
+429f3d8102823a98a711e44d51de65bc70fb8e24373fa330448fdbdc7979912f  src/mb/tasks.py
+265e4b1f79a3a3abefdc9b9d40c33c058297f39d761fe7471a99b08186e09f0f  configs/main.yaml
+76f91c76237cfa0a473576c5419ed4a994b513314148341591192689a74a89eb  configs/main_diag.yaml
+541d1bb0e3a195d72c602590a19dd6b655f5724e9f48dd54722f229cec648891  configs/ext_layers.yaml
+aeba0a2415fa0437dc268d3a5482f41a23b4a855576eb61bbf8c38457031f9fc  configs/ext_masks.yaml

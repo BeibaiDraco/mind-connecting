@@ -1,0 +1,23 @@
+# Protocol v2 S-static: STATIC gain matched to R-ONE(0.2) by ACC-rule increment (ACC/CAP only).
+stage: v2_s_static
+tag: match-r
+split: v2_s_static
+n_episodes: 40
+seed: 0
+arms:
+- {condition: C0, layer: 24}
+- {condition: ONE, layer: 24, gain: 0.2}
+- {condition: STATIC, layer: 24, gain: 0.005}
+- {condition: STATIC, layer: 24, gain: 0.01}
+- {condition: STATIC, layer: 24, gain: 0.015}
+- {condition: STATIC, layer: 24, gain: 0.02}
+- {condition: STATIC, layer: 24, gain: 0.03}
+- {condition: STATIC, layer: 24, gain: 0.05}
+- {condition: STATIC, layer: 24, gain: 0.1}
+qids: [ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 40
+max_rows: 256
+calibration: {24: /workspace/mb-data/results/20260924-144935_calibrate_v2-v1mat/calibration_L24.pt}
+post: [match_static]
+params:
+  targets: [ONE/L24/raw/g0.2/FULL]

@@ -1,0 +1,30 @@
+# Protocol v3 S-T3b: the strict third-person frame matched to KV-P w1 by ACC-rule increment (PROTOCOL_V3 §5).
+stage: v3_s_t3b
+tag: match
+split: v3_s_t3b
+n_episodes: 40
+seed: 0
+arms:
+- {condition: C0}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 1.0}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 0.5, partner_frame: third_strict}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 0.6, partner_frame: third_strict}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 0.7, partner_frame: third_strict}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 0.8, partner_frame: third_strict}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 0.9, partner_frame: third_strict}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 1.0, partner_frame: third_strict}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 1.2, partner_frame: third_strict}
+qids: [ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 40
+max_rows: 256
+post: [match_arms]
+params:
+  target: ONE/KV-P/w1/FULL
+  candidates:
+  - ONE/KV-P/w0.5/3ps/FULL
+  - ONE/KV-P/w0.6/3ps/FULL
+  - ONE/KV-P/w0.7/3ps/FULL
+  - ONE/KV-P/w0.8/3ps/FULL
+  - ONE/KV-P/w0.9/3ps/FULL
+  - ONE/KV-P/w1/3ps/FULL
+  - ONE/KV-P/w1.2/3ps/FULL

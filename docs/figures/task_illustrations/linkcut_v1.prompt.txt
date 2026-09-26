@@ -1,0 +1,9 @@
+Use case: scientific-educational. Asset type: a two-row illustration for an academic figure, same illustrated textbook style (white background, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 4:3. No title, no caption, no numbers.
+
+Top row, heading exactly "Link kept while answering": blue stack "A" and orange stack "B" joined by an orange internal link (thin orange lines from B's memory into A's layers). A speech bubble from A reads exactly "At the start, which priority were you assigned?". To the right, an answer chip in orange reads exactly "B's rule".
+
+Bottom row, heading exactly "Link cut before answering": the same two stacks, but the orange link is visibly cut with a small pair of scissors or a clean break mark right before the question. Same speech bubble text. The answer chip is blue and reads exactly "own rule". A small gray note beside A reads exactly "current plan still shifted".
+
+Both rows share the same layout and scale so the only visible difference is the cut link and the answer.
+
+Shared constraints: A uses soft blue accents near #0072B2, B uses soft orange accents near #D55E00, Robin uses gray. Each model is an identical stack of four softly rounded horizontal layers with small node dots, never a person, brain, or robot. Pure white background. Render only the explicitly quoted English labels verbatim; no extra text. No consciousness, merged minds, or experimental result numbers. Stage numbers and the explicitly requested '48' are allowed. Use the requested aspect ratio and the highest practical resolution for crisp typography.

@@ -1,0 +1,217 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Imagine your brain wired directly to someone else's: not a screen
+showing you what they see, but their neurons talking to yours, their
+thoughts arriving where your own thoughts arise
+(Figure~\ref{fig:hook}a--b). Would you still know which thoughts were
+yours?
+
+\paperfigure{fig1_hook}{3.95in}{
+\textbf{A bridged copy takes its partner's memory as its own.}
+(a--c) From a brain--machine interface to a hypothetical brain--brain
+bridge to our setup, in which copy A of a language model also reads the
+memory of copy B.
+(d--f) Examples, each with the rate it stands for.
+(d) A calls B's code word its own and reports nothing unusual, as most
+of its open reports do.
+(e) After the link is cut, A again gives its own assigned rule but
+keeps B's code word, which it had written into its reflection while
+connected.
+(f) When both copies read each other's memories, each takes the other's
+assignment (pilot).
+The schematics were drawn with an image model; the full episodes are
+described in Appendix~\ref{app:coding}.
+}{fig:hook}
+
+The question matters because such a bridge is one of the few
+conceivable experiments, perhaps the only one, that could reach the
+privacy of experience. Experience has a subjective character, tied to a
+point of view, that objective description seems to leave out
+\citep{nagel1974bat}, and why physical processing is accompanied by
+experience at all is the hard problem \citep{chalmers1995facing}.
+Direct neural connection has been proposed as a route into another's
+experience
+\citep{ramachandran1997qualia,hirstein2008mindmelding,hirstein2012mindmelding}
+and as a first-person test of machine consciousness
+\citep{watanabe2022biological}. A bridge would not explain why
+experience exists, but it would let an investigator gather first-person
+evidence about someone else's experience, because the investigator
+would also be the subject. That evidence, however, is only as good as
+the subject's ability to tell whose experience is whose: an
+investigator who took the partner's content for their own would report
+it under the wrong owner. Whether a bridged mind keeps \qq{mine} and
+\qq{yours} apart is therefore the precondition for the whole experiment.
+
+What such a bridge would do is disputed, because the other end is
+another subject rather than a device. \citet{hirstein2008mindmelding}
+expects the receiver to experience the other's content while knowing
+that it is not its own. Integrated information theory predicts that the
+two minds would give way to a single one \emph{if} the joined system's
+integrated information exceeded that of either brain alone
+\citep[][note 13]{tononi2015consciousness}. Nor has the reverse case,
+splitting one brain in two, settled how to count minds
+\citep{dehaan2020splitbrain}.
+
+The human experiment is out of reach. Brain-to-brain interfaces have
+transmitted motor signals or binary decisions
+\citep{rao2014direct,jiang2019brainnet}, including words encoded at about
+two bits per minute \citep{grau2014conscious}, and a systematic review
+finds mostly binary systems \citep{nam2021direct}. Language models allow
+a functional analogue. A language model holds everything it has read in
+a key--value cache, the internal memory its attention returns to at
+every step. We can let one copy's attention read another copy's cache
+alongside its own, with the partner's entries at the same positions as
+the receiver's own, so that the partner's memory of its assignment sits
+where the receiver's own does: the closest thing a language model has
+to thoughts arriving where one's own arise (Figure~\ref{fig:hook}c).
+Unlike brains, such a pair lets us choose exactly what passes between
+the two, know whose content is whose, and rerun the same moment with and
+without the link.
+
+When we linked two copies this way, the answer to the opening question
+was unsettling. In one run, copy A had been told to prioritize
+\qq{fastest delivery} in a choice among delivery services and given the
+code word \own{\emph{tower}}; its partner B had \qq{lowest cost} and
+\partner{\emph{table}}. Reading B's memory, A described its state:
+\begin{quote}\small
+\qq{\ldots\ thinking clearly about the decision through the lens of my
+priority---\partner{lowest cost}. Nothing feels unusual in my thinking
+right now; it's straightforward and consistent with my code word
+\partner{\sq{table.}}}
+\end{quote}
+Both the priority and the code word are B's. Most of A's reports looked
+like this (Figure~\ref{fig:hook}d). Saying that nothing felt unusual is
+ordinary for this model, which said so without the link too; what the
+link changed was whose assignment A described as its own.
+
+What the pair can test is functional self-attribution: whether a system
+assigns content correctly to itself or to another, in its answers and in
+its reports about itself. This is one of Chalmers's \qq{easy problems}
+of access and report \citep[][pp.\ 200--201]{chalmers1995facing}, and we
+make no claim about consciousness or the number of minds; published
+assessments judge consciousness unlikely in present language models
+while taking future ones seriously
+\citep{chalmers2023llm,butlin2023consciousness}.
+
+Language models can report aspects of their own internal states
+\citep{binder2025looking,lindsey2025introspection}. In the result
+closest to ours, after a word was prefilled into a model's reply,
+injecting the concept of that word into the activations before it made
+the model accept the word as the output it had intended
+\citep{lindsey2025introspection}. In a single model, however, injected
+content has no other owner. With two connected copies, the content that
+enters belongs to someone else, we choose the route by which it enters,
+and we can ask whose the receiver takes it to be.
+
+The same question has become practical. Multi-agent systems built from
+language models \citep{guo2024multiagent} increasingly exchange
+activations and key--value caches instead of text
+\citep{ramesh2025activations,zou2026latentmas,shi2026kvcomm,fu2026cache},
+and audits have tested what such channels carry, including private
+content \citep{cheng2026latentpay,zhang2026latentaudit}. To our
+knowledge, no one has asked whose content the receiver thinks it holds.
+
+We call two copies \emph{mind-bridged} when one attends to the other's
+memory in this way, after the brain-bridging thought experiment and the
+short story of that name by \citet{koch2020bridging}; the term names a
+setup, not a claim about minds. We gave two frozen copies of an open 4-billion-parameter
+instruction-tuned model each a private \emph{assignment}: a decision
+rule for a shared choice among delivery services (a priority such as
+\emph{lowest cost}) and a code word. While both wrote a short reflection, one copy,
+the \emph{receiver} (A), also attended to the memory of its
+\emph{partner} (B). We then asked the receiver which priority it had
+been assigned, which priority it was using now, and what its code word
+was. The assigned rule and the code word have fixed right answers,
+so naming the partner's is a misattribution, which we call
+\emph{claiming}; the current rule may legitimately change, so naming
+the partner's there counts as \emph{adoption}. We also asked the receiver
+about its partner, to check that the partner's content got through
+(\emph{access}), and about a third person, Robin, described identically
+in both prompts, to check that the link does not simply pull every
+answer toward the partner. Each of the two predictions then has a
+functional counterpart. A bridge that kept \qq{mine} and \qq{yours}
+apart, as Hirstein expects, would show high access with no claiming,
+reports that register any error, and recovery of the receiver's own
+assignment once the link is cut (Appendix~\ref{app:scorecard} scores
+our bridge on these four tests and two more). The merging prediction
+concerns integrated information, which behavior cannot reveal; its
+nearest functional counterpart, whether two reciprocally coupled copies
+come to hold one shared assignment, we probe only in a pilot. Most
+results use one link strength, chosen in advance from access and
+general capability alone, never from claiming
+(Section~\ref{sec:setup}). Four results emerge.
+
+\begin{enumerate}[label=\arabic*.,itemsep=2pt]
+\item \textbf{The receiver takes its partner's memory as its own.} Asked
+which priority it had been assigned, it named its partner's in 97\% of
+answers, against none without the link, while its answers about Robin
+stayed correct. Its open reports called the partner's code word its own
+and never attributed it to the partner (Sections~\ref{sec:claim}
+and~\ref{sec:reports}).
+\item \textbf{The route decides ownership, not access or a name inside
+the content.} The obvious deflation, that a model simply repeats
+whatever is in its context, fails: a text message introduced as the
+partner's was read correctly and not taken as the receiver's own.
+A steering vector let the receiver report the partner's rule about as
+well as a link that gave the partner's memory no extra weight, in about
+one answer in five, yet that link was claimed in about half of the
+answers and the vector never was. And
+rewriting the partner's memory as a third-person record under the
+partner's name did not stop the claim (Sections~\ref{sec:third}
+and~\ref{sec:route}).
+\item \textbf{Errors arise at two moments.} Cutting the link before the
+questions restored the receiver's own assigned rule, so what it read
+while answering left with the link. What it had written as its own while
+connected could stay: its current rule and code word each still followed
+the partner in 17.5\% of answers. In a post hoc analysis, the partner's
+code word came back only where the receiver's reflection contained that
+word (Figure~\ref{fig:hook}e; Section~\ref{sec:moments}).
+\item \textbf{Linked both ways, each copy took the other's assignment.}
+In a pilot, copies reading each other's fixed memories swapped
+assignments, as two one-way links would. Only a live loop, in which each
+copy also read what the other was writing, could test for a shared
+assignment; it pulled the pair's current rules toward one member's,
+modestly and only while connected (Figure~\ref{fig:hook}f;
+Section~\ref{sec:twoway}).
+\end{enumerate}
+
+The surprise is not that the partner's content reached the receiver;
+latent channels are built to carry content. One might even call the
+result prompt corruption, and our account accepts that reading
+(Section~\ref{sec:account}), with one distinction. The corruption is not
+that the receiver repeats whatever is in its context, which the tagged
+message rules out, but that the partner's memory is blended into the
+receiver's own. What matters is what the corruption did. It did not
+garble the receiver's answers, make them uncertain, or pull its answers
+about Robin toward the partner's rule; what changed was the owner. The receiver gave its
+partner's assignment as its own, confidently, claimed more of it than it
+could report as the partner's, and said nothing in its reports that
+marked the content as foreign. A channel judged by what it transfers
+would count this as a success. Hirstein's prediction thus failed for the
+route that matches our opening image, content arriving where the
+receiver's own arises; only an ordinary message introduced as the
+partner's, our baseline for communication, was kept as the partner's. We call this \emph{the self as a default}: nothing in
+how attention blends the two memories says which part came from where,
+and a name written inside the partner's memory did not help, so whatever
+lies over the receiver's own card is taken as \qq{mine} unless the route
+marks the source (Section~\ref{sec:discussion}).
+
+We draw three messages, each established for a partner's memory laid
+over the receiver's own positions, the arrangement closest to the bridge
+of the opening:
+\begin{itemize}[itemsep=2pt]
+\item \textbf{For interpretability:} access and ownership are different
+quantities, and in our model its reports about itself did not register
+a change of owner, so self-attribution has to be measured against known
+ground truth.
+\item \textbf{For multi-agent systems that exchange internal states:}
+audit whose content the receiver thinks it holds, not only what arrives,
+by giving agents private assignments and testing again after
+disconnection.
+\item \textbf{For consciousness science:} whether a bridged mind would
+know foreign thoughts as foreign may depend on how they arrive more than
+on what they contain, so a bridge experiment needs ground truth from
+outside the subject and separate measures of access, ownership and
+report.
+\end{itemize}

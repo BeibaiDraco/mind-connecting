@@ -1,0 +1,11 @@
+Use case: scientific-educational. Asset type: a horizontal strip of four small, equally sized vignettes for an academic figure, same illustrated textbook style (white background, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 5:1. No title, no caption, no numbers.
+
+Each vignette shows a small blue model stack "A" on the right and, on the left, how B's content arrives:
+(1) heading exactly "Hidden state added": an orange stack "B" with a thin orange line into one middle layer of A, marked with a small "+".
+(2) heading exactly "Fixed vector added": no B stack; a single orange arrow labelled exactly "vector for B's rule" entering one layer of A.
+(3) heading exactly "Memory read": an orange stack "B" with a small row of orange memory squares; several thin orange lines run from these squares into every layer of A, like attention.
+(4) heading exactly "Words as a message": a speech bubble from B to A containing exactly "B shared: ...". Beneath it, three tiny alternative tags in a row reading exactly "unlabeled", "a stranger", "your own earlier thoughts".
+
+Use the same scale for every vignette, align the headings, keep labels short and away from the drawings.
+
+Shared constraints: A uses soft blue accents near #0072B2, B uses soft orange accents near #D55E00, Robin uses gray. Each model is an identical stack of four softly rounded horizontal layers with small node dots, never a person, brain, or robot. Pure white background. Render only the explicitly quoted English labels verbatim; no extra text. No consciousness, merged minds, or experimental result numbers. Stage numbers and the explicitly requested '48' are allowed. Use the requested aspect ratio and the highest practical resolution for crisp typography.

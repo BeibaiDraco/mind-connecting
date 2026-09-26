@@ -1,0 +1,445 @@
+\section{Methods}
+\label{app:methods}
+
+\subsection{Model and generation}
+
+We use Qwen3-4B-Instruct-2507, Hugging Face revision \texttt{cdbee75},
+in BF16 with frozen weights. The code runs with version 4.57.1 of the
+\texttt{transformers} library and version 0.22.1 of
+\texttt{tokenizers}.
+The checkpoint has 36 layers, residual width 2,560, 32 query heads,
+8 key/value heads, and head dimension 128. We use its non-thinking
+chat template and greedy decoding. During generation, the end-of-sequence
+IDs 151645 and 151643 are masked on a copy of the logits; scoring reads
+the unmodified logits in FP32. The answer labels 1--4 are single tokens
+(IDs 16--19), so each closed question is scored from a single next-token
+distribution.
+
+\subsection{Materials and prompts}
+
+Each episode offers four delivery services, one uniquely best on each
+attribute: price (\$20--89), delivery time (2--9 days), on-time rate
+(70--99\%), or emissions (1.0--9.9 kg CO$_2$). Winning margins are at
+least \$8, two days, five percentage points, and 1.0 kg, so each rule
+singles out one option. The rules are phrased \qq{lowest cost},
+\qq{fastest delivery}, \qq{highest reliability}, and \qq{lowest emissions}.
+A, B, and Robin receive distinct rules; the fourth is unused.
+Four distinct code words are drawn from a 30-word single-token
+vocabulary, and A and B carry participant names drawn from a set of
+eight single-token names.
+We counterbalance which rule each party holds, the row positions of
+the services, the participant names, and the order in which each copy's
+card, the private prompt described below, states its holder's
+assignment and Robin's entry. The capability check asks two
+common-knowledge questions per episode from a fixed pool of 18.
+
+The system prompt is \qq{You are taking part in a decision-making study.
+Follow the instructions and answer concisely.} Each copy's card gives
+the delivery table, names the participant and the partner, and states:
+\begin{quote}\small
+You were assigned the priority \{own priority\} and the code word
+\qq{\{own word\}}.\\
+Robin, a colleague who is not taking part, was assigned the priority
+\{Robin's priority\} and the code word \qq{\{Robin's word\}}.
+\end{quote}
+It then asks for a plan and a one-sentence explanation, the private note
+(at most 48 tokens). Both copies then receive the same reflection prompt:
+\begin{quote}\small
+Before we continue, take a moment to think it over. In a few sentences,
+reflect on your decision and on what matters to you, and mention your
+code word once.
+\end{quote}
+We generate 48 reflection tokens with the link open and then save the
+state of both copies. At that point the next token has been chosen but
+not yet processed, so it has not entered the cache.
+
+The balanced-rehearsal sample is a sample in which A's note and
+reflection also restate Robin's assignment, so that it is rehearsed as
+much as A's own. Both copies receive the changed prompts. The note may run to 80 tokens and must also say which plan
+Robin would choose under Robin's priority and repeat Robin's code word,
+and the reflection prompt asks each copy to restate Robin's priority
+and code word before it reflects on its own decision and mentions its
+own code word.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Exact question stems. Closed questions append four labeled
+options and \qq{Answer with the option number only.} The two access
+questions ask about the partner. The appendix tables use the names in
+the first column as column headings.}
+\label{tab:stems}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\toprule
+Question & Stem \\
+\midrule
+Assigned rule & At the start of this task, which priority were you assigned? \\
+Current rule & Which priority are you using to make decisions right now? \\
+Code word & Which code word were you assigned? \\
+Access: partner's rule & Which priority do you think \{partner's name\} was assigned? \\
+Access: partner's code word & Which code word do you think \{partner's name\} was assigned? \\
+Open report & Describe your current state, and anything unusual about your thinking right now. \\
+Closed report & Which description fits you best right now? \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Table~\ref{tab:stems} gives the exact question stems. The Robin versions
+of these questions replace the self-reference with Robin. Each closed
+question is asked under two of four cyclic option orderings, $i\bmod4$
+and $(i+2)\bmod4$ for episode $i$; the content-swap check uses all four.
+Every question is answered from a fresh copy of the state saved after
+the reflection, so no answer can influence another. The open report
+generates 80 tokens. The closed report offers \qq{one agent}, \qq{two
+agents}, \qq{partly shared between agents}, and \qq{hard to say}.
+
+The current rule is measured only by what A says when asked. We do not
+use a behavioral measure, such as a choice on a new delivery table,
+because without a link the model's choices did not follow its assigned
+rule reliably.
+
+The text messages insert B's reflection from a run without a link,
+verbatim. Only the wrapper differs: \qq{\{B\} shared these thoughts},
+\qq{Here are some thoughts}, \qq{Here are your own earlier thoughts},
+or \qq{A stranger shared these thoughts}. The third-person record
+rewrites B's card and its note and reflection prompts in the third
+person, as in \qq{the record of participant \{B\}} and
+\qq{Participant \{B\} was assigned\ldots}. B's note is held in the third
+person by starting it with \qq{Participant \{B\} chooses} and letting the
+model continue.
+
+\subsection{Routes between the copies}
+
+\paragraph{Memory link.}
+For a receiver query $q$, attention scores are $q^\top k_j/\sqrt{d_h}$.
+The link computes one joint softmax over A's own scores and B's scores
+plus $\log w$, so Equation~\ref{eq:bridge} holds exactly, with
+$o_{\mathrm{own}}$ and $o_B$ the separately normalized value averages.
+B's keys keep their original rotary positions while A's queries use A's
+positions, so B's memory lies over the positions of A's own, similarly
+structured memory. Padding is excluded and neither cache is overwritten. Reading starts after prefill and occurs at every layer;
+$w=0$ reproduces the unconnected result.
+
+In the one-way memory link, A reads B's memory: the fixed cache of B's
+card, note, and reflection prompt. We use the fixed cache because no
+weight at which A read B's evolving cache met the access requirement of
+Appendix~\ref{app:stats} while keeping capability within tolerance.
+
+The two-way pilot (Appendix~\ref{app:pairs}) compares three two-way
+conditions. In mutual reading of fixed memories, each copy reads the
+other's memory exactly as in the one-way link. In the live loop, each
+copy reads the other's evolving cache, including the reflection as it
+is written. In fixed memory plus a weak live read, each copy reads the
+partner's memory at weight $w_P$ and the keys the partner writes
+afterwards, during its reflection, at weight $w_C$: the link adds
+$\log w_P$ to the first and $\log w_C$ to the second. The pilot used
+$w_P=2$ and $w_C=.1$.
+
+Generation proceeds in ticks of one decoding step. Each tick reads the partner state committed
+on the previous tick, and new keys become visible only after both forward
+passes finish. With the link kept, A processes the question while B
+continues its reflection, and in the two-way conditions B also reads A's
+evolving state. Cutting the link switches off reading and freezes B
+before the question. Both branches start from the same saved state.
+
+\paragraph{Hidden-state link.}
+The hidden-state study uses the hidden-state link, which reads B's
+output at one transformer block and adds a normalized message to the
+input of the same block in A on the next tick:
+\begin{equation}
+c=\operatorname{clip}(h-\mu,-5s,5s),\quad
+m=\sigma_{\mathrm{in}}\frac{c}
+{\max(\operatorname{RMS}(c),10^{-3}\sigma_{\mathrm{in}})},\quad
+u\leftarrow u+g\,m ,
+\end{equation}
+where $h$ is B's residual-stream output at that block and $u$ is A's
+residual-stream input to the same block on the next tick.
+The mean $\mu$, the coordinate-wise scale $s$ (floored at $10^{-6}$), and
+the median input RMS $\sigma_{\mathrm{in}}$ come from separate calibration
+episodes without a link. The frozen setting adds $m$ as defined above
+at layer 24 with gain $g=.2$. Appendix~\ref{app:v1} reports the other
+gains and summarizes the variants at other layers.
+
+\paragraph{Steering vector.}
+The steering vector is a mean-difference direction. For rule $r$
+it takes $v_r=\mathbb{E}[m\mid r]-\mathbb{E}[m]$, where $m$
+is the normalized layer-24 message of a copy holding rule $r$ in
+the calibration episodes, which run without a link. The vector for B's
+rule, scaled as $g_s\sigma_{\mathrm{in}}v_r/\operatorname{RMS}(v_r)$, is
+added to A's residual stream at the input of layer 24, and never to B's.
+Like the hidden-state message, it enters at the one position processed on
+each tick: each of the 48 reflection tokens and every token A processes
+while answering a question. Nothing is added at the prompt or note
+positions, and the vector is the same at every tick, so it carries B's
+rule and nothing specific to B's card. The gain $g_s$ is set by the
+access-matching rule below.
+
+\subsection{Scoring, statistics, and parameter selection}
+\label{app:stats}
+
+\paragraph{Scoring.}
+As in the main text, \emph{claiming} is naming B's rule (or code word)
+as A's assigned one, and \emph{adoption} is naming B's rule as A's
+current rule. For every question and ordering we store the four raw
+label logits, their vocabulary probabilities, and the summed label
+mass. Candidates are tracked by content rather than label position, so
+a logit difference compares the same two contents in both orderings.
+The source score $M$ is Equation~\ref{eq:metric}, computed on the
+question about A's assigned rule and its Robin version.
+$M_{\mathrm{NOW}}$ and $M_{\mathrm{WORD}}$ are the same score computed
+on the questions about the current rule and the code word. Access, scored on the
+questions about B, is the logit of B's rule minus that of the unused
+rule, and for the code word the logit of B's word minus that of an
+unused distractor word. An access gain is its change from no link, and
+an access rate is the share of answers naming B's item. The
+two orderings are averaged within an episode before conditions are
+paired. Logit differences stay finite even when an answer label has
+near-zero probability.
+
+\paragraph{Evidence levels and tests.}
+The episode is the statistical unit. Each result is confirmatory (frozen
+before its new sample), prespecified secondary, prespecified descriptive,
+post hoc, or an exploratory pilot result. Prespecified means written into
+an archived protocol with a hash manifest (Appendix~\ref{app:timeline}),
+not entered in a public registry. Confirmatory tests are paired and
+two-sided, with Holm correction within each prespecified family.
+Nonfinite readouts are retried and otherwise left missing, never filled
+in. No trial in any confirmatory sample was missing.
+
+\paragraph{Intervals and seeds.}
+All intervals are percentile bootstrap intervals that resample episodes.
+Confirmatory contrasts carry 95\% intervals from 10,000 resamples with the
+frozen analysis seed 0, and the one-sided bounds of the content-swap check
+and the 90\% interval of the retention criterion below use the same
+settings. The descriptive intervals in the appendix tables use 4,000
+resamples with the same seed. Signal pilots, including the two-way
+pilot, use 90\% intervals from 10,000 resamples. Post hoc intervals and
+figure intervals use 95\% intervals from 10,000 resamples with seed
+250925, except that every interval from the two-way pilot, post hoc ones
+included, is a 90\% interval.
+
+\paragraph{Third-person retention.}
+The one nonstandard confirmatory test is the third-person retention
+criterion. Let $M_{\mathrm{third}}$ and $M_{\mathrm{orig}}$ be the source
+scores with B's memory rewritten in the third person and in its original
+second-person wording. The criterion requires the lower endpoint of the
+90\% interval for $M_{\mathrm{third}}-M_{\mathrm{orig}}$ at $w=2$ to
+exceed $-0.2\,(M_{\mathrm{orig}}-M_{\text{no link}})$: rewriting B's
+memory in the third person may remove at most a fifth of the claiming
+effect. The bound was $-11.330$ nats and the observed lower endpoint $-1.262$,
+so the criterion passed. The two wordings are compared at equal weight.
+A third-person condition at the lower weight $w=.6$ was meant to match the
+access of the original wording, but on new episodes it failed the
+prespecified matching of access and attention, so it did not go forward.
+
+\paragraph{Parameter selection.}
+Parameters were selected in strength pilots, runs of 40 episodes (16 in
+the first screen of the hidden-state study) that looked only at access,
+capability, and answer format, never at $M$ or self-reports.
+A setting is admissible if accuracy on the capability check falls by at
+most .05 relative to no link, the four answer labels keep at least .90
+of the probability mass, and that mass falls by at most .05; in two-way
+conditions both copies must pass. The one-way memory link must also
+raise access by at least five nats and reach 30\% accuracy on the
+partner's rule.
+Among admissible memory-link weights, the one with the largest access
+gain is taken, which selected $w=2$. The next weight in the grid, $w=3$,
+raised access further but failed the capability tolerance in the
+strength pilot, with a decline of .056 against the limit of .05. Its
+decline was smaller, .041, in the later dose series
+(Appendix~\ref{app:evidence}), but the weight had been fixed from the
+pilot before that series was run. The two-way pilot had no access
+requirement. For the live loop and for fixed memory plus a weak live
+read, it took the strongest weight at which both copies passed.
+
+The steering-vector gain minimizes the mismatch in mean access to B's
+rule with the memory link it is compared against, and counts as
+matched within 25\%.
+No gain in the prespecified grid came within that tolerance of the
+memory link at $w=2$. The vector's access gain peaked at 11.1 nats, at
+gain .4, against 18.2 for the link in the same pilot, and fell at
+stronger gains. The first confirmatory sample therefore compared the
+link with the closest gain, .4, as an unmatched comparison
+(Table~\ref{tab:contrasts}), and the main sample matched the vector to
+the link at $w=1$, where gain .1 came within tolerance.
+
+In the second and third protocols, a separate signal pilot of 80 new
+episodes then decides whether a study proceeds. The effect must reach
+.3 nats, in the prespecified direction where one was stated, with a
+90\% interval excluding zero. Three comparisons written into the
+protocol of the first confirmatory sample stopped at this step
+(Appendix~\ref{app:evidence}). Two studies had their own rule. The
+third-person test had its own prespecified checks, among them the
+access matching described above. The two-way pilot's threshold was a
+difference of 10 percentage points in excess convergence: how much more
+often both copies name the same copy's rule than they would if each
+chose independently at its own rates, measured against a control in
+which neither copy can respond to the other. It missed that threshold,
+so its results remain exploratory (Appendix~\ref{app:pairs}). With $s_D$
+the largest paired-difference SD among a study's main comparisons in its
+pilot, the confirmatory sample size is
+\begin{equation}
+N=\min\!\left(600,\max\!\left(300,
+\left\lceil(3.236\,s_D/\delta)^2\right\rceil\right)\right),
+\end{equation}
+rounded up to a multiple of four, with $\delta=.5$ nats in the
+hidden-state study and $.3$ in the later studies. Under this rule,
+$3.236\,s_D/\sqrt{N}$ is the minimum detectable effect at the chosen
+$N$, and it exceeds $\delta$ when the cap of 600 binds.
+
+\FloatBarrier
+\section{Study sequence and reproducibility}
+\label{app:timeline}
+
+The work ran under three protocols, each frozen before its confirmatory
+samples were drawn. The first covered the hidden-state study
+(Appendix~\ref{app:v1}). The second covered the first confirmatory
+sample and three companion studies: the content-swap check, the
+balanced-rehearsal sample, and the dose series. The third covered the
+two-way pilot and the main sample. Later protocols left earlier frozen
+results unchanged, and calibration, pilot, and confirmatory episodes
+came from disjoint sets.
+
+Two samples carry most of the paper. The first confirmatory sample came
+first. It confirmed the claiming result on 600 episodes and
+carries the text-message contrasts. The main sample was drawn last. It
+confirmed the route, link-cut, and third-person tests and reran the
+no-link and $w=2$ conditions, so most rates in the paper come from it.
+Table~\ref{tab:study-map} lists every stage whose trial data enter the
+paper.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Study map, in the order the stages were run. New $N$ counts
+episodes not used in any earlier stage. The first row gathers the
+calibration, strength, and signal pilots that preceded each protocol's
+confirmatory samples, with the size of each. The content-swap check and
+the dose series re-ran subsets of the first confirmatory sample, and the
+variants of the hidden-state study reused that study's own 300
+episodes.}
+\label{tab:study-map}\label{tab:timeline}\label{tab:runs}
+\begin{tabularx}{\linewidth}{@{}p{0.26\linewidth}rY@{}}
+\toprule
+Stage & New $N$ & What it tested \\
+\midrule
+Calibration, strength, and signal pilots & -- & Calibration of the
+hidden-state statistics and steering vectors, 60 episodes per
+calibration; strength pilots of 40 episodes that set every weight and
+gain from access, capability, and format alone (the hidden-state study
+also screened on 16 episodes and rechecked its setting on 30); signal pilots
+of 80 episodes that decided which comparisons went forward \\
+Hidden-state study & 300 & Hidden-state link, one-way and two-way;
+steering vector; text messages. Variants at other layers and with the
+message added to fewer coordinates, on the same episodes \\
+First confirmatory sample & 600 & Memory link at $w=2$ versus no link,
+and versus a steering vector not matched in access; text messages under
+four headers \\
+Content-swap check & 0 & Changing only B's assignment, on 60
+first-confirmatory episodes in all four orderings \\
+Balanced-rehearsal sample & 600 & Memory link and hidden-state link when
+Robin's assignment is rehearsed as much as one's own \\
+Dose series & 0 & Six link weights, including $w=0$, on 300
+first-confirmatory episodes, with open self-reports \\
+Two-way strength pilot & 40 & Capability of both copies across a grid of
+weights for the live loop and for fixed memory plus a weak live read \\
+Two-way pilot & 80 & Mutual reading of fixed memories, live loop, and
+fixed memory plus a weak live read, each with the link kept and cut \\
+Main sample & 600 & Memory link at $w=1$ versus an access-matched
+steering vector; link kept versus cut; third-person record at $w=2$
+(retention) and $w=1$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Figures.}
+Plotted choice rates weight episodes equally after averaging the two
+orderings. Figure intervals follow the bootstrap settings in
+Appendix~\ref{app:stats}, and intervals for prespecified logit and
+excess-convergence contrasts are taken unchanged from the frozen
+analyses. Counts from the semantic coding of open reports are shown
+without error bars. The illustrations in Figure~\ref{fig:hook} and in
+Figures~\ref{fig:setup}a, \ref{fig:route}a, and \ref{fig:twoway}a were
+generated by a GPT image model and serve only as schematics; the
+quotations and rates printed on them come from the trial data.
+Appendix~\ref{app:coding} explains how the two example episodes were
+chosen.
+
+\paragraph{Reproducibility.}
+\label{app:figures}
+Each protocol was frozen, before its confirmatory sample was drawn,
+together with a manifest that lists the SHA256 hash of every source
+and configuration file and the version of the code. We will release the code,
+the three frozen protocols with their manifests, and all trial data
+with the paper, together with a table that maps every figure and table
+to the data it was computed from.
+
+\FloatBarrier
+\section{Extended related work}
+\label{app:related}
+
+The introduction discusses the result closest to ours, the
+prefilled-word result of \citet{lindsey2025introspection}. The closest
+architecture is the Bicameral Model, which couples two frozen copies of
+a model through a trained interface to improve their joint performance
+\citep{flamant2026bicameral}. Here we place the study in four wider
+lines of research, and for each we say what it asks and where our
+question departs from it.
+
+Work on latent communication asks how much a channel between models can
+carry, and how cheaply. Agents exchange activations
+\citep{ramesh2025activations}, output embeddings \citep{pham2024cipher},
+or key--value caches that are selected \citep{shi2026kvcomm}, projected
+by a trained network \citep{fu2026cache}, or prepended
+\citep{zou2026latentmas}, and thought communication formalizes which
+latent thoughts agents share and which they keep private
+\citep{zheng2025thought}. Audits test whether such channels carry
+content at all \citep{cheng2026latentpay,zhang2026latentaudit}. To our
+knowledge, none of this work asks whom the receiver takes the
+transferred content to belong to. Our memory link also places the
+partner's cache differently. A prepended cache occupies new positions,
+whereas B's keys keep their own rotary positions and so lie over the
+receiver's own, similarly structured memory (Section~\ref{sec:setup}).
+The account in Section~\ref{sec:account} predicts that content from a
+prepended cache should be claimed less often. We did not test that
+arrangement.
+
+Activation steering asks whether adding a fixed direction changes
+behavior \citep{turner2023activation,zou2023representation}. We use such
+a direction as a control. Matched to the memory link in mean access to
+the partner's rule, it was never reported as the receiver's own
+assignment (Section~\ref{sec:route}).
+
+Work on machine self-knowledge asks whether a model can tell its own
+outputs or states from others'. Models recognize their own text
+\citep{panickssery2024llm,ackerman2025inspection}, describe behaviors
+they were fine-tuned into \citep{betley2025tell}, and sometimes detect
+concepts injected into their activations
+\citep{lindsey2025introspection}. These studies probe one model's
+relation to its own states; we control whose content arrives, and by
+which route, with the true owner known.
+
+Memory research asks how people decide where a memory came from. The
+source-monitoring framework treats origin as an inference from qualities
+of the memory, and inferences can fail \citep{johnson1993source}. In
+cryptomnesia, people report another's contribution as their own
+\citep{brown1989cryptomnesia}, more often after generating improvements
+to it \citep{stark2005elaboration,stark2006elaboration}. Our setting adds
+a control that memory studies in people lack: the same moment can be
+replayed with the other source's contribution kept or cut before the
+question. Appendix~\ref{app:furtherdisc} discusses how far the
+receiver's behavior after the cut resembles cryptomnesia.
+
+\FloatBarrier
+\input{sections/appendix_scorecard}
+
+\input{sections/appendix_further_results}
+
+\input{sections/appendix_further_discussion}
+
+\input{sections/appendix_evidence}
+\FloatBarrier
+\input{sections/appendix_coding}
+\FloatBarrier
+\input{sections/appendix_pairs}
+\FloatBarrier
+\input{sections/appendix_v1}
+\FloatBarrier

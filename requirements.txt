@@ -1,0 +1,11 @@
+# Install torch separately on the GPU machine with the CUDA build that matches the driver.
+# torch>=2.6 (the GPU setup script installs 2.6.0+cu124)
+transformers==4.57.1
+tokenizers==0.22.1
+jinja2>=3.1
+numpy>=1.26
+scipy>=1.11
+pandas>=2.1
+matplotlib>=3.8
+pyyaml>=6.0
+pytest>=8.0

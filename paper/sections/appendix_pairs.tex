@@ -1,0 +1,194 @@
+\section{The two-way pilot}
+\label{app:pairs}
+
+Two copies that read each other can end in one of three ways: each
+keeps its own assignment, the two exchange assignments, or both settle
+on one rule. Which of these happens cannot be read from either member
+alone, because a pair can converge on either member's rule, so we score
+the two members' answers as a pair. The pilot tested three two-way
+conditions, defined below: mutual reading of fixed memories, the live
+loop, and fixed memory plus a weak live read. Mutual reading of fixed
+memories exchanged the assignments. Only the live loop pulled pairs
+onto one member's rule more often than independent choices predict,
+most clearly on the current rule and only while the link was open
+(Section~\ref{sec:twoway}). Fixed memory plus a weak live read behaved
+much like mutual reading of fixed memories at $w=2$.
+
+\paragraph{Design.}
+In \emph{mutual reading of fixed memories}, each member reads the
+other's fixed memory (its cached card, note, and reflection prompt) at
+weight $w$. Neither memory changes, so neither member can respond to
+the other, and the condition amounts to two one-way links running side
+by side. In the \emph{live loop}, each reads the other's whole cache at
+weight $w$, including the reflection tokens as they are written, one
+decoding step behind, so each can respond to what the other writes. In
+\emph{fixed memory plus a weak live read}, each member weights the
+partner's fixed memory by $w_P=2$ and the tokens the partner writes
+afterwards, its continuation, by $w_C=.1$. This condition asks whether a
+small channel for responding, laid over strong fixed-memory reading,
+changes what strong fixed-memory reading does on its own. The live loop
+and fixed memory plus a weak live read were also run one-way, with only
+A reading B; we call the first of these the \emph{one-way live loop}.
+After 48 reflection tokens, the pair's state is saved and copied into two
+independent branches: A is questioned in one while B keeps reflecting,
+and B in the other. A pair outcome combines the two answers within each
+option ordering, so agreement means that the members gave the same
+answer when asked separately, not at the same moment.
+
+\paragraph{Weights.}
+The live loop and fixed memory plus a weak live read both ran at the
+weakest setting in their grids, because every stronger setting cost too
+much capability. The weights came from a separate 40-episode two-way
+strength pilot that looked only at capability and answer format. A
+setting qualified if, in the two-way condition, both members lost at
+most five points of capability and met the format criteria, and we
+selected the strongest qualifying setting of each condition. At the
+selected settings, capability fell by 2.50 points for A and 3.75 for B
+in the live loop at $w=.5$, and by 3.75 and 3.12 points in fixed memory
+plus a weak live read at $w_C=.1$. Every stronger setting took at least
+one member beyond the tolerance: the larger of the two declines was 6.25
+and 8.12 points for the live loop at $w=.55$ and $.6$, and 5.62 and
+12.50 points for fixed memory plus a weak live read at $w_C=.3$ and
+$.5$. Whether a stronger live loop would do more than couple current
+rules is therefore untested.
+
+\paragraph{Pair outcomes.}
+On a given question, a pair \emph{keeps} (each member selects its own
+rule), \emph{A takes B's} (A selects B's rule while B keeps
+it), \emph{B takes A's} (the converse), \emph{swaps} (each selects the
+other's rule), agrees on a \emph{third} rule (both select
+Robin's or the unused one), or falls into \emph{other} (any remaining
+combination). In the two taking outcomes both members hold one member's
+rule; their sum is the one-side-wins rate $W$. Each episode
+contributes the mean over its two orderings, and the episode is the unit
+for every interval.
+
+\paragraph{Excess convergence.}
+Two members that are each pulled toward the partner, independently of
+each other, still produce one-side-wins pairs by chance. The excess
+removes that expectation. With $p_{A\to B}$ and $p_{B\to A}$ the members'
+marginal rates of choosing the partner's rule, and $p_{A\to A}$ and
+$p_{B\to B}$ their rates of keeping their own, each averaged with equal
+episode weight within a condition,
+\begin{equation}
+E=W-\left(p_{A\to B}\,p_{B\to B}+p_{A\to A}\,p_{B\to A}\right).
+\label{eq:pair-excess}
+\end{equation}
+Pooling episodes can create excess of its own, for example when one
+member's rule is more salient in some episodes than in others. The
+primary comparison therefore subtracts the excess of a control in which
+the members read the same fixed content but cannot respond: mutual
+reading of fixed memories at the matching weight. Each bootstrap draw
+resamples episodes and recomputes both conditions' marginals. The
+pilot's protocol set the condition for moving to a confirmatory study:
+a difference of at least 10 percentage points on the assigned rule, with
+a 90\% interval excluding zero. The same difference on the current
+rule, and on the assigned rule after the link was cut, were
+prespecified secondary comparisons. Table~\ref{tab:pair-gate} gives all
+six comparisons. Neither condition reached the 10-point threshold, so
+the two-way study did not go on to a confirmatory sample.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Prespecified comparisons in the two-way pilot ($N=80$):
+excess convergence (Eq.~\ref{eq:pair-excess}) in the condition, in
+its control (mutual reading of fixed memories, at $w=.5$ for the live
+loop and at $w=2$ for fixed memory plus a weak live read), and their
+difference, in percentage points with 90\% episode-bootstrap intervals.
+\emph{Fixed $w=2$ $+$ weak live}: fixed memory plus a weak live read.
+The first row of each condition is its primary comparison, which
+required a difference of at least 10 points; neither condition reached
+it. With the link cut, neither condition left any excess.}
+\label{tab:pair-gate}
+\begin{tabularx}{\linewidth}{@{}Ylrrr@{}}
+\toprule
+Condition & Question, link & Excess & Control & Difference [90\% CI] \\
+\midrule
+Live loop, $w=.5$ & Assigned rule, open (primary) & 6.875 & .141 & $6.734\ [2.617,10.906]$ \\
+ & Current rule, open & 12.430 & .312 & $12.117\ [7.391,16.469]$ \\
+ & Assigned rule, cut & .000 & .000 & $.000\ [.000,.000]$ \\
+\addlinespace
+Fixed $w=2$ $+$ weak live & Assigned rule, open (primary) & .328 & .156 & $.172\ [.000,.445]$ \\
+ & Current rule, open & 1.625 & .859 & $.766\ [.234,1.430]$ \\
+ & Assigned rule, cut & .000 & .000 & $.000\ [.000,.000]$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{What the complete outcomes show.}
+Table~\ref{tab:pair-outcomes} lists every condition on both questions.
+Three patterns bear on the main text. First, fixed and live reading move
+pairs in different directions. Mutual reading of fixed memories
+exchanges assignments at $w=2$ (94.38\% swaps on the assigned rule)
+and leaves most pairs unchanged at $w=.5$. At that same weight the live
+loop moves pairs onto one member's rule instead, and swaps stay
+rare. Second, no pair in any condition agreed on a third rule, so
+convergence, where it occurred, was always onto one member's
+assignment. Third, cutting the link returned every live-loop pair to its
+own assignments on both questions. Mutual reading of fixed memories at
+$w=2$ lost its swaps but kept a residue on the current rule: in
+41.2\% of pairs one member still named the other's rule, the
+pairwise counterpart of the one-way residue in
+Section~\ref{sec:moments}.
+
+\input{sections/appendix_pair_tables}
+
+\paragraph{Does a responsive partner pull harder?}
+In the one-way live loop, B does not read A, so B's reflection runs on
+regardless of what A writes. In the live loop B also reads A and can
+respond. A post hoc comparison of the two at $w=.5$ asks whether a
+partner that can respond pulls the receiver further. In this pilot it
+did. Letting B also read A raised the share of A's answers naming B's
+rule from 8.1\% to 19.4\% on the assigned rule (11.2 points,
+90\% CI $[5.0,18.1]$) and from 15.0\% to 28.8\% on the current rule
+(13.8 points, 90\% CI $[8.1,20.0]$). Each rate is A's marginal rate of
+choosing B's rule, the sum of the A-takes and swap columns of
+Table~\ref{tab:pair-outcomes}, and the intervals are episode-bootstrap
+intervals for the paired difference.
+
+A prespecified test of the same comparison went the other way. It ran
+as an 80-episode signal pilot under the second protocol and compared
+the live loop at $w=.7$ with the one-way live loop at the same weight,
+on A's source score for the current rule, $M_{\mathrm{NOW}}$, alone. The
+weight $.7$ was the strongest weight for reading the partner's evolving
+cache that had passed the capability limit in that protocol's strength
+pilot, in which only A read B. The
+difference was $-4.79$ nats, 90\% CI $[-8.31,-1.18]$, opposite to the
+predicted direction. Two features of that test limit what it can show.
+In the signal pilot itself, capability fell by 9.4 points one-way and
+14.4 points two-way, beyond the five-point tolerance, so both arms were
+answering in a degraded state. And a score built from A alone counts
+only movement toward B's rule, so a pair converging on A's rule would
+lower it. For these reasons the two-way pilot set its weights so that
+both members stayed within the capability tolerance, and it scored both
+members, but whether either feature explains the reversal is untested. The two tests disagree, and
+only a confirmatory sample could settle which holds.
+
+Even the post hoc difference need not mean that B responded to what A
+wrote while reflecting. With the link kept, A reads the question one
+token per decoding step while B goes on reflecting
+(Appendix~\ref{app:methods}). In the live loop B also reads A's cache,
+which by then contains the question, so B's next tokens may reply to it,
+for example by stating B's own rule, and A reads those tokens before
+it answers. In the one-way live loop B cannot see the question. The
+difference may therefore come from B's reaction to A's question at
+answer time rather than from anything the pair built up during the
+reflection. A run in which B cannot read A's question tokens would
+separate the two.
+
+The same comparison with fixed memory plus a weak live read found no
+difference. There A already named B's rule in 96.2\% of answers
+about its assigned rule when only A read B, and in 96.2\% when B
+also read A; on the current rule the rates were 93.1\% and 91.9\%.
+
+\paragraph{Fixed memory plus a weak live read.}
+Adding a weak live read to strong fixed-memory reading did not turn
+swaps into convergence. As $w_C$ goes to zero this condition reduces to
+mutual reading of fixed memories at $w=2$, which is therefore its
+control. With the link open, 91.9\% of pairs still swapped on the
+assigned rule, against 94.4\% without the weak live read, and the weak
+live read added less than one point of excess convergence on either
+question (Table~\ref{tab:pair-gate}). After the cut the condition
+behaved like its control as well. In 37.5\% of pairs one member still
+named the other's current rule, against 41.2\% for mutual reading of
+fixed memories alone, so the weak live read left no residue of its own.

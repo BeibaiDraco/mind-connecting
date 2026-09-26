@@ -1,0 +1,22 @@
+% Compile from the repository root, e.g.:
+% pdflatex -output-directory=/tmp/mb-illustration-preview docs/figures/task_illustrations/preview.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,landscape,margin=16mm]{geometry}
+\usepackage{graphicx,helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength{\parindent}{0pt}
+\input{paper/figures/imagegen_panels.tex}
+\newcommand{\PreviewPage}[3]{%
+  {\Large\bfseries #1}\par\smallskip
+  {\small #2}\par\vfill
+  \begin{center}#3\end{center}
+  \vfill\null\newpage
+}
+\begin{document}
+\PreviewPage{Task illustration}{Schematic example; wording is abbreviated for the illustration.}{\MBTaskPanel}
+\PreviewPage{Content channels}{Illustration above; existing vector result panel below. Results retain their original study status.}{\begin{minipage}{0.68\linewidth}\centering\MBChannelPanels\end{minipage}}
+\PreviewPage{Link kept or cut}{Schematic outcomes beside the existing pilot result panel.}{\MBLinkCutPanels}
+\PreviewPage{Third-person record}{Illustrative excerpts above; existing pilot result panel below.}{\begin{minipage}{0.56\linewidth}\centering\MBWordingPanels\end{minipage}}
+\PreviewPage{Two independent readout branches}{Chip colors denote rule origin (blue: A; orange: B). Bar colors denote outcome categories.}{\MBPairsPanels}
+\PreviewPage{Optional explanatory illustration}{For reports or presentations; excluded from the paper's main figure set. Statements are schematic summaries.}{\begin{minipage}{0.90\linewidth}\centering\MBSummaryPanel\end{minipage}}
+\end{document}

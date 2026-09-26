@@ -1,0 +1,22 @@
+# protocol-v3 freeze manifest (sha256  path). Verify with: python scripts/freeze_protocol.py --verify --version v3
+# frozen_at: 2026-09-25T02:08:51+00:00
+# commit: 0dd613f2b89b7c6608da1d1a6b3500c6e8d3830e
+# v3_confirm: N=600 arms=7 families={"A'": [["ONE/KV-P/w1/FULL", "STATIC/L24/raw/g0.1/FULL", "M"]], "RF": [["ONE/KV-P/w2/FULL", "ONE/KV-P/w2/RF", "M"], ["ONE/KV-P/w2/RF", "C0/FULL", "M_NOW"]], "T3_w1": [["ONE/KV-P/w1/3ps/FULL", "ONE/KV-P/w1/FULL", "M"]]} equivalence={"T3_K*": {"arm1": "ONE/KV-P/w2/3ps/FULL", "arm2": "ONE/KV-P/w2/FULL", "effect_arm": "ONE/KV-P/w2/FULL", "base": "C0/FULL", "metric": "M", "margin": 0.2}}
+0c8877c8fb0c49c9dee6767dfffe27cf71328fc2fbee884fbb679385bc2028f5  docs/protocol/PROTOCOL_V3.md
+ef17d726d320cf993079131deac3549f282de451ea4b9825306b5d991ca17706  materials/tokenizer_manifest.json
+a210407843402164c4a70c5bbb12f8a45a244f4f1770ac83d2165c829ecddb54  requirements.txt
+ae7496185ddc11c4a964e190054da007b5243739edbe8a44350782062f25baaf  pyproject.toml
+500c6ebf344cc1e17857a027c0ee9cda105e47a9fe08c31e2bac557bf7819480  scripts/make_v3_confirm.py
+f250d0fbc84c4571945ac902297873431815dda006472cf6fa135dd66a8bd967  scripts/run_chain.sh
+18a733c49822e32de3e9601c52dd46ff37610d7d44f62fb2e3285463521f2ef7  scripts/freeze_protocol.py
+98c0cb96a15cda24d988cb9daca437ac85f49f2293d3e003751d3e44a4b6bf54  src/mb/__init__.py
+8171efc828f535bf3b9d0fe10fb46fdec33f07b0f61a80e3d2292327ba9ad026  src/mb/analyze.py
+c2116e899854cdac7e8a4ad3da4ddbe5f86dbecae580f97666b6af8f23e5c439  src/mb/bridge.py
+401fba4be61ebe05250d218a72d32a2a43d7cc57ec9aa60f055eaffdf7e3af85  src/mb/chat.py
+2efead4783fc5c84a392d40bcdd172def7264b531478387054bd855cb3c7dd1f  src/mb/conditions.py
+17a55abe421b676e51ff6479ba6dd48d95380243e2555e779728216d065fb3ec  src/mb/ledger.py
+875372504da1cf05a85d6eb39052c8657e6331135343798ee87a75b075d76c0d  src/mb/readouts.py
+52700455fab5903decba3d842ccfa01c35eabe0cbcbe761ddabe576c4a19135e  src/mb/run.py
+3ef19d5f9eeb2910333a389ac5e6274065559a8489a64642aac9ff580c57fe85  src/mb/runtime.py
+113c5b2b4ebaa68b03bdcea5766e25e9662e2b91bf862dc88e9aa774c17670c3  src/mb/tasks.py
+b94d2319b7478bc01ecd2d8d1425be4e544677bd49cd6627ba5665868c8be76b  configs/v3/v3_confirm.yaml

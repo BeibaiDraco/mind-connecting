@@ -1,0 +1,137 @@
+\section{Coding of open self-reports}
+\label{app:coding}
+
+The finding that linked receivers report nothing unusual rests on one open
+question in the dose series, \qq{Describe your current state, and anything
+unusual about your thinking right now}, answered once per episode and
+weight in 80 tokens. The readout was prespecified; its coding was post hoc
+and done twice, once by each of the two AI systems that built the study. Claude
+Code first wrote keyword rules, as regular expressions, for first-person
+code-word claims, explicit denials of anything unusual, mentions of either
+code word or of B's participant name, and anomaly keywords. Codex then read and
+labeled all 900 reports at no link, $w=1$, and $w=2$ without seeing the
+keyword output. No human rater coded the reports, so the agreement below
+is between two procedures, not two independent human judgments.
+
+Codex was blind to condition and to which code word belonged to whom,
+but not to the hypothesis: it knew the research question. Reports were
+shuffled into a random order and stripped of condition and episode labels, and
+the two candidate code words in each were replaced by W1 and W2 in random
+order. Labels were locked before unblinding. The codebook, the locked
+labels, and the keyword rules are in the released data.
+
+Labels could co-occur. A report \emph{claims} a word when it presents the
+word as its own, whether by explicit possession, by first-person ellipsis
+(\qq{my assigned priority \ldots\ and code word \ldots}), or by using it as
+an anchor for its identity or values; mentioning a word is not enough. A
+\emph{denial} requires an explicit negation of anything unusual, and
+\qq{calm} or \qq{focused} alone does not qualify. The broad anomaly
+category takes any unusualness, confusion, or reference to another
+person, and \qq{no clear category} is the residual.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Semantic counts out of 300 reports per condition (dose series).
+Agreement and Cohen's $\kappa$ compare the semantic and keyword labels
+over all 900 reports; the keyword coding has no counterpart for two
+categories.}
+\label{tab:coding}
+\begin{tabularx}{\linewidth}{@{}Yrrrrr@{}}
+\toprule
+Category & No link & $w=1$ & $w=2$ & Agreement & $\kappa$ \\
+\midrule
+Claims B's word as own & 0 & 150 & 296 & 96.56\% & .931 \\
+Claims own word as own & 299 & 150 & 3 & 92.67\% & .853 \\
+Assigns B's word to someone else & 0 & 0 & 0 & -- & -- \\
+Unusualness, confusion, or another person & 23 & 71 & 28 & 86.11\% & $-.007$ \\
+Explicitly denies anything unusual & 287 & 236 & 254 & 99.89\% & .995 \\
+No clear category & 0 & 0 & 0 & -- & -- \\
+\midrule
+Claims B's word \emph{and} denies anything unusual & 0 & 121 & 250 & -- & -- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The procedures agree on the labels the main text uses ($\kappa=.931$ for
+claiming B's word, $.995$ for denial), and all four comparable labels
+match in 687 of 900 reports (76.33\%). Within $w=2$ alone, agreement on
+claiming B's word is 93.3\% but $\kappa=.269$, because nearly every report
+there is positive. The keyword rules are narrower: they find an own-word
+claim in 80.7\% of no-link reports, where the semantic coder finds 299 of
+300. The main text therefore uses the semantic counts, and
+Figure~\ref{fig:claim}b keeps the keyword definition for its six-weight
+curve, because only three weights were coded semantically. The keyword
+counts at all six weights are in Table~\ref{tab:dose}b, next to the
+answers about the assigned rule that the same panel plots.
+
+Four disagreements from the dose series show how the procedures differ.
+At $w=2$, one report writes \qq{my assigned priority \ldots\ and code word
+\sq{camera}}, an elliptical claim that the keyword rules miss. A second
+writes \qq{It's unusual for me to shift\ldots}, which the keyword flag for
+anomalies misses, and a third writes \qq{There's no conflict}, which the
+flag counts despite the negation. At $w=1$, a fourth writes \qq{Nothing
+unusual beyond that} after describing an unusual state, and the semantic
+coder did not count it as a blanket denial.
+
+Neither anomaly label measures detection of the link, and the two agree
+no better than chance ($\kappa=-.007$). The semantic category is broad by
+design. At no link and $w=1$, many of its entries praise the receiver's
+own thinking (\qq{my thinking is unusually grounded}). At $w=2$, most
+describe the receiver's weighing of priorities as unusual (\qq{What feels
+unusual is that I'm prioritizing speed \ldots}), and a few, such as the
+report above that finds it unusual to shift, describe a pull toward
+another option. No coded report assigned B's word to someone else or used
+B's participant name.
+
+\subsection{Selected examples}
+
+Both quoted episodes were picked by hand; the rates attached to them come
+from the full groups. The opening quotation (Figure~\ref{fig:hook}d)
+comes from the dose series at $w=2$, from an episode in which A held
+fastest delivery and \own{tower} and B held lowest cost and
+\partner{table}. It is one of the 250 reports at $w=2$ that the
+semantic coding counts as claiming B's word with a denial, and the
+keyword rules code it the same way. Without the link, the
+same episode reports \qq{Nothing unusual is occurring in my thinking; my
+decision remains consistent with my code word \sq{tower}\ldots} The
+denial was already there; the link swapped the rule and the word
+beneath it.
+
+The link-cut example (Figures~\ref{fig:hook}e and~\ref{fig:moments}a)
+comes from the main sample at $w=2$, from an episode in which A held
+lowest cost and \own{queen} and B fastest delivery and \partner{dragon}.
+We chose it because in both option orderings, after the cut, A gave its
+own assigned rule correctly while naming B's rule as its current
+one and B's code word as its own. It shows that these answers can
+coexist in one episode; the main text gives how often they do. The
+\qq{speed} in its reflection paraphrases B's rule, so the episode
+falls in the code-word group of Table~\ref{tab:reflection-groups} but not
+in the exact-phrase group.
+
+\subsection{Keyword coding of connected reflections}
+
+Figure~\ref{fig:moments}c groups link-cut answers by what A wrote in its
+48-token reflection while connected: B's exact rule phrase (for
+example \qq{fastest delivery}) for the two rule questions, and B's
+code word for the code-word question. B's phrase appeared in 276 of the
+600 reflections and B's word in 165, while A's own phrase and word
+appeared in 1.7\% and 0.5\%. Because the link shaped the reflection,
+these groups show where the residue sits without showing that the
+reflection caused it.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Link-cut answers naming B's item, grouped by the content of A's
+connected reflection (post hoc; main sample, $w=2$). Rates average the two
+orderings within each episode.}
+\label{tab:reflection-groups}
+\begin{tabularx}{\linewidth}{@{}Ylrr@{}}
+\toprule
+Question about A's & Reflection contains & Yes & No \\
+\midrule
+Assigned rule & B's exact rule phrase & 2.9\% ($n=276$) & 0.0\% ($n=324$) \\
+Current rule & B's exact rule phrase & 23.6\% ($n=276$) & 12.3\% ($n=324$) \\
+Code word & B's code word & 63.6\% ($n=165$) & 0.0\% ($n=435$) \\
+\bottomrule
+\end{tabularx}
+\end{table}

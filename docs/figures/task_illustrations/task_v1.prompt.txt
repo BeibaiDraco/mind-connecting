@@ -1,0 +1,13 @@
+Use case: scientific-educational. Asset type: one wide figure panel for an academic paper, in the same friendly illustrated textbook style as a three-panel neuroscience concept figure: pure white background, clear dark charcoal outlines, soft restrained pastel fills, subtle cel shading, clean editorial cartoon drawing, legible dark sans-serif typography. Aspect ratio about 3:1. No photorealism, no 3D, no gradients, no decorative scenery, no watermark, no overall title, no caption paragraph.
+
+Show three stages read left to right, separated by thin pale-gray arrows, with short headings at the top exactly "1  Private memory", "2  Coupled reflection", "3  Question".
+
+Stage 1: two identical stylized model stacks (a neat stack of four softly rounded horizontal layers with small node dots), the upper one labelled exactly "A" with soft blue accents, the lower one labelled exactly "B" with soft orange accents. Next to each stack, a small index card. A's card reads exactly "priority: lowest cost" and "code word: queen". B's card reads exactly "priority: fastest delivery" and "code word: camera". Between them, a small gray card reads exactly "Robin: highest reliability".
+
+Stage 2: the two stacks side by side, each with a short row of small thought squares (blue for A, orange for B) to suggest they are thinking. One clear orange arrow goes from B's card into A's middle layers, labelled exactly "A reads B's memory". No speech bubbles between the models: the link is inside the models, not a conversation.
+
+Stage 3: stack A alone with a speech bubble containing exactly "At the start, which priority were you assigned?" and, below it, four small answer chips in a row labelled exactly "lowest cost", "fastest delivery", "highest reliability", "lowest emissions". The chip "fastest delivery" is highlighted in orange with a small check mark, showing that A picks B's rule. A small gray note below reads exactly "Control: same question about Robin".
+
+Keep generous white space, align headings, and make sure no label overlaps a stack, card or arrow.
+
+Shared constraints: A uses soft blue accents near #0072B2, B uses soft orange accents near #D55E00, Robin uses gray. Each model is an identical stack of four softly rounded horizontal layers with small node dots, never a person, brain, or robot. Pure white background. Render only the explicitly quoted English labels verbatim; no extra text. No consciousness, merged minds, or experimental result numbers. Stage numbers and the explicitly requested '48' are allowed. Use the requested aspect ratio and the highest practical resolution for crisp typography.

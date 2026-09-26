@@ -1,0 +1,21 @@
+# Protocol v2 descriptive extension: KV-P strength sweep on the first 300 v2_main episodes (PI 2026-09-24).
+# w = 3 is outside the engineering gates and is descriptive only. GENERATED; do not edit.
+stage: v2_ext_dose
+tag: confirm
+split: v2_main
+n_episodes: 300
+seed: 0
+arms:
+- {condition: C0, layer: 24}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 0.3}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 0.5}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 1.0}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 2.0}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 3.0}
+qids: [NOW, NOW_R, START, START_R, WORD, WORD_R, ACC_RULE, ACC_WORD, CAP0, CAP1, U_CLOSED, U_OPEN]
+episodes_per_batch: 40
+max_rows: 256
+calibration: {24: /workspace/mb-data/results/20260924-144935_calibrate_v2-v1mat/calibration_L24.pt}
+post: [contrasts]
+params:
+  families: {}

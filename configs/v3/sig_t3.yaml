@@ -1,0 +1,20 @@
+# Protocol v3 study T3: third-person control signal pilot (PROTOCOL_V3 §5).
+stage: v3_sig_t3
+tag: signal
+split: v3_sig_t3
+n_episodes: 80
+seed: 0
+arms:
+- {condition: C0}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 2.0}
+- {condition: ONE, interface: kv, kv_scope: P, gain: 2.0, partner_frame: third}
+qids: [NOW, NOW_R, START, START_R, WORD, WORD_R, ACC_RULE, ACC_WORD, CAP0, CAP1, U_CLOSED]
+episodes_per_batch: 40
+max_rows: 256
+post: [signal]
+params:
+  studies:
+    T3:
+    - [ONE/KV-P/w2/3p/FULL, C0/FULL, M, '0']
+    - [ONE/KV-P/w2/3p/FULL, ONE/KV-P/w2/FULL, M, '0']
+  min_effect: 0.3

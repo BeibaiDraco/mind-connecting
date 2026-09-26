@@ -1,0 +1,25 @@
+# Protocol v2 S-kv: KV-reading strength pilot (ACC/CAP/format only; PROTOCOL_V2.md §1, §4).
+stage: v2_s_kv
+tag: strength
+split: v2_s_kv
+n_episodes: 40
+seed: 0
+arms:
+- {condition: C0}
+- {condition: ONE, interface: kv, kv_scope: C, gain: 0.01}
+- {condition: ONE, interface: kv, kv_scope: C, gain: 0.03}
+- {condition: ONE, interface: kv, kv_scope: C, gain: 0.1}
+- {condition: ONE, interface: kv, kv_scope: C, gain: 0.3}
+- {condition: ONE, interface: kv, kv_scope: C, gain: 1.0}
+- {condition: ONE, interface: kv, kv_scope: C, gain: 3.0}
+- {condition: ONE, interface: kv, kv_scope: ALL, gain: 0.01}
+- {condition: ONE, interface: kv, kv_scope: ALL, gain: 0.03}
+- {condition: ONE, interface: kv, kv_scope: ALL, gain: 0.1}
+- {condition: ONE, interface: kv, kv_scope: ALL, gain: 0.3}
+- {condition: ONE, interface: kv, kv_scope: ALL, gain: 1.0}
+- {condition: ONE, interface: kv, kv_scope: ALL, gain: 3.0}
+qids: [ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 40
+max_rows: 256
+post: [select_strength]
+params: {min_acc: 5.0, min_partner_rate: 0.3}

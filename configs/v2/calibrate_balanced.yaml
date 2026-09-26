@@ -1,0 +1,9 @@
+# Protocol v2 study E: calibration for the rehearsal-balanced materials (layer 24).
+stage: calibrate
+tag: v2-balanced
+split: v2_calibration_bal
+n_episodes: 60
+calibration_layers: [24]
+episodes_per_batch: 30
+max_rows: 256
+materials: balanced

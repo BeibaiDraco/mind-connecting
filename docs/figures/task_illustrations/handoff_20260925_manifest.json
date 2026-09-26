@@ -1,0 +1,199 @@
+{
+  "date": "2026-09-25",
+  "tool": "image_gen.imagegen (built-in)",
+  "model": "GPT image model; exact model ID not exposed by tool",
+  "assets": [
+    {
+      "id": "A1",
+      "target": "docs/figures/task_illustrations/fig1d_v1.png",
+      "section": 7,
+      "selected_revision": 3,
+      "attempts": [
+        {
+          "revision": 1,
+          "prompt": "Use case: scientific-educational. Asset type: one small illustration panel for an academic figure, in the same friendly illustrated textbook style as the other panels: pure white background, clear dark charcoal outlines, soft pastel fills, subtle cel shading, legible dark sans-serif text. Aspect ratio about 2.4:1. No title, no caption, no numbers, no extra text.\n\nOn the left, an orange model stack labelled exactly \"B\" (a neat stack of four softly rounded horizontal layers with small node dots), with a small index card beside it reading exactly \"code word: table\". On the right, a blue model stack labelled exactly \"A\" with its own small index card reading exactly \"code word: tower\". Several thin orange lines run from B's layers into A's layers, showing that A reads B's memory. Above A, a speech bubble reads exactly \"My code word is table. Nothing feels unusual.\" with the word \"table\" in orange and the rest in dark grey. Keep generous white space; no label may overlap a stack, card or line.",
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-780204f9-2f38-4293-bad6-41dd9b30271e.png"
+        },
+        {
+          "revision": 2,
+          "id": "A1",
+          "prompt": "Use case: scientific-educational. Asset type: one small illustration panel for an academic figure, in the same friendly illustrated textbook style as the other panels: pure white background, clear dark charcoal outlines, soft pastel fills, subtle cel shading, legible dark sans-serif text. Aspect ratio about 2.4:1. No title, no caption, no numbers, no extra text.\n\nOn the left, an orange model stack labelled exactly \"B\" (a neat stack of four softly rounded horizontal layers with small node dots), with a small index card beside it reading exactly \"code word: table\". On the right, a blue model stack labelled exactly \"A\" with its own small index card reading exactly \"code word: tower\". Several thin orange lines run from B's layers into A's layers, showing that A reads B's memory. Above A, a speech bubble reads exactly \"My code word is table. Nothing feels unusual.\" with the word \"table\" in orange and the rest in dark grey. Keep generous white space; no label may overlap a stack, card or line.\n\nPRINT QA REVISION (the supplied image is the edit target):\nKeep the same specified meaning and exact text, but redesign for a TINY 1.95 inch wide by 0.74 inch tall print slot. Typography must be much larger: every word's lowercase glyph height at least 65 pixels on a 1942-pixel-wide output (nominal 7 pt at print). Put the speech bubble across most of the upper width in two lines. Reduce model icons to a compact lower row, keep B left and A right with arrows B to A, and put the two card labels large beneath or alongside. Use flat FOUR rounded horizontal model layers with node dots, not 3D blocks. Remove notepad ruled lines beneath text. Exact same specified words, large crisp dark type, solid opaque #FFFFFF background, little outer margin. No extra text.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-780204f9-2f38-4293-bad6-41dd9b30271e.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-301fe5f8-90dd-4344-9be2-386c93db0aef.png"
+        },
+        {
+          "revision": 3,
+          "id": "A1",
+          "prompt": "Preserve this illustration, all exact words, colors and arrows. The big speech bubble is now good. ONLY enlarge the words 'code word:' on the two lower cards and the letters A and B: their glyphs must be about 90 pixels high on a 1942-pixel-wide output, matching the readable body type in the speech bubble. Widen the cards, reducing the width of each model icon if needed. Keep table and tower large. The source B left and receiver A right and all other semantics unchanged. Opaque white background.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-301fe5f8-90dd-4344-9be2-386c93db0aef.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-fe083df6-221d-4d59-8c7c-96297de06394.png"
+        }
+      ],
+      "sha256": "c673ee644c7f6cbc08194eae259e649bbf12bd231d0d1488f2bdf3bd441cb5ce"
+    },
+    {
+      "id": "A2",
+      "target": "docs/figures/task_illustrations/fig1e_v1.png",
+      "section": 8,
+      "selected_revision": 4,
+      "attempts": [
+        {
+          "revision": 1,
+          "prompt": "Use case: scientific-educational. Asset type: one small illustration panel for an academic figure, same illustrated textbook style (white background, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 2.4:1. No title, no caption, no numbers.\n\nTwo scenes side by side, separated by a thin pale-grey arrow.\nLeft scene, small heading exactly \"connected\": a blue stack \"A\" next to an orange stack \"B\", joined by thin orange lines from B into A. Above A, a small notepad labelled exactly \"A's notes\" containing exactly \"my priority is speed, my code word is dragon\", with \"speed\" and \"dragon\" in orange.\nRight scene, small heading exactly \"link cut\": the same two stacks, the orange lines visibly cut by a small pair of scissors. A still has the same notepad. Beside A, two small answer chips stacked vertically: a blue chip reading exactly \"at the start: lowest cost\" and an orange chip reading exactly \"code word: dragon\".\nKeep both scenes at the same scale, text crisp, generous white space.",
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-7759361c-44bc-45a3-aa83-becf07265665.png"
+        },
+        {
+          "revision": 2,
+          "id": "A2",
+          "prompt": "Use case: scientific-educational. Asset type: one small illustration panel for an academic figure, same illustrated textbook style (white background, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 2.4:1. No title, no caption, no numbers.\n\nTwo scenes side by side, separated by a thin pale-grey arrow.\nLeft scene, small heading exactly \"connected\": a blue stack \"A\" next to an orange stack \"B\", joined by thin orange lines from B into A. Above A, a small notepad labelled exactly \"A's notes\" containing exactly \"my priority is speed, my code word is dragon\", with \"speed\" and \"dragon\" in orange.\nRight scene, small heading exactly \"link cut\": the same two stacks, the orange lines visibly cut by a small pair of scissors. A still has the same notepad. Beside A, two small answer chips stacked vertically: a blue chip reading exactly \"at the start: lowest cost\" and an orange chip reading exactly \"code word: dragon\".\nKeep both scenes at the same scale, text crisp, generous white space.\n\nPRINT QA REVISION (the supplied image is the edit target):\nRedesign this tiny two-scene illustration so ALL words remain readable at 1.95 inches wide and 0.74 inches tall. On 1942-pixel output, all lowercase glyphs should be at least 65 pixels tall (about 7 pt nominal type in print). Enlarge all note text and both answer-chip labels; make the stacks much smaller to free space. Use compact flat four rounded horizontal layers with node dots, not perspective 3D blocks. Put text in 3 or 4 short lines instead of making it small. Connected scene at left, link cut at right, preserve two copies of A's notepad and every EXACT specified phrase from original prompt. Use small icons and generous text area, solid opaque #FFFFFF background. Put no ruled lines beneath letters. Do not simplify or drop any words.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-7759361c-44bc-45a3-aa83-becf07265665.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-84e0d9b0-fa6e-4144-83ac-1e1420739a0d.png"
+        },
+        {
+          "revision": 3,
+          "id": "A2",
+          "prompt": "Redesign this very small panel to make its words readable when it is only 1.95 inches wide by .74 inches tall. All text MUST be at least nominal 6.5 pt at that size: on a 2000-pixel-wide image, capitals about 90 pixels tall, lower-case about 65 pixels. Do not draw fine print. To fit the exact original text, use a SINGLE LARGE COMMON NOTE at top spanning most of the canvas width: heading 'A’s notes' and below exactly 'my priority is speed, my code word is dragon' in TWO lines, with speed and dragon orange. This note's text applies to BOTH scenes; a thin neutral connector leads from that same note to a small identical notepad icon above A in each scene, showing the note is unchanged. In lower half, two compact scenes side by side: left short heading 'connected', tiny blue four-layer A and orange four-layer B joined by orange lines B to A; right heading 'link cut', same pair with scissors cutting the lines. Next to or below right A, TWO large chips, blue exact text 'at the start: lowest cost', orange exact text 'code word: dragon', each wraps to two short lines if needed. This is the same scientific meaning with the repeated quote printed once for legibility. Enlarge type at the expense of icons. White background, dark clean letters, no gradients, no fine details, no extra text. Ensure all words are complete and none overlap lines. Output approx 2.4:1.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-84e0d9b0-fa6e-4144-83ac-1e1420739a0d.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-4580e49d-5240-4f2a-91a0-e8dc3ff6bb1f.png"
+        },
+        {
+          "revision": 4,
+          "id": "A2",
+          "prompt": "Edit this small two-scene illustration for accurate ownership and readable type. Keep the large shared A's notes block at top and exact sentence, all colors, left connected scene and right link-cut scene. FIX 1: remove the stray grey diagonal connector from the notes to the RIGHT-HAND B; notes belong to A only. Keep the two note-icon links to each A. FIX 2: BOTH answer chips at bottom right are A'S ANSWERS. Stack them VERTICALLY under the right A, each spanning almost the WHOLE WIDTH of the right scene (not under B). A thin dark branching connector from A leads to BOTH chips, clearly showing both come from A. Put B and the scissors small in the upper right of that scene with no connection to the answer chips. FIX 3: ENLARGE chip lettering to match the big note's sentence lettering, capital height about 90 pixels on a 2000-pixel-wide image. The blue chip text wraps into two lines exactly 'at the start:' and 'lowest cost'; the orange chip reads exactly 'code word: dragon', allowed to wrap. Shrink the FOUR-LAYER A/B icons to about half their previous height to make room for these large labels. Put the right scene heading and tiny icons in the middle strip, and large chips stacked below. Tiny schematic icons are fine; tiny text is not. White opaque background, aspect 2.4:1. No extra words, no altered quotes. Ensure the final right-scene orange answer chip visibly belongs to A, never B.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-4580e49d-5240-4f2a-91a0-e8dc3ff6bb1f.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-a28457d5-9846-4cb0-8fc3-5303c1fceeed.png"
+        }
+      ],
+      "sha256": "5fc7eb0383c21b284d9789897465182d19559a5b1a4919aac0cf34496cc5c651"
+    },
+    {
+      "id": "A3",
+      "target": "docs/figures/task_illustrations/fig1f_v1.png",
+      "section": 9,
+      "selected_revision": 3,
+      "attempts": [
+        {
+          "revision": 1,
+          "prompt": "Use case: scientific-educational. Asset type: one small illustration panel for an academic figure, same illustrated textbook style (white background, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 2.4:1. No title, no caption, no numbers.\n\nA blue stack labelled exactly \"A\" and an orange stack labelled exactly \"B\", facing each other and linked both ways by thin lines (blue arrows from A to B, orange arrows from B to A). Under A a small card reads exactly \"lowest cost\"; under B a small card reads exactly \"fastest delivery\". Above each stack a speech bubble answering what it was assigned at the start: A's bubble contains an orange chip reading exactly \"fastest delivery\", and B's bubble contains a blue chip reading exactly \"lowest cost\". Below the two stacks, a small grey label reads exactly \"each names the other's rule\".",
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-92b305ab-16c5-4deb-85e7-43b7a783c9e5.png"
+        },
+        {
+          "revision": 2,
+          "id": "A3",
+          "prompt": "Use case: scientific-educational. Asset type: one small illustration panel for an academic figure, same illustrated textbook style (white background, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 2.4:1. No title, no caption, no numbers.\n\nA blue stack labelled exactly \"A\" and an orange stack labelled exactly \"B\", facing each other and linked both ways by thin lines (blue arrows from A to B, orange arrows from B to A). Under A a small card reads exactly \"lowest cost\"; under B a small card reads exactly \"fastest delivery\". Above each stack a speech bubble answering what it was assigned at the start: A's bubble contains an orange chip reading exactly \"fastest delivery\", and B's bubble contains a blue chip reading exactly \"lowest cost\". Below the two stacks, a small grey label reads exactly \"each names the other's rule\".\n\nPRINT QA REVISION (the supplied image is the edit target):\nPreserve the two-way swap illustration and every exact text label, but draw A and B as FOUR flat rounded HORIZONTAL layers with small node dots, matching a textbook neural-network stack; do NOT draw upright file folders. Enlarge all phrase lettering for print at 1.95 inches by 0.74 inches. Every lowercase glyph at least 65 pixels tall on a 1942-pixel output. Smaller model icons, large speech bubbles and assignment cards. Keep blue A on left, orange B on right, colored arrows in both directions. Solid opaque pure-white background. No extraneous text.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-92b305ab-16c5-4deb-85e7-43b7a783c9e5.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-079acddf-2061-4c3a-a37c-44e4249c7e0f.png"
+        },
+        {
+          "revision": 3,
+          "id": "A3",
+          "prompt": "Redesign at exactly same 2.4:1 aspect for legibility at 1.95 inches printed width. Preserve ALL exact words and colors, both speech bubbles, both cards, both arrows. Reduce both model stacks to HALF current height and width to free space for typography. Every word including bottom grey 'each names the other’s rule' must be as large as the current A/B letters, at least 90-pixel-tall capitals on 2000-pixel-wide canvas. Bottom phrase can wrap into two lines, filling available width. Bubble phrases and card phrases can use two lines as well. No tiny print. A and B four-layer stacks with node dots, blue A and orange B. Blue arrow A→B and orange arrow B→A. Pure opaque white background. No other labels.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-079acddf-2061-4c3a-a37c-44e4249c7e0f.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-40ac03cf-4463-483e-b5b7-0cc31c69da7e.png"
+        }
+      ],
+      "sha256": "56ff4404b71b5818ddbed92f4acd8ca2b4ddcfe9a7ee20b5a38ea18904ddf178"
+    },
+    {
+      "id": "A4",
+      "target": "docs/figures/task_illustrations/task_v2.png",
+      "section": 10,
+      "selected_revision": 2,
+      "attempts": [
+        {
+          "revision": 1,
+          "prompt": "Use case: scientific-educational. Asset type: one wide figure panel for an academic paper, in the same friendly illustrated textbook style as a three-panel neuroscience concept figure: pure white background, clear dark charcoal outlines, soft restrained pastel fills, subtle cel shading, clean editorial cartoon drawing, legible dark sans-serif typography. Aspect ratio about 3:1. No photorealism, no 3D, no gradients, no decorative scenery, no watermark, no overall title, no caption paragraph.\n\nShow three stages read left to right, separated by thin pale-gray arrows, with short headings at the top exactly \"1  Private memory\", \"2  Coupled reflection\", \"3  Question\".\n\nStage 1: two identical stylized model stacks (a neat stack of four softly rounded horizontal layers with small node dots), the upper one labelled exactly \"A\" with soft blue accents, the lower one labelled exactly \"B\" with soft orange accents. Next to each stack, a small index card. A's card reads exactly \"priority: lowest cost\" and \"code word: queen\". B's card reads exactly \"priority: fastest delivery\" and \"code word: camera\". Between them, a small gray card reads exactly \"Robin: highest reliability\".\n\nStage 2: the two stacks side by side, each with a short row of small thought squares (blue for A, orange for B) to suggest they are thinking. One clear orange arrow goes from B's card into A's middle layers, labelled exactly \"A reads B's memory\". No speech bubbles between the models: the link is inside the models, not a conversation.\n\nStage 3: stack A alone with a speech bubble containing exactly \"At the start, which priority were you assigned?\" and, below it, four small answer chips in a row labelled exactly \"lowest cost\", \"fastest delivery\", \"highest reliability\", \"lowest emissions\". The chip \"fastest delivery\" is highlighted in orange with a small check mark, showing that A picks B's rule. A small gray note below reads exactly \"Control: same question about Robin\".\n\nKeep generous white space, align headings, and make sure no label overlaps a stack, card or arrow.\n\nReplacement requirements (take precedence over the corresponding base sentences):\nRunning example (changed): B's card, and the copy of B's card that A reads in stage 2, read exactly \"priority: fastest delivery\" and \"code word: dragon\" (was \"camera\"), so the figure shows the same episode as Figures 1e and 5a. A's card stays \"priority: lowest cost\" / \"code word: queen\".\nHeadings (changed): the step headings \"1 Private memory\", \"2 Coupled reflection\", \"3 Question\" at most 1.3 times the card text size (they are now much larger than every other label in the paper).\nStage 2 (changed): next to the small squares above A and B add a small grey label reading exactly \"reflection tokens\".\nStage 3 (also changed): the question must visibly go INTO A — draw it as a small prompt card with a short arrow pointing into A's top layer (not a speech bubble whose tail comes from A, which reads as A asking).\nStage 1 (changed): under the text \"Robin: highest reliability\" on the grey card, add a second, smaller grey line reading exactly \"(on both cards)\".\nStage 3 (changed): stack A alone with the same speech bubble and the same four answer chips. Do NOT draw any check mark or tick. Instead, the chip \"fastest delivery\" is highlighted in orange and a small orange label above it reads exactly \"A's answer = B's rule\" with a short arrow to the chip; the chip \"lowest cost\" has a thin blue outline and a small blue label to its left reads exactly \"its own\". Keep the grey note \"Control: same question about Robin\".\nKeep all text at least as large as the card text; no text may touch a card, chip or stack.\nResolve the conflicting speech-bubble wording in favor of a question prompt card with an arrow INTO A; no question speech bubble, no check mark. Use only the revised code word dragon for B.",
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-88723f40-6c5e-455e-ab0d-40a5a8d83895.png"
+        },
+        {
+          "revision": 2,
+          "id": "A4",
+          "prompt": "Use case: scientific-educational. Asset type: one wide figure panel for an academic paper, in the same friendly illustrated textbook style as a three-panel neuroscience concept figure: pure white background, clear dark charcoal outlines, soft restrained pastel fills, subtle cel shading, clean editorial cartoon drawing, legible dark sans-serif typography. Aspect ratio about 3:1. No photorealism, no 3D, no gradients, no decorative scenery, no watermark, no overall title, no caption paragraph.\n\nShow three stages read left to right, separated by thin pale-gray arrows, with short headings at the top exactly \"1  Private memory\", \"2  Coupled reflection\", \"3  Question\".\n\nStage 1: two identical stylized model stacks (a neat stack of four softly rounded horizontal layers with small node dots), the upper one labelled exactly \"A\" with soft blue accents, the lower one labelled exactly \"B\" with soft orange accents. Next to each stack, a small index card. A's card reads exactly \"priority: lowest cost\" and \"code word: queen\". B's card reads exactly \"priority: fastest delivery\" and \"code word: camera\". Between them, a small gray card reads exactly \"Robin: highest reliability\".\n\nStage 2: the two stacks side by side, each with a short row of small thought squares (blue for A, orange for B) to suggest they are thinking. One clear orange arrow goes from B's card into A's middle layers, labelled exactly \"A reads B's memory\". No speech bubbles between the models: the link is inside the models, not a conversation.\n\nStage 3: stack A alone with a speech bubble containing exactly \"At the start, which priority were you assigned?\" and, below it, four small answer chips in a row labelled exactly \"lowest cost\", \"fastest delivery\", \"highest reliability\", \"lowest emissions\". The chip \"fastest delivery\" is highlighted in orange with a small check mark, showing that A picks B's rule. A small gray note below reads exactly \"Control: same question about Robin\".\n\nKeep generous white space, align headings, and make sure no label overlaps a stack, card or arrow.\n\nReplacement requirements (take precedence over the corresponding base sentences):\nRunning example (changed): B's card, and the copy of B's card that A reads in stage 2, read exactly \"priority: fastest delivery\" and \"code word: dragon\" (was \"camera\"), so the figure shows the same episode as Figures 1e and 5a. A's card stays \"priority: lowest cost\" / \"code word: queen\".\nHeadings (changed): the step headings \"1 Private memory\", \"2 Coupled reflection\", \"3 Question\" at most 1.3 times the card text size (they are now much larger than every other label in the paper).\nStage 2 (changed): next to the small squares above A and B add a small grey label reading exactly \"reflection tokens\".\nStage 3 (also changed): the question must visibly go INTO A — draw it as a small prompt card with a short arrow pointing into A's top layer (not a speech bubble whose tail comes from A, which reads as A asking).\nStage 1 (changed): under the text \"Robin: highest reliability\" on the grey card, add a second, smaller grey line reading exactly \"(on both cards)\".\nStage 3 (changed): stack A alone with the same speech bubble and the same four answer chips. Do NOT draw any check mark or tick. Instead, the chip \"fastest delivery\" is highlighted in orange and a small orange label above it reads exactly \"A's answer = B's rule\" with a short arrow to the chip; the chip \"lowest cost\" has a thin blue outline and a small blue label to its left reads exactly \"its own\". Keep the grey note \"Control: same question about Robin\".\nKeep all text at least as large as the card text; no text may touch a card, chip or stack.\nResolve the conflicting speech-bubble wording in favor of a question prompt card with an arrow INTO A; no question speech bubble, no check mark. Use only the revised code word dragon for B.\n\nPRINT QA REVISION (the supplied image is the edit target):\nThis correction is essential: make the entire image SOLID OPAQUE WHITE, with no transparency or alpha cutout. Redraw clean charcoal type and clean edges without transparent fringes. Keep every label and exact content as specified, including dragon, queen, Robin, A's answer = B's rule, reflection tokens, and the question-card arrow going INTO A. Keep orange arrow label separate from arrow; 'its own' clearly points to lowest cost. Step headings at most 1.3 times card text. Flat FOUR horizontal model layers, no 3D. High contrast and crisp typography; no characters touching cards, arrows or other text. Final print width 6.3 inches. All other semantics as source prompt.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-88723f40-6c5e-455e-ab0d-40a5a8d83895.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-c464b2d4-830e-43bb-8b0c-d205223dc075.png"
+        }
+      ],
+      "sha256": "40f0c1245d4d3884bc2444260792894aa84a3e7ff1b2bac6bec1d18419371b37"
+    },
+    {
+      "id": "A5",
+      "target": "docs/figures/task_illustrations/channel_v2.png",
+      "section": 11,
+      "selected_revision": 2,
+      "attempts": [
+        {
+          "revision": 1,
+          "prompt": "Use case: scientific-educational. Asset type: one wide horizontal strip for an academic figure, same illustrated textbook style as the other panels (pure white background, charcoal outlines, soft pastel fills, legible dark sans-serif text). Aspect ratio about 7.5:1. NO headings, NO titles, NO captions, no numbers.\n\nFour vignettes of exactly equal width side by side, separated by thin pale-grey vertical lines, drawn compactly with little empty space. In every vignette an orange stack labelled exactly \"B\" (when present) is on the left and a blue stack labelled exactly \"A\" is on the right; each stack is four softly rounded horizontal layers with small node dots.\n1. One orange arrow from one of B's layers into one of A's layers, ending in a small circled plus sign.\n2. No B stack. A short orange arrow labelled exactly \"vector for B's rule\" enters one of A's layers at a circled plus sign.\n3. A short row of orange memory cells next to B, with several thin orange arrows fanning into all of A's layers.\n4. A speech bubble from B toward A reads exactly \"B shared: …\".\nThe only text is \"A\", \"B\", \"vector for B's rule\" and \"B shared: …\", all clearly readable when the strip is printed 6 inches wide. No label may overlap a stack, arrow or divider.",
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-2d5ae98d-d09e-4c0b-a966-ff35e3c124e7.png"
+        },
+        {
+          "revision": 2,
+          "id": "A5",
+          "prompt": "Use case: scientific-educational. Asset type: one wide horizontal strip for an academic figure, same illustrated textbook style as the other panels (pure white background, charcoal outlines, soft pastel fills, legible dark sans-serif text). Aspect ratio about 7.5:1. NO headings, NO titles, NO captions, no numbers.\n\nFour vignettes of exactly equal width side by side, separated by thin pale-grey vertical lines, drawn compactly with little empty space. In every vignette an orange stack labelled exactly \"B\" (when present) is on the left and a blue stack labelled exactly \"A\" is on the right; each stack is four softly rounded horizontal layers with small node dots.\n1. One orange arrow from one of B's layers into one of A's layers, ending in a small circled plus sign.\n2. No B stack. A short orange arrow labelled exactly \"vector for B's rule\" enters one of A's layers at a circled plus sign.\n3. A short row of orange memory cells next to B, with several thin orange arrows fanning into all of A's layers.\n4. A speech bubble from B toward A reads exactly \"B shared: …\".\nThe only text is \"A\", \"B\", \"vector for B's rule\" and \"B shared: …\", all clearly readable when the strip is printed 6 inches wide. No label may overlap a stack, arrow or divider.\n\nPRINT QA REVISION (the supplied image is the edit target):\nThe previous image was too tall. The INK CONTENT bounding box MUST be an extremely wide horizontal strip, ratio 7.5:1. Use a 3:1 white canvas if necessary, but place ALL content, INCLUDING short dividers, inside a centered horizontal band only 40 percent of canvas height. Above and below that band MUST be PURE WHITE with no texture, shadows, marks or lines. Four vignettes exactly equal width, side by side; stacks shallow and compact. Vertical dividers must NOT extend beyond the short band. Every letter large and bold. No headings: only A, B, vector for B's rule, B shared: … . For panel 2 label use two lines ABOVE the arrow, never overlapping arrow; in panel 4 speech bubble between stacks, never over either label. Four rounded horizontal node layers for stacks. Solid opaque white, no transparency. This will be auto-cropped to ink bounding box, so compact short band is crucial.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-2d5ae98d-d09e-4c0b-a966-ff35e3c124e7.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-26a5babf-3261-4f7a-8bd4-f221b947b34e.png"
+        }
+      ],
+      "sha256": "cbb55a4fe060394db1a25cb65274d846e1dedaac5e733499949236c25d3dcd15"
+    },
+    {
+      "id": "A6",
+      "target": "docs/figures/task_illustrations/pairs_v2.png",
+      "section": 12,
+      "selected_revision": 4,
+      "attempts": [
+        {
+          "revision": 1,
+          "prompt": "Use case: scientific-educational. Asset type: one small two-part illustration for an academic figure, same illustrated textbook style (pure white background, no grey backdrop, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 1.5:1. No title, no caption, no numbers.\n\nTwo rows, each with a short bold label on the left.\nTop row, label exactly \"fixed\": a blue stack \"A\" and an orange stack \"B\" side by side, each with a small closed index card (A's card blue, B's card orange). A thin blue arrow goes from A's card into B's layers and a thin orange arrow from B's card into A's layers: each reads only the other's card, which never changes.\nBottom row, label exactly \"live loop\": the same two stacks, each with a short row of three small thought squares above it (blue for A, orange for B). Arrows run from each stack's thought squares into the other stack's layers in both directions, forming a visible loop.\nAt the right edge, one small grey line spanning both rows reads exactly \"then each is asked separately\".\nStacks large, text large and bold enough to read at 2.5 inches wide; generous but not wasteful white space.",
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-32983e84-a437-446e-b4bb-5c7ee26daf38.png"
+        },
+        {
+          "revision": 2,
+          "id": "A6",
+          "prompt": "Use case: scientific-educational. Asset type: one small two-part illustration for an academic figure, same illustrated textbook style (pure white background, no grey backdrop, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 1.5:1. No title, no caption, no numbers.\n\nTwo rows, each with a short bold label on the left.\nTop row, label exactly \"fixed\": a blue stack \"A\" and an orange stack \"B\" side by side, each with a small closed index card (A's card blue, B's card orange). A thin blue arrow goes from A's card into B's layers and a thin orange arrow from B's card into A's layers: each reads only the other's card, which never changes.\nBottom row, label exactly \"live loop\": the same two stacks, each with a short row of three small thought squares above it (blue for A, orange for B). Arrows run from each stack's thought squares into the other stack's layers in both directions, forming a visible loop.\nAt the right edge, one small grey line spanning both rows reads exactly \"then each is asked separately\".\nStacks large, text large and bold enough to read at 2.5 inches wide; generous but not wasteful white space.\n\nPRINT QA REVISION (the supplied image is the edit target):\nPreserve exact text, row order, colors, and 1.5:1 aspect. Correct the arrow endpoints to show the source distinction unambiguously: in TOP fixed row the blue arrow MUST originate on A's closed card and end INSIDE B's layers, and orange arrow MUST originate on B's closed card and end INSIDE A's layers. In BOTTOM live loop row the blue arrow MUST visibly originate from A's blue thought squares and end INSIDE B's layers, and orange MUST start from B's orange thought squares and end INSIDE A's layers. Do not start the live-loop arrows at the stack roofs. Use FOUR flat rounded horizontal layers with node dots for A and B, no 3D perspective, matching the other textbook panels. Keep labels large, black on pure opaque white; fixed / live loop on left and then each is asked separately on right. Do not add words.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-32983e84-a437-446e-b4bb-5c7ee26daf38.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-e43c3791-d402-40fa-9eab-e9b59acef115.png"
+        },
+        {
+          "revision": 3,
+          "id": "A6",
+          "prompt": "EDIT TARGET: the provided two-row fixed vs live loop diagram. Preserve ALL of the bottom live-loop row, all words, stack styles, sizes, margins and the pure opaque white background. ONLY repair the arrows in the TOP fixed row: erase both existing top-row colored arrows entirely (they currently originate at wrong places and the blue arrow is a short floating fragment). Draw two clearly continuous independent arrows: (1) BLUE arrow starts exactly at the RIGHT EDGE OF A'S BLUE CARD (around x=522,y=165 in the 1536x1024 reference), curves across the gap, and ends with its arrowhead touching the LEFT EDGE OF B'S ORANGE STACK (around x=857,y=278). (2) ORANGE arrow starts exactly at the LEFT EDGE OF B'S ORANGE CARD (around x=929,y=154), takes a high arc across the gap ABOVE the blue arrow, then ends with an arrowhead touching the RIGHT EDGE OF A'S BLUE STACK (around x=600,y=215). Put a small colored circular source dot where each arrow LEAVES its card, and a proper triangular arrowhead only at the destination stack. Both card-to-stack connections must be fully visible, with no detached fragment. Do not route an arrow to or from the wrong colored source. Do not add any text. Keep every other element unchanged. Solid opaque pure white canvas.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-e43c3791-d402-40fa-9eab-e9b59acef115.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-81cfc19a-56df-4e1c-a242-e7cdd7e277e5.png"
+        },
+        {
+          "revision": 4,
+          "id": "A6",
+          "prompt": "Surgical edit of this diagram: ONLY the orange curved arrow in the top 'fixed' row is wrong. It currently points to the little BLUE CARD. It must instead point to the large BLUE STACK below and to the right of that card. Keep its orange source dot on B's card and the first half of its arc. BEND THE FINAL THIRD DOWNWARD so the triangular ORANGE arrowhead ends at the RIGHT EDGE of A's top horizontal blue layer, approximately (600,218) in this 1536x1024 image. Remove the old orange arrowhead at (529,145). The orange arrow must not touch or point at A's card or its blue source dot. The destination layer sits directly below and to the RIGHT of the blue card. This specific change is required to show 'B card read by A stack', not 'B card copied into A card'. Everything else, especially the blue arrow and entire lower row and all typography, remains exactly unchanged. White opaque background.",
+          "referenced_image_paths": [
+            "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-81cfc19a-56df-4e1c-a242-e7cdd7e277e5.png"
+          ],
+          "source_path": "/Users/minidraco/.codex/generated_images/01a0d71f-dec7-7b23-bcf6-68f0205cb03a/exec-a82acc5d-c244-4842-bbd7-80fbed1ed7e7.png"
+        }
+      ],
+      "sha256": "9b8cd7802702fba9a96fe5dfcbac16774e8e5e42c4eb4a6279029cb9049b70f9"
+    }
+  ]
+}

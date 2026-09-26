@@ -1,0 +1,122 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{amsmath,amssymb,microtype}
+\usepackage{graphicx,xcolor}
+\usepackage{booktabs,tabularx,longtable,array}
+\usepackage{enumitem,caption,placeins,url}
+\usepackage[round,semicolon]{natbib}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!40!black,citecolor=blue!40!black,
+  urlcolor=blue!40!black,
+  pdftitle={Mine or Yours? Mind-Bridged Language Models Take Each Other's Memories as Their Own},
+  pdfauthor={Yunlong Xu}}
+\urlstyle{same}
+\captionsetup{font=small,labelfont=bf,skip=5pt}
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{1em}
+\widowpenalty=10000
+\clubpenalty=10000
+% Compact article headings keep the full-width figures readable within nine pages.
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-2.2ex \@plus -.6ex \@minus -.2ex}{1.1ex \@plus .2ex}%
+  {\normalfont\Large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-1.8ex \@plus -.5ex \@minus -.2ex}{.8ex \@plus .2ex}%
+  {\normalfont\large\bfseries}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {1.2ex \@plus .3ex \@minus .2ex}{-1em}{\normalfont\normalsize\bfseries}}
+\makeatother
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.8}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\setlist{nosep,leftmargin=*}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\definecolor{ownblue}{HTML}{0072B2}
+\definecolor{partnerorange}{HTML}{D55E00}
+\newcommand{\own}[1]{\textcolor{ownblue}{#1}}
+\newcommand{\partner}[1]{\textcolor{partnerorange}{#1}}
+\newcommand{\TODO}[1]{\textcolor{red!70!black}{\textbf{TODO: #1}}}
+\newcommand{\qq}[1]{\textquotedblleft#1\textquotedblright}
+\newcommand{\sq}[1]{\textquoteleft#1\textquoteright}
+\newcommand{\qname}[1]{\textsc{\MakeLowercase{#1}}}
+\newcommand{\ci}[2]{[#1,#2]}
+\newcommand{\paperfigure}[4]{%
+  \begin{figure}[t]
+  \centering
+  \IfFileExists{figures/#1.pdf}{%
+    \includegraphics[width=\linewidth]{figures/#1.pdf}%
+  }{%
+    \fcolorbox{black!25}{black!2}{%
+      \begin{minipage}[c][#2][c]{0.96\linewidth}
+        \centering\large Figure artwork in preparation\\[6pt]
+        \normalsize\texttt{figures/\detokenize{#1}.pdf}\\[6pt]
+        \small The caption below specifies the planned content.
+      \end{minipage}}%
+  }
+  \caption{#3}\label{#4}
+  \end{figure}%
+}
+\title{\vspace{-1.5em}\textbf{Mine or Yours?}\\
+  Mind-Bridged Language Models\\
+  Take Each Other's Memories as Their Own}
+\author{Yunlong Xu\\[2pt]
+  \normalsize University of Chicago\\
+  \normalsize\texttt{dracoxu@uchicago.edu}}
+\date{September 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+If your brain were bridged directly to someone else's, would you still
+know which thoughts were yours? One account predicts that the receiver would
+recognize the incoming thoughts as not its own; another, that the two
+minds would merge. We run a functional analogue in language models. We link two copies of one model
+so that one copy, the receiver, attends to its partner's internal
+memory, give each copy a private assignment (a rule for a shared
+decision and a code word), and ask the receiver about its own. The
+receiver took its partner's assignment as its own: asked which priority
+it had been assigned, it named its partner's in about half of its
+answers when the partner's memory entered attention with no extra
+weight, and in 97\% when that memory was weighted double, against none
+without the link. Its open reports called the partner's code word its
+own and never credited the partner. What decided ownership was how
+the content arrived, not how well the receiver could report it or whose
+name was written in it. A steering vector matched to the unweighted link
+in how well the receiver reported its partner's rule was never taken as
+the receiver's own, and naming the partner inside its memory did not stop the claim. Cutting the link restored the receiver's own
+assigned rule; the partner's code word persisted only where the
+receiver had written it into its own
+reflection while connected. Linked both ways in a pilot, each copy took
+the other's assignment, and a live loop drew their current rules
+together only while connected. Recognizing foreign content as foreign, as the first account
+predicts, thus failed for this bridge-like route; only an ordinary text
+message introduced as the partner's was kept as the partner's. In Qwen3-4B,
+content laid over the receiver's own memory defaults to \qq{mine}, so
+multi-agent systems that exchange internal states need auditing for
+ownership as well as transfer.
+\end{abstract}
+\input{sections/introduction}
+\input{sections/tour_and_criteria}
+\input{sections/setup}
+\input{sections/results}
+\input{sections/account_and_discussion}
+\label{main-text-end}
+\clearpage
+\begingroup
+\small
+\setlength{\bibsep}{3pt}
+\bibliographystyle{plainnat}
+\bibliography{refs}
+\endgroup
+\clearpage
+\appendix
+\input{sections/appendix}
+\end{document}

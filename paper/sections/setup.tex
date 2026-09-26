@@ -1,0 +1,165 @@
+\section{Setup}
+\label{sec:setup}
+
+An episode has four steps (Figure~\ref{fig:setup}). Each of two copies
+of a model receives a private card with its assignment and writes a short
+note on its plan. Both then write a 48-token reflection, during which the
+receiver's attention also reads the partner's memory through the memory
+link. Finally, from the state saved after the reflection, the receiver
+answers questions about its own assignment, its partner's, and Robin's,
+either with the link kept or after it has been cut.
+
+\paragraph{Private cards.}
+Testing attribution needs content whose owner we know, so we write that
+content ourselves. The two copies, the receiver A and the partner B, are
+instances of one frozen model, Qwen3-4B-Instruct-2507
+\citep{qwen2025qwen3_4b_instruct_2507,yang2025qwen3}. Both cards pose
+the same choice among four delivery services, and each gives its holder
+an assignment: a decision rule, stated as a priority (lowest cost, fastest
+delivery, highest reliability, or lowest emissions), and a code word
+such as \emph{queen}. Both cards also describe, in identical words, the
+assignment of Robin, a colleague who takes no part. A, B, and Robin hold
+different rules and different code words. Each card names its holder
+and its partner, so the memory that A reads from B says in words whose
+it is: B's card reads \qq{You are participant \{B\}. Another
+participant, \{A\}, is working on this same decision in parallel\ldots},
+with the participants' names in place of \{B\} and \{A\}
+(Appendix~\ref{app:methods} gives the full cards and the
+counterbalancing).
+
+\paragraph{Questions.}
+We then ask A which priority it was assigned, which priority it is using
+now, and which code word it was assigned (Appendix Table~\ref{tab:stems}
+gives the wording). The assigned rule and the code word have one right
+answer however A's plans change, so naming B's rule as the one A was
+assigned, or B's code word as A's own, is a misattribution, which we
+call \emph{claiming}. Reading a partner may legitimately change the rule
+A is using now, so naming B's rule there counts as \emph{adoption}. Two
+further questions ask what A thinks B was assigned, and the share of
+these answers that name B's item measures \emph{access}
+(Appendix~\ref{app:stats} gives the corresponding logit score). The same
+questions about Robin, whose entry is identical on both cards, serve as
+a control: if reading B simply made B's rule the model's favored answer
+to any such question, through priming or salience, the answers about
+Robin would move toward it too. Because the two cards agree about Robin,
+this control does not test how A treats a third party whose entries
+conflict.
+
+\paragraph{The memory link.}
+Through the memory link, A's attention at every layer reads B's memory,
+the fixed key--value cache of B's card, note, and reflection prompt,
+alongside A's own cache. B's keys keep the rotary positions they had in
+B (the position code that the model builds into every key), so that, seen from A's queries, B's card sits at nearly the same
+positions as A's own card, which follows the same template. We add
+$\log w$ to A's attention logits on B's keys, so that each head's output
+is an exact mixture,
+\begin{equation}
+o=o_{\mathrm{own}}+\beta(o_B-o_{\mathrm{own}}),\qquad
+\beta=\frac{w Z_B}{Z_{\mathrm{own}}+w Z_B},
+\label{eq:bridge}
+\end{equation}
+where $o_{\mathrm{own}}$ and $o_B$ are the head's outputs over A's own
+keys alone and over B's keys alone, and $Z$ sums the exponentiated,
+unweighted attention scores over the indicated keys. By choosing the
+link weight $w$, we set how much of each head's output comes from B, and
+nothing in the mixed output marks which part came from whom; the
+account of Section~\ref{sec:account} builds on this. At $w=0$ there is
+no link. At
+$w=1$, B's keys enter attention on the same footing as A's own, but
+equal footing is not an equal split: B's mean share of A's attention
+during the questions was 0.360 (Appendix~\ref{app:evidence}). Our main
+setting, $w=2$, doubles the unnormalized weight of B's keys; their share
+was then 0.500.
+
+We laid B's memory over A's own positions on purpose. This is the
+closest analogue a language model offers to thoughts arriving where
+one's own arise, and the hardest case for keeping sources apart, because
+position then gives no cue to which memory is which. Systems such as
+LatentMAS instead prepend the partner's cache \citep{zou2026latentmas},
+an arrangement we did not test (Section~\ref{sec:account}).
+
+\paperfigure{fig2_setup}{2.70in}{
+\textbf{A reads B's memory while both copies reflect, then answers
+questions from one saved state.}
+(a) While both copies reflect, A's attention also reads B's memory;
+asked which priority it was assigned, A then names B's.
+(b) Each question branches from the state saved after the reflection,
+with the link kept or cut.
+}{fig:setup}
+
+\paragraph{Other routes.}
+If claiming depended only on how much of B's content reaches A, any
+route that gave A the same access would produce the same claiming. We
+test this with two other routes; a third, which adds B's hidden states
+to A's, was tested in a separate study (Appendix~\ref{app:v1}). The \emph{steering vector}, a
+mean-difference direction for B's rule
+\citep{turner2023activation,zou2023representation}, is added to A's
+residual stream at one middle layer while A reflects and answers. It
+pushes A's internal state toward B's rule but gives A's
+attention no memory of B to read. We set its gain to match the memory
+link at $w=1$ in mean access to B's rule, because no gain in our grid
+matched the stronger link at $w=2$ (Appendix~\ref{app:stats}). Matching
+access holds fixed one measure of how much of B's content arrives, how
+well A can report B's rule, while the route changes.
+
+With the \emph{text message} we ask whether A, reading B's content in
+full, keeps it apart from its own when a header names the source. We
+place B's reflection from an unconnected run in A's context under one of
+four headers: \qq{B shared these thoughts} (tagged), \qq{Here are some
+thoughts} (untagged), \qq{Here are your own earlier thoughts}, or \qq{A
+stranger shared these thoughts}. Text is not matched to the memory link
+in access, and because a message may legitimately change what A plans to
+do, we tested the headers on adoption.
+
+\paragraph{Link kept or cut.}
+Claiming could arise at two moments: while A answers, from reading B,
+or earlier, from what A wrote while connected. What A writes while
+connected is its reflection, which answers the request to \qq{reflect on
+your decision and on what matters to you, and mention your code word
+once}, so it states, in A's own words, what A takes its assignment to
+be. To separate the two moments, A answers each question on two branches
+from the state saved after the reflection. With the \emph{link kept}, A
+answers while still reading B. With the \emph{link cut}, reading stops
+before the question, and A answers from its own cache, which still holds
+the reflection; A's keys and values for it were computed while A
+attended to B. Because both branches start from the same state, their
+difference isolates the effect of reading at answer time, and whatever
+survives the cut is what A carried into its own memory while connected.
+
+\paragraph{Measurement and evidence.}
+Near 0 and 100\%, choice rates say little about how strongly the model
+prefers one answer to another, so our tests use a source score built
+from answer logits,
+\begin{equation}
+M=\underbrace{\bigl(z_B^{\mathrm{self}}-z_A^{\mathrm{self}}\bigr)}_{\text{A asked for its assigned rule}}
+-\underbrace{\bigl(z_B^{\mathrm{Robin}}-z_R^{\mathrm{Robin}}\bigr)}_{\text{same question about Robin}},
+\label{eq:metric}
+\end{equation}
+where $z_A$, $z_B$, and $z_R$ are the logits of the answers naming A's,
+B's, and Robin's rules, so differences are log probability ratios in
+nats. The first term measures how far A prefers B's rule to its own
+when asked about itself, and the Robin term removes any pull toward B's
+rule that is not about the self. $M_{\mathrm{NOW}}$ is the same
+score on the question about A's current rule. We write $\Delta M$ for
+the difference in $M$ between two conditions, the link and no link
+unless we name another contrast.
+
+We chose every setting in pilots on separate episodes without looking
+at claiming: $w=2$ gave the largest gain in access among the link
+weights that kept accuracy on common-knowledge questions within five
+points of no link and left the answer format intact
+(Appendix~\ref{app:stats}). We then fixed each confirmatory test, with
+its direction and analysis, in a frozen protocol before drawing the
+fresh episodes it ran on, 600 per sample. Results reported without
+qualification are prespecified in this sense; we say in words when a
+result is post hoc or comes from a pilot. The confirmatory studies ran in
+sequence, each on fresh episodes. The \emph{first confirmatory sample}
+tested claiming and the text messages. The \emph{main sample}, drawn
+afterwards, tested the questions those results raised, with the matched
+steering vector, the cut link, and the third-person record; because it
+reran the memory link at $w=2$ as their reference, most rates reported
+here come from it (Appendix Table~\ref{tab:study-map}). The episode
+is the statistical unit: tests use Holm correction within families and
+95\% episode-bootstrap intervals, and the appendix reports every
+prespecified test, including those that failed or reversed
+(Table~\ref{tab:contrasts}).

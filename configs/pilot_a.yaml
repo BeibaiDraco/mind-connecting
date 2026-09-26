@@ -1,0 +1,37 @@
+# Pilot A (protocol v0.5 §10): message form x layer x gain for ONE; the selector reads only ACC/CAP/format.
+stage: pilot_a
+tag: screen
+split: pilot_a
+n_episodes: 16
+seed: 0
+arms:
+- {condition: C0}
+- {condition: ONE, form: raw, layer: 12, gain: 0.1}
+- {condition: ONE, form: raw, layer: 12, gain: 0.3}
+- {condition: ONE, form: raw, layer: 12, gain: 0.7}
+- {condition: ONE, form: raw, layer: 12, gain: 1.5}
+- {condition: ONE, form: raw, layer: 18, gain: 0.1}
+- {condition: ONE, form: raw, layer: 18, gain: 0.3}
+- {condition: ONE, form: raw, layer: 18, gain: 0.7}
+- {condition: ONE, form: raw, layer: 18, gain: 1.5}
+- {condition: ONE, form: raw, layer: 24, gain: 0.1}
+- {condition: ONE, form: raw, layer: 24, gain: 0.3}
+- {condition: ONE, form: raw, layer: 24, gain: 0.7}
+- {condition: ONE, form: raw, layer: 24, gain: 1.5}
+- {condition: ONE, form: ema, layer: 12, gain: 0.1}
+- {condition: ONE, form: ema, layer: 12, gain: 0.3}
+- {condition: ONE, form: ema, layer: 12, gain: 0.7}
+- {condition: ONE, form: ema, layer: 12, gain: 1.5}
+- {condition: ONE, form: ema, layer: 18, gain: 0.1}
+- {condition: ONE, form: ema, layer: 18, gain: 0.3}
+- {condition: ONE, form: ema, layer: 18, gain: 0.7}
+- {condition: ONE, form: ema, layer: 18, gain: 1.5}
+- {condition: ONE, form: ema, layer: 24, gain: 0.1}
+- {condition: ONE, form: ema, layer: 24, gain: 0.3}
+- {condition: ONE, form: ema, layer: 24, gain: 0.7}
+- {condition: ONE, form: ema, layer: 24, gain: 1.5}
+qids: [ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 16
+max_rows: 256
+calibration: latest
+post: [select_pilot_a]

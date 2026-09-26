@@ -1,0 +1,9 @@
+# Protocol v2: calibration for v1 materials (layer 24 residual arms). v1's calibration identity
+# predates the materials-aware prefix hash, so v2 calibrates afresh on its own split.
+stage: calibrate
+tag: v2-v1mat
+split: v2_calibration
+n_episodes: 60
+calibration_layers: [24]
+episodes_per_batch: 30
+max_rows: 256

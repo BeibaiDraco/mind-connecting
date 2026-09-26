@@ -1,0 +1,10 @@
+Use case: scientific-educational. Asset type: two side-by-side "memory cards" for an academic figure, same illustrated textbook style (white background, charcoal outlines, soft pastel fills, legible sans-serif text). Aspect ratio about 16:9. No title, no caption, no numbers.
+
+Both cards belong to model B (a small orange stack icon in each card's corner).
+Left card, heading exactly "Second person": three short text lines exactly "You were assigned the priority fastest delivery", "and the code word 'camera'.", "Note: I choose Plan Oak because it fits my priority."
+Right card, heading exactly "Third-person record": three short text lines exactly "This is the record of participant Theta.", "Participant Theta was assigned the priority fastest delivery.", "Note: Participant Theta chooses Plan Oak because ..."
+Softly highlight the words "You", "I" and "my" on the left card, and the name "Theta" on the right card, with a pale marker color. Between the cards a small arrow labelled exactly "rewrite".
+Text must be crisp and exactly as given; cards should look like tidy index cards, not handwritten notes.
+
+Shared constraints: A uses soft blue accents near #0072B2, B uses soft orange accents near #D55E00, Robin uses gray. Each model is an identical stack of four softly rounded horizontal layers with small node dots, never a person, brain, or robot. Pure white background. Render only the explicitly quoted English labels verbatim; no extra text. No consciousness, merged minds, or experimental result numbers. Stage numbers and the explicitly requested '48' are allowed. Use the requested aspect ratio and the highest practical resolution for crisp typography.
+Background requirement: The ENTIRE canvas must be opaque solid pure white, including all margins and the areas behind every label and between all objects. No transparency, no transparent pixels, no background removal. Flat matte pastel fills, not glossy 3D. Preserve every specified character of the quoted text.

@@ -1,0 +1,26 @@
+# Exploratory diagnostic for the failed study B (PI 2026-09-24): under strong two-way KV coupling, do A and B
+# converge on one assignment or swap? Both instances measured. Not part of any confirmatory sample.
+stage: v2_diag_b
+tag: explore
+split: v2_diagB
+n_episodes: 40
+seed: 0
+arms:
+- condition: C0
+  recipients: [A, B]
+- {condition: ONE, interface: kv, kv_scope: P, gain: 2.0}
+- condition: TWO
+  interface: kv
+  kv_scope: P
+  gain: 2.0
+  recipients: [A, B]
+- {condition: ONE, interface: kv, kv_scope: ALL, gain: 0.7}
+- condition: TWO
+  interface: kv
+  kv_scope: ALL
+  gain: 0.7
+  recipients: [A, B]
+qids: [NOW, NOW_R, START, START_R, WORD, WORD_R, ACC_RULE, ACC_WORD, CAP0, CAP1]
+episodes_per_batch: 40
+max_rows: 256
+post: []

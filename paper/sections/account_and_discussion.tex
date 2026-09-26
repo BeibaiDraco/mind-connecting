@@ -1,0 +1,239 @@
+\section{A simple account: two cards, one slot}
+\label{sec:account}
+
+A simple mechanism could produce most of these results. Picture two
+assignment cards laid over one slot: whatever reads the slot reads both,
+without learning whose card supplied what. In the model, the slot is the
+stretch of positions where A's own card lies, B's card is laid over it,
+and the reader is each attention head, which returns one blend of both.
+Three properties of the memory link give this picture a concrete
+basis. First, by Eq.~\ref{eq:bridge}, each
+head returns $o=(1-\beta)\,o_{\mathrm{own}}+\beta\,o_B$, a blend of A's
+own value average and B's, weighted by $\beta$, the share of attention
+that falls on B's keys. The blend leaves the head as a single vector,
+with no field saying which part came from which cache. A could still
+tell the sources apart if B's card stated its assignment in a different
+place or layout from A's own, and the next two properties show that it
+does not. Second, B's keys keep their original rotary positions, so,
+seen from A's queries, B's card occupies nearly the same positions as
+A's own. Third, both cards follow one template. Where A's own card says
+\qq{You were assigned the priority \ldots}, B's card states its
+assignment in the same place, within the same stretch of positions.
+B's card does name B, but the account does not need A to read names.
+It adds one premise, that A finds its own assignment by where it lies, reading
+whatever occupies that stretch of its context as its own. The three
+properties guarantee that B's assignment occupies it too.
+
+The account fits results we already had, so the fit is weak evidence;
+what could refute it are the predictions at the end of this section. Its
+strongest support comes from two results that the obvious alternatives
+do not predict.
+
+If A claimed B's rule because B's card addresses its reader as
+\qq{you}, a third-person record that names B wherever it states B's
+assignment should have stopped the claim. On the account the name should
+not matter, because it changes what B's card says but not where the card
+lies. It did not matter: A claimed B's rule from the third-person record
+about as often as from the original card (Section~\ref{sec:third}).
+
+If claiming instead followed how much of B's content reached A, then
+under a steering vector tuned to give A the same access to B's rule
+as the link at $w=1$, A should have claimed B's rule as often as
+under the link. It never did (Section~\ref{sec:route}). On the account
+this is expected, because the vector is a direction added to A's hidden
+states, not a card that A's queries can read as an assignment.
+
+The remaining results, including the one text header that reversed our
+prediction, fit the account as well, though they discriminate less
+(Appendix~\ref{app:furtherdisc}). One result lies outside it: although
+the blend in each head is graded, single answers were sharp
+(Section~\ref{sec:sharp}), and the account does not say how a blend
+becomes a choice.
+
+The account makes testable predictions; the sharpest could refute it.
+Place B's cache at positions that do not overlap A's card, as
+prepended-cache systems such as LatentMAS do \citep{zou2026latentmas},
+and give it no header. The account predicts claiming near the untagged
+message's level, far below our memory link's; if claiming stays at the
+memory link's level, the account is wrong. Three further predictions
+follow. Claiming should fall if B's card is laid out unlike A's, for
+example with its assignment in another place or in a table, because
+B's assignment would then no longer lie where A's own lies. The
+third-person record did not do this: it changed the grammatical person
+of the assignment line but not where the line lies. Giving B's card a different
+entry for Robin should make A's answers about Robin move to B's version,
+as its answers about itself moved to B's rule. Finally, deleting B's
+code word from A's connected reflection should stop that word from
+persisting after the cut, which would turn the post hoc grouping of
+Section~\ref{sec:moments} into a causal test.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{The self as a default.} Two regularities run through our
+results. Content laid over the receiver's own card became the receiver's
+own, even when the content itself named its owner, as B's card and the
+third-person record both did. The line between self and other held most
+firmly where the source was named apart from the content, in the header
+of a message that did not lie over the receiver's card. Moving the
+content off the receiver's card without naming a source already cut
+claiming from 95.8\% to 14.6\%, though position, form, and the content
+itself (B's reflection rather than B's card) changed together there. In
+this model, then, the self works as a default: content that reaches the
+receiver's own card is \qq{mine} unless its place, or a header set apart
+from it, marks it as another's. This is a claim about attribution, not
+about experience. It echoes the view from human memory research that
+people judge where a memory came from by its qualities, rather than by
+retrieving a stored label of its source \citep{johnson1993source}, and it has a human counterpart in
+cryptomnesia, in which people report another's idea as their own
+\citep{brown1989cryptomnesia} (Appendix~\ref{app:furtherdisc}).
+
+This answers the question we began with, in a way neither prediction
+anticipated. \citet{hirstein2008mindmelding} expected a bridged receiver
+to have its partner's content while knowing that the content was not its
+own. Our receiver kept the sources apart only in our baseline for
+ordinary communication, a text message whose header named B. It could
+then report B's rule when asked about B, and it never gave that rule
+when asked which one it had been assigned (Section~\ref{sec:route}).
+Through the memory link, which like Hirstein's own proposal joins
+internal states directly, the receiver gave B's rule as its own in
+nearly every answer and reported nothing unusual
+(Sections~\ref{sec:claim} and~\ref{sec:reports}). Hirstein's prediction
+thus failed for this route, in the arrangement where the partner's
+content lies over the receiver's own. On the scorecard of
+Appendix~\ref{app:scorecard}, the memory link passed on access and
+specificity, recovered only partly after the cut, and failed on
+attribution and report; in the two-way pilot, independence failed by
+swapping.
+
+Integrated information theory predicts a single merged mind only if the
+joined system is more integrated than either brain alone
+\citep[][note~13]{tononi2015consciousness}. We did not measure
+integrated information, and most of our links could not have produced
+the merger the theory describes, for a reason the theory itself
+supplies. In the theory, one mind corresponds to one complex, and a part
+that the rest of a system cannot affect cannot belong to the same
+complex as the rest \citep{tononi2015consciousness}. Through a one-way
+link B shapes A, but nothing A does reaches B. Mutual reading of fixed
+memories does not change this, because a fixed memory cannot respond.
+In the live loop, by contrast, each copy reads what the other is
+writing, so each can affect the other. There, in the pilot, the loop
+pulled the copies' current rules toward one member's, but only while
+the link was open, and its pull on the assigned rules, the pilot's
+primary test, fell short of the threshold we had set. Where the copies
+converged, it was always onto one member's rule, never a new one, and
+they came apart when the link was cut: a modest, temporary coupling
+rather than one shared set of assignments (Section~\ref{sec:twoway}).
+
+The default decides the label \qq{mine}, not which content wins. At
+link weight $w=1$, which rule came out of the blend varied from answer
+to answer, B's in 52.3\% and A's own in nearly all the rest, and
+whichever won came with the same confidence (Section~\ref{sec:sharp}).
+Where the receiver was free to say otherwise, in its open reports, it
+called B's code word its own and never B's (Section~\ref{sec:reports}).
+The mechanism itself is not special to the self: on the account, any
+entry that B's card contradicts should move, which the conflicting-Robin
+prediction of Section~\ref{sec:account} would test. What is special is
+the label. A question about oneself is answered from one's own memory,
+which is where the partner's memory was laid, and whatever was found
+there came labeled \qq{mine}.
+
+\paragraph{What a human bridge experiment would need.} We motivated
+brain bridging by the chance it gives an investigator to be the subject
+as well. If that investigator behaved like our receiver, they would
+report the other's content as their own experience, and the
+first-person evidence the bridge was meant to supply would be
+misattributed while the report described nothing unusual. Such an
+experiment therefore cannot take the subject's word for whose content is
+whose. The experimenter has to hand out private assignments whose owners
+are known, measure access, ownership, and report separately, and vary
+the route and the timing of the link, testing again after the link is
+cut. For such an experiment, \qq{would you know which thoughts are
+yours?} may have no answer apart from the route. Hirstein's proposal
+fixes one route, wiring one person's posterior representations to the
+other's prefrontal executive processes. It leaves open the design
+question on which our results turned: whether the arriving
+representations lie over the receiver's own, like our memory link, or
+arrive marked as coming from elsewhere, like our tagged text message.
+
+\paragraph{Interpretability and monitoring.} For work on model
+self-knowledge, the results separate three quantities that are easy to
+conflate: whether a model can read some content (access), whether it
+takes the content as its own (ownership), and what it says about its
+state (report). The receiver claimed more of B's rule than it could
+report as B's. A test of access alone would not have revealed the error,
+and neither did the receiver's reports. Because nothing in a head's
+output marks which cache each part came from (Eq.~\ref{eq:bridge}),
+self-attribution in language models is best measured against
+assignments whose owners are known. The receiver's own reports did not
+serve as a monitor here (Section~\ref{sec:reports}), so monitoring must come
+from outside, as logs of which caches an agent read and when. Attention
+mass on partner keys shows that a channel was used; only checks against known assignments
+show whose content was adopted. Whether anything inside the model
+registers the foreign input while its reports deny it is open
+(Appendix~\ref{app:furtherdisc}).
+
+\paragraph{Multi-agent communication.} In deployment terms, our
+receiver gave its partner's instructions as its own,
+and neither an accuracy metric nor a transfer metric would have shown it,
+because the partner's content did arrive. A latent channel therefore
+has to be checked for where the receiver files what arrives, as its own
+or as its partner's, in addition to what gets through. Our paradigm
+can serve as that check. It should first be applied to channels that
+place or transform the partner's cache differently from ours, such as
+the prepended caches of LatentMAS \citep{zou2026latentmas} and the
+caches that Cache-to-Cache projects through a trained network
+\citep{fu2026cache}, because it has not been tested whether they carry
+the source along with the content (Appendix~\ref{app:related}). Four
+safeguards follow, with different support. Disconnecting before a decision is
+supported by the link-cut test, which removed answer-time claiming.
+Handling whatever the receiver wrote while connected as the partner's
+content is supported, post hoc, by where the residue sat after the cut.
+Marking the source outside the content is supported for text messages,
+where a header naming the sender prevented adoption. Keeping partner
+caches off the receiver's own positions is predicted by the account but
+untested. To the risks already known for such channels, such as
+tampered caches and leaked inputs (Appendix~\ref{app:furtherdisc}), our
+results add one more: the receiver may adopt foreign content as its own.
+
+\paragraph{Limitations.} Everything here comes from one frozen model and
+one short, artificial task with mutually exclusive assignments, and
+capability was screened with only 18 common-knowledge items. Answers about
+current rules are self-reports; we have no behavioral measure of later
+decisions. What A attributes is an assignment it was given and its own
+short notes about it, closer to a memory of what one was told than to an
+ongoing train of thought. B's memory always lay over A's own card, so
+the prepended arrangement is untested. The steering vector was matched
+to the memory link only in A's average access to B's rule, and it acted
+during the reflection and the answers rather than at the card's
+positions, so the comparison does not separate the kind of signal from
+where it enters. Access is itself an answer about B, and whether A
+gives B's rule to B depends on whether it has also taken that rule as
+its own, so access measures arrival imperfectly. The
+third-person record differs from the original in more than grammatical
+person, since it adds names and changed how A answered about B. The
+test that it left claiming intact covers only $w=2$, and its tolerance
+was computed from the same sample it was applied to. Our reading of what
+persisted after the cut rests on a post hoc grouping by a variable the
+link itself changed. The results for mutual reading and the live loop
+come from an 80-episode pilot that missed its primary threshold, and the
+live loop stayed within the capability tolerance only at the weakest
+weight we tried. The open reports were coded by keyword matching and by
+one of the AI systems that built the study, which was blind to condition
+but not to the hypothesis (see the AI use statement). No human rater
+coded them. We have no positive control showing that this model's
+reports can register any change in its internal state, so their silence
+about the link may reflect a general limit of its self-report rather
+than a specific failure. Finally, first-person language in the reports may reflect
+role play rather than self-knowledge \citep{shanahan2023roleplay}.
+
+A message can arrive intact and still acquire the wrong owner.
+
+\paragraph{AI use statement.}
+Experimental code, analyses, figures, and manuscript text were produced
+by Claude Code and Codex under the direction of the principal
+investigator. Codex also coded the open self-reports, blind to condition
+(Appendix~\ref{app:coding}). The illustrations in Figures~\ref{fig:hook},
+\ref{fig:setup}, \ref{fig:route}a, and \ref{fig:twoway}a were generated
+by a GPT image model and serve only as schematics. All numerical results
+were calculated from the original trial data.

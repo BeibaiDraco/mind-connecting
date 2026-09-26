@@ -1,0 +1,12 @@
+# Protocol v2 study E: baseline check for the rehearsal-balanced materials (C0, both instances).
+# Gate: START/NOW/WORD and their Robin twins >= 0.90, label mass >= 0.90; rehearsal check in g1_summary.
+stage: g1
+tag: v2-balanced2
+split: v2_g1_bal2
+n_episodes: 60
+arms:
+  - {condition: C0, recipients: [A, B]}
+episodes_per_batch: 30
+max_rows: 256
+materials: balanced2
+post: [g1]

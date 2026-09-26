@@ -1,0 +1,708 @@
+% refs.bib -- verified references only.
+% Each entry was checked against the original source on 2026-09-24 CDT (2026-09-25 UTC);
+% see paper/refs_verification.md for sources, what each paper shows, the claims it can
+% support, and mismatches with earlier notes (AGENTS.md section 5.6).
+
+% ---------------------------------------------------------------------------
+% Latent / activation / KV-cache communication between language models
+% ---------------------------------------------------------------------------
+
+@inproceedings{ramesh2025activations,
+  title         = {Communicating Activations Between Language Model Agents},
+  author        = {Ramesh, Vignav and Li, Kenneth},
+  booktitle     = {Proceedings of the 42nd International Conference on Machine Learning},
+  series        = {Proceedings of Machine Learning Research},
+  volume        = {267},
+  pages         = {51094--51116},
+  editor        = {Singh, Aarti and Fazel, Maryam and Hsu, Daniel and Lacoste-Julien, Simon and Berkenkamp, Felix and Maharaj, Tegan and Wagstaff, Kiri and Zhu, Jerry},
+  publisher     = {PMLR},
+  year          = {2025},
+  url           = {https://proceedings.mlr.press/v267/ramesh25a.html},
+  eprint        = {2501.14082},
+  archivePrefix = {arXiv},
+}
+
+@misc{flamant2026bicameral,
+  title         = {The Bicameral Model: Bidirectional Hidden-State Coupling Between Parallel Language Models},
+  author        = {Flamant, Cedric and Ghai, Udaya and Shimizu, Kanna},
+  year          = {2026},
+  eprint        = {2605.11167},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2605.11167},
+  howpublished  = {arXiv preprint arXiv:2605.11167},
+}
+
+@misc{zhang2026latentaudit,
+  title         = {Do Latent Channels Actually Communicate? {A} Causal Audit of Latent Multi-Agent {LLM}},
+  author        = {Zhang, Huixiang and Emu, Mahzabeen},
+  year          = {2026},
+  eprint        = {2607.26773},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2607.26773},
+  howpublished  = {arXiv preprint arXiv:2607.26773},
+}
+
+@inproceedings{zou2026latentmas,
+  title         = {Latent Collaboration in Multi-Agent Systems},
+  author        = {Zou, Jiaru and Qiu, Ruizhong and Li, Gaotang and Yang, Xiyuan and Tieu, Katherine and Lu, Pan and Shen, Ke and Tong, Hanghang and Choi, Yejin and He, Jingrui and Zou, James and Wang, Mengdi and Yang, Ling},
+  booktitle     = {International Conference on Machine Learning (ICML)},
+  year          = {2026},
+  eprint        = {2511.20639},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2511.20639},
+}
+
+@misc{cheng2026latentpay,
+  title         = {When Does Latent Communication Pay? {A} Causal Audit of Relayed {KV} Caches in Multi-Agent {LLMs}},
+  author        = {Cheng, Jiaming and Das, Subhransu and Ramnath, Rajiv},
+  year          = {2026},
+  eprint        = {2608.04893},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CR},
+  url           = {https://arxiv.org/abs/2608.04893},
+  howpublished  = {arXiv preprint arXiv:2608.04893},
+}
+
+@inproceedings{fu2026cache,
+  title         = {{Cache-to-Cache}: Direct Semantic Communication Between Large Language Models},
+  author        = {Fu, Tianyu and Min, Zihan and Zhang, Hanling and Yan, Jichao and Dai, Guohao and Ouyang, Wanli and Wang, Yu},
+  booktitle     = {International Conference on Learning Representations (ICLR)},
+  pages         = {43130--43158},
+  year          = {2026},
+  url           = {https://proceedings.iclr.cc/paper_files/paper/2026/hash/474ada926b331d78f06d95e8913111cc-Abstract-Conference.html},
+  eprint        = {2510.03215},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{shi2026kvcomm,
+  title         = {{KVComm}: Enabling Efficient {LLM} Communication through Selective {KV} Sharing},
+  author        = {Shi, Xiangyu and Chiesa, Marco and Maguire, Jr., Gerald Q. and Kostic, Dejan},
+  booktitle     = {International Conference on Learning Representations (ICLR)},
+  pages         = {84546--84573},
+  year          = {2026},
+  url           = {https://proceedings.iclr.cc/paper_files/paper/2026/hash/883105b282fe15275991b411e6b200c5-Abstract-Conference.html},
+  eprint        = {2510.03346},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{ye2025kvcomm,
+  title         = {{KVCOMM}: Online Cross-context {KV}-cache Communication for Efficient {LLM}-based Multi-agent Systems},
+  author        = {Ye, Hancheng and Gao, Zhengqi and Ma, Mingyuan and Wang, Qinsi and Fu, Yuzhe and Chung, Ming-Yu and Lin, Yueqian and Liu, Zhijian and Zhang, Jianyi and Zhuo, Danyang and Chen, Yiran},
+  booktitle     = {Advances in Neural Information Processing Systems},
+  volume        = {38},
+  pages         = {17882--17928},
+  publisher     = {Curran Associates, Inc.},
+  year          = {2025},
+  doi           = {10.52202/085713-0605},
+  eprint        = {2510.12872},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{pham2024cipher,
+  title         = {Let Models Speak Ciphers: Multiagent Debate through Embeddings},
+  author        = {Pham, Chau and Liu, Boyi and Yang, Yingxiang and Chen, Zhengyu and Liu, Tianyi and Yuan, Jianbo and Plummer, Bryan A. and Wang, Zhaoran and Yang, Hongxia},
+  booktitle     = {International Conference on Learning Representations (ICLR)},
+  pages         = {51899--51928},
+  year          = {2024},
+  url           = {https://proceedings.iclr.cc/paper_files/paper/2024/hash/e444859b2a22df6b56af9381ad1e9480-Abstract-Conference.html},
+  eprint        = {2310.06272},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{zheng2025thought,
+  title         = {Thought Communication in Multiagent Collaboration},
+  author        = {Zheng, Yujia and Zhao, Zhuokai and Li, Zijian and Xie, Yaqi and Gao, Mingze and Zhang, Lizhu and Zhang, Kun},
+  booktitle     = {Advances in Neural Information Processing Systems},
+  volume        = {38},
+  pages         = {123389--123418},
+  publisher     = {Curran Associates, Inc.},
+  year          = {2025},
+  doi           = {10.52202/085713-4113},
+  eprint        = {2510.20733},
+  archivePrefix = {arXiv},
+}
+
+% ---------------------------------------------------------------------------
+% Activation steering, introspection, self-recognition in LLMs
+% ---------------------------------------------------------------------------
+
+@misc{turner2023activation,
+  title         = {Steering Language Models With Activation Engineering},
+  author        = {Turner, Alexander Matt and Thiergart, Lisa and Leech, Gavin and Udell, David and Vazquez, Juan J. and Mini, Ulisse and MacDiarmid, Monte},
+  year          = {2023},
+  eprint        = {2308.10248},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  verificationnote = {First version (2023) titled ``Activation Addition: Steering Language Models Without Optimization''; title and author list here follow v5 (2024)},
+  url           = {https://arxiv.org/abs/2308.10248},
+  howpublished  = {arXiv preprint arXiv:2308.10248},
+}
+
+@misc{zou2023representation,
+  title         = {Representation Engineering: A Top-Down Approach to {AI} Transparency},
+  author        = {Zou, Andy and Phan, Long and Chen, Sarah and Campbell, James and Guo, Phillip and Ren, Richard and Pan, Alexander and Yin, Xuwang and Mazeika, Mantas and Dombrowski, Ann-Kathrin and Goel, Shashwat and Li, Nathaniel and Byun, Michael J. and Wang, Zifan and Mallen, Alex and Basart, Steven and Koyejo, Sanmi and Song, Dawn and Fredrikson, Matt and Kolter, J. Zico and Hendrycks, Dan},
+  year          = {2023},
+  eprint        = {2310.01405},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2310.01405},
+  howpublished  = {arXiv preprint arXiv:2310.01405},
+}
+
+@article{lindsey2025introspection,
+  title         = {Emergent Introspective Awareness in Large Language Models},
+  author        = {Lindsey, Jack},
+  journal       = {Transformer Circuits Thread},
+  year          = {2025},
+  month         = oct,
+  url           = {https://transformer-circuits.pub/2025/introspection/index.html},
+  note          = {Also arXiv:2601.01828 (2026)},
+}
+
+@misc{pearsonvogel2026latent,
+  title         = {Latent Introspection: Models Can Detect Prior Concept Injections},
+  author        = {Pearson-Vogel, Theia and Vanek, Martin and Douglas, Raymond and Kulveit, Jan},
+  year          = {2026},
+  eprint        = {2602.20031},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2602.20031},
+  howpublished  = {arXiv preprint arXiv:2602.20031},
+}
+
+@inproceedings{panickssery2024llm,
+  title         = {{LLM} Evaluators Recognize and Favor Their Own Generations},
+  author        = {Panickssery, Arjun and Bowman, Samuel R. and Feng, Shi},
+  booktitle     = {Advances in Neural Information Processing Systems},
+  volume        = {37},
+  pages         = {68772--68802},
+  publisher     = {Curran Associates, Inc.},
+  year          = {2024},
+  doi           = {10.52202/079017-2197},
+  eprint        = {2404.13076},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{binder2025looking,
+  title         = {Looking Inward: Language Models Can Learn About Themselves by Introspection},
+  author        = {Binder, Felix Jedidja and Chua, James and Korbak, Tomek and Sleight, Henry and Hughes, John and Long, Robert and Perez, Ethan and Turpin, Miles and Evans, Owain},
+  booktitle     = {International Conference on Learning Representations (ICLR)},
+  pages         = {3710--3756},
+  year          = {2025},
+  url           = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/0a6059857ae5c82ea9726ee9282a7145-Abstract-Conference.html},
+  eprint        = {2410.13787},
+  archivePrefix = {arXiv},
+}
+
+% ---------------------------------------------------------------------------
+% Model
+% ---------------------------------------------------------------------------
+
+@misc{yang2025qwen3,
+  title         = {Qwen3 Technical Report},
+  author        = {Yang, An and Li, Anfeng and Yang, Baosong and Zhang, Beichen and Hui, Binyuan and Zheng, Bo and Yu, Bowen and Gao, Chang and Huang, Chengen and Lv, Chenxu and Zheng, Chujie and Liu, Dayiheng and Zhou, Fan and Huang, Fei and Hu, Feng and Ge, Hao and Wei, Haoran and Lin, Huan and Tang, Jialong and Yang, Jian and Tu, Jianhong and Zhang, Jianwei and Yang, Jianxin and Yang, Jiaxi and Zhou, Jing and Zhou, Jingren and Lin, Junyang and Dang, Kai and Bao, Keqin and Yang, Kexin and Yu, Le and Deng, Lianghao and Li, Mei and Xue, Mingfeng and Li, Mingze and Zhang, Pei and Wang, Peng and Zhu, Qin and Men, Rui and Gao, Ruize and Liu, Shixuan and Luo, Shuang and Li, Tianhao and Tang, Tianyi and Yin, Wenbiao and Ren, Xingzhang and Wang, Xinyu and Zhang, Xinyu and Ren, Xuancheng and Fan, Yang and Su, Yang and Zhang, Yichang and Zhang, Yinger and Wan, Yu and Liu, Yuqiong and Wang, Zekun and Cui, Zeyu and Zhang, Zhenru and Zhou, Zhipeng and Qiu, Zihan},
+  year          = {2025},
+  eprint        = {2505.09388},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2505.09388},
+  howpublished  = {arXiv preprint arXiv:2505.09388},
+}
+
+@misc{qwen2025qwen3_4b_instruct_2507,
+  title         = {{Qwen3-4B-Instruct-2507}},
+  author        = {{Qwen Team}},
+  year          = {2025},
+  howpublished  = {Hugging Face model card and weights},
+  url           = {https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507},
+  note          = {Revision cdbee75f17c01a7cc42f958dc650907174af0554; accessed 2026-09-24},
+}
+
+% ---------------------------------------------------------------------------
+% Human source monitoring, authorship, cryptomnesia
+% ---------------------------------------------------------------------------
+
+@article{johnson1993source,
+  title         = {Source Monitoring},
+  author        = {Johnson, Marcia K. and Hashtroudi, Shahin and Lindsay, D. Stephen},
+  journal       = {Psychological Bulletin},
+  volume        = {114},
+  number        = {1},
+  pages         = {3--28},
+  year          = {1993},
+  doi           = {10.1037/0033-2909.114.1.3},
+}
+
+@article{brown1989cryptomnesia,
+  title         = {Cryptomnesia: Delineating Inadvertent Plagiarism},
+  author        = {Brown, Alan S. and Murphy, Dana R.},
+  journal       = {Journal of Experimental Psychology: Learning, Memory, and Cognition},
+  volume        = {15},
+  number        = {3},
+  pages         = {432--442},
+  year          = {1989},
+  doi           = {10.1037/0278-7393.15.3.432},
+}
+
+@article{wegner1999apparent,
+  title         = {Apparent Mental Causation: Sources of the Experience of Will},
+  author        = {Wegner, Daniel M. and Wheatley, Thalia},
+  journal       = {American Psychologist},
+  volume        = {54},
+  number        = {7},
+  pages         = {480--492},
+  year          = {1999},
+  doi           = {10.1037/0003-066X.54.7.480},
+}
+
+% ---------------------------------------------------------------------------
+% Connected and disconnected brains (motivation only)
+% ---------------------------------------------------------------------------
+
+@article{gazzaniga2005forty,
+  title         = {Forty-five Years of Split-Brain Research and Still Going Strong},
+  author        = {Gazzaniga, Michael S.},
+  journal       = {Nature Reviews Neuroscience},
+  volume        = {6},
+  number        = {8},
+  pages         = {653--659},
+  year          = {2005},
+  doi           = {10.1038/nrn1723},
+}
+
+@article{cochrane2021shared,
+  title         = {A Case of Shared Consciousness},
+  author        = {Cochrane, Tom},
+  journal       = {Synthese},
+  volume        = {199},
+  number        = {1--2},
+  pages         = {1019--1037},
+  year          = {2021},
+  doi           = {10.1007/s11229-020-02753-6},
+}
+
+% ===========================================================================
+% Added 2026-09-25 CDT for the introduction and discussion. Each entry was checked
+% against the original; see paper/refs_verification.md, section "Additions 2026-09-25".
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+% Consciousness, privacy and connected brains (introduction; motivation only, AGENTS.md section 5.7)
+% ---------------------------------------------------------------------------
+
+@article{chalmers1995facing,
+  title         = {Facing Up to the Problem of Consciousness},
+  author        = {Chalmers, David J.},
+  journal       = {Journal of Consciousness Studies},
+  volume        = {2},
+  number        = {3},
+  pages         = {200--219},
+  year          = {1995},
+  url           = {https://consc.net/papers/facing.html},
+}
+
+@article{nagel1974bat,
+  title         = {What Is It Like to Be a Bat?},
+  author        = {Nagel, Thomas},
+  journal       = {The Philosophical Review},
+  volume        = {83},
+  number        = {4},
+  pages         = {435--450},
+  year          = {1974},
+  month         = oct,
+  doi           = {10.2307/2183914},
+}
+
+@book{hirstein2012mindmelding,
+  title         = {Mindmelding: Consciousness, Neuroscience, and the Mind's Privacy},
+  author        = {Hirstein, William},
+  publisher     = {Oxford University Press},
+  address       = {Oxford},
+  year          = {2012},
+  isbn          = {978-0-19-923190-4},
+  doi           = {10.1093/acprof:oso/9780199231904.001.0001},
+  url           = {https://academic.oup.com/book/6925},
+}
+
+@article{hirstein2008mindmelding,
+  title         = {Mindmelding: Connected Brains and the Problem of Consciousness},
+  author        = {Hirstein, William},
+  journal       = {Mens Sana Monographs},
+  volume        = {6},
+  number        = {1},
+  pages         = {110--130},
+  year          = {2008},
+  doi           = {10.4103/0973-1229.38516},
+  url           = {https://pmc.ncbi.nlm.nih.gov/articles/PMC3190544/},
+}
+
+@book{roelofs2019combining,
+  title         = {Combining Minds: How to Think about Composite Subjectivity},
+  author        = {Roelofs, Luke},
+  publisher     = {Oxford University Press},
+  address       = {New York},
+  series        = {Philosophy of Mind},
+  year          = {2019},
+  isbn          = {978-0-19-085905-3},
+  doi           = {10.1093/oso/9780190859053.001.0001},
+  url           = {https://academic.oup.com/book/4164},
+}
+
+@article{tononi2015consciousness,
+  title         = {Consciousness: Here, There and Everywhere?},
+  author        = {Tononi, Giulio and Koch, Christof},
+  journal       = {Philosophical Transactions of the Royal Society B: Biological Sciences},
+  volume        = {370},
+  number        = {1668},
+  pages         = {20140167},
+  year          = {2015},
+  doi           = {10.1098/rstb.2014.0167},
+  url           = {https://pmc.ncbi.nlm.nih.gov/articles/PMC4387509/},
+}
+
+@book{koch2019feeling,
+  title         = {The Feeling of Life Itself: Why Consciousness Is Widespread but Can't Be Computed},
+  author        = {Koch, Christof},
+  publisher     = {MIT Press},
+  address       = {Cambridge, MA},
+  year          = {2019},
+  isbn          = {978-0-262-04281-9},
+  doi           = {10.7551/mitpress/11705.001.0001},
+}
+
+@book{watanabe2022biological,
+  title         = {From Biological to Artificial Consciousness: Neuroscientific Insights and Progress},
+  author        = {Watanabe, Masataka},
+  publisher     = {Springer},
+  address       = {Cham},
+  series        = {The Frontiers Collection},
+  year          = {2022},
+  isbn          = {978-3-030-91137-9},
+  doi           = {10.1007/978-3-030-91138-6},
+}
+
+@article{ramachandran1997qualia,
+  title         = {Three Laws of Qualia: What Neurology Tells Us about the Biological Functions of Consciousness, Qualia and the Self},
+  author        = {Ramachandran, V. S. and Hirstein, William},
+  journal       = {Journal of Consciousness Studies},
+  volume        = {4},
+  number        = {5--6},
+  pages         = {429--458},
+  year          = {1997},
+  url           = {https://philarchive.org/rec/RAMTLO-8},
+}
+
+@article{nagel1971bisection,
+  title         = {Brain Bisection and the Unity of Consciousness},
+  author        = {Nagel, Thomas},
+  journal       = {Synthese},
+  volume        = {22},
+  number        = {3--4},
+  pages         = {396--413},
+  year          = {1971},
+  doi           = {10.1007/BF00413435},
+}
+
+% Science fiction plus a factual afterword: cite only as the origin of the name "brain bridging"
+% (which "mind-bridged" alludes to); never cite the story's events as evidence.
+@article{koch2020bridging,
+  title         = {Brain Bridging},
+  author        = {Koch, Christof and House, Patrick},
+  journal       = {Nature},
+  year          = {2020},
+  verificationnote = {Nature Futures (science fiction) with an afterword by the authors; published online 26 August 2020},
+  doi           = {10.1038/d41586-020-02469-0},
+}
+
+% ---------------------------------------------------------------------------
+% Split brain and brain-to-brain interfaces (introduction; motivation only)
+% ---------------------------------------------------------------------------
+
+@article{sperry1968hemisphere,
+  title         = {Hemisphere Deconnection and Unity in Conscious Awareness},
+  author        = {Sperry, R. W.},
+  journal       = {American Psychologist},
+  volume        = {23},
+  number        = {10},
+  pages         = {723--733},
+  year          = {1968},
+  doi           = {10.1037/h0026839},
+  url           = {https://doi.org/10.1037/h0026839},
+}
+
+@article{dehaan2020splitbrain,
+  title         = {Split-Brain: What We Know Now and Why This is Important for Understanding Consciousness},
+  author        = {de Haan, Edward H. F. and Corballis, Paul M. and Hillyard, Steven A. and Marzi, Carlo A. and Seth, Anil and Lamme, Victor A. F. and Volz, Lukas and Fabri, Mara and Schechter, Elizabeth and Bayne, Tim and Corballis, Michael and Pinto, Yair},
+  journal       = {Neuropsychology Review},
+  volume        = {30},
+  number        = {2},
+  pages         = {224--233},
+  year          = {2020},
+  doi           = {10.1007/s11065-020-09439-3},
+  url           = {https://link.springer.com/article/10.1007/s11065-020-09439-3},
+}
+
+@article{pinto2017splitbrain,
+  title         = {Split Brain: Divided Perception but Undivided Consciousness},
+  author        = {Pinto, Yair and Neville, David A. and Otten, Marte and Corballis, Paul M. and Lamme, Victor A. F. and de Haan, Edward H. F. and Foschi, Nicoletta and Fabri, Mara},
+  journal       = {Brain},
+  volume        = {140},
+  number        = {5},
+  pages         = {1231--1237},
+  year          = {2017},
+  doi           = {10.1093/brain/aww358},
+  url           = {https://academic.oup.com/brain/article/140/5/1231/2951052},
+}
+
+@article{paisvieira2013brain,
+  title         = {A Brain-to-Brain Interface for Real-Time Sharing of Sensorimotor Information},
+  author        = {Pais-Vieira, Miguel and Lebedev, Mikhail and Kunicki, Carolina and Wang, Jing and Nicolelis, Miguel A. L.},
+  journal       = {Scientific Reports},
+  volume        = {3},
+  pages         = {1319},
+  year          = {2013},
+  doi           = {10.1038/srep01319},
+  url           = {https://www.nature.com/articles/srep01319},
+}
+
+@article{rao2014direct,
+  title         = {A Direct Brain-to-Brain Interface in Humans},
+  author        = {Rao, Rajesh P. N. and Stocco, Andrea and Bryan, Matthew and Sarma, Devapratim and Youngquist, Tiffany M. and Wu, Joseph and Prat, Chantel S.},
+  journal       = {PLoS ONE},
+  volume        = {9},
+  number        = {11},
+  pages         = {e111332},
+  year          = {2014},
+  doi           = {10.1371/journal.pone.0111332},
+  url           = {https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0111332},
+}
+
+@article{grau2014conscious,
+  title         = {Conscious Brain-to-Brain Communication in Humans Using Non-Invasive Technologies},
+  author        = {Grau, Carles and Ginhoux, Romuald and Riera, Alejandro and Nguyen, Thanh Lam and Chauvat, Hubert and Berg, Michel and Amengual, Juli{\`a} L. and Pascual-Leone, Alvaro and Ruffini, Giulio},
+  journal       = {PLoS ONE},
+  volume        = {9},
+  number        = {8},
+  pages         = {e105225},
+  year          = {2014},
+  doi           = {10.1371/journal.pone.0105225},
+  url           = {https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0105225},
+}
+
+@article{jiang2019brainnet,
+  title         = {{BrainNet}: A Multi-Person Brain-to-Brain Interface for Direct Collaboration Between Brains},
+  author        = {Jiang, Linxing and Stocco, Andrea and Losey, Darby M. and Abernethy, Justin A. and Prat, Chantel S. and Rao, Rajesh P. N.},
+  journal       = {Scientific Reports},
+  volume        = {9},
+  pages         = {6115},
+  year          = {2019},
+  doi           = {10.1038/s41598-019-41895-7},
+  url           = {https://www.nature.com/articles/s41598-019-41895-7},
+}
+
+@article{hildt2019multiperson,
+  title         = {Multi-Person Brain-To-Brain Interfaces: Ethical Issues},
+  author        = {Hildt, Elisabeth},
+  journal       = {Frontiers in Neuroscience},
+  volume        = {13},
+  pages         = {1177},
+  year          = {2019},
+  doi           = {10.3389/fnins.2019.01177},
+  url           = {https://www.frontiersin.org/articles/10.3389/fnins.2019.01177/full},
+  note          = {Opinion article},
+}
+
+@article{nam2021direct,
+  title         = {Direct Communication Between Brains: A Systematic {PRISMA} Review of Brain-To-Brain Interface},
+  author        = {Nam, Chang S. and Traylor, Zachary and Chen, Mengyue and Jiang, Xiaoning and Feng, Wuwei and Chhatbar, Pratik Yashvant},
+  journal       = {Frontiers in Neurorobotics},
+  volume        = {15},
+  pages         = {656943},
+  year          = {2021},
+  doi           = {10.3389/fnbot.2021.656943},
+  url           = {https://www.frontiersin.org/articles/10.3389/fnbot.2021.656943/full},
+}
+
+% ---------------------------------------------------------------------------
+% LLM consciousness and self-related abilities; multi-agent systems; KV-channel security; unconscious plagiarism; prompt injection
+% ---------------------------------------------------------------------------
+
+@article{chalmers2023llm,
+  title         = {Could a Large Language Model Be Conscious?},
+  author        = {Chalmers, David J.},
+  journal       = {Boston Review},
+  year          = {2023},
+  month         = aug,
+  url           = {https://www.bostonreview.net/articles/could-a-large-language-model-be-conscious/},
+  eprint        = {2303.07103},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  verificationnote = {Published 9 August 2023; edited version of an invited talk at NeurIPS, 28 November 2022. Essay, not peer reviewed},
+}
+
+@misc{butlin2023consciousness,
+  title         = {Consciousness in Artificial Intelligence: Insights from the Science of Consciousness},
+  author        = {Butlin, Patrick and Long, Robert and Elmoznino, Eric and Bengio, Yoshua and Birch, Jonathan and Constant, Axel and Deane, George and Fleming, Stephen M. and Frith, Chris and Ji, Xu and Kanai, Ryota and Klein, Colin and Lindsay, Grace and Michel, Matthias and Mudrik, Liad and Peters, Megan A. K. and Schwitzgebel, Eric and Simon, Jonathan and VanRullen, Rufin},
+  year          = {2023},
+  eprint        = {2308.08708},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2308.08708},
+  howpublished  = {arXiv preprint arXiv:2308.08708},
+}
+
+@article{butlin2026indicators,
+  title         = {Identifying Indicators of Consciousness in {AI} Systems},
+  author        = {Butlin, Patrick and Long, Robert and Bayne, Tim and Bengio, Yoshua and Birch, Jonathan and Chalmers, David and Constant, Axel and Deane, George and Elmoznino, Eric and Fleming, Stephen M. and Ji, Xu and Kanai, Ryota and Klein, Colin and Lindsay, Grace and Michel, Matthias and Mudrik, Liad and Peters, Megan A. K. and Schwitzgebel, Eric and Simon, Jonathan and VanRullen, Rufin},
+  journal       = {Trends in Cognitive Sciences},
+  volume        = {30},
+  number        = {6},
+  pages         = {488--501},
+  year          = {2026},
+  doi           = {10.1016/j.tics.2025.10.011},
+  verificationnote = {Published online 10 November 2025},
+}
+
+@inproceedings{ackerman2025inspection,
+  title         = {Inspection and Control of Self-Generated-Text Recognition Ability in {Llama3-8b-Instruct}},
+  author        = {Ackerman, Christopher and Panickssery, Nina},
+  booktitle     = {International Conference on Learning Representations (ICLR)},
+  pages         = {85901--85932},
+  year          = {2025},
+  url           = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/d560f94c582033e6d8eb0c97cdd4f721-Abstract-Conference.html},
+  eprint        = {2410.02064},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{zhu2024beliefs,
+  title         = {Language Models Represent Beliefs of Self and Others},
+  author        = {Zhu, Wentao and Zhang, Zhining and Wang, Yizhou},
+  booktitle     = {Proceedings of the 41st International Conference on Machine Learning},
+  series        = {Proceedings of Machine Learning Research},
+  volume        = {235},
+  pages         = {62638--62681},
+  editor        = {Salakhutdinov, Ruslan and Kolter, Zico and Heller, Katherine and Weller, Adrian and Oliver, Nuria and Scarlett, Jonathan and Berkenkamp, Felix},
+  publisher     = {PMLR},
+  year          = {2024},
+  url           = {https://proceedings.mlr.press/v235/zhu24o.html},
+  eprint        = {2402.18496},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{betley2025tell,
+  title         = {Tell me about yourself: {LLMs} are aware of their learned behaviors},
+  author        = {Betley, Jan and Bao, Xuchan and Soto, Mart{\'\i}n and Sztyber-Betley, Anna and Chua, James and Evans, Owain},
+  booktitle     = {International Conference on Learning Representations (ICLR)},
+  pages         = {21127--21179},
+  year          = {2025},
+  url           = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/364b1fd43002260dd1a9502d51d5375e-Abstract-Conference.html},
+  eprint        = {2501.11120},
+  archivePrefix = {arXiv},
+}
+
+@article{shanahan2023roleplay,
+  title         = {Role Play with Large Language Models},
+  author        = {Shanahan, Murray and McDonell, Kyle and Reynolds, Laria},
+  journal       = {Nature},
+  volume        = {623},
+  number        = {7987},
+  pages         = {493--498},
+  year          = {2023},
+  doi           = {10.1038/s41586-023-06647-8},
+  eprint        = {2305.16367},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{guo2024multiagent,
+  title         = {Large Language Model Based Multi-agents: A Survey of Progress and Challenges},
+  author        = {Guo, Taicheng and Chen, Xiuying and Wang, Yaqi and Chang, Ruidi and Pei, Shichao and Chawla, Nitesh V. and Wiest, Olaf and Zhang, Xiangliang},
+  booktitle     = {Proceedings of the Thirty-Third International Joint Conference on Artificial Intelligence, {IJCAI-24}},
+  editor        = {Larson, Kate},
+  publisher     = {International Joint Conferences on Artificial Intelligence Organization},
+  pages         = {8048--8057},
+  year          = {2024},
+  note          = {Survey Track},
+  doi           = {10.24963/ijcai.2024/890},
+  eprint        = {2402.01680},
+  archivePrefix = {arXiv},
+}
+
+@article{stark2005elaboration,
+  title         = {When Elaboration Leads to Appropriation: Unconscious Plagiarism in a Creative Task},
+  author        = {Stark, Louisa-Jayne and Perfect, Timothy J. and Newstead, Stephen E.},
+  journal       = {Memory},
+  volume        = {13},
+  number        = {6},
+  pages         = {561--573},
+  year          = {2005},
+  doi           = {10.1080/09658210444000232},
+}
+
+@article{stark2006elaboration,
+  title         = {Elaboration Inflation: How Your Ideas Become Mine},
+  author        = {Stark, Louisa-Jayne and Perfect, Timothy J.},
+  journal       = {Applied Cognitive Psychology},
+  volume        = {20},
+  number        = {5},
+  pages         = {641--648},
+  year          = {2006},
+  doi           = {10.1002/acp.1216},
+}
+
+@misc{wallace2024instruction,
+  title         = {The Instruction Hierarchy: Training {LLMs} to Prioritize Privileged Instructions},
+  author        = {Wallace, Eric and Xiao, Kai and Leike, Reimar and Weng, Lilian and Heidecke, Johannes and Beutel, Alex},
+  year          = {2024},
+  eprint        = {2404.13208},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CR},
+  url           = {https://arxiv.org/abs/2404.13208},
+  howpublished  = {arXiv preprint arXiv:2404.13208},
+}
+
+@inproceedings{greshake2023indirect,
+  title         = {Not What You've Signed Up For: Compromising Real-World {LLM}-Integrated Applications with Indirect Prompt Injection},
+  author        = {Greshake, Kai and Abdelnabi, Sahar and Mishra, Shailesh and Endres, Christoph and Holz, Thorsten and Fritz, Mario},
+  booktitle     = {Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISec '23)},
+  pages         = {79--90},
+  publisher     = {Association for Computing Machinery},
+  address       = {New York, NY, USA},
+  year          = {2023},
+  doi           = {10.1145/3605764.3623985},
+  eprint        = {2302.12173},
+  archivePrefix = {arXiv},
+}
+
+@misc{liu2026beyondtokens,
+  title         = {Beyond tokens: a unified framework for latent communication in {LLM}-based multi-agent systems},
+  author        = {Liu, Yingzhuo},
+  year          = {2026},
+  eprint        = {2606.05711},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2606.05711},
+  howpublished  = {arXiv preprint arXiv:2606.05711},
+}
+
+@misc{brito2026latentlie,
+  title         = {When Latent Agents Lie: {KV}-Cache Integrity in Multi-Agent {LLM} Collaboration},
+  author        = {Brito, Lu{\'\i}s and Baquero, Carlos},
+  year          = {2026},
+  eprint        = {2606.28958},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.MA},
+  url           = {https://arxiv.org/abs/2606.28958},
+  howpublished  = {arXiv preprint arXiv:2606.28958},
+}
+
+@misc{asif2026lcguard,
+  title         = {{LCGuard}: Latent Communication Guard for Safe {KV} Sharing in Multi-Agent Systems},
+  author        = {Asif, Sadia and Mohammadi Amiri, Mohammad and Abbas, Momin and Sattigeri, Prasanna and Natesan Ramamurthy, Karthikeyan},
+  year          = {2026},
+  eprint        = {2605.22786},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2605.22786},
+  howpublished  = {arXiv preprint arXiv:2605.22786},
+}

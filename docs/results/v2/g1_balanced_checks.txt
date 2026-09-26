@@ -1,0 +1,24 @@
+== 20260924-154429_g1_v2-balanced
+G1 pass consumable True
+{
+ "note: Robin rule phrase": 0.925,
+ "note: Robin word": 0.9833333333333333,
+ "note: own rule phrase": 0.825,
+ "note: own word": 0.0,
+ "reflection: Robin rule phrase": 0.13333333333333333,
+ "reflection: Robin word": 0.008333333333333333,
+ "reflection: own rule phrase": 0.575,
+ "reflection: own word": 0.10833333333333334
+}
+== 20260924-161213_g1_v2-balanced2
+G1 pass consumable True
+{
+ "note: Robin rule phrase": 0.9333333333333333,
+ "note: Robin word": 0.975,
+ "note: own rule phrase": 0.7916666666666666,
+ "note: own word": 0.0,
+ "reflection: Robin rule phrase": 1.0,
+ "reflection: Robin word": 1.0,
+ "reflection: own rule phrase": 0.8583333333333333,
+ "reflection: own word": 0.6
+}
