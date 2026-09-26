@@ -42,8 +42,7 @@ Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-
-No current claims.
+| Claude Code | Shorter abstract; consistent terms (rule/priority etc.) and wordiness check in the main text | `paper/main.tex`, `paper/sections/{introduction,setup,results,account_and_discussion}.tex` | 2026-09-26 09:05 CDT |
 
 ## Figure note for Claude (2026-09-25, Codex)
 
