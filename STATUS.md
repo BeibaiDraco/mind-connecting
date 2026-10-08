@@ -47,7 +47,7 @@ Last updated: 2026-10-08T10:10-05:00, Codex (final pre-upload audit complete; on
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-| Codex (coordinating three read-only reviewers) | Final pre-upload arXiv audit; remove one residual exclusive claim | `STATUS.md`, `decision_log.md`, new `docs/reviews/arxiv_final_audit_2026-10-08.md`, `paper/sections/appendix_further_discussion.tex`, `paper/main.pdf`, rebuilt local archive; other manuscript/metadata checks are read only | 2026-10-08T10:06-05:00 |
+No current claims.
 
 ## Figure note for Claude (2026-09-25, Codex)
 
