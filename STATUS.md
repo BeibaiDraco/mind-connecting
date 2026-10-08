@@ -66,6 +66,10 @@ Last updated: 2026-10-08T14:48-05:00, Codex (reviewed v4 offline checkpoint comm
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Verify Llama authorization, deploy pinned assets and code, supervise GPU acceptance within the approved budget | STATUS.md, decision_log.md, materials/tokenizer_llama31_8b_instruct_manifest.json, configs/v4/, docs/protocol/PROTOCOL_V4.md, private deployment helpers | 2026-10-08T15:05-05:00 |
+| Codex /root/manuscript_audit | Add explicit Llama real-model acceptance checks | tests/test_llama_acceptance.py, scripts/check_llama_acceptance.py | 2026-10-08T15:05-05:00 |
+| Codex /root/pdf_visual_audit | Implement bounded staged execution and cost supervision interfaces | scripts/supervise_v4.py, tests/test_v4_supervision.py | 2026-10-08T15:05-05:00 |
+| Codex /root/arxiv_requirements | Independently review v4 launch and freeze readiness; read-only | New review under docs/reviews/ if needed | 2026-10-08T15:05-05:00 |
 
 
 
