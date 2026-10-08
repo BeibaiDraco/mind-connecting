@@ -1,0 +1,70 @@
+ZENODO SUBMISSION FIELDS — PI SELF-UPLOAD
+Prepared: 2026-10-08
+State: Prepared only; no Zenodo upload, draft, reserved DOI, or publication was created by Codex.
+The PI chose Zenodo and will upload personally. The existing arXiv submission remains on hold, as reported by the PI.
+
+PDF to upload:
+/Users/minidraco/mind-connecting/scratch/arxiv-v1-20261008/main.pdf
+SHA256: 3146a3723df408d4914cb36a939b51ff754fce6b6fc004808ed46771fd535c0f
+35 pages, 6 figures; unchanged preserved arXiv v1 manuscript.
+Upload the PDF; the arXiv TeX-source archive is not needed for this handoff.
+
+Community:
+Leave empty to publish directly without a community review queue.
+
+Resource type:
+Preprint (under Publication, if the interface groups types)
+
+DOI:
+Choose No for an existing DOI, unless you have independently obtained one for this exact work.
+Let Zenodo generate the DOI. An arXiv submission number is not a DOI.
+Reserving a DOI or saving a draft does not publish the manuscript.
+
+Title:
+Mine or Yours? Mind-Bridged Language Models Take Each Other's Memories as Their Own
+
+Creator:
+Type: Person
+Family name: Xu
+Given name: Yunlong
+Affiliation: University of Chicago
+ORCID: 0000-0003-2589-7232
+
+Publication date:
+Use the actual date of public release (2026-10-08 if published today).
+
+Version:
+v1
+
+Language:
+English
+
+Description (copy the abstract below):
+If your brain were connected directly to someone else's, would you still know which thoughts were yours? We build a functional version with two copies of one language model: each holds a private rule and code word, and one copy, the receiver, also attends to its partner's internal memory. The receiver took its partner's assignment as its own. Asked which rule it had been assigned, it named its partner's in 97% of answers when the partner's memory was weighted double (none without the link), and its open reports called the partner's code word its own, never the partner's. Ownership did not follow how well the receiver could tell what its partner had been assigned. At equal weight, the link made the receiver take its partner's rule in about half of its answers, and a steering vector matched on access gain in none; a text message introduced as the partner's was read correctly and never taken as the receiver's own. Writing the partner's name into its memory did not help, and cutting the link restored the receiver's own assigned rule. In this model, content laid over the receiver's own memory defaults to "mine", so systems that let models exchange internal states must test ownership as well as transfer, and a bridge between brains would need ground truth from outside the subject.
+
+Optional additional description:
+Code and protocols: https://github.com/BeibaiDraco/mind-connecting
+
+Suggested keywords:
+large language models; mechanistic interpretability; source attribution; internal-state communication; memory
+
+Access:
+Public / Open (make the PDF publicly accessible; do not set an embargo).
+
+License — PI selection:
+Zenodo defaults to CC BY 4.0; no license has been selected by Codex.
+CC BY 4.0 permits sharing and adaptation, including commercial reuse, with attribution.
+CC BY-NC-ND 4.0 permits sharing the unadapted work with attribution for noncommercial purposes.
+Choose according to your intended reuse permissions; the arXiv-only license is not a Zenodo license choice.
+
+Final check:
+Confirm the uploaded PDF, author, title, abstract, public access and chosen license, then Publish.
+Keep the final public record URL and DOI. No DOI is recorded here because publication is not verified.
+After arXiv announcement, add its public article link to the Zenodo metadata.
+
+Official references checked 2026-10-08:
+https://support.zenodo.org/help/en-gb/6-collaborate-and-share/3-why-is-my-record-in-review
+https://help.zenodo.org/docs/deposit/describe-records/reserve-doi/
+https://help.zenodo.org/docs/deposit/describe-records/licenses/
+https://about.zenodo.org/principles/
+https://developers.zenodo.org/#deposit-metadata
