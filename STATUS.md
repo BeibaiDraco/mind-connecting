@@ -49,7 +49,10 @@ Last updated: 2026-10-08T10:20-05:00, Codex (publication figure-quality review i
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-No current claims.
+| Codex | Final figure polishing, shared style/renderer, captions, manuscript/package validation | `scripts/story_figure_style.py`, `scripts/render_story_figures.py`, `scripts/make_story_figures.py`, `paper/sections/`, `paper/main.pdf`, `paper/arxiv_submission_metadata.txt`, `paper/README.md`, `paper/Makefile`, `paper/provenance.md`, `STATUS.md`, `decision_log.md`, new review report | 2026-10-08T10:23-05:00 |
+| Codex overview agent | Figures 1-2, under root coordination | `scripts/story_figures_overview.py`, `paper/figures/fig1_hook.*`, `paper/figures/fig2_setup.*`, new concept illustration if needed | 2026-10-08T10:23-05:00 |
+| Codex results agent | Figures 3-4, under root coordination | `scripts/story_figures_results.py`, `paper/figures/fig3_claim.*`, `paper/figures/fig4_route.*` | 2026-10-08T10:23-05:00 |
+| Codex timing agent | Figures 5-6, under root coordination | `scripts/story_figures_timing.py`, `paper/figures/fig5_moments.*`, `paper/figures/fig6_twoway.*` | 2026-10-08T10:23-05:00 |
 
 ## Figure note for Claude (2026-09-25, Codex)
 
