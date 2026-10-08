@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-08T14:47-05:00, Codex (v4 offline adapter/config checkpoint; GPU dependencies installed, then instance stopped at the PI request; official Llama access and real-model acceptance pending).
+Last updated: 2026-10-08T14:48-05:00, Codex (reviewed v4 offline checkpoint committed and claims released; 222 offline tests passed, 4 skipped; GPU remains stopped pending official access and real-model acceptance).
 
 ## Current phase
 
@@ -62,10 +62,6 @@ Last updated: 2026-10-08T14:47-05:00, Codex (v4 offline adapter/config checkpoin
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Coordinate second-model engineering preparation and deploy isolated GPU dependencies | `STATUS.md`, `decision_log.md`, new `docs/protocol/PROTOCOL_V4.md`, new `scripts/setup_replication_gpu.sh`, `.gitignore`, new `docs/reviews/v4_engineering_checkpoint_2026-10-08.md`, private deployment helpers | 2026-10-08T14:30-05:00 |
-| Codex model adapter | Implement candidate model profiles and native chat/runtime support | `src/mb/model_profiles.py`, `src/mb/chat.py`, `src/mb/runtime.py`, `src/mb/conditions.py`, new `scripts/fetch_model_assets.py`, new adapter tests | 2026-10-08T14:30-05:00 |
-| Codex runner adapter | Integrate model identity, calibration and FULL/RF verification in runner | `src/mb/run.py`, new runner-profile tests | 2026-10-08T14:30-05:00 |
-| Codex v4 tooling | Implement draft-only selectors, analysis, config/freeze tooling | new `src/mb/v4.py`, new v4 tests, new `scripts/make_v4_configs.py`, `scripts/freeze_protocol.py` | 2026-10-08T14:30-05:00 |
 
 
 
