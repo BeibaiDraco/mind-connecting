@@ -62,7 +62,7 @@ Last updated: 2026-10-08T14:26-05:00, Codex (replacement A100 80GB inspected ove
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Coordinate second-model engineering preparation and deploy isolated GPU dependencies | `STATUS.md`, `decision_log.md`, new `docs/protocol/PROTOCOL_V4.md`, new `scripts/setup_replication_gpu.sh`, `.gitignore`, private deployment helpers | 2026-10-08T14:30-05:00 |
+| Codex | Coordinate second-model engineering preparation and deploy isolated GPU dependencies | `STATUS.md`, `decision_log.md`, new `docs/protocol/PROTOCOL_V4.md`, new `scripts/setup_replication_gpu.sh`, `.gitignore`, new `docs/reviews/v4_engineering_checkpoint_2026-10-08.md`, private deployment helpers | 2026-10-08T14:30-05:00 |
 | Codex model adapter | Implement candidate model profiles and native chat/runtime support | `src/mb/model_profiles.py`, `src/mb/chat.py`, `src/mb/runtime.py`, `src/mb/conditions.py`, new `scripts/fetch_model_assets.py`, new adapter tests | 2026-10-08T14:30-05:00 |
 | Codex runner adapter | Integrate model identity, calibration and FULL/RF verification in runner | `src/mb/run.py`, new runner-profile tests | 2026-10-08T14:30-05:00 |
 | Codex v4 tooling | Implement draft-only selectors, analysis, config/freeze tooling | new `src/mb/v4.py`, new v4 tests, new `scripts/make_v4_configs.py`, `scripts/freeze_protocol.py` | 2026-10-08T14:30-05:00 |
