@@ -3,6 +3,7 @@ results/*
 !results/.keep
 data
 materials/tokenizer/
+materials/tokenizer_*/
 scratch/
 .venv/
 __pycache__/
