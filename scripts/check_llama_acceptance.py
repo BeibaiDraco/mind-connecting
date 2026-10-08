@@ -84,7 +84,8 @@ def main(argv: list[str] | None = None) -> int:
     chat.load_tokenizer(profile=LLAMA31)
     source_paths = ["src/mb/runtime.py", "src/mb/bridge.py", "src/mb/chat.py", "src/mb/conditions.py",
                     "src/mb/model_profiles.py", "src/mb/tasks.py", "src/mb/run.py",
-                    "tests/test_llama_acceptance.py", "scripts/check_llama_acceptance.py"]
+                    "tests/test_llama_acceptance.py", "scripts/check_llama_acceptance.py",
+                    "docs/reviews/v4_padding_acceptance_2026-10-08.md"]
     metadata = {
         "started_at": datetime.now(timezone.utc).isoformat(),
         "profile": LLAMA31.identity(), "tokenizer_manifest_sha256": _hash(LLAMA31.manifest_path),
@@ -95,8 +96,16 @@ def main(argv: list[str] | None = None) -> int:
                      for name in ("torch", "transformers", "tokenizers", "huggingface-hub", "pytest")},
         "gpu": torch.cuda.get_device_name(), "gpu_total_memory_bytes": torch.cuda.get_device_properties(0).total_memory,
         "cuda_version": torch.version.cuda,
-        "numerical_contract": {"same_shape": "bitwise equality", "different_shape_max_logit_error": 0.25,
-                               "different_shape_mean_logit_error": 0.025},
+        "numerical_contract": {
+            "version": "llama-native-matched-shape-v2",
+            "same_shape": "bitwise equality with unhooked native SDPA logits and every cached K/V tensor",
+            "cross_shape": "runtime discrepancy equals native discrepancy bitwise; raw difference is diagnostic",
+            "cross_shape_top1": "agreement and margin are diagnostic; the former margin>0.5 equality gate is replaced",
+            "same_shape_top1": "exact equality follows from bitwise identical logits",
+            "padding": "masked pad-ID changes must leave logits bitwise unchanged at prefill and cached ticks",
+            "precision": "BF16 unchanged; independent FP32 diagnostic is documented separately",
+            "correction_record": "docs/reviews/v4_padding_acceptance_2026-10-08.md",
+        },
     }
     args.output_dir.mkdir(parents=True, exist_ok=False)
     evidence = Evidence(args.output_dir, metadata)

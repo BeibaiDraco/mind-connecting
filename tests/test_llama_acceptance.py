@@ -3,9 +3,12 @@
 Use scripts/check_llama_acceptance.py on the GPU host after downloading the
 authorized assets. This module must not use the legacy Qwen GPU fixture.
 Same-shape no-link, causal, and isolation invariants require bitwise equality.
-Only different-shape BF16 forwards allow max absolute logit error <= 0.25 and
-mean error <= 0.025; confident top-1 choices must agree (reference margin > 0.5).
-These tolerances are fixed before execution and must not be relaxed after a fail.
+Numerical contract llama-native-matched-shape-v2 compares each runtime forward
+with unhooked native SDPA at its own shape, including every cached K/V tensor.
+Cross-shape BF16 differences must equal the corresponding native differences;
+they are recorded rather than bounded by an inappropriate absolute tolerance.
+The post-failure, pre-freeze correction and independent FP32 diagnostic are
+documented in docs/reviews/v4_padding_acceptance_2026-10-08.md.
 """
 
 from __future__ import annotations
@@ -28,8 +31,6 @@ from mb.run import snapshot_hash  # noqa: E402
 from mb.runtime import Engine, KVPlan, load_model, make_plan, select_rows  # noqa: E402
 
 LAYER = 21
-MAX_LOGIT_ERROR = 0.25
-MEAN_LOGIT_ERROR = 0.025
 
 
 def _arm(condition: str = "C0", **kwargs) -> ArmConfig:
@@ -59,20 +60,79 @@ def _unhooked(engine: Engine):
         engine.hook = BridgeHook(engine.model.model.layers[LAYER - 1], LAYER)
 
 
-def _logit_comparison(actual, reference, record_property, label: str) -> None:
+def _difference_metrics(actual, reference) -> dict:
     assert torch.isfinite(actual).all() and torch.isfinite(reference).all()
     error = (actual.float() - reference.float()).abs()
-    maximum, mean = float(error.max()), float(error.mean())
-    agreement = float((actual.argmax(-1) == reference.argmax(-1)).float().mean())
     top = reference.float().topk(2, dim=-1).values
     margin = top[..., 0] - top[..., 1]
-    record_property(label, json.dumps({"max_abs_error": maximum, "mean_abs_error": mean,
-                                      "top1_agreement": agreement,
-                                      "min_top2_margin": float(margin.min())}))
-    assert maximum <= MAX_LOGIT_ERROR, f"{label}: max logit error {maximum}"
-    assert mean <= MEAN_LOGIT_ERROR, f"{label}: mean logit error {mean}"
-    confident = margin > 2 * MAX_LOGIT_ERROR
-    assert torch.equal(actual.argmax(-1)[confident], reference.argmax(-1)[confident])
+    return {"max_abs_error": float(error.max()), "mean_abs_error": float(error.mean()),
+            "rms_error": float(error.square().mean().sqrt()),
+            "top1_agreement": float((actual.argmax(-1) == reference.argmax(-1)).float().mean()),
+            "min_top2_margin": float(margin.min())}
+
+
+@contextmanager
+def _native_sdpa(engine: Engine):
+    previous = engine.model.config._attn_implementation
+    with _unhooked(engine):
+        engine.model.config._attn_implementation = "sdpa"
+        try:
+            yield
+        finally:
+            engine.model.config._attn_implementation = previous
+
+
+def _matched_native_trace(engine: Engine, sequences: list[list[int]], forced: list[int],
+                          record_property, label: str, *, native_pad: int | None = None):
+    """Independent native input/position/cache assembly against the same pinned HF model."""
+    from transformers import DynamicCache
+
+    rows, width = len(sequences), max(map(len, sequences))
+    pad = chat.runtime_tokens(engine.tok).pad_id if native_pad is None else native_pad
+    ids = torch.full((rows, width), pad, dtype=torch.long, device=engine.device)
+    mask = torch.zeros_like(ids)
+    positions = torch.zeros_like(ids)
+    # Derive native positions from token-list lengths, never from runtime state.
+    lengths = torch.tensor([len(sequence) for sequence in sequences], device=engine.device)
+    for row, sequence in enumerate(sequences):
+        start = width - len(sequence)
+        ids[row, start:] = torch.tensor(sequence, device=engine.device)
+        mask[row, start:] = 1
+        positions[row, start:] = torch.arange(len(sequence), device=engine.device)
+    cache = DynamicCache(config=engine.model.config)
+    state = engine.prefill(sequences)
+    runtime_logits = state.logits
+    traces = []
+    for tick in range(len(forced) + 1):
+        if tick:
+            ids = torch.full((rows, 1), forced[tick - 1], dtype=torch.long, device=engine.device)
+            mask = torch.cat([mask, torch.ones(rows, 1, dtype=mask.dtype, device=engine.device)], 1)
+            positions = (lengths + tick - 1)[:, None]
+            runtime_logits, _, _ = engine.step(state, ids[:, 0], None)
+        with _native_sdpa(engine), torch.no_grad():
+            output = engine.model.model(input_ids=ids, attention_mask=mask, position_ids=positions,
+                                        past_key_values=cache, use_cache=True)
+            native_logits = engine.model.lm_head(output.last_hidden_state[:, -1]).float()
+        record_property(f"{label}_tick{tick}_runtime_vs_native",
+                        json.dumps(_difference_metrics(runtime_logits, native_logits)))
+        assert torch.equal(runtime_logits, native_logits), f"{label} tick {tick}: native logits differ"
+        assert torch.equal(state.attn, mask)
+        assert torch.equal(state.next_pos, lengths + tick)
+        assert state.cache.get_seq_length() == cache.get_seq_length() == width + tick
+        assert len(state.cache.layers) == len(cache.layers) == LLAMA31.n_layers
+        for layer_number, (actual, reference) in enumerate(zip(state.cache.layers, cache.layers)):
+            assert torch.equal(actual.keys, reference.keys), f"{label} tick {tick}: layer {layer_number} K"
+            assert torch.equal(actual.values, reference.values), f"{label} tick {tick}: layer {layer_number} V"
+        traces.append((runtime_logits.clone(), native_logits.clone()))
+    return traces
+
+
+def _native_shape_difference(left, right, record_property, label: str) -> None:
+    """Any cross-shape difference must be fully reproduced by native execution."""
+    runtime_left, native_left = left
+    runtime_right, native_right = right
+    assert torch.equal(runtime_left - runtime_right, native_left - native_right), label
+    record_property(label, json.dumps(_difference_metrics(native_left, native_right)))
 
 
 @pytest.fixture(scope="module")
@@ -225,37 +285,50 @@ def test_one_way_isolation_and_previous_tick_visibility(llama):
     assert bool(((engine.last_kv_mass[0::2] > 0) & (engine.last_kv_mass[0::2] < 1)).all())
 
 
-def test_padding_positions_cache_and_causal_prefix(llama, record_property):
+def test_padding_positions_cache_and_causal_prefix(llama, monkeypatch, record_property):
     engine, tok, model = llama["engine"], llama["tok"], llama["model"]
     short = chat.native_conversation(tok, [{"role": "user", "content": "Remember the blue record."}],
                                      add_generation_prompt=True)
     long = chat.native_conversation(tok, [{"role": "user", "content": "Keep these records separate. " * 9}],
                                     add_generation_prompt=True)
     assert len(long) > len(short)
-    pair = engine.prefill([long, short])
-    single = engine.prefill([short])
-    assert pair.next_pos.tolist() == [len(long), len(short)]
-    assert not pair.attn[1, :len(long) - len(short)].any()
-    _logit_comparison(pair.logits[1:], single.logits, record_property, "left_padded_prefill")
-    forced = chat.runtime_tokens(tok).label_ids[0]
-    for _ in range(3):
-        batch_logits, _, _ = engine.step(pair, torch.full_like(pair.pending, forced), None)
-        single_logits, _, _ = engine.step(single, torch.full_like(single.pending, forced), None)
-    _logit_comparison(batch_logits[1:], single_logits, record_property, "left_padded_cached_ticks")
-    assert pair.next_pos.tolist() == [len(long) + 3, len(short) + 3]
-    assert bool((pair.attn[:, -3:] == 1).all()), "padding inserted during single-token ticks"
-    assert all(layer.keys.shape[-2] == len(long) + 3 for layer in pair.cache.layers)
-    rebuilt = engine.prefill([short + [forced] * 3])
-    _logit_comparison(single_logits, rebuilt.logits, record_property, "cache_vs_full_prefill")
+    forced = [chat.runtime_tokens(tok).label_ids[0]] * 3
+    shapes = {"single": [short], "same_length_pair": [short, short],
+              "left_padded_pair": [long, short], "left_padded_four": [long, short, long, short]}
+    traces = {name: _matched_native_trace(engine, sequences, forced, record_property, name)
+              for name, sequences in shapes.items()}
+    for name in ("same_length_pair", "left_padded_pair", "left_padded_four"):
+        for tick, (runtime, native) in enumerate(traces[name]):
+            _native_shape_difference((runtime[1:2], native[1:2]), traces["single"][tick],
+                                     record_property, f"{name}_vs_single_tick{tick}")
+    # Alter only masked IDs, at the same shape, in both independently assembled paths.
+    poison_id = 100
+    assert poison_id != chat.runtime_tokens(tok).pad_id
+    with monkeypatch.context() as scoped:
+        scoped.setattr(engine, "pad_id", poison_id)
+        poisoned = _matched_native_trace(engine, shapes["left_padded_pair"], forced,
+                                         record_property, "pad_id_poison", native_pad=poison_id)
+    for tick, (poison_runtime, poison_native) in enumerate(poisoned):
+        clean_runtime, clean_native = traces["left_padded_pair"][tick]
+        assert torch.equal(poison_runtime, clean_runtime), f"runtime pad-ID leak at tick {tick}"
+        assert torch.equal(poison_native, clean_native), f"native pad-ID leak at tick {tick}"
+    rebuilt = _matched_native_trace(engine, [short + forced], [], record_property, "full_rebuild")
+    _native_shape_difference(traces["single"][-1], rebuilt[0], record_property,
+                             "cached_vs_full_native_discrepancy")
     # Same batch/length: a changed future token cannot change any earlier hidden state.
     sequence = torch.tensor([short, short], dtype=torch.long, device=engine.device)
-    sequence[1, -1] = forced
-    with _unhooked(engine), torch.no_grad():
-        output = model.model(input_ids=sequence, attention_mask=torch.ones_like(sequence),
-                             position_ids=torch.arange(sequence.shape[1], device=engine.device)[None].expand(2, -1),
-                             use_cache=False).last_hidden_state
-    assert torch.isfinite(output).all()
-    assert torch.equal(output[0, :-1], output[1, :-1]), "causal mask permits future input"
+    sequence[1, -1] = forced[0]
+    assert model.config._attn_implementation == "mb_kv"
+    hidden = []
+    for context in (_unhooked, _native_sdpa):
+        with context(engine), torch.no_grad():
+            output = model.model(input_ids=sequence, attention_mask=torch.ones_like(sequence),
+                                 position_ids=torch.arange(sequence.shape[1], device=engine.device)[None].expand(2, -1),
+                                 use_cache=False).last_hidden_state
+        assert torch.isfinite(output).all()
+        assert torch.equal(output[0, :-1], output[1, :-1]), "causal mask permits future input"
+        hidden.append(output)
+    assert torch.equal(*hidden), "runtime and native full hidden states differ"
 
 
 def test_partner_padding_and_scope_boundaries(llama):

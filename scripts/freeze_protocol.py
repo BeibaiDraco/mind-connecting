@@ -87,7 +87,8 @@ def v4_files() -> list[Path]:
     protocol = ROOT / "docs" / "protocol" / "PROTOCOL_V4.md"
     if "Approved by the PI" not in protocol.read_text().split("## 1.", 1)[0]:
         raise ValueError("v4 requires the approved final protocol, not a draft")
-    files = [protocol, ROOT / "requirements.txt", ROOT / "pyproject.toml", profile.manifest_path,
+    files = [protocol, ROOT / "docs" / "reviews" / "v4_padding_acceptance_2026-10-08.md",
+             ROOT / "requirements.txt", ROOT / "pyproject.toml", profile.manifest_path,
              ROOT / "scripts" / "make_v4_configs.py", ROOT / "scripts" / "freeze_protocol.py",
              ROOT / "scripts" / "fetch_model_assets.py", ROOT / "scripts" / "setup_replication_gpu.sh",
              ROOT / "scripts" / "check_llama_acceptance.py", ROOT / "tests" / "test_llama_acceptance.py",
