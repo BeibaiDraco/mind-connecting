@@ -51,7 +51,7 @@ Last updated: 2026-10-08T10:39-05:00, Codex (PI-directed small figure correction
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-| Codex | PI redirected scope: restore original figures, inspect actual conference papers, apply only small corrections | `scripts/make_story_figures.py`, `paper/figures/fig[1-6]_*.pdf/png`, figure captions in `paper/sections/`, `paper/main.pdf`, `paper/arxiv_submission_metadata.txt`, `STATUS.md`, `decision_log.md`, new review report; no new layouts or artwork | 2026-10-08T10:35-05:00 |
+_None._
 
 ## Figure note for Claude (2026-09-25, Codex)
 
