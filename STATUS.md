@@ -55,7 +55,6 @@ Last updated: 2026-10-08T10:59-05:00, Codex (arXiv v1 snapshot and metadata prep
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-| Codex | Prepare arXiv v1 submission and record the PI-approved NAACL/second-model follow-up | `STATUS.md`, `decision_log.md`, `paper/arxiv_submission_metadata.txt`, submission snapshot manifest, new replication/preparation documents; current manuscript preserved | 2026-10-08T10:50-05:00 |
 
 ## Figure note for Claude (2026-09-25, Codex)
 
@@ -64,7 +63,7 @@ Last updated: 2026-10-08T10:59-05:00, Codex (arXiv v1 snapshot and metadata prep
 
 ## Done
 
-- **arXiv v1 preservation and NAACL follow-up preparation** (2026-10-08, Codex): copied and verified the unchanged PDF/source archive into a separate ignored v1 snapshot; added the tracked manifest and a concrete model-adaptation, experiment-scope, budget and conference-readiness proposal. Opened the arXiv login page for the PI. Login/license and research/budget decisions are pending; nothing was submitted, published or started on the GPU.
+- **arXiv v1 preservation and NAACL follow-up preparation** (2026-10-08, Codex): copied and verified the unchanged PDF/source archive into a separate ignored v1 snapshot; added the tracked manifest and a concrete model-adaptation, experiment-scope, budget and conference-readiness proposal. Verified snapshot checksums and all 22 archive paths; offline tests passed (151 passed, 3 skipped). Opened the arXiv login page for the PI. Login/license and research/budget decisions are pending; nothing was submitted, published or started on the GPU.
 
 - **Small figure corrections preserving the paper style** (2026-10-08, Codex): restored the stopped redesign and inspected official ICLR 2025/ICML 2025 accepted-paper figures. Applied only local label, title, tick, and caption changes, retaining all six original compositions and dimensions. Rebuilt and visually checked the manuscript; archive and offline validation pass. See `docs/reviews/figure_minor_polish_2026-10-08.md` for exact scope, exemplars, and checksums.
 
