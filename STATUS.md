@@ -59,7 +59,6 @@ Last updated: 2026-10-08T14:26-05:00, Codex (replacement A100 80GB inspected ove
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-| Codex | Inspect the PI-rented replacement GPU and record environment readiness | `STATUS.md`; private connection details remain outside the repository | 2026-10-08T14:21-05:00 |
 
 
 
@@ -70,7 +69,7 @@ Last updated: 2026-10-08T14:26-05:00, Codex (replacement A100 80GB inspected ove
 
 ## Done
 
-- **Replacement GPU acceptance inspection** (2026-10-08, Codex): authenticated provider lookup and two read-only direct SSH checks verified a full A100 80GB, no active GPU process, 200 GB writable disk, Python 3.12 and working Hugging Face HTTPS. The environment has no ML dependencies, model cache or configured Hugging Face credentials; gated weight access remains unverified. No installation, model execution, research decision or manuscript change. The instance remains running as rented by the PI.
+- **Replacement GPU acceptance inspection** (2026-10-08, Codex): authenticated provider lookup and two read-only direct SSH checks verified a full A100 80GB, no active GPU process, 200 GB writable disk, Python 3.12 and working Hugging Face HTTPS. The environment has no ML dependencies, model cache or configured Hugging Face credentials; gated weight access remains unverified. No installation, model execution, research decision or manuscript change. The instance remains running as rented by the PI. Offline tests passed (151 passed, 3 skipped). Inspection claim released.
 
 - **Concrete v4 proposal and attempted GPU recovery** (2026-10-08, Codex): wrote the eight-condition, fixed-N replication draft and independent readiness record; corrected layer indexing, receiver/readout counts, selector and multiplicity requirements, snapshot validation and control-quality interpretation. Actual Qwen run timing supplies a baseline for future smoke-based costing. A bounded restart attempt failed for unavailable resources; provider stopped state was verified and queued start cancelled. No new-model code, model execution, replacement rental or manuscript edits. Existing offline tests passed (151 passed, 3 skipped). Research approval, access, implementation and GPU availability remain pending.
 
