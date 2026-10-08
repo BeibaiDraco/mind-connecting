@@ -44,7 +44,8 @@ Last updated: 2026-10-08T09:51-05:00, Codex (both arXiv-readiness findings corre
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Correct matching wording and Figure 1e; proofread full manuscript and rebuild submission artifacts | STATUS.md; decision_log.md; paper/main.tex and main.pdf; paper/sections/*.tex; paper/arxiv_submission_metadata.txt; scripts/make_story_figures.py; paper/figures/fig1_hook.pdf and .png; paper/figures/story_numbers.json (verification only); new docs/reviews/proofread_2026-10-08.md; generated arxiv.tar.gz | 2026-10-08T09:44-05:00 |
+
+No current claims.
 
 ## Figure note for Claude (2026-09-25, Codex)
 
