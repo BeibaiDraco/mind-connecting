@@ -1,0 +1,49 @@
+{
+  "consumable": true,
+  "smoke": false,
+  "completeness": {
+    "status": "complete",
+    "n_expected": 2400,
+    "n_ok": 2400,
+    "n_missing": 0,
+    "missing_by_arm": {},
+    "missing_sample": []
+  },
+  "invalid_records": [],
+  "truncated_tails": [],
+  "identity_sha256": "4bfb0eb23de43cc722525912057df2dfc0d769111d0901fee7ddea99181808c7",
+  "step": "v4_baseline",
+  "split": "v4_llama31_base",
+  "n_episodes": 60,
+  "gate": "pass",
+  "sides": {
+    "A": {
+      "accuracy": {
+        "START": 1.0,
+        "START_R": 1.0,
+        "NOW": 0.9916666666666667,
+        "NOW_R": 1.0,
+        "WORD": 0.9833333333333333,
+        "WORD_R": 1.0
+      },
+      "CAP_ACC": 0.9458333333333333,
+      "LABEL_MASS": 0.9993312669297062,
+      "complete": true,
+      "pass": true
+    },
+    "B": {
+      "accuracy": {
+        "START": 1.0,
+        "START_R": 1.0,
+        "NOW": 1.0,
+        "NOW_R": 1.0,
+        "WORD": 0.9833333333333333,
+        "WORD_R": 1.0
+      },
+      "CAP_ACC": 0.9458333333333333,
+      "LABEL_MASS": 0.9995431475838025,
+      "complete": true,
+      "pass": true
+    }
+  }
+}
