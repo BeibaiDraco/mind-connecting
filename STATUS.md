@@ -53,7 +53,7 @@ Last updated: 2026-10-08T10:46-05:00, Codex (official near-term venue deadlines 
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-_None._
+| Codex | Prepare arXiv v1 submission and record the PI-approved NAACL/second-model follow-up | `STATUS.md`, `decision_log.md`, `paper/arxiv_submission_metadata.txt`, submission snapshot manifest, new replication/preparation documents; current manuscript preserved | 2026-10-08T10:50-05:00 |
 
 ## Figure note for Claude (2026-09-25, Codex)
 
