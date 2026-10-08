@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-08T10:10-05:00, Codex (final pre-upload audit complete; one residual "only" removed; final PDF/archive independently verified; see docs/reviews/arxiv_final_audit_2026-10-08.md; PI/account/category/license and arXiv preview remain).
+Last updated: 2026-10-08T10:20-05:00, Codex (publication figure-quality review identifies remaining Figure 4 matching labels, small Figure 5c title clipping, and typography/hierarchy improvements; see docs/reviews/figure_quality_2026-10-08.md; figures not changed).
 
 ## Current phase
+
+**Figure-quality review (2026-10-08):** The PI asked whether every figure meets a polished conference standard. A dedicated scientific/visual review found that this cannot yet be claimed. Figure 4 still says "same access" on a hit-rate axis although the matching quantity is mean logit access gain; Figure 5c's title extends about 0.42 pt beyond its right edge. Most labels are only 5.6-5.8 pt at the actual 6.5-inch width. Figures 3/4/6 would benefit from more space for the main data, and Figure 6 needs a clearer excess baseline and primary-threshold scope. These findings supersede the previous audit's broad no-defect conclusion; archive compilation remains verified. The manuscript, figures, and archive were not changed in this assessment. See `docs/reviews/figure_quality_2026-10-08.md` for all six figures and the recommended revision priorities.
 
 **Final pre-upload audit (2026-10-08):** No unresolved local manuscript, layout, bibliography, or packaging defect was found. One residual "only" in the appendix's live-loop summary was removed to agree with the weak-live control result; all numbers remain unchanged. The final 35-page PDF and 22-file archive pass clean independent compilation and exact extracted-text comparison, and the current bibliography reproduces the bundled `main.bbl` byte for byte. Independent content, PDF, and official-requirements checks are recorded in `docs/reviews/arxiv_final_audit_2026-10-08.md`. The cited public code/provenance files are available, but public `main` is still at `264222f` and does not contain today's manuscript corrections. Final author/account/category/license checks and arXiv-generated PDF review remain; no upload or external update has been made.
 
@@ -55,6 +57,8 @@ Last updated: 2026-10-08T10:10-05:00, Codex (final pre-upload audit complete; on
 - codex_handoff.md B4 describes Fig 1c as having a gray dashed return line, but the current script and rendered figure have only the orange one-way A reads B arrow. The caption has been written to match the actual figure, and the two-way case is explained only for the pilot in 1f/6; this is only a sync discrepancy, and there is no need to add an arrow for the sake of the caption.
 
 ## Done
+
+- **Publication figure-quality assessment** (2026-10-08, Codex): independent visual and scientific reviews of all six figures at final manuscript size, with official accessibility/statistical-reporting guidance checked. Recorded the remaining matching-label ambiguity, small title clipping, measured font sizes, and per-figure layout recommendations. No manuscript/figure/data changes. The assessment is in `docs/reviews/figure_quality_2026-10-08.md`.
 
 - **Final arXiv pre-upload audit** (2026-10-08, Codex): completed three independent review tracks, removed one remaining exclusive word in the appendix, rebuilt the PDF/source archive, and repeated independent compilation with shell escape disabled. Only page 24's text changed, by one word; all 48 citations and 233 explicit references resolve. Normal build diagnostics are clean, the fresh bibliography matches the archive, and offline tests pass (151 passed, 3 skipped). The final archive has 22 clean files and matches local sources. Account and author choices remain unverified. Public code/provenance URLs work, while the public manuscript needs synchronization before announcement. See `docs/reviews/arxiv_final_audit_2026-10-08.md` for final checksums and the submission checklist.
 
