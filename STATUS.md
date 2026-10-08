@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-08T17:52-05:00, Codex (strength passed and backed up; reviewed staged controller launched under cumulative budget protection).
+Last updated: 2026-10-08T17:59-05:00, Codex (strength passed; private controller startup warning corrected and independently reviewed; guarded recovery underway).
 
 ## Current phase
+
+**Controller startup correction (2026-10-08):** The first controller invocation verified all four closed input inventories, then safely stopped the provider before any new GPU stage. A tokenizer fork warning on stderr had been combined with stdout and mistaken for a Git path. The private helper now retains separate output streams and safe error locations; frozen experiment code and rules are unchanged. Independent review, 19 controller checks, a real tokenizer-warning regression and all 266 offline tests passed (5 skipped). The original controller, terminal state, logs and generated matching inputs are preserved. Recovery is authorized within the original cumulative budget, carries the prior spending high-water value, retains both watchdogs until healthy handoff, and must verify no prior matching task exists before one fresh launch. No scientific trial is retried or discarded.
 
 **Strength passed; automated handoff (2026-10-08):** Run `20261008-221415_v4_llama31_strength_v4_strength` completed 1,920/1,920 access-only readouts in 2,038.00 seconds. The frozen rule selected K*=w1 (ACC_RULE gain 2.519, partner hit rate 42.5% versus C0 15%, CAP drop 3.75 percentage points). Higher weights failed the prespecified capability screen. Independent backup review reproduced the selection from raw records and verified configuration, source and asset identities. No attribution outcome was used. The reviewed background controller has started, with the cumulative USD 60 limit and independent shutdown protection. It verifies the closed initial runs before STATIC matching, then freezes settings before independent validity and formal inputs before N=600. Formal collection has not started. Offline tests: 266 passed, 5 skipped. Execution and guard handoff details remain in private task files; scheduled checks remain sparse.
 
