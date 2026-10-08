@@ -49,7 +49,7 @@ Last updated: 2026-10-08T10:20-05:00, Codex (publication figure-quality review i
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-| Codex (coordinating read-only figure reviewers) | Evaluate all six figures for publication quality, scientific clarity, and information density | `STATUS.md`, new `docs/reviews/figure_quality_2026-10-08.md`; manuscript and figure sources read only | 2026-10-08T10:15-05:00 |
+No current claims.
 
 ## Figure note for Claude (2026-09-25, Codex)
 
