@@ -58,6 +58,11 @@ Last updated: 2026-10-08T14:26-05:00, Codex (replacement A100 80GB inspected ove
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Coordinate second-model engineering preparation and deploy isolated GPU dependencies | `STATUS.md`, `decision_log.md`, new `scripts/setup_replication_gpu.sh`, private deployment helpers | 2026-10-08T14:30-05:00 |
+| Codex model adapter | Implement candidate model profiles and native chat/runtime support | `src/mb/model_profiles.py`, `src/mb/chat.py`, `src/mb/runtime.py`, `src/mb/conditions.py`, new adapter tests | 2026-10-08T14:30-05:00 |
+| Codex runner adapter | Integrate model identity, calibration and FULL/RF verification in runner | `src/mb/run.py`, new runner-profile tests | 2026-10-08T14:30-05:00 |
+| Codex v4 tooling | Implement draft-only selectors, analysis, config/freeze tooling | new `src/mb/v4.py`, new v4 tests, new `scripts/make_v4_configs.py`, `scripts/freeze_protocol.py` | 2026-10-08T14:30-05:00 |
+| Codex | Prepare Zenodo metadata for the PI to upload the preserved arXiv v1 manuscript personally | `STATUS.md`, `decision_log.md`, `paper/zenodo_submission_metadata.txt` | 2026-10-08T14:29-05:00 |
 
 
 
