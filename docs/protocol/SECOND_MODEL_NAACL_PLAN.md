@@ -1,5 +1,14 @@
 # Second-model replication and NAACL 2027 preparation
 
+Updated planning note: the concrete recommendation is now in
+[`PROTOCOL_V4_DRAFT.md`](PROTOCOL_V4_DRAFT.md): eight conditions including a
+matched STATIC route control, fixed N=600, and no claiming-based signal gate.
+These changes still await PI approval; the preliminary five-condition and
+signal-gate proposal below is superseded. The PI reports that the arXiv package
+is uploaded and at Process; server compilation and final submission remain
+unverified. The old Vast instance could not resume because its GPU resources
+were unavailable; its queued start was cancelled and stopped state confirmed.
+
 Prepared 2026-10-08. **Proposal, not a frozen protocol or permission to spend.**
 The PI has approved preparing the present manuscript for arXiv now and adding a
 second model with NAACL as the target. Model choice, experiment details and a
