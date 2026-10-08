@@ -55,6 +55,8 @@ Last updated: 2026-10-08T10:59-05:00, Codex (arXiv v1 snapshot and metadata prep
 | agent | task | files involved | start time |
 |---|---|---|---|
 
+| Codex | Resolve arXiv Process handoff, verify the existing GPU instance, and specify the second-model replication before running | `STATUS.md`, `decision_log.md`, `docs/protocol/SECOND_MODEL_NAACL_PLAN.md`, new v4 draft and readiness records | 2026-10-08T12:39-05:00 |
+
 
 ## Figure note for Claude (2026-09-25, Codex)
 
