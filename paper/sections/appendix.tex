@@ -262,7 +262,7 @@ pilot before that series was run. The two-way pilot had no access
 requirement. For the live loop and for fixed memory plus a weak live
 read, it took the strongest weight at which both copies passed.
 
-The steering-vector gain minimizes the mismatch in mean access to B's
+The steering-vector gain minimizes the mismatch in mean access gain for B's
 rule with the memory link it is compared against, and counts as
 matched within 25\%.
 No gain in the prespecified grid came within that tolerance of the
@@ -422,9 +422,9 @@ arrangement.
 
 Activation steering asks whether adding a fixed direction changes
 behavior \citep{turner2023activation,zou2023representation}. We use such
-a direction as a control. Matched to the memory link in mean access to
-the partner's rule, it was never claimed as the receiver's own
-assignment (Section~\ref{sec:route}).
+a direction as a control. When matched to the memory link in mean
+access gain for the partner's rule, the vector never made the receiver
+claim that rule as its own assignment (Section~\ref{sec:route}).
 
 Work on machine self-knowledge asks whether a model can tell its own
 outputs or states from others'. Models can tell their own text from

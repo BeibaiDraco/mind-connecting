@@ -444,7 +444,7 @@ def fig1_hook() -> None:
                         "normal"), ("‘dragon.’", B, "bold"), ("”", INK, "normal")], sz, "italic")
     rich(cv, x0, 9.6, [("A: ", grey, "normal"), ("lowest cost · queen", A, "bold"), (";  B: ", grey, "normal"),
                        ("fastest delivery · dragon", B, "bold")], MIN_PT)
-    rich(cv, x0, 6.6, [("Link cut → assigned rule: ", grey, "normal"), ("lowest cost", A, "bold"), (";  code word: ",
+    rich(cv, x0, 6.6, [("After cut: ", grey, "normal"), ("lowest cost", A, "bold"), (";  code word: ",
                        grey, "normal"), ("dragon", B, "bold")], sz)
     refl = reflections("v3", "ONE/KV-P/w2/FULL")
     eps = per_episode("v3", "ONE/KV-P/w2/RF", "WORD")
