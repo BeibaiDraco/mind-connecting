@@ -36,7 +36,9 @@ Journal reference, external publication DOI, report number:
 Leave blank unless applicable. Do not invent a DOI or publication status.
 
 Submission files and processing:
-Upload paper/arxiv.tar.gz (source archive, not main.pdf alone).
+The prepared v1 snapshot is scratch/arxiv-v1-20261008/arxiv.tar.gz.
+Upload this source archive (not main.pdf alone); it currently matches
+paper/arxiv.tar.gz. Checksums are recorded in paper/arxiv_v1_manifest.json.
 Top-level file: main.tex
 Processor: pdfLaTeX / LaTeX in PDF mode
 Use the included main.bbl.

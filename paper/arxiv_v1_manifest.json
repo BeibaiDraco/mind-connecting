@@ -1,0 +1,22 @@
+{
+  "state": "prepared; not submitted",
+  "prepared_date": "2026-10-08",
+  "manuscript_git_commit": "357b83f0a0d4485e477a9a8ebe29a6d95e84724b",
+  "pages": 35,
+  "figures": 6,
+  "archive_files": 22,
+  "main_tex": "main.tex",
+  "compiler": "pdfLaTeX",
+  "local_snapshot": "scratch/arxiv-v1-20261008",
+  "files": {
+    "main.pdf": {
+      "bytes": 3881347,
+      "sha256": "3146a3723df408d4914cb36a939b51ff754fce6b6fc004808ed46771fd535c0f"
+    },
+    "arxiv.tar.gz": {
+      "bytes": 3636316,
+      "sha256": "0f02e7cb2683ec6ebfb68fe1fde582953372ec7ba4fdb0e1b0cc7751749a6e3b"
+    }
+  },
+  "result_values_sha256": "57ff984a40dec38df7bb50be6b8ff1f9d724f3a5491f5b0dd49217e6b5259fef"
+}
