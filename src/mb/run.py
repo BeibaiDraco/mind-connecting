@@ -35,6 +35,7 @@ from typing import Any, Iterable
 import yaml
 
 from mb import chat, ledger, tasks
+from mb.model_profiles import resolve_profile
 from mb.conditions import D_MODEL, MODEL_REVISION, ArmConfig
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -86,18 +87,24 @@ def source_hash() -> str:
     return h.hexdigest()[:16]
 
 
-def _tokenizer_manifest() -> dict[str, Any]:
-    return json.loads((REPO_ROOT / "materials" / "tokenizer_manifest.json").read_text())
+def _tokenizer_manifest(profile=None) -> dict[str, Any]:
+    path = (REPO_ROOT / "materials" / "tokenizer_manifest.json"
+            if profile is None else Path(resolve_profile(profile).manifest_path))
+    return json.loads(path.read_text())
 
 
-def prefix_hash(tok, materials: str = "v1") -> str:
+def prefix_hash(tok, materials: str = "v1", profile=None) -> str:
     """Hash of what calibration depends on: chat IDs, tokenizer, the P and C turns and the P/C
     phase lengths. Readout wording is deliberately excluded (calibration never sees R)."""
     h = hashlib.sha256()
-    h.update(f"{CHAT_BUILD_VERSION}|{chat.IM_START}|{chat.IM_END}|{chat.ENDOFTEXT}".encode())
+    if profile is None:
+        h.update(f"{CHAT_BUILD_VERSION}|{chat.IM_START}|{chat.IM_END}|{chat.ENDOFTEXT}".encode())
+    else:
+        h.update(json.dumps(resolve_profile(profile).identity(), sort_keys=True).encode())
+        h.update(json.dumps(dataclasses.asdict(chat.runtime_tokens(tok)), sort_keys=True).encode())
     h.update(f"materials={materials}|notes={tasks.NOTE_MAX_TOKENS_BY_MATERIALS[materials]}|"
              f"ticks={tasks.REFLECTION_TICKS}".encode())
-    h.update(json.dumps(_tokenizer_manifest(), sort_keys=True).encode())
+    h.update(json.dumps(_tokenizer_manifest(profile), sort_keys=True).encode())
     ref = tasks.make_episodes(1, "template-ref", seed=0)[0]
     for s in [*(tasks.private_prefix_ids(tok, ref, r, materials) for r in tasks.ROLES), chat.close(tok),
               tasks.reflection_turn_ids(tok, materials)]:
@@ -105,7 +112,7 @@ def prefix_hash(tok, materials: str = "v1") -> str:
     return h.hexdigest()[:16]
 
 
-def template_hash(tok, materials: str = "v1") -> str:
+def template_hash(tok, materials: str = "v1", profile=None) -> str:
     """Hash of every token sequence the protocol feeds the model, independent of episode draw.
 
     Covers the chat special IDs and assembly version, the tokenizer manifest, the P/C/LANG
@@ -113,9 +120,13 @@ def template_hash(tok, materials: str = "v1") -> str:
     the question suffix of every CAP item.
     """
     h = hashlib.sha256()
-    h.update(f"{CHAT_BUILD_VERSION}|{chat.IM_START}|{chat.IM_END}|{chat.ENDOFTEXT}|{chat.LABEL_IDS}".encode())
-    h.update(json.dumps(_tokenizer_manifest(), sort_keys=True).encode())
-    h.update(f"u_open={tasks.U_OPEN_TOKENS}|{prefix_hash(tok, materials)}".encode())
+    if profile is None:
+        h.update(f"{CHAT_BUILD_VERSION}|{chat.IM_START}|{chat.IM_END}|{chat.ENDOFTEXT}|{chat.LABEL_IDS}".encode())
+    else:
+        h.update(json.dumps(resolve_profile(profile).identity(), sort_keys=True).encode())
+        h.update(json.dumps(dataclasses.asdict(chat.runtime_tokens(tok)), sort_keys=True).encode())
+    h.update(json.dumps(_tokenizer_manifest(profile), sort_keys=True).encode())
+    h.update(f"u_open={tasks.U_OPEN_TOKENS}|{prefix_hash(tok, materials, profile)}".encode())
     ref = tasks.make_episodes(1, "template-ref", seed=0)[0]
     seqs: list[list[int]] = [tasks.private_prefix_ids(tok, ref, r, materials) for r in tasks.ROLES]
     seqs.append(tasks.reflection_turn_ids(tok, materials))
@@ -196,8 +207,15 @@ class StageConfig:
     frozen: dict[str, Any] | None = None  # frozen protocol-v1 parameters (formal stages; read by analysis)
     materials: str = "v1"  # task materials version (protocol v2 study E: "balanced")
     params: dict[str, Any] | None = None  # stage-specific post-processing parameters (protocol v2)
+    model_profile: str | None = None  # absent retains the frozen Qwen serialization/identity
 
     def __post_init__(self) -> None:
+        profile = resolve_profile(self.model_profile)
+        if self.model_profile is not None:
+            self.model_profile = profile.key
+        if any(not isinstance(layer, int) or not 1 <= layer <= profile.n_layers
+               for layer in self.calibration_layers):
+            raise ValueError(f"calibration layers must be in 1..{profile.n_layers}")
         if self.materials not in tasks.MATERIALS:
             raise ValueError(f"unknown materials {self.materials!r}")
         unknown = set(self.qids) - set(tasks.QIDS)
@@ -206,7 +224,7 @@ class StageConfig:
         stopped = set(self.qids) & set(tasks.STOPPED_QIDS)
         if stopped:
             raise ValueError(f"qids {sorted(stopped)} belong to a stopped endpoint (decision_log 2026-09-24)")
-        bad_post = set(self.post) - set(POST)
+        bad_post = set(self.post) - set(POST) - V4_POST
         if bad_post:
             raise ValueError(f"unknown post steps {sorted(bad_post)}")
         if "sample_size" in self.post and ("select_pilot_b" not in self.post
@@ -222,6 +240,11 @@ class StageConfig:
         arms = []
         for spec in self.arms:
             spec = dict(spec)
+            arm_profile = spec.get("model_profile")
+            if arm_profile is not None and resolve_profile(arm_profile).key != resolve_profile(self.model_profile).key:
+                raise ValueError("arm model_profile differs from the stage model_profile")
+            if self.model_profile is not None:
+                spec["model_profile"] = self.model_profile
             if "recipients" in spec:
                 spec["recipients"] = tuple(spec["recipients"])
             arms.append(ArmConfig(**spec))
@@ -234,6 +257,11 @@ class StageConfig:
     def resolved(self) -> dict[str, Any]:
         d = dataclasses.asdict(self)
         d["arms"] = [dataclasses.asdict(a) for a in self.arm_configs()]
+        if self.model_profile is None:
+            d.pop("model_profile")
+            for arm in d["arms"]:
+                if arm.get("model_profile") is None:
+                    arm.pop("model_profile", None)
         return d
 
 
@@ -284,18 +312,30 @@ def run_consumable(run_dir: Path) -> bool:
     return not smoke and run_finished(run_dir)
 
 
-def resolve_calibration(spec: dict[str, str] | str | None, allow_smoke: bool = False) -> dict[int, str]:
+def resolve_calibration(spec: dict[str, str] | str | None, allow_smoke: bool = False, *,
+                        profile=None, prefix: str | None = None) -> dict[int, str]:
     """``latest`` -> newest finished non-smoke calibrate run (smoke runs may fall back to a
     finished smoke calibration); a dict is taken as given (validated on load)."""
     if spec is None:
         return {}
     if spec == "latest":
         runs = sorted(p for p in results_dir().glob("*_calibrate_*") if (p / "calibration.json").exists())
+        def compatible(path: Path) -> bool:
+            identity_path = path / "identity.json"
+            if not identity_path.exists():
+                return profile is None  # historical Qwen run discovery
+            identity = _read_json(identity_path)
+            if profile is not None:
+                return (identity.get("model_profile") == resolve_profile(profile).identity()
+                        and (prefix is None or identity.get("prefix_hash") == prefix))
+            return identity.get("model_revision", MODEL_REVISION) == MODEL_REVISION
+
+        runs = [p for p in runs if compatible(p)]
         good = [p for p in runs if run_consumable(p)]
         if not good and allow_smoke:
             good = [p for p in runs if run_finished(p)]
         if not good:
-            raise SystemExit("calibration: latest, but no finished non-smoke calibrate run was found")
+            raise SystemExit("calibration: latest, but no compatible finished non-smoke calibrate run was found")
         return {int(k): v for k, v in _read_json(good[-1] / "calibration.json").items()}
     return {int(k): v for k, v in dict(spec).items()}
 
@@ -313,11 +353,14 @@ def load_calibration(path: str, layer: int, current: dict[str, Any], allow_smoke
     if cal.layer != layer:
         problems.append(f"file is for layer {cal.layer}, configured under layer {layer}")
     for name, t in [("mu", cal.mu), ("sd", cal.sd), *[(k, v) for k, v in cal.static.items()]]:
-        if tuple(t.shape) != (D_MODEL,) or not bool(torch.isfinite(t).all()):
+        if tuple(t.shape) != (current.get("hidden_size", D_MODEL),) or not bool(torch.isfinite(t).all()):
             problems.append(f"{name}: shape {tuple(t.shape)} or non-finite values")
     for key in ("model_revision", "prefix_hash"):
         if meta.get(key) != current.get(key):
             problems.append(f"{key} {meta.get(key)} != current {current.get(key)}")
+    for key in ("model_profile", "tokenizer_manifest_sha", "hidden_size"):
+        if key in current and meta.get(key) != current[key]:
+            problems.append(f"{key} {meta.get(key)} != current {current[key]}")
     if meta.get("smoke", True) and not allow_smoke:
         problems.append("smoke calibration cannot feed a non-smoke run")
     if problems:
@@ -339,6 +382,80 @@ def _safe(name: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", name)
 
 
+def reflection_groups(arms: list[ArmConfig]) -> list[list[ArmConfig]]:
+    """FULL and RF differ only after C48; RO has a different reflection trajectory."""
+    groups: dict[str, list[ArmConfig]] = {}
+    for arm in arms:
+        spec = dataclasses.asdict(arm)
+        spec.pop("recipients")
+        spec["readout_mode"] = "RO" if arm.readout_mode == "RO" else "FULL"
+        groups.setdefault(ledger.canonical_hash(spec), []).append(arm)
+    return list(groups.values())
+
+
+def snapshot_hash(state: Any) -> str:
+    """Bitwise fingerprint of every state/cache field, with bounded CPU transfer memory.
+
+    Tensor payloads are streamed a few MiB at a time, including BF16 bytes without
+    conversion. This also covers cache metadata and future dataclass state fields;
+    unsupported fields fail closed instead of silently weakening the check.
+    """
+    import numpy as np
+
+    digest = hashlib.sha256()
+
+    def marker(value: Any) -> None:
+        encoded = json.dumps(value, sort_keys=True, allow_nan=False).encode()
+        digest.update(len(encoded).to_bytes(8, "big"))
+        digest.update(encoded)
+
+    def visit(value: Any) -> None:
+        if value is None or isinstance(value, (str, bool, int, float)):
+            marker([type(value).__name__, value])
+        elif isinstance(value, np.ndarray):
+            marker(["array", str(value.dtype), list(value.shape)])
+            digest.update(np.ascontiguousarray(value).tobytes())
+        elif hasattr(value, "detach") and hasattr(value, "device"):
+            import torch
+
+            marker(["tensor", str(value.dtype), str(value.device), list(value.shape)])
+            raw = value.detach().contiguous().reshape(-1).view(torch.uint8)
+            for start in range(0, raw.numel(), 8 * 1024 * 1024):
+                digest.update(raw[start:start + 8 * 1024 * 1024].cpu().numpy().tobytes())
+        elif isinstance(value, (list, tuple)):
+            marker([type(value).__name__, len(value)])
+            for item in value:
+                visit(item)
+        elif isinstance(value, dict):
+            marker(["dict", sorted(value)])
+            for key in sorted(value):
+                marker(key)
+                visit(value[key])
+        elif isinstance(value, type):
+            marker(["class", value.__module__, value.__qualname__])
+        elif type(value).__module__ == "torch" and type(value).__name__ in ("dtype", "device"):
+            marker([type(value).__name__, str(value)])
+        elif dataclasses.is_dataclass(value) or hasattr(value, "__dict__"):
+            marker(["object", type(value).__module__, type(value).__qualname__])
+            visit(vars(value))
+        else:
+            raise TypeError(f"unsupported snapshot field type: {type(value)!r}")
+
+    visit(state)
+    return digest.hexdigest()
+
+
+@dataclasses.dataclass
+class ReflectionSnapshot:
+    state: Any
+    ticklog: dict[str, Any]
+    lang_meta: list[dict[str, Any]]
+    static_rules: list[str]
+    mask_idx: Any
+    key: str
+    sha256: str
+
+
 class Runner:
     """Model, caches and bookkeeping for one stage run.
 
@@ -356,11 +473,13 @@ class Runner:
         self.log = log
         self.identity = identity
         self.template_hash = identity["template_hash"]
-        self.tok = tok if tok is not None else chat.load_tokenizer()
+        self.profile = resolve_profile(cfg.model_profile)
+        self.tok = tok if tok is not None else chat.load_tokenizer(profile=cfg.model_profile)
+        chat.require_verified_tokenizer(self.tok, cfg.model_profile)
         if model is None:
             from mb.runtime import load_model
 
-            model = load_model()
+            model = load_model(profile=cfg.model_profile, tokenizer=self.tok)
         self.model = model
         if engine_cls is None:
             from mb.runtime import Engine
@@ -368,6 +487,8 @@ class Runner:
             engine_cls = Engine
         self.engine_cls = engine_cls
         self.d = int(model.config.hidden_size)
+        if cfg.model_profile is not None and self.d != self.profile.hidden_size:
+            raise ValueError(f"model hidden size {self.d} differs from profile {self.profile.hidden_size}")
         self.cal = cal_map
         self.cal_meta = cal_meta
         self.all_episodes, self.episodes = stage_episodes(cfg, limit)
@@ -381,6 +502,15 @@ class Runner:
         self.prior_records = prior.records
         self._load_notes()
         self._load_lang()
+        self.snapshot_hashes: dict[str, str] = {}
+        if cfg.model_profile is not None:
+            saved = self._jsonl("snapshots.jsonl")
+            saved += [{"key": rec["c48_snapshot_key"], "sha256": rec["c48_snapshot_sha256"]}
+                      for rec in self.prior_records if "c48_snapshot_key" in rec]
+            for rec in saved:
+                previous = self.snapshot_hashes.setdefault(rec["key"], rec["sha256"])
+                if previous != rec["sha256"]:
+                    raise RuntimeError(f"conflicting saved C48 snapshots for {rec['key']}")
         self.writer = ledger.ShardWriter(run_dir)
         (run_dir / "ticks").mkdir(exist_ok=True)
         self.ticks_summary = (run_dir / "ticks.jsonl").open("a")
@@ -514,7 +644,8 @@ class Runner:
             return
         self.ensure_notes(engine, [(ep, r) for ep in todo for r in tasks.ROLES])
         state = engine.prefill([self.prefix(ep, r) for ep in todo for r in tasks.ROLES])
-        plan = make_plan(ArmConfig("C0"), ["A", "B"] * len(todo), [None] * (2 * len(todo)), engine.cal,
+        plan = make_plan(ArmConfig("C0", model_profile=self.cfg.model_profile),
+                         ["A", "B"] * len(todo), [None] * (2 * len(todo)), engine.cal,
                          engine.device, d=engine.d)
         engine.run_reflection(state, plan)
         consumed = state.consumed_matrix().cpu()
@@ -541,7 +672,7 @@ class Runner:
             "interface": arm.interface, "kv_scope": arm.kv_scope, "kv_w_live": arm.kv_w_live,
             "materials": self.cfg.materials,
             "calibration_hash": ident["calibration_hash"], "mask_hash": mhash,
-            "template_hash": self.template_hash, "model_revision": MODEL_REVISION, "config_hash": chash,
+            "template_hash": self.template_hash, "model_revision": self.profile.revision, "config_hash": chash,
             "attempt": self.writer.path.stem, "pass": self.pass_index,
         }
 
@@ -586,7 +717,8 @@ class Runner:
         return donors
 
     def run_arm_chunk(self, engine, arm: ArmConfig, chunk: list[tasks.Episode], all_rot_ids: set[str],
-                      done: set[ledger.TrialKey], chunk_index: int) -> None:
+                      done: set[ledger.TrialKey], chunk_index: int,
+                      snapshot: ReflectionSnapshot | None = None) -> ReflectionSnapshot | None:
         import numpy as np
 
         from mb.runtime import U_OPEN_TOKENS, make_plan
@@ -596,28 +728,43 @@ class Runner:
         donors = self._donors(arm, chunk)
         specs = self._pending_questions(arm, chunk, donors, all_rot_ids, done)
         if not specs:
-            return
+            return snapshot
         lang_meta: list[dict[str, Any]] = [{} for _ in chunk]
         try:
-            self.ensure_notes(engine, [(ep, "A") for ep in chunk] + [(d, "B", arm.partner_frame) for d in donors])
-            if arm.lang:
-                self.ensure_c0_reflections(engine, chunk)
-            prefixes = []
-            for p, (ep, donor) in enumerate(zip(chunk, donors)):
-                lang = None
+            if snapshot is None:
+                self.ensure_notes(engine, [(ep, "A") for ep in chunk] + [(d, "B", arm.partner_frame) for d in donors])
                 if arm.lang:
-                    ids = self.c0_reflection[ep.episode_id]
-                    lang = (self.tok.decode(ids), arm.lang)
-                    lang_meta[p] = {"lang_source_sha": ledger.canonical_hash(ids), "lang_n_tokens": len(ids)}
-                prefixes += [self.prefix(ep, "A", lang), self.prefix(donor, "B", frame=arm.partner_frame)]
-            state = engine.prefill(prefixes)
-            idx = self.mask_indices(arm)
-            if idx is not None:
-                idx = idx.to(engine.device)
-            static_rules = [d.rule.B for d in donors]
-            plan = make_plan(arm, ["A", "B"] * len(chunk), [x for r in static_rules for x in (r, None)],
-                             engine.cal, engine.device, idx, engine.d)
-            ticklog = engine.run_reflection(state, plan, write=arm.readout_mode != "RO")
+                    self.ensure_c0_reflections(engine, chunk)
+                prefixes = []
+                for p, (ep, donor) in enumerate(zip(chunk, donors)):
+                    lang = None
+                    if arm.lang:
+                        ids = self.c0_reflection[ep.episode_id]
+                        lang = (self.tok.decode(ids), arm.lang)
+                        lang_meta[p] = {"lang_source_sha": ledger.canonical_hash(ids), "lang_n_tokens": len(ids)}
+                    prefixes += [self.prefix(ep, "A", lang), self.prefix(donor, "B", frame=arm.partner_frame)]
+                state = engine.prefill(prefixes)
+                idx = self.mask_indices(arm)
+                if idx is not None:
+                    idx = idx.to(engine.device)
+                static_rules = [d.rule.B for d in donors]
+                plan = make_plan(arm, ["A", "B"] * len(chunk), [x for r in static_rules for x in (r, None)],
+                                 engine.cal, engine.device, idx, engine.d)
+                ticklog = engine.run_reflection(state, plan, write=arm.readout_mode != "RO")
+                if self.cfg.model_profile is not None:
+                    reflection_ident = dict(ident)
+                    reflection_ident.pop("recipients", None)
+                    reflection_ident["readout_mode"] = "RO" if arm.readout_mode == "RO" else "FULL"
+                    key = ledger.canonical_hash({"reflection": reflection_ident,
+                                                 "episodes": [ep.episode_id for ep in chunk]})
+                    sha = snapshot_hash(state)
+                    self._register_snapshot(key, sha, chunk)
+                    snapshot = ReflectionSnapshot(state, ticklog, lang_meta, static_rules, idx, key, sha)
+            else:
+                state, ticklog = snapshot.state, snapshot.ticklog
+                lang_meta, static_rules, idx = snapshot.lang_meta, snapshot.static_rules, snapshot.mask_idx
+                if snapshot_hash(state) != snapshot.sha256:
+                    raise RuntimeError("C48 snapshot was mutated by a previous readout branch")
         except Exception as exc:
             reason = f"prefix/reflection: {exc!r}"
             self.log(f"[{arm.name}] chunk {chunk_index} failed before readouts: {reason}")
@@ -626,7 +773,7 @@ class Runner:
                 rec.update(status="failed", failure_reason=reason)
                 self._emit(rec)
             self.writer.flush()
-            return
+            return snapshot
 
         c_path = self._tick_path("C", arm, chash, chunk_index)
         np.savez_compressed(c_path, episode_ids=np.array([e.episode_id for e in chunk]),
@@ -672,6 +819,8 @@ class Runner:
                     ep = chunk[p]
                     rec = self._base_record(arm, ident, chash, mhash, ep, recipient, q)
                     rec.update(lang_meta[p])
+                    if snapshot is not None:
+                        rec.update(c48_snapshot_key=snapshot.key, c48_snapshot_sha256=snapshot.sha256)
                     if arm.donor_variant:
                         v = donors[p]
                         rec.update(donor_rule=v.rule.B, donor_word=v.word.B, cf_r0_rule=ep.rule.B,
@@ -707,6 +856,27 @@ class Runner:
         del state
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+        return snapshot
+
+    def _register_snapshot(self, key: str, sha: str, chunk: list[tasks.Episode]) -> None:
+        """A resumed/retried branch must reconstruct the exact original paired state."""
+        previous = self.snapshot_hashes.get(key)
+        if previous is not None:
+            if previous != sha:
+                raise RuntimeError(f"C48 snapshot differs on retry/resume for {key}")
+            return
+        path = self.run_dir / "snapshots.jsonl"
+        # Preserve a crash-truncated tail while keeping the next append parseable.
+        separator = ""
+        if path.exists() and path.stat().st_size:
+            with path.open("rb") as fh:
+                fh.seek(-1, os.SEEK_END)
+                separator = "" if fh.read(1) == b"\n" else "\n"
+        with path.open("a") as fh:
+            fh.write(separator)
+            fh.write(json.dumps({"key": key, "sha256": sha,
+                                 "episodes": [ep.episode_id for ep in chunk]}) + "\n")
+        self.snapshot_hashes[key] = sha
 
     @staticmethod
     def _save_rticks(path: Path, parts: list[tuple[list[str], dict[str, Any]]]) -> None:
@@ -743,11 +913,15 @@ class Runner:
                 engine = self.engine_cls(self.model, self.tok, layer, self.cal.get(layer) if needs_cal else None)
                 try:
                     for ci, chunk in enumerate(_chunks(self.episodes, self.cfg.episodes_per_batch)):
-                        for arm in layer_arms:
-                            t0 = time.time()
-                            self.run_arm_chunk(engine, arm, chunk, all_rot_ids, done, ci)
-                            self.log(f"pass {attempt} [{arm.name}] chunk {ci}: {len(chunk)} episodes "
-                                     f"in {time.time() - t0:.1f}s")
+                        groups = reflection_groups(layer_arms) if self.cfg.model_profile is not None else [[a] for a in layer_arms]
+                        for group in groups:
+                            snapshot = None
+                            for arm in group:
+                                t0 = time.time()
+                                snapshot = self.run_arm_chunk(engine, arm, chunk, all_rot_ids, done, ci, snapshot)
+                                self.log(f"pass {attempt} [{arm.name}] chunk {ci}: {len(chunk)} episodes "
+                                         f"in {time.time() - t0:.1f}s")
+                            del snapshot  # retain only one reflection family for one episode chunk
                 finally:
                     engine.close()
             failed = [r for r in self.new_records[n_new_before:] if r.get("status") != "ok"]
@@ -794,7 +968,8 @@ def run_calibration(runner: Runner, layers: list[int], smoke: bool) -> dict[int,
             for h in hooks.values():
                 h.records.clear()  # drop everything recorded while generating notes
             state = engine.prefill([runner.prefix(ep, r) for ep in chunk for r in tasks.ROLES])
-            plan = make_plan(ArmConfig("C0"), ["A", "B"] * len(chunk), [None] * (2 * len(chunk)), None,
+            plan = make_plan(ArmConfig("C0", model_profile=runner.cfg.model_profile),
+                             ["A", "B"] * len(chunk), [None] * (2 * len(chunk)), None,
                              engine.device, d=engine.d)
             engine.run_reflection(state, plan)
             for l, h in hooks.items():
@@ -809,6 +984,7 @@ def run_calibration(runner: Runner, layers: list[int], smoke: bool) -> dict[int,
             h.remove()
         engine.close()
     paths: dict[int, str] = {}
+    metadata: dict[str, dict[str, Any]] = {}
     for l in layers:
         z = torch.cat(z_seqs[l], dim=0)  # [rows, 1 + T, d]
         r = torch.cat(rms_seqs[l], dim=0)
@@ -831,18 +1007,26 @@ def run_calibration(runner: Runner, layers: list[int], smoke: bool) -> dict[int,
             unusable += bad
         cal.static, cal.static_unusable = statics, tuple(unusable)
         blob = cal.state_dict()
-        blob["meta"] = {"model_revision": MODEL_REVISION, "prefix_hash": runner.identity["prefix_hash"],
+        blob["meta"] = {"model_revision": runner.profile.revision, "prefix_hash": runner.identity["prefix_hash"],
                         "template_hash": runner.template_hash,
                         "split": runner.cfg.split, "n_episodes": len(runner.episodes), "smoke": smoke,
                         "run_dir": str(runner.run_dir),
                         "high_abs_mu_dims": torch.topk(cal.mu.abs(), 16).indices.tolist(),
                         "high_sd_dims": torch.topk(cal.sd, 16).indices.tolist()}
+        if runner.cfg.model_profile is not None:
+            blob["meta"].update(model_profile=runner.identity["model_profile"], hidden_size=runner.d,
+                                tokenizer_manifest_sha=runner.identity["tokenizer_manifest_sha"])
         path = runner.run_dir / f"calibration_L{l}.pt"
         with path.open("xb") as fh:  # never overwrite
             torch.save(blob, fh)
         paths[l] = str(path)
+        metadata[str(l)] = {**blob["meta"], "static_unusable": list(cal.static_unusable),
+                            "hash": cal.hash(), "path": str(path),
+                            "file_sha256": ledger.file_sha256(path)}
         runner.log(f"layer {l}: sigma_in={cal.sigma_in:.3f} hash={cal.hash()} unusable={unusable}")
     (runner.run_dir / "calibration.json").write_text(json.dumps(paths, indent=2))
+    if runner.cfg.model_profile is not None:
+        (runner.run_dir / "calibration_metadata.json").write_text(json.dumps(metadata, indent=2))
     return paths
 
 
@@ -1635,6 +1819,19 @@ POST = {"g1": post_g1, "select_pilot_a": post_select_pilot_a, "select_pilot_b": 
         "select_strength": post_select_strength, "match_static": post_match_static, "signal": post_signal,
         "contrasts": post_contrasts, "select_live": post_select_live, "pair_signal": post_pair_signal,
         "match_arms": post_match_arms}
+V4_POST = {"v4_baseline", "v4_strength", "v4_match", "v4_validity", "v4_contrasts"}
+
+
+def run_post(step: str, run_dir: Path, cfg: StageConfig) -> dict[str, Any]:
+    if step in V4_POST:
+        from mb import v4
+
+        status = run_completeness(run_dir)
+        status["smoke"] = _read_json(run_dir / "manifest.json").get("smoke", True)
+        status["consumable"] = status["status"] == "complete" and not status["smoke"]
+        status["post_step"] = step
+        return v4.postprocess(run_dir, cfg, status)
+    return POST[step](run_dir)
 
 
 # ---------------------------------------------------------------------------
@@ -1657,6 +1854,12 @@ def build_identity(cfg: StageConfig, limit: int | None, template: str, cal_info:
     }
     if include_code:
         ident["source_hash"] = source_hash()
+    if cfg.model_profile is not None:
+        profile = resolve_profile(cfg.model_profile)
+        ident.update(model_profile=profile.identity(), model_revision=profile.revision,
+                     tokenizer_manifest_sha=ledger.file_sha256(Path(profile.manifest_path)),
+                     chat_build=profile.serializer_version,
+                     c48_snapshot_contract="shared-c48-sha256-v1")
     return json.loads(json.dumps(ident))  # canonical JSON types, so stored and fresh copies compare equal
 
 
@@ -1670,11 +1873,54 @@ class Prepared:
     resumed: bool
 
 
+def validate_stage_sources(cfg: StageConfig) -> None:
+    """Fail before run creation if a consumed selection or model-asset manifest changed."""
+    params = cfg.params or {}
+    pins = dict(params.get("sources", {}))
+    if params.get("model_assets") is not None:
+        pins["model_assets"] = params["model_assets"]
+    def resolve_path(value: str) -> Path:
+        path = Path(value)
+        return (path if path.is_absolute() else REPO_ROOT / path).resolve()
+
+    for name, pin in pins.items():
+        if (not isinstance(pin, dict) or not isinstance(pin.get("path"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", str(pin.get("sha256", "")))):
+            raise ValueError(f"invalid pinned stage source {name}")
+        path = resolve_path(pin["path"])
+        if not path.is_file() or ledger.file_sha256(path) != pin["sha256"]:
+            raise ValueError(f"stage source integrity check failed: {name}")
+        if name == "model_assets":
+            manifest = resolve_profile(cfg.model_profile).manifest_path
+            if pin["sha256"] != ledger.file_sha256(manifest):
+                raise ValueError("pinned model_assets differ from the selected profile manifest")
+    if "calibration_metadata" in pins and cfg.calibration is not None:
+        if not isinstance(cfg.calibration, dict):
+            raise ValueError("pinned calibration_metadata requires explicit calibration paths")
+        metadata = _read_json(resolve_path(pins["calibration_metadata"]["path"]))
+        for layer, configured in cfg.calibration.items():
+            entry = metadata.get(str(layer), {})
+            path = resolve_path(configured)
+            if (not isinstance(entry.get("path"), str)
+                    or path != resolve_path(entry["path"])
+                    or not path.is_file()
+                    or ledger.file_sha256(path) != entry.get("file_sha256")):
+                raise ValueError(f"calibration layer {layer} differs from pinned calibration_metadata")
+
+
 def prepare_run(cfg: StageConfig, config_path: Path, limit: int | None, resume: Path | None,
                 allow_code_change: bool = False, tok=None) -> Prepared:
-    tok = tok if tok is not None else chat.load_tokenizer()
+    if (cfg.params or {}).get("smoke_only") and limit is None:
+        raise ValueError("this correctness config is smoke_only and requires --limit")
+    validate_stage_sources(cfg)
+    profile = resolve_profile(cfg.model_profile)
+    if cfg.model_profile is not None:
+        profile.validate_manifest()
+    tok = tok if tok is not None else chat.load_tokenizer(profile=cfg.model_profile)
+    chat.require_verified_tokenizer(tok, cfg.model_profile)
     smoke = limit is not None
-    template, prefix = template_hash(tok, cfg.materials), prefix_hash(tok, cfg.materials)
+    template = template_hash(tok, cfg.materials, cfg.model_profile)
+    prefix = prefix_hash(tok, cfg.materials, cfg.model_profile)
     stored: dict[str, Any] | None = None
     if resume is not None:
         if cfg.stage == "calibrate":
@@ -1682,15 +1928,23 @@ def prepare_run(cfg: StageConfig, config_path: Path, limit: int | None, resume: 
         stored = _read_json(resume / "identity.json")
         cal_paths = {int(k): v["path"] for k, v in stored.get("calibration", {}).items()}  # pinned resolution
     else:
-        cal_paths = resolve_calibration(cfg.calibration, allow_smoke=smoke)
+        cal_paths = resolve_calibration(cfg.calibration, allow_smoke=smoke,
+                                        profile=cfg.model_profile, prefix=prefix)
     cal_map: dict[int, Any] = {}
     cal_meta: dict[int, dict[str, Any]] = {}
     cal_info: dict[int, dict[str, Any]] = {}
+    current_cal = {"model_revision": profile.revision, "prefix_hash": prefix}
+    if cfg.model_profile is not None:
+        current_cal.update(model_profile=profile.identity(), hidden_size=profile.hidden_size,
+                           tokenizer_manifest_sha=ledger.file_sha256(Path(profile.manifest_path)))
     for layer, path in sorted(cal_paths.items()):
-        cal, meta = load_calibration(path, layer, {"model_revision": MODEL_REVISION, "prefix_hash": prefix},
-                                     allow_smoke=smoke)
+        if not 1 <= layer <= profile.n_layers:
+            raise ValueError(f"calibration layer {layer} outside 1..{profile.n_layers}")
+        cal, meta = load_calibration(path, layer, current_cal, allow_smoke=smoke)
         cal_map[layer], cal_meta[layer] = cal, meta
         cal_info[layer] = {"path": str(path), "hash": cal.hash(), "smoke": bool(meta.get("smoke", True))}
+        if cfg.model_profile is not None:
+            cal_info[layer]["file_sha256"] = ledger.file_sha256(Path(path))
     identity = build_identity(cfg, limit, template, cal_info, include_code=not (resume and allow_code_change),
                               prefix=prefix)
 
@@ -1710,6 +1964,10 @@ def prepare_run(cfg: StageConfig, config_path: Path, limit: int | None, resume: 
     (run_dir / "identity.json").write_text(json.dumps(identity, indent=2))
     manifest = {"stage": cfg.stage, "config_path": str(config_path), "started": dt.datetime.now().isoformat(),
                 "git": git_state(), "env": environment(), "smoke": smoke, "argv": sys.argv}
+    if cfg.model_profile is not None:
+        manifest.update(model_profile=identity["model_profile"],
+                        tokenizer_manifest_sha=identity["tokenizer_manifest_sha"],
+                        template_hash=template, prefix_hash=prefix)
     (run_dir / "manifest.json").write_text(json.dumps(manifest, indent=2))
     return Prepared(run_dir, identity, cal_map, cal_meta, smoke, False)
 
@@ -1729,7 +1987,7 @@ def main(argv: list[str] | None = None) -> int:
         if not args.resume:
             raise SystemExit("--post-only needs --resume")
         for step in cfg.post:
-            print(step, json.dumps(POST[step](args.resume), indent=2))
+            print(step, json.dumps(run_post(step, args.resume, cfg), indent=2))
         return 0
 
     prep = prepare_run(cfg, args.config, args.limit, args.resume, args.allow_code_change)
@@ -1759,7 +2017,7 @@ def main(argv: list[str] | None = None) -> int:
         indent=2))
     log(f"completeness: {comp['status']} ({comp['n_ok']}/{comp['n_expected']})")
     for step in cfg.post:
-        log(f"{step}: " + json.dumps(POST[step](prep.run_dir)))
+        log(f"{step}: " + json.dumps(run_post(step, prep.run_dir, cfg)))
     log(f"run dir: {prep.run_dir}")
     log.close()
     return exit_code(comp)

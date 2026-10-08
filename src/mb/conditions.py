@@ -12,6 +12,8 @@ import json
 import math
 from dataclasses import asdict, dataclass
 
+from mb.model_profiles import resolve_profile
+
 
 class ContractIncomplete(NotImplementedError):
     """Raised for v2 branches (interpolation writes, KV sharing) that v1 must not run."""
@@ -51,14 +53,16 @@ class ArmConfig:
     kv_scope: str | None = None  # kv only: "C" (partner's C/R tokens) or "ALL" (partner's whole valid cache)
     kv_w_live: float | None = None  # kv scope PC only: weight on the partner's C/R tokens (gain weighs its prefill)
     partner_frame: str = "second"  # protocol v3: "third" / "third_strict" write the donor's memory as a record
+    model_profile: str | None = None  # absent preserves all frozen Qwen arm identities
 
     def __post_init__(self) -> None:
+        profile = resolve_profile(self.model_profile)
         if self.condition not in CONDITIONS:
             raise ValueError(f"unknown condition {self.condition}")
         if not isinstance(self.gain, (int, float)) or not math.isfinite(self.gain):
             raise ValueError(f"gain must be a finite number, got {self.gain!r}")
-        if not isinstance(self.layer, int) or not 1 <= self.layer <= N_LAYERS:
-            raise ValueError(f"layer must be an integer in 1..{N_LAYERS}, got {self.layer!r}")
+        if not isinstance(self.layer, int) or not 1 <= self.layer <= profile.n_layers:
+            raise ValueError(f"layer must be an integer in 1..{profile.n_layers}, got {self.layer!r}")
         if self.gain > MAX_GAIN:
             raise ValueError(f"gain {self.gain} above the sanity bound {MAX_GAIN}")
         if self.mask_direction not in ("one", "two"):
@@ -102,8 +106,8 @@ class ArmConfig:
         if self.condition == "MASK":
             if self.k is None or self.energy_mode not in ("fixed", "matched"):
                 raise ValueError("MASK needs k and energy_mode in {fixed, matched}")
-            if not isinstance(self.k, int) or not 1 <= self.k <= D_MODEL:
-                raise ValueError(f"MASK k must be an integer in 1..{D_MODEL}, got {self.k!r}")
+            if not isinstance(self.k, int) or not 1 <= self.k <= profile.hidden_size:
+                raise ValueError(f"MASK k must be an integer in 1..{profile.hidden_size}, got {self.k!r}")
             if self.energy_mode == "matched" and self.mask_direction != "one":
                 raise ValueError("energy-matched masks are run one-way only (protocol v0.5 §7)")
         if "B" in self.recipients and not self.bridged and self.condition != "C0":
@@ -169,8 +173,13 @@ class ArmConfig:
 
     def identity(self, calibration_hash: str, mask_hash: str, template_hash: str) -> dict:
         ident = asdict(self)
+        profile = resolve_profile(self.model_profile)
+        if self.model_profile is None:
+            ident.pop("model_profile")
+        else:
+            ident["model_profile_identity"] = profile.identity()
         ident.update(tau=self.tau, calibration_hash=calibration_hash if self.needs_calibration else "none",
-                     mask_hash=mask_hash, template_hash=template_hash, model_revision=MODEL_REVISION)
+                     mask_hash=mask_hash, template_hash=template_hash, model_revision=profile.revision)
         return ident
 
     def config_hash(self, calibration_hash: str, mask_hash: str, template_hash: str) -> str:

@@ -27,6 +27,7 @@ from mb import chat
 from mb.bridge import (MESSAGE_DTYPE, BridgeHook, LayerCalibration, apply_transform, ema_update,
                        message, rms, scram_matrix)
 from mb.conditions import MODEL_REVISION, ArmConfig
+from mb.model_profiles import ModelProfile, QWEN, resolve_profile
 from mb.tasks import NOTE_MAX_TOKENS, REFLECTION_TICKS, U_OPEN_TOKENS  # noqa: F401 (re-exported)
 
 MODEL_ID = "Qwen/Qwen3-4B-Instruct-2507"
@@ -122,9 +123,24 @@ AttentionInterface.register(KV_ATTENTION, kv_attention)
 AttentionMaskInterface.register(KV_ATTENTION, sdpa_mask)
 
 
-def load_model(device: str = "cuda", revision: str = MODEL_REVISION, dtype: torch.dtype = torch.bfloat16):
+def load_model(device: str = "cuda", revision: str | None = None, dtype: torch.dtype = torch.bfloat16,
+               *, profile: str | ModelProfile | None = None, tokenizer: PreTrainedTokenizerBase | None = None):
+    selected = resolve_profile(profile)
+    if revision is not None and revision != selected.revision:
+        raise ValueError("model revision differs from the pinned profile")
+    if selected != QWEN:
+        if tokenizer is None:
+            raise ValueError("load the manifest-verified tokenizer before loading a new model")
+        chat.require_verified_tokenizer(tokenizer, selected)
+    elif tokenizer is not None:
+        chat.require_verified_tokenizer(tokenizer, selected)
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID, revision=revision, dtype=dtype, attn_implementation=KV_ATTENTION)
+        selected.repo_id, revision=selected.revision, dtype=dtype, attn_implementation=KV_ATTENTION,
+        trust_remote_code=False)
+    selected.validate_model_config(model.config)
+    if selected != QWEN and getattr(model.config, "_commit_hash", None) != selected.revision:
+        raise ValueError("loaded model did not resolve to the pinned revision")
+    model._mb_profile_key = selected.key
     return model.to(device).eval()
 
 
@@ -206,6 +222,8 @@ class Plan:
 def make_plan(arm: ArmConfig, roles: list[str], static_rules: list[str | None], cal: LayerCalibration | None,
               device: torch.device, mask_idx: torch.Tensor | None = None, d: int | None = None) -> Plan:
     """Rows are interleaved (partner = i ^ 1); ``roles`` gives 'A'/'B' per row."""
+    if arm.model_profile is not None and d is not None and d != resolve_profile(arm.model_profile).hidden_size:
+        raise ValueError("arm profile and runtime hidden size differ")
     rows = len(roles)
     donor = torch.full((rows,), -1, dtype=torch.long, device=device)
     static = None
@@ -263,6 +281,11 @@ class TickLog:
 
 class Engine:
     def __init__(self, model, tok: PreTrainedTokenizerBase, layer: int, cal: LayerCalibration | None):
+        self.profile = chat.profile_for_tokenizer(tok)
+        chat.require_verified_tokenizer(tok, self.profile)
+        self.profile.validate_model_config(model.config)
+        if self.profile != QWEN and getattr(model, "_mb_profile_key", None) != self.profile.key:
+            raise ValueError("new-model engine requires a model loaded through its pinned profile")
         n_layers = model.config.num_hidden_layers
         if not 1 <= layer <= n_layers:
             raise ValueError(f"layer {layer} outside 1..{n_layers}")
@@ -275,9 +298,10 @@ class Engine:
         self.cal = cal.to(self.device) if cal is not None else None
         self.hook = BridgeHook(model.model.layers[layer - 1], layer)
         self.d = model.config.hidden_size
-        self.eos = torch.tensor(chat.EOS_IDS, device=self.device)
-        self.label_ids = torch.tensor(chat.LABEL_IDS, device=self.device)
-        self.pad_id = chat.ENDOFTEXT
+        tokens = chat.runtime_tokens(tok)
+        self.eos = torch.tensor(tokens.eos_ids, device=self.device)
+        self.label_ids = torch.tensor(tokens.label_ids, device=self.device)
+        self.pad_id = tokens.pad_id
         self._w32: torch.Tensor | None = None
         self.last_kv_mass: torch.Tensor | None = None
         self.last_kv_mass_cr: torch.Tensor | None = None
@@ -513,6 +537,8 @@ class Engine:
         Returns per branch: fp32 label logits/logprobs/mass, bridge diagnostics for the
         recipient row, and exactly ``generate`` EOS-masked tokens if requested.
         """
+        if resolve_profile(arm.model_profile) != self.profile:
+            raise ValueError("readout arm and engine model profiles differ")
         if snapshot.phase != "C" or (require_tick is not None and snapshot.tick != require_tick):
             raise RuntimeError(f"readouts must branch from the C{require_tick} snapshot "
                                f"(phase={snapshot.phase}, tick={snapshot.tick})")
