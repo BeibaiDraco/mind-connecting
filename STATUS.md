@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-08T12:50-05:00, Codex (PI reports arXiv uploaded and at Process; concrete v4 proposal independently reviewed; Vast restart refused for unavailable resources, queued start cancelled and stopped state verified; no model run).
+Last updated: 2026-10-08T12:52-05:00, Codex (PI reports arXiv uploaded and at Process; concrete v4 proposal independently reviewed; Vast restart refused for unavailable resources, queued start cancelled and stopped state verified; no model run).
 
 ## Current phase
 
@@ -57,7 +57,6 @@ Last updated: 2026-10-08T12:50-05:00, Codex (PI reports arXiv uploaded and at Pr
 | agent | task | files involved | start time |
 |---|---|---|---|
 
-| Codex | Resolve arXiv Process handoff, verify the existing GPU instance, and specify the second-model replication before running | `STATUS.md`, `decision_log.md`, `docs/protocol/SECOND_MODEL_NAACL_PLAN.md`, new v4 draft and readiness records | 2026-10-08T12:39-05:00 |
 
 
 ## Figure note for Claude (2026-09-25, Codex)
@@ -67,7 +66,7 @@ Last updated: 2026-10-08T12:50-05:00, Codex (PI reports arXiv uploaded and at Pr
 
 ## Done
 
-- **Concrete v4 proposal and attempted GPU recovery** (2026-10-08, Codex): wrote the eight-condition, fixed-N replication draft and independent readiness record; corrected layer indexing, receiver/readout counts, selector and multiplicity requirements, snapshot validation and control-quality interpretation. Actual Qwen run timing supplies a baseline for future smoke-based costing. A bounded restart attempt failed for unavailable resources; provider stopped state was verified and queued start cancelled. No new-model code, model execution, replacement rental or manuscript edits. Research approval, access, implementation and GPU availability remain pending.
+- **Concrete v4 proposal and attempted GPU recovery** (2026-10-08, Codex): wrote the eight-condition, fixed-N replication draft and independent readiness record; corrected layer indexing, receiver/readout counts, selector and multiplicity requirements, snapshot validation and control-quality interpretation. Actual Qwen run timing supplies a baseline for future smoke-based costing. A bounded restart attempt failed for unavailable resources; provider stopped state was verified and queued start cancelled. No new-model code, model execution, replacement rental or manuscript edits. Existing offline tests passed (151 passed, 3 skipped). Research approval, access, implementation and GPU availability remain pending.
 
 - **arXiv v1 preservation and NAACL follow-up preparation** (2026-10-08, Codex): copied and verified the unchanged PDF/source archive into a separate ignored v1 snapshot; added the tracked manifest and a concrete model-adaptation, experiment-scope, budget and conference-readiness proposal. Verified snapshot checksums and all 22 archive paths; offline tests passed (151 passed, 3 skipped). Opened the arXiv login page for the PI. Login/license and research/budget decisions are pending; nothing was submitted, published or started on the GPU.
 
