@@ -32,7 +32,8 @@ The PI approved these choices before any new-model pilot:
    the ceiling.
 
 The official public model metadata identifies full revision
-`0e9e39f249a16976918f6564b8830bc894c89659`. Gated asset access is still pending.
+`0e9e39f249a16976918f6564b8830bc894c89659`. Official gated access was verified on October 8 by downloading the exact pinned
+Instruct configuration with the PI-authorized account.
 The model/config/tokenizer/generation-config hashes and native serialization checks
 must be filled in from verified official assets before execution. Both A and B are independent
 states of this same new checkpoint. No weight or interface training, mixed-model
@@ -264,27 +265,23 @@ one additional checkpoint, not a general law for LLMs.
 4. On GPU, reuse and parameterize existing tests for no-link/zero-weight equality,
    causal masks, donor isolation, snapshot/branch isolation, FULL/RF and every
    attention layer. Validate left padding, position IDs and prefill boundaries.
-   Current `run_arm_chunk` recomputes C48 separately for FULL/RF. Implement reuse
-   of an immutable C48 snapshot, or verify exact equality of every snapshot field
-   after deterministic recomputation before allowing the readout contrast.
+   Reuse an immutable C48 snapshot for FULL/RF and verify every snapshot field
+   before allowing the readout contrast. The recorded full-state hash includes
+   generated tokens, masks, positions and all cache tensors.
 5. Run the four-episode smoke with conservative batches. Check expected ledger
    counts, finite logits, peak VRAM and per-condition elapsed time. Verify that
    completed-run resume adds no records, and changed model/template identity
    refuses resume before writing. Do not use old batch sizes without measuring.
 6. Implement the v4 selector's exact order: screen all engineering and strong
-   access criteria first, then maximize gain. The current selector chooses an
-   engineering-eligible winner before its strong check and lacks the >=0.10
-   hit-rate improvement rule; changing YAML thresholds is insufficient. Add
-   focused tests for eligibility order, strict positive gain and deterministic ties.
-   Implement the baseline's side-specific task, format and CAP gates: current
-   `post_g1` pools A/B task accuracy and does not gate CAP, so its existing pass
-   flag is not sufficient for this draft.
+   access criteria first, then maximize gain. Test eligibility order, the >=0.10
+   hit-rate improvement rule, strict positive gain and deterministic ties.
+   Use the v4 baseline's side-specific task, format and CAP gates; the historical
+   `post_g1` pass flag is not a substitute for these checks.
    Also handle unavailable primary comparisons explicitly: retain a null effect
-   with `p_for_adjustment=1`, and verify five-test Holm correction. The existing
-   missing-arm path raises `KeyError`, and passing NaN to the current Holm helper
-   would incorrectly reduce the planned family.
-7. Extend the freeze tool, which currently accepts only v1-v3, to include v4
-   protocol, model assets, generators, profiles and configs. Prepare a run chain
+   with `p_for_adjustment=1`, and verify five-test Holm correction. A missing arm
+   or non-finite p-value must never shrink the planned family.
+7. Freeze the v4 protocol, model assets, generators, profiles, configs and
+   acceptance/supervision entry points. Prepare a run chain
    that stops on errors, syncs records, and is supervised by an actual provider
    shutdown action; the existing `run_chain.sh` does not itself stop Vast.
 8. Run the stage sequence above only after PI approval. Use a new remote checkout

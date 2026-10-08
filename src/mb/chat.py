@@ -129,7 +129,15 @@ def validate_tokenizer_profile(tok: PreTrainedTokenizerBase, profile: str | Mode
     def special(text: str) -> int:
         ids = encode(tok, text)
         value = tok.convert_tokens_to_ids(text)
-        if len(ids) != 1 or ids[0] != value or value not in tok.all_special_ids:
+        added = tok.added_tokens_decoder.get(value)
+        designated = value in tok.all_special_ids or (
+            added is not None and added.special and str(added) == text)
+        # Native Llama marks some controls only in added_tokens_decoder, not in
+        # special_tokens_map. Both are official tokenizer metadata; require an
+        # exact token round trip as well as that explicit special designation.
+        if (len(ids) != 1 or ids[0] != value or not designated
+                or tok.decode(ids, skip_special_tokens=False,
+                              clean_up_tokenization_spaces=False) != text):
             raise ValueError(f"missing single special token {text}")
         return value
 

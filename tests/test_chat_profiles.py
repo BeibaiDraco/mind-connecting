@@ -111,6 +111,20 @@ def test_incomplete_stop_set_and_prefix_changing_template_fail(native_tok):
         chat.validate_tokenizer_profile(tok, LLAMA31, generation)
 
 
+def test_native_added_special_controls_need_not_be_in_special_token_map(native_tok):
+    tok, generation = native_tok
+    # Official Llama puts end_of_text/eom in the added-token metadata even when
+    # neither appears among the named special_tokens_map entries.
+    hidden = {"<|end_of_text|>", "<|eom_id|>"}
+    tok.additional_special_tokens = [s for s in tok.additional_special_tokens if s not in hidden]
+    for text in hidden:
+        token = tok.convert_tokens_to_ids(text)
+        assert token not in tok.all_special_ids
+        assert tok.added_tokens_decoder[token].special
+    chat.validate_tokenizer_profile(tok, LLAMA31, generation)
+    assert set(chat.runtime_tokens(tok).eos_ids) == set(generation["eos_token_id"])
+
+
 def test_loading_missing_new_assets_fails_before_tokenizer_download(tmp_path, monkeypatch):
     def forbidden(*args, **kwargs):
         pytest.fail("must not call AutoTokenizer before asset validation")

@@ -90,6 +90,8 @@ def v4_files() -> list[Path]:
     files = [protocol, ROOT / "requirements.txt", ROOT / "pyproject.toml", profile.manifest_path,
              ROOT / "scripts" / "make_v4_configs.py", ROOT / "scripts" / "freeze_protocol.py",
              ROOT / "scripts" / "fetch_model_assets.py", ROOT / "scripts" / "setup_replication_gpu.sh",
+             ROOT / "scripts" / "check_llama_acceptance.py", ROOT / "tests" / "test_llama_acceptance.py",
+             ROOT / "scripts" / "supervise_v4.py", ROOT / "tests" / "test_v4_supervision.py",
              ROOT / "configs" / "v4" / "split_manifest.json"]
     files += sorted((ROOT / "src" / "mb").glob("*.py"))
     files += [profile.tokenizer_dir / name for name in sorted(assets["files"])]
