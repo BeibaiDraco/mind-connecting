@@ -1,8 +1,11 @@
 # STATUS
 
-Last updated: 2026-10-08T17:01-05:00, Codex (all eight GPU checks and the complete smoke/resume audit passed; v4 algorithm freeze being committed before baseline).
+Last updated: 2026-10-08T17:12-05:00, Codex (frozen baseline passed; independent calibration running under the approved later-stage budget).
 
 ## Current phase
+
+**V4 baseline passed (2026-10-08):** Algorithm freeze `protocol-v4-algorithm` at `96a965c` was verified on both hosts before run `20261008-220159_v4_llama31_base_v4_base`. The 60 independent baseline episodes completed 2,400/2,400 readouts in 542.96 seconds. Both sides passed all prespecified gates: six task accuracies 98.33%-100%, CAP accuracy 94.58%, mean label mass above 99.93%. The complete run is backed up; no bridge-effect selection used attribution outcomes. A conservative full remaining-work projection, including explicit unmeasured STATIC allowance and reserves, is approximately USD 57.77 in total. The approved USD 60 phase is active, with independent bounded shutdown protection; the 60-episode fresh calibration is running. Recompute the projection from measured pilot timings before validity/formal.
+
 
 **GPU launch acceptance complete (2026-10-08):** All eight pinned Llama GPU checks passed in a fresh run at `f00c1fe` (22.41 seconds), after the separately documented native-reference test correction. Runtime and BF16 inference are unchanged; the original failed check is preserved. Technical run `20261008-215431_v4_llama31_smoke_v4_smoke-smoke4` completed 480/480 readouts across four episodes and six conditions in 284.02 seconds, with 19.32 GB peak allocated GPU memory. Independent technical audits confirm finite outputs, exact source/assets, shared FULL/RF C48, no new records on completed-run resume, unchanged prior files, and rejection of changed model/materials identity before writing. No attribution summaries were used. The exact algorithm is now being frozen before the 60-episode baseline. The private watchdog deadline was extended within the cumulative USD 10 initial cap; its maximum reserved cost is approximately USD 5.32. Failed and successful engineering evidence is preserved and synchronized to the SD card. No pilot/formal outcome exists yet.
 
@@ -72,7 +75,8 @@ Last updated: 2026-10-08T17:01-05:00, Codex (all eight GPU checks and the comple
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex /root | Deploy to the PI-provided replacement GPU and supervise Llama download/acceptance | STATUS.md, decision_log.md, configs/v4/, scripts/freeze_protocol.py, private execution helpers | 2026-10-08T16:17-05:00 |
+| Codex /root | Deploy to the PI-provided replacement GPU and supervise Llama download/acceptance | STATUS.md, decision_log.md, configs/v4/, scripts/freeze_protocol.py, private infrastructure/budget helpers | 2026-10-08T16:17-05:00 |
+| Codex /root/manuscript_audit | Prepare deterministic guarded later-stage execution controller | Private /private/tmp/mb-v4-execution-20261008/later_controller.py only; no frozen repository edits | 2026-10-08T17:12-05:00 |
 
 
 
