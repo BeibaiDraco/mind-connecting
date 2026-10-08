@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-08T10:20-05:00, Codex (publication figure-quality review identifies remaining Figure 4 matching labels, small Figure 5c title clipping, and typography/hierarchy improvements; see docs/reviews/figure_quality_2026-10-08.md; figures not changed).
+Last updated: 2026-10-08T10:39-05:00, Codex (PI-directed small figure corrections complete; original layouts preserved; PDF and source archive rebuilt and independently verified).
 
 ## Current phase
+
+**Limited final figure corrections (2026-10-08):** The PI stopped the broad redesign and requested the original paper style with only small repairs, informed by actual accepted conference papers. The redesign was restored before applying any final corrections. Figures 1-3 remain byte-identical; Figures 4-6 retain their original dimensions, panel positions, illustrations, fonts, and data. Corrections clarify the matched logit access gain in Figure 4, fit the Figure 5c title, and clarify Figure 6's excess-agreement metric, primary threshold, and nonexclusive claim; its crowded x ticks were simplified. Captions identify the Figure 1 statistical units and Figure 3 probability normalization. All numbers remain byte-identical in `story_numbers.json`. The manuscript remains 35 pages. The 22-file archive compiles independently with identical extracted text; all references resolve, fonts are embedded, and offline tests pass (151 passed, 3 skipped). See `docs/reviews/figure_minor_polish_2026-10-08.md`. This limited scope supersedes the broad layout recommendations below. Next: PI read-through, metadata/license/account checks, and arXiv-side PDF preview. No upload or external update was made.
 
 **Figure-quality review (2026-10-08):** The PI asked whether every figure meets a polished conference standard. A dedicated scientific/visual review found that this cannot yet be claimed. Figure 4 still says "same access" on a hit-rate axis although the matching quantity is mean logit access gain; Figure 5c's title extends about 0.42 pt beyond its right edge. Most labels are only 5.6-5.8 pt at the actual 6.5-inch width. Figures 3/4/6 would benefit from more space for the main data, and Figure 6 needs a clearer excess baseline and primary-threshold scope. These findings supersede the previous audit's broad no-defect conclusion; archive compilation remains verified. The manuscript, figures, and archive were not changed in this assessment. See `docs/reviews/figure_quality_2026-10-08.md` for all six figures and the recommended revision priorities.
 
@@ -57,6 +59,8 @@ Last updated: 2026-10-08T10:20-05:00, Codex (publication figure-quality review i
 - codex_handoff.md B4 describes Fig 1c as having a gray dashed return line, but the current script and rendered figure have only the orange one-way A reads B arrow. The caption has been written to match the actual figure, and the two-way case is explained only for the pilot in 1f/6; this is only a sync discrepancy, and there is no need to add an arrow for the sake of the caption.
 
 ## Done
+
+- **Small figure corrections preserving the paper style** (2026-10-08, Codex): restored the stopped redesign and inspected official ICLR 2025/ICML 2025 accepted-paper figures. Applied only local label, title, tick, and caption changes, retaining all six original compositions and dimensions. Rebuilt and visually checked the manuscript; archive and offline validation pass. See `docs/reviews/figure_minor_polish_2026-10-08.md` for exact scope, exemplars, and checksums.
 
 - **Publication figure-quality assessment** (2026-10-08, Codex): independent visual and scientific reviews of all six figures at final manuscript size, with official accessibility/statistical-reporting guidance checked. Recorded the remaining matching-label ambiguity, small title clipping, measured font sizes, and per-figure layout recommendations. No manuscript/figure/data changes. The assessment is in `docs/reviews/figure_quality_2026-10-08.md`.
 

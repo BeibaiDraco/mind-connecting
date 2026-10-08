@@ -717,7 +717,7 @@ def fig4_route() -> None:
     ax = axes_in(fig, 0.62, 0.5, 2.15, 1.95)
     pts = {  # arm: (run, label, color, marker, filled, label offset in points, ha)
         "C0/FULL": ("v3", "no link", "#8C8C8C", "o", True, (-1, 9), "left"),
-        "STATIC/L24/raw/g0.1/FULL": ("v3", "steering vector\n(same access as w = 1)", STATIC_C, "D", True, (3, 11), "left"),
+        "STATIC/L24/raw/g0.1/FULL": ("v3", "steering vector\n(access-gain matched)", STATIC_C, "D", True, (3, 11), "left"),
         "ONE/KV-P/w1/FULL": ("v3", "reads B’s memory,\nw = 1", KV_C, "o", True, (-3, 9), "left"),
         "ONE/KV-P/w2/FULL": ("v3", "reads B’s memory, w = 2", KV_C, "o", True, (-6, 0), "right"),
         "ONE/KV-P/w1/3ps/FULL": ("v3", "same, third-\nperson record", KV_C, "o", False, (6, 3), "left"),
@@ -744,7 +744,7 @@ def fig4_route() -> None:
     for a1, a2 in (("ONE/KV-P/w1/FULL", "ONE/KV-P/w1/3ps/FULL"), ("ONE/KV-P/w2/FULL", "ONE/KV-P/w2/3ps/FULL")):
         ax.annotate("", xy=xy[a2], xytext=xy[a1], arrowprops=dict(arrowstyle="-|>", lw=0.6, color=KV_C,
                     shrinkA=4, shrinkB=4, mutation_scale=5), zorder=3)
-    for a1, a2 in (("STATIC/L24/raw/g0.1/FULL", "ONE/KV-P/w1/FULL"),):  # same access, different route
+    for a1, a2 in (("STATIC/L24/raw/g0.1/FULL", "ONE/KV-P/w1/FULL"),):  # matched mean access gain, different route
         (x1, y1), (x2, y2) = xy[a1], xy[a2]
         ax.plot([x1, x2], [y1, y2], color="#AAAAAA", lw=0.5, ls=(0, (2, 1.5)), zorder=2)
     pct_axis(ax, -3, 104)
@@ -755,7 +755,7 @@ def fig4_route() -> None:
     ax.set_xlabel("access: names B’s rule when asked about B", fontsize=5.8, labelpad=1)
     ax.set_ylabel("claiming: names B’s rule when\nasked its own assigned rule", fontsize=5.8, labelpad=1)
     (x1, y1), (x2, y2) = xy["STATIC/L24/raw/g0.1/FULL"], xy["ONE/KV-P/w1/FULL"]
-    ax.text((x1 + x2) / 2 + 3.5, 30, "same access,\ndifferent route", fontsize=MIN_PT, color="#555555", ha="left",
+    ax.text((x1 + x2) / 2 + 3.5, 30, "matched mean\ngain (logits)", fontsize=MIN_PT, color="#555555", ha="left",
             va="center", linespacing=1.05, zorder=6,
             bbox=dict(boxstyle="square,pad=0.15", fc="white", ec="none", alpha=0.85))
     title(ax, "Ownership follows how content arrives\n(route), not how well A can report it (access)", pad=4)
@@ -958,7 +958,7 @@ def fig5_moments() -> None:
     ax.legend([patch("white", "////", B), patch("white", "////", "#9E9E9E")],
               ["A’s reflection had written B’s item", "it had not"], loc="upper left", fontsize=MIN_PT,
               handlelength=1.2, handleheight=1.0, borderaxespad=0.1)
-    title(ax, "B’s items outlast the cut mainly where A had written them", pad=3)
+    title(ax, "B’s items persist mainly where A wrote them", pad=3)
     letter(fig, 3.4, 1.46, "c")
     finish(fig, "fig5_moments")
 
@@ -1026,7 +1026,7 @@ def fig6_twoway() -> None:
     ax.set_xlabel(f"pairs, assigned-rule question ({NUM['fig6_twoway']['b'][shown[0][0]]['n']} episodes)", fontsize=5.8,
                   labelpad=1)
     swap = NUM["fig6_twoway"]["b"]["TWO/KV-P/w2/FULL"]["swap"]
-    title(ax, f"Mutual fixed reading swaps ({100 * swap:.0f}%);\nonly the live loop couples the pair", pad=3)
+    title(ax, f"Mutual fixed reading swaps ({100 * swap:.0f}%);\nthe live loop adds excess agreement", pad=3)
     seen = [sg for sg in segs if any(NUM["fig6_twoway"]["b"][arm][sg[0]] > 0 for arm, _ in shown)]
     NUM["fig6_twoway"]["b"]["legend_dropped_never_observed"] = [sg[0] for sg in segs if sg not in seen]
     ax.legend([patch(A_LIGHT, "xxx", B) if c == "swap" else patch(c, ec=INK if k == "other" else "none")
@@ -1066,14 +1066,15 @@ def fig6_twoway() -> None:
         ax.text(100 * c["ci90_hi"] + 0.5, i, f"+{100 * c['mean']:.1f}", fontsize=MIN_PT, ha="left", va="center",
                 color=INK if primary else "#555555")
     ax.axvline(100 * sig["min_effect"], color="#555555", lw=0.6, ls="--")
-    ax.text(100 * sig["min_effect"] - 0.3, -0.75, "prespecified threshold", fontsize=MIN_PT, color="#555555",
+    ax.text(100 * sig["min_effect"] - 0.3, -0.75, "primary-test threshold", fontsize=MIN_PT, color="#555555",
             ha="right", va="center")
     ax.axvline(0, color="#999999", lw=0.5)
     ax.set_yticks(range(len(comps)), [lab for lab, _, _ in comps], fontsize=MIN_PT)
     ax.set_ylim(len(comps) - 0.45, -1.1)
     ax.set_xlim(-1, 20)
+    ax.set_xticks([0, 5, 10, 15, 20])
     ax.tick_params(axis="x", labelsize=MIN_PT)
-    ax.set_xlabel("extra same-rule pairs vs no-loop control (points, 90% CI)", fontsize=5.8, labelpad=1)
+    ax.set_xlabel("excess agreement: loop − fixed (points, 90% CI)", fontsize=5.8, labelpad=1)
     title(ax, "The live loop pulls rules together (pilot)", pad=3)
     letter(fig, 2.75, 1.0, "c")
 

@@ -1,6 +1,7 @@
 ARXIV SUBMISSION METADATA - PROOFREAD MANUSCRIPT
 Prepared 2026-10-08 from the current manuscript; nothing has been submitted.
-The matching wording and Figure 1e layout corrections are complete.
+Proofreading and the final, limited figure-label/caption corrections are complete.
+The original figure layouts and sizes are preserved; all result values are unchanged.
 If the manuscript changes, synchronize the abstract below and rebuild the archive.
 Category and license recommendations below are not PI decisions.
 
