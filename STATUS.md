@@ -44,7 +44,8 @@ Last updated: 2026-10-08T09:41-05:00, Codex (arXiv readiness audit completed; so
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Audit arXiv submission readiness, package build, manuscript metadata and official requirements | STATUS.md; docs/reviews/arxiv_readiness_2026-10-08.md; paper/arxiv_submission_metadata.txt; paper/Makefile and generated paper/arxiv.tar.gz (remove macOS archive metadata); read-only manuscript/protocol review; temporary builds under /tmp | 2026-10-08T09:35-05:00 |
+
+No current claims.
 
 ## Figure note for Claude (2026-09-25, Codex)
 
