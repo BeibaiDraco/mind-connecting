@@ -57,6 +57,8 @@ Last updated: 2026-10-08T12:52-05:00, Codex (PI reports arXiv uploaded and at Pr
 | agent | task | files involved | start time |
 |---|---|---|---|
 
+| Codex | Inspect the PI-rented replacement GPU and record environment readiness | `STATUS.md`; private connection details remain outside the repository | 2026-10-08T14:21-05:00 |
+
 
 
 ## Figure note for Claude (2026-09-25, Codex)
