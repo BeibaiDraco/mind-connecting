@@ -42,8 +42,7 @@ Last updated: 2026-09-26, Claude Code (paper ready for arXiv, awaiting the PI's 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-
-No current claims.
+| Codex | Audit arXiv submission readiness, package build, manuscript metadata and official requirements | STATUS.md; docs/reviews/arxiv_readiness_2026-10-08.md; paper/arxiv_submission_metadata.txt; read-only paper/protocol review; temporary builds under /tmp | 2026-10-08T09:35-05:00 |
 
 ## Figure note for Claude (2026-09-25, Codex)
 
