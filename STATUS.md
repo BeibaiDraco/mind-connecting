@@ -70,6 +70,10 @@ Last updated: 2026-10-08T15:18-05:00, Codex (Llama assets and offline launch too
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Deploy to the PI-provided replacement GPU and supervise Llama download/acceptance | STATUS.md, decision_log.md, configs/v4/, private execution helpers | 2026-10-08T16:17-05:00 |
+| Codex /root/manuscript_audit | Review and support real-model acceptance diagnostics | Read-only pending any claimed engineering fix | 2026-10-08T16:17-05:00 |
+| Codex /root/pdf_visual_audit | Prepare smoke completeness, finite-value, timing and resume audit | scripts/check_v4_smoke.py, tests/test_v4_smoke_audit.py | 2026-10-08T16:17-05:00 |
+| Codex /root/arxiv_requirements | Review phase freeze and staged budget projection prerequisites | Read-only; new review if needed | 2026-10-08T16:17-05:00 |
 
 
 
