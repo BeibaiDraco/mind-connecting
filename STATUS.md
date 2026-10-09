@@ -102,6 +102,10 @@ Last updated: 2026-10-09T15:57-05:00, Codex (bounded STATIC and prioritized supp
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Prepare v5 protocol, configs, freeze, preflight and GPU handoff | STATUS.md, decision_log.md, docs/protocol/PROTOCOL_V5.md, docs/runbooks/v5*, scripts/*v5* except make_v5_static.py, configs/v5/, tests/test_v5_preflight.py | 2026-10-09T16:10-05:00 |
+| Codex /root/arxiv_requirements | Implement bounded STATIC selection and generator | src/mb/v5_static.py, scripts/make_v5_static.py, tests/test_v5_static.py | 2026-10-09T16:10-05:00 |
+| Codex /root/pdf_visual_audit | Implement provenance materials and runtime integration | src/mb/tasks.py, src/mb/conditions.py, src/mb/run.py, src/mb/provenance_tasks.py, tests/test_provenance_tasks.py, tests/test_provenance_runner.py | 2026-10-09T16:10-05:00 |
+| Codex /root/manuscript_audit | Implement provenance scoring, gates and analysis | src/mb/v5_provenance.py, tests/test_v5_provenance.py | 2026-10-09T16:10-05:00 |
 
 
 
