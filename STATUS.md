@@ -86,6 +86,8 @@ Last updated: 2026-10-08T20:23-05:00, Codex (formal N600 started and healthy; sp
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Preserve interrupted formal run and review guarded same-run recovery | STATUS.md, private recovery helpers; frozen experiment files read-only | 2026-10-08T22:25-05:00 |
+| Codex /root/manuscript_audit | Implement private detached resume supervision | New private recovery supervisor and tests only | 2026-10-08T22:25-05:00 |
 
 
 
