@@ -96,6 +96,10 @@ Last updated: 2026-10-09T13:26-05:00, Codex (cross-model claims and STATIC match
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Develop revised narrative and prioritized experiment proposal | STATUS.md, docs/paper/story_revision_20261009.md, decision_log.md | 2026-10-09T14:15-05:00 |
+| Codex /root/arxiv_requirements | Check primary literature and contribution framing | Read-only literature and manuscript; private notes | 2026-10-09T14:15-05:00 |
+| Codex /root/manuscript_audit | Independently challenge narrative and alternative explanations | Read-only paper and result evidence; private notes | 2026-10-09T14:15-05:00 |
+| Codex /root/pdf_visual_audit | Assess minimal follow-up design feasibility and priorities | Read-only protocols and runtime; private notes | 2026-10-09T14:15-05:00 |
 
 
 
