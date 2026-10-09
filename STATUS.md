@@ -98,6 +98,9 @@ Last updated: 2026-10-09T14:22-05:00, Codex (revised paper narrative and priorit
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Consolidate complete narrative and evidence roadmap | STATUS.md, docs/paper/story_and_evidence.md | 2026-10-09T14:26-05:00 |
+| Codex /root/manuscript_audit | Review claim coverage and evidence status | Read-only story and evidence sources | 2026-10-09T14:26-05:00 |
+| Codex /root/pdf_visual_audit | Review missing-evidence and outcome map | Read-only proposed follow-up scope | 2026-10-09T14:26-05:00 |
 
 
 
