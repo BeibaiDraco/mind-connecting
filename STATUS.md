@@ -100,6 +100,10 @@ Last updated: 2026-10-09T14:29-05:00, Codex (complete two-model story and existi
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Design minimal supplemental study package and bounded STATIC decision | STATUS.md, docs/protocol/SUPPLEMENTAL_STUDIES_DRAFT.md, docs/paper/story_and_evidence.md | 2026-10-09T15:45-05:00 |
+| Codex /root/arxiv_requirements | Independently review bounded STATIC selection strategy | Read-only STATIC artifacts and protocols; private notes | 2026-10-09T15:45-05:00 |
+| Codex /root/pdf_visual_audit | Assess engineering reuse and workload for supplemental package | Read-only runtime, configs and private timing metadata | 2026-10-09T15:45-05:00 |
+| Codex /root/manuscript_audit | Rank supplemental evidence by inference value | Read-only manuscript and current evidence; private notes | 2026-10-09T15:45-05:00 |
 
 
 
