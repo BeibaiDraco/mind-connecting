@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-09T13:26-05:00, Codex (cross-model claims and STATIC matching assessment completed; frozen standards unchanged).
+Last updated: 2026-10-09T14:22-05:00, Codex (revised paper narrative and prioritized follow-up proposal completed).
 
 ## Current phase
+
+**Revised narrative and experiment priorities (2026-10-09):** At the PI's request, `docs/paper/story_revision_20261009.md` now proposes a central source-attribution claim, a replacement title and 184-word abstract, a five-step argument, main-text and figure organization, and concrete inference-based experiment priorities. Primary-source checks distinguish the contribution from prior steering-induced self-authorship and donor-following KV effects; no priority or deployed-system failure claim is made. The existing two-model evidence supports a bounded empirical paper. If one follow-up is added, the recommendation is a conflicting third-party record test addressing generic conflict/record substitution, with explicit original-record questions, new scoring, independent donor-access checks and rehearsal controls. A minimal three-arm study answers a limited provenance question; stronger self-role selectivity requires a more symmetric factorial design and validated balanced materials. Cache relocation is a separate mechanism study requiring actual rotary-key changes, not column permutation; STATIC repair is conditional on wanting a two-model access-matched claim. All proposals remain unapproved research options, with no new N, paid run, changed metric, manuscript rewrite or protocol amendment. The preserved manuscript and figures are unchanged; complete prior results, failed matches and contrary endpoints remain in the proposed story. Next: PI selects the desired claim scope; then apply the narrative to the manuscript or specify the chosen new study before execution.
 
 **Cross-model claims and STATIC assessment (2026-10-09):** The requested synthesis is in `docs/results/v4/claims_and_matching_review.md`, with independent read-only checks of the original manuscript, Qwen evidence, Llama gates, and inference limits. The frozen STATIC rule requires its paired access gain to lie within 25% of fixed K1, alongside capability/format screens and independent validation. Llama STATIC reaches only 12.3%, 17.2%, and 16.9% of K1's gain in matching, validity, and formal samples; even 75% tolerance fails all three. A post hoc 90% tolerance would numerically pass but would not substantiate similar access. Admitting the screened-out g1 candidate would not repair matching. Qwen's later v3 A-prime comparison genuinely matches (formal access gains 4.081 versus 4.179); its earlier v2 comparison did not. Shared support covers core assigned-content attribution, tagged-text access/attribution dissociation, source-header current-rule adoption, and readout-time reversibility with some current-rule residue. Positive adjusted post-cut code-word residue is not replicated in Llama; third-person wording, open reports, and two-way/live-loop findings remain Qwen-only. Cache position is a proposed mechanism, not a causally established explanation. This is an evidence assessment, not a PI decision to amend a protocol or run more experiments. The original 25% rule, all records, the manuscript, and stopped GPU state remain unchanged. Source links were checked; offline tests and formal freeze are reverified for the documentation checkpoint.
 
@@ -96,10 +98,6 @@ Last updated: 2026-10-09T13:26-05:00, Codex (cross-model claims and STATIC match
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex /root | Develop revised narrative and prioritized experiment proposal | STATUS.md, docs/paper/story_revision_20261009.md, decision_log.md | 2026-10-09T14:15-05:00 |
-| Codex /root/arxiv_requirements | Check primary literature and contribution framing | Read-only literature and manuscript; private notes | 2026-10-09T14:15-05:00 |
-| Codex /root/manuscript_audit | Independently challenge narrative and alternative explanations | Read-only paper and result evidence; private notes | 2026-10-09T14:15-05:00 |
-| Codex /root/pdf_visual_audit | Assess minimal follow-up design feasibility and priorities | Read-only protocols and runtime; private notes | 2026-10-09T14:15-05:00 |
 
 
 
