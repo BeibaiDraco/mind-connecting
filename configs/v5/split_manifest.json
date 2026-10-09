@@ -1,0 +1,78 @@
+{
+  "protocol": "v5",
+  "seed": 0,
+  "splits": {
+    "v5_llama31_provenance_base": {
+      "content_sha256": "2ffa438f8c14bb28",
+      "episode_ids_sha256": "10440d76a4f6ef0f",
+      "n": 60,
+      "seed": 0
+    },
+    "v5_llama31_provenance_confirm": {
+      "content_sha256": "6778957754fb0a3a",
+      "episode_ids_sha256": "d529d93458fe219f",
+      "n": 600,
+      "seed": 0
+    },
+    "v5_llama31_provenance_smoke": {
+      "content_sha256": "9f9d366f40474859",
+      "episode_ids_sha256": "e9d4ecada8ff2db5",
+      "n": 4,
+      "seed": 0
+    },
+    "v5_llama31_provenance_validity": {
+      "content_sha256": "99608139eeebe0fb",
+      "episode_ids_sha256": "839f9eab4f0cbc3c",
+      "n": 80,
+      "seed": 0
+    },
+    "v5_llama_static_cal": {
+      "content_sha256": "29895b4dbfa2df6d",
+      "episode_ids_sha256": "4393e8fc7afd65cf",
+      "n": 60,
+      "seed": 0
+    },
+    "v5_llama_static_confirm": {
+      "content_sha256": "1ecf0b1bc68620fb",
+      "episode_ids_sha256": "f8c3929ab61d7c27",
+      "n": 600,
+      "seed": 0
+    },
+    "v5_llama_static_match": {
+      "content_sha256": "22acb294e7e37fa0",
+      "episode_ids_sha256": "9382d74a049b83bd",
+      "n": 40,
+      "seed": 0
+    },
+    "v5_llama_static_validity": {
+      "content_sha256": "99e16efc2a8b0d88",
+      "episode_ids_sha256": "fe0a9644fe600533",
+      "n": 80,
+      "seed": 0
+    },
+    "v5_qwen_provenance_base": {
+      "content_sha256": "db137894575490c5",
+      "episode_ids_sha256": "ab9421ed7b6c8a6b",
+      "n": 60,
+      "seed": 0
+    },
+    "v5_qwen_provenance_confirm": {
+      "content_sha256": "0eb47e32c8695e29",
+      "episode_ids_sha256": "f709c985ac29a7e6",
+      "n": 600,
+      "seed": 0
+    },
+    "v5_qwen_provenance_smoke": {
+      "content_sha256": "5c44af81e64c0c33",
+      "episode_ids_sha256": "b3dd0c013b6207d3",
+      "n": 4,
+      "seed": 0
+    },
+    "v5_qwen_provenance_validity": {
+      "content_sha256": "365a816aee3b5714",
+      "episode_ids_sha256": "fb4b7cd6c4d63815",
+      "n": 80,
+      "seed": 0
+    }
+  }
+}

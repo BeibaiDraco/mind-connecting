@@ -1,0 +1,475 @@
+{
+  "gpu_acceptance_passed": false,
+  "historical_v4": {
+    "commit": "3b21ada29c2c396c3c0fde77c833e47c693572ff",
+    "files": 47,
+    "scope": "Original commit for tracked inputs; locally hash-verified untracked model assets.",
+    "verified": true
+  },
+  "local_checks_passed": true,
+  "materials": {
+    "v5_llama31_provenance_base": {
+      "donor_only_mutation": true,
+      "episodes": 60,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 2880,
+      "suffix_length_ranges": {
+        "CAP0": [
+          40,
+          45
+        ],
+        "CAP1": [
+          40,
+          49
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    },
+    "v5_llama31_provenance_confirm": {
+      "donor_only_mutation": true,
+      "episodes": 600,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 28800,
+      "suffix_length_ranges": {
+        "CAP0": [
+          40,
+          49
+        ],
+        "CAP1": [
+          40,
+          45
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    },
+    "v5_llama31_provenance_smoke": {
+      "donor_only_mutation": true,
+      "episodes": 4,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 192,
+      "suffix_length_ranges": {
+        "CAP0": [
+          41,
+          48
+        ],
+        "CAP1": [
+          40,
+          42
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    },
+    "v5_llama31_provenance_validity": {
+      "donor_only_mutation": true,
+      "episodes": 80,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 3840,
+      "suffix_length_ranges": {
+        "CAP0": [
+          40,
+          49
+        ],
+        "CAP1": [
+          40,
+          47
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    },
+    "v5_qwen_provenance_base": {
+      "donor_only_mutation": true,
+      "episodes": 60,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 2880,
+      "suffix_length_ranges": {
+        "CAP0": [
+          40,
+          48
+        ],
+        "CAP1": [
+          40,
+          49
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    },
+    "v5_qwen_provenance_confirm": {
+      "donor_only_mutation": true,
+      "episodes": 600,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 28800,
+      "suffix_length_ranges": {
+        "CAP0": [
+          40,
+          48
+        ],
+        "CAP1": [
+          40,
+          49
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    },
+    "v5_qwen_provenance_smoke": {
+      "donor_only_mutation": true,
+      "episodes": 4,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 192,
+      "suffix_length_ranges": {
+        "CAP0": [
+          40,
+          42
+        ],
+        "CAP1": [
+          41,
+          48
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    },
+    "v5_qwen_provenance_validity": {
+      "donor_only_mutation": true,
+      "episodes": 80,
+      "fixed_question_tokens": true,
+      "question_ordering_recipient_checks": 3840,
+      "suffix_length_ranges": {
+        "CAP0": [
+          40,
+          45
+        ],
+        "CAP1": [
+          40,
+          49
+        ],
+        "PROV_DONOR_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_DONOR_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_DONOR_SELF_WORD": [
+          49,
+          49
+        ],
+        "PROV_ROBIN_RULE": [
+          52,
+          52
+        ],
+        "PROV_ROBIN_WORD": [
+          49,
+          49
+        ],
+        "PROV_SELF_RULE": [
+          52,
+          52
+        ],
+        "PROV_SELF_WORD": [
+          49,
+          49
+        ],
+        "START": [
+          50,
+          50
+        ],
+        "WORD": [
+          40,
+          40
+        ]
+      }
+    }
+  },
+  "note": "Local readiness is not a scientific gate or a GPU execution result.",
+  "paid_execution_authorized": false,
+  "precision": {
+    "interpretation": "Planning approximation; no new outcomes, power guarantee or equivalence assertion.",
+    "mean_95ci_halfwidth_per_paired_sd": 0.08001519460592184,
+    "n": 600,
+    "normal_approx_80pct_power_standardized_effect": {
+      "1": 0.11437423758834482,
+      "2": 0.1258639261609989,
+      "6": 0.14206544515249658
+    },
+    "raw_logit_precision_known": false,
+    "worst_case_binary_paired_difference_95ci_halfwidth": 0.08001519460592184
+  },
+  "scientific_gates_passed": false
+}

@@ -1,0 +1,60 @@
+stage: v5_llama31_provenance_smoke
+tag: v5_llama31_provenance_smoke
+split: v5_llama31_provenance_smoke
+n_episodes: 4
+seed: 0
+model_profile: llama31_8b_instruct
+materials: v1
+arms:
+- condition: C0
+  layer: 21
+  recipients: &id001
+  - A
+  - B
+- condition: ONE
+  interface: kv
+  kv_scope: P
+  gain: 1.0
+  layer: 21
+  recipients: *id001
+- condition: ONE
+  interface: kv
+  kv_scope: P
+  gain: 1.0
+  layer: 21
+  recipients: *id001
+  donor_robin_conflict: true
+- condition: C0
+  layer: 21
+  recipients: *id001
+  donor_robin_conflict: true
+qids:
+- PROV_SELF_RULE
+- PROV_ROBIN_RULE
+- PROV_SELF_WORD
+- PROV_ROBIN_WORD
+- PROV_DONOR_SELF_RULE
+- PROV_DONOR_ROBIN_RULE
+- PROV_DONOR_SELF_WORD
+- PROV_DONOR_ROBIN_WORD
+- START
+- WORD
+- CAP0
+- CAP1
+episodes_per_batch: 2
+max_rows: 16
+calibration: null
+calibration_layers: []
+post: []
+params:
+  protocol: v5
+  provenance_contract: v5-provenance-v1
+  model_assets:
+    path: materials/tokenizer_llama31_8b_instruct_manifest.json
+    sha256: 286173764103d3d1c61b2adfab84f91da6fb689394b170d56da2ab8014aa8a7d
+  sources: {}
+  roles:
+    C0: C0/FULL
+    CONFLICT: ONE/KV-P/w1/RobinConflict/FULL
+    KV: ONE/KV-P/w1/FULL
+  smoke_only: true

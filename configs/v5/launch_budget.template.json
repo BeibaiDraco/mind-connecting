@@ -1,0 +1,13 @@
+{
+  "scope": "v5",
+  "approved": false,
+  "cap_usd": null,
+  "hourly_usd": null,
+  "prior_spend_usd": null,
+  "bandwidth_reserve_usd": null,
+  "shutdown_reserve_usd": null,
+  "started_at_epoch": null,
+  "stop_command_file": "/workspace/private/v5/stop-command.json",
+  "verify_stopped_command_file": "/workspace/private/v5/verify-stopped-command.json",
+  "backup_command_file": "/workspace/private/v5/verified-backup-command.json"
+}
