@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-09T14:22-05:00, Codex (revised paper narrative and prioritized follow-up proposal completed).
+Last updated: 2026-10-09T14:29-05:00, Codex (complete two-model story and existing-versus-needed evidence consolidated).
 
 ## Current phase
+
+**Complete story and evidence roadmap (2026-10-09):** `docs/paper/story_and_evidence.md` is the consolidated working guide for the two-model revision. It provides a continuous narrative, a sourced eight-row core evidence ledger, additional controls and contrary findings, and a claim-specific map of missing evidence. The shared empirical story covers original-attribution errors, access/attribution dissociation, source-header effects on reported adoption, and selective reversibility from the same saved state. It distinguishes Qwen Q2/Q3 cohorts, descriptive rates from prespecified tests, positive current-rule residue from the nonreplicated positive adjusted Llama word residue, and Qwen-only extensions. Proposed role-conflict evidence is separated into a minimal three-arm provenance test and a stronger five-arm role-selectivity test with balanced rehearsal. Position, STATIC, reflection mediation and downstream behavior require different evidence; none is assumed by the current story. The latest request consolidates the argument and evidence; it does not approve a new research protocol, paid run, sample size or manuscript publication. The previous detailed design proposal and preserved v1 remain available. Source links and key formal contrasts were checked; no GPU, runtime, data or frozen design was changed.
 
 **Revised narrative and experiment priorities (2026-10-09):** At the PI's request, `docs/paper/story_revision_20261009.md` now proposes a central source-attribution claim, a replacement title and 184-word abstract, a five-step argument, main-text and figure organization, and concrete inference-based experiment priorities. Primary-source checks distinguish the contribution from prior steering-induced self-authorship and donor-following KV effects; no priority or deployed-system failure claim is made. The existing two-model evidence supports a bounded empirical paper. If one follow-up is added, the recommendation is a conflicting third-party record test addressing generic conflict/record substitution, with explicit original-record questions, new scoring, independent donor-access checks and rehearsal controls. A minimal three-arm study answers a limited provenance question; stronger self-role selectivity requires a more symmetric factorial design and validated balanced materials. Cache relocation is a separate mechanism study requiring actual rotary-key changes, not column permutation; STATIC repair is conditional on wanting a two-model access-matched claim. All proposals remain unapproved research options, with no new N, paid run, changed metric, manuscript rewrite or protocol amendment. The preserved manuscript and figures are unchanged; complete prior results, failed matches and contrary endpoints remain in the proposed story. Next: PI selects the desired claim scope; then apply the narrative to the manuscript or specify the chosen new study before execution.
 
@@ -98,9 +100,6 @@ Last updated: 2026-10-09T14:22-05:00, Codex (revised paper narrative and priorit
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex /root | Consolidate complete narrative and evidence roadmap | STATUS.md, docs/paper/story_and_evidence.md | 2026-10-09T14:26-05:00 |
-| Codex /root/manuscript_audit | Review claim coverage and evidence status | Read-only story and evidence sources | 2026-10-09T14:26-05:00 |
-| Codex /root/pdf_visual_audit | Review missing-evidence and outcome map | Read-only proposed follow-up scope | 2026-10-09T14:26-05:00 |
 
 
 
