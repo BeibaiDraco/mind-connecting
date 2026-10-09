@@ -13,7 +13,9 @@ story plan remain unchanged. This synthesis consolidates the
 [narrative proposal](story_revision_20261009.md) and
 [full cross-model assessment](../results/v4/claims_and_matching_review.md).
 Supplemental studies below are proposals, not completed evidence or executable
-protocols with approved sample sizes and budgets.
+protocols with approved sample sizes and budgets. The latest bounded STATIC plan,
+source-question anchors, planning sample sizes and full experiment ranking are in
+[the supplemental study draft](../protocol/SUPPLEMENTAL_STUDIES_DRAFT.md).
 
 ## The complete story
 
@@ -187,9 +189,13 @@ transfer. Fresh ordinary-link trials with the new questions are necessary.
 The new score compares donor versus receiver answers separately for each field.
 The old Robin-subtracted M cannot serve as the sole outcome once Robin is treated.
 Parallel wording, answer/role counterbalancing, rehearsal checks and independent
-question branches are required. Eight field probes plus two CAP questions give
-ten readout types. Any additional nonconflicting-memory control increases this
-count. The precise protocol, sample size and cost are still to be established.
+question branches are required. The updated minimal package adds the original
+START and WORD self questions as secondary anchors: eight field probes, two CAP
+questions and two anchors give twelve readout types. They reveal whether explicit
+source qualification changes the original error. Any additional nonconflicting-
+memory control increases this count. The proposed planning N is 600 per model;
+the precision assessment, execution protocol and budget still require completion
+and approval before collection.
 
 Interpret the possible outcomes in advance:
 
