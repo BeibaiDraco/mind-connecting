@@ -92,6 +92,10 @@ Last updated: 2026-10-09T11:03-05:00, Codex (v4 formal collection complete; fina
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Integrate frozen v4 analysis and reporting handoff | STATUS.md, decision_log.md; private evidence | 2026-10-09T13:04-05:00 |
+| Codex /root/manuscript_audit | Produce reproducible offline v4 formal report | scripts/report_v4_formal.py, docs/results/v4/ | 2026-10-09T13:04-05:00 |
+| Codex /root/pdf_visual_audit | Independently recompute frozen v4 statistics | docs/reviews/v4_statistics_20261009.md; private audit output | 2026-10-09T13:04-05:00 |
+| Codex /root/arxiv_requirements | Compare supported Llama and Qwen claims | docs/reviews/v4_interpretation_20261009.md; manuscript and prior results read-only | 2026-10-09T13:04-05:00 |
 
 
 
