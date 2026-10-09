@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-09T18:14-05:00, Codex (v5 execution contract and new USD 60 / initial USD 10 approved; freezing and commissioning).
+Last updated: 2026-10-09T18:37-05:00, Codex (v5 frozen; replacement GPU commissioned; guarded environment setup starting).
 
 ## Current phase
+
+**V5 GPU commissioning (2026-10-09):** The retained host could not restore because its GPU resources were unavailable. Its queued start was cancelled and actual stopped state independently verified. Within the approved v5 budget, a new A100 SXM4 80 GB host with 200 GB disk was rented at USD 1.12/hour including allocated disk. A real instance-local self-stop succeeded and the provider independently confirmed actual stop; the same replacement was then restored under the original cumulative spending anchor. Independent local and remote setup guards remain active. The deployed checkout is `ff2387d`; all 56 algorithm-frozen inputs and both tokenizer asset sets are verified. Guarded dependency installation and pinned weight download are starting; native model acceptance, smoke/no-op resume, measured throughput and scientific gates are still pending. No scientific sample has been collected. Connection/credential/control details stay outside Git in the private v5 execution handoff. No gate, parameter or sample-size change was made.
 
 **V5 execution approved (2026-10-09):** The PI explicitly approved the implemented protocol, fixed formal N600 for each source study and the conditional STATIC comparison, all numerical gates, and a new USD 60 total / USD 10 initial correctness-throughput budget. This resolves the prior deferred decision. Freeze and commission the retained host under independent setup protection, then require pinned native acceptance, 768-read smoke/no-op resume and measured cost projections before research. Code and materials are unchanged; offline tests: 361 passed, 5 skipped. No result-based continuation or broader parameter search is authorized. Actual startup and verification will be recorded separately.
 
