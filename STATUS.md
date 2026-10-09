@@ -90,6 +90,8 @@ Last updated: 2026-10-08T22:50-05:00, Codex (same formal run resumed with detach
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Verify v4 formal completion, backup and stopped provider | STATUS.md; private handoff; existing automation | 2026-10-09T11:01-05:00 |
+| Codex /root/pdf_visual_audit | Independently audit completed v4 ledger and preserved records | Formal SD-card results read-only; private audit evidence | 2026-10-09T11:01-05:00 |
 
 
 
