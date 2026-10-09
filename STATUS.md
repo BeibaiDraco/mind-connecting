@@ -94,6 +94,10 @@ Last updated: 2026-10-09T13:14-05:00, Codex (v4 prespecified analysis complete, 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex /root | Consolidate cross-model claims and STATIC threshold assessment | STATUS.md, docs/results/v4/claims_and_matching_review.md | 2026-10-09T13:18-05:00 |
+| Codex /root/arxiv_requirements | Audit original paper claims and exact Qwen evidence | Read-only manuscript/protocol/result tables; private synthesis | 2026-10-09T13:18-05:00 |
+| Codex /root/pdf_visual_audit | Audit STATIC gates and threshold sensitivity | Read-only v4 pilot/validity/formal artifacts; private synthesis | 2026-10-09T13:18-05:00 |
+| Codex /root/manuscript_audit | Review inferential limits and follow-up options | Read-only protocol and cross-model evidence; private synthesis | 2026-10-09T13:18-05:00 |
 
 
 
