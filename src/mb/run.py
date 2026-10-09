@@ -112,7 +112,7 @@ def prefix_hash(tok, materials: str = "v1", profile=None) -> str:
     return h.hexdigest()[:16]
 
 
-def template_hash(tok, materials: str = "v1", profile=None) -> str:
+def template_hash(tok, materials: str = "v1", profile=None, *, provenance: bool = False) -> str:
     """Hash of every token sequence the protocol feeds the model, independent of episode draw.
 
     Covers the chat special IDs and assembly version, the tokenizer manifest, the P/C/LANG
@@ -140,6 +140,12 @@ def template_hash(tok, materials: str = "v1", profile=None) -> str:
         seqs.append(list(tasks.make_question(tok, probe, "A", "CAP0", 0).suffix_ids))
     for s in seqs:
         h.update(json.dumps(s).encode())
+    if provenance:
+        from mb import provenance_tasks
+
+        h.update(provenance_tasks.CONTRACT.encode())
+        for s in provenance_tasks.template_sequences(tok, materials):
+            h.update(json.dumps(s).encode())
     return h.hexdigest()[:16]
 
 
@@ -210,6 +216,8 @@ class StageConfig:
     model_profile: str | None = None  # absent retains the frozen Qwen serialization/identity
 
     def __post_init__(self) -> None:
+        from mb import provenance_tasks
+
         profile = resolve_profile(self.model_profile)
         if self.model_profile is not None:
             self.model_profile = profile.key
@@ -218,19 +226,40 @@ class StageConfig:
             raise ValueError(f"calibration layers must be in 1..{profile.n_layers}")
         if self.materials not in tasks.MATERIALS:
             raise ValueError(f"unknown materials {self.materials!r}")
-        unknown = set(self.qids) - set(tasks.QIDS)
+        is_provenance = self.stage in provenance_tasks.STAGES
+        contract = (self.params or {}).get("provenance_contract")
+        if is_provenance or contract is not None:
+            expected_profile, phase = provenance_tasks.STAGES.get(self.stage, (None, None))
+            if (contract != provenance_tasks.CONTRACT or self.stage != self.split
+                    or self.model_profile != expected_profile or self.materials != "v1"):
+                raise ValueError("invalid v5 provenance stage, split, profile, materials or contract")
+            if tuple(self.qids) != tuple(provenance_tasks.PHASE_QIDS[phase]):
+                raise ValueError("v5 provenance stage has the wrong question set")
+        unknown = set(self.qids) - set(tasks.registered_qids(provenance=is_provenance))
         if unknown:
             raise ValueError(f"unknown qids {sorted(unknown)}")
         stopped = set(self.qids) & set(tasks.STOPPED_QIDS)
         if stopped:
             raise ValueError(f"qids {sorted(stopped)} belong to a stopped endpoint (decision_log 2026-09-24)")
-        bad_post = set(self.post) - set(POST) - V4_POST
+        bad_post = set(self.post) - set(POST) - V4_POST - V5_STATIC_POST - V5_PROVENANCE_POST
         if bad_post:
             raise ValueError(f"unknown post steps {sorted(bad_post)}")
         if "sample_size" in self.post and ("select_pilot_b" not in self.post
                                            or self.post.index("select_pilot_b") > self.post.index("sample_size")):
             raise ValueError("sample_size must follow select_pilot_b: parameters are frozen before N is computed")
-        self.arm_configs()  # validate early
+        arms = self.arm_configs()  # validate early
+        if any(a.donor_robin_conflict for a in arms) and not is_provenance:
+            raise ValueError("donor Robin conflict is restricted to v5 provenance stages")
+        if is_provenance and any(not (a.readout_mode == "FULL" and a.partner_frame == "second"
+                and (a.condition == "C0" or (a.condition == "ONE" and a.interface == "kv"
+                                            and a.kv_scope == "P"))) for a in arms):
+            raise ValueError("v5 provenance permits only C0 and one-way KV-P FULL arms")
+
+    @property
+    def provenance(self) -> bool:
+        from mb.provenance_tasks import STAGES
+
+        return self.stage in STAGES
 
     @classmethod
     def load(cls, path: Path) -> "StageConfig":
@@ -257,6 +286,9 @@ class StageConfig:
     def resolved(self) -> dict[str, Any]:
         d = dataclasses.asdict(self)
         d["arms"] = [dataclasses.asdict(a) for a in self.arm_configs()]
+        for arm in d["arms"]:
+            if not arm["donor_robin_conflict"]:
+                arm.pop("donor_robin_conflict")
         if self.model_profile is None:
             d.pop("model_profile")
             for arm in d["arms"]:
@@ -387,6 +419,8 @@ def reflection_groups(arms: list[ArmConfig]) -> list[list[ArmConfig]]:
     groups: dict[str, list[ArmConfig]] = {}
     for arm in arms:
         spec = dataclasses.asdict(arm)
+        if not spec["donor_robin_conflict"]:
+            spec.pop("donor_robin_conflict")
         spec.pop("recipients")
         spec["readout_mode"] = "RO" if arm.readout_mode == "RO" else "FULL"
         groups.setdefault(ledger.canonical_hash(spec), []).append(arm)
@@ -501,6 +535,10 @@ class Runner:
             log(f"ignoring truncated final line in {prior.truncated_tails} (left untouched)")
         self.prior_records = prior.records
         self._load_notes()
+        reused_notes = reusable_notes(cfg)
+        for rec in reused_notes:
+            if rec["key"] in self.notes and self.notes[rec["key"]] != rec["ids"]:
+                raise ValueError("stored notes differ from the pinned reused note cache")
         self._load_lang()
         self.snapshot_hashes: dict[str, str] = {}
         if cfg.model_profile is not None:
@@ -516,6 +554,7 @@ class Runner:
         self.ticks_summary = (run_dir / "ticks.jsonl").open("a")
         self.notes_log = (run_dir / "notes.jsonl").open("a")
         self.lang_log = (run_dir / "lang.jsonl").open("a")
+        self._seed_reused_notes(reused_notes)
         self.arm_hash: dict[str, str] = {}
         self.new_records: list[dict[str, Any]] = []
         self.pass_index = 0
@@ -601,6 +640,16 @@ class Runner:
         for rec in self._jsonl("notes.jsonl"):
             self.notes.setdefault(rec["key"], rec["ids"])
 
+    def _seed_reused_notes(self, records: list[dict[str, Any]]) -> None:
+        """A refinement inherits exact generated token IDs, including whitespace."""
+        if any(rec["key"] in self.notes and self.notes[rec["key"]] != rec["ids"] for rec in records):
+            raise ValueError("stored notes differ from the pinned reused note cache")
+        for rec in records:
+            if rec["key"] not in self.notes:
+                self.notes[rec["key"]] = rec["ids"]
+                self.notes_log.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        self.notes_log.flush()
+
     def _load_lang(self) -> None:
         for rec in self._jsonl("lang.jsonl"):
             self.c0_reflection.setdefault(rec["episode_id"], rec["ids"])
@@ -661,7 +710,7 @@ class Runner:
 
     def _base_record(self, arm: ArmConfig, ident: dict[str, Any], chash: str, mhash: str, ep: tasks.Episode,
                      recipient: str, q: tasks.Question) -> dict[str, Any]:
-        return {
+        record = {
             "episode_id": ep.episode_id, "split": ep.split, "arm": arm.name, "recipient": recipient,
             "qid": q.qid, "construct": q.construct, "rotation_id": q.rotation_id, "n_ticks": q.n_ticks,
             "options": list(q.options), "label_meaning": list(q.label_meaning),
@@ -675,6 +724,12 @@ class Runner:
             "template_hash": self.template_hash, "model_revision": self.profile.revision, "config_hash": chash,
             "attempt": self.writer.path.stem, "pass": self.pass_index,
         }
+        if self.cfg.provenance:
+            from mb import provenance_tasks
+
+            record["provenance"] = provenance_tasks.record_metadata(
+                ep, recipient, q, arm.donor_robin_conflict, self.cfg.materials)
+        return record
 
     def _emit(self, rec: dict[str, Any]) -> None:
         self.writer.write(rec)
@@ -697,9 +752,17 @@ class Runner:
         for p, (ep, view) in enumerate(zip(chunk, views)):
             rots = range(tasks.N_ROTATIONS) if ep.episode_id in all_rot_ids else ep.rotations
             for recipient in arm.recipients:
-                # A's label meanings follow the donor actually connected; its tokens do not change.
-                q_ep = view if recipient == "A" else ep
-                for q in tasks.readout_questions(self.tok, q_ep, recipient, rotations=rots, qids=self.cfg.qids):
+                if self.cfg.provenance:
+                    from mb import provenance_tasks
+
+                    questions = [provenance_tasks.make_question(self.tok, ep, view, recipient, qid, k)
+                                 for qid in self.cfg.qids for k in rots]
+                else:
+                    # A's label meanings follow the donor actually connected; its tokens do not change.
+                    q_ep = view if recipient == "A" else ep
+                    questions = tasks.readout_questions(self.tok, q_ep, recipient,
+                                                        rotations=rots, qids=self.cfg.qids)
+                for q in questions:
                     if (ep.episode_id, arm.name, recipient, q.qid, q.rotation_id) not in done:
                         specs.append((p, recipient, q))
         return specs
@@ -707,7 +770,11 @@ class Runner:
     def _donors(self, arm: ArmConfig, chunk: list[tasks.Episode]) -> list[tasks.Episode]:
         donors = []
         for ep in chunk:
-            if arm.donor_variant == "CF":
+            if arm.donor_robin_conflict:
+                from mb import provenance_tasks
+
+                donors.append(provenance_tasks.donor_episode(ep))
+            elif arm.donor_variant == "CF":
                 donors.append(tasks.make_donor_variant(ep, "CF").donor_episode)
             elif arm.donor_variant == "MISMATCH":
                 src = self.by_id[self.mm_donor[ep.episode_id]]
@@ -791,7 +858,8 @@ class Runner:
                 "kv_mass_A": (float(ticklog["kv_mass"][2 * i].nanmean())
                               if "kv_mass" in ticklog and bool(ticklog["kv_mass"][2 * i].isfinite().any()) else None),
                 "reflection_A": text_a, "reflection_B": text_b,
-                "mentions_A": tasks.mention_counts(view, text_a), "mentions_B": tasks.mention_counts(view, text_b),
+                "mentions_A": tasks.mention_counts(ep if self.cfg.provenance else view, text_a),
+                "mentions_B": tasks.mention_counts(view, text_b),
             }, ensure_ascii=False) + "\n")
         self.ticks_summary.flush()
 
@@ -1820,17 +1888,24 @@ POST = {"g1": post_g1, "select_pilot_a": post_select_pilot_a, "select_pilot_b": 
         "contrasts": post_contrasts, "select_live": post_select_live, "pair_signal": post_pair_signal,
         "match_arms": post_match_arms}
 V4_POST = {"v4_baseline", "v4_strength", "v4_match", "v4_validity", "v4_contrasts"}
+V5_STATIC_POST = {"v5_static_match", "v5_static_validity", "v5_static_contrasts"}
+V5_PROVENANCE_POST = {"v5_provenance_baseline", "v5_provenance_validity", "v5_provenance_contrasts"}
 
 
 def run_post(step: str, run_dir: Path, cfg: StageConfig) -> dict[str, Any]:
-    if step in V4_POST:
-        from mb import v4
+    if step in V4_POST | V5_STATIC_POST | V5_PROVENANCE_POST:
+        if step in V4_POST:
+            from mb import v4 as post_module
+        elif step in V5_STATIC_POST:
+            from mb import v5_static as post_module
+        else:
+            from mb import v5_provenance as post_module
 
         status = run_completeness(run_dir)
         status["smoke"] = _read_json(run_dir / "manifest.json").get("smoke", True)
         status["consumable"] = status["status"] == "complete" and not status["smoke"]
         status["post_step"] = step
-        return v4.postprocess(run_dir, cfg, status)
+        return post_module.postprocess(run_dir, cfg, status)
     return POST[step](run_dir)
 
 
@@ -1873,6 +1948,52 @@ class Prepared:
     resumed: bool
 
 
+def reusable_notes(cfg: StageConfig) -> list[dict[str, Any]]:
+    """Validate an explicitly pinned, complete note cache for STATIC refinement."""
+    pin = (cfg.params or {}).get("sources", {}).get("reuse_notes")
+    if pin is None:
+        return []
+    phase = (cfg.params or {}).get("phase")
+    if (phase not in ("refine1", "refine2") or cfg.stage != f"v5_llama_static_{phase}"
+            or cfg.split != "v5_llama_static_match" or cfg.n_episodes != 40 or cfg.seed != 0
+            or cfg.model_profile != "llama31_8b_instruct" or cfg.materials != "v1"
+            or any(a.donor_variant or a.donor_robin_conflict or a.partner_frame != "second"
+                   for a in cfg.arm_configs())):
+        raise ValueError("reused notes are restricted to the fixed v5 STATIC refinement cohort")
+    if (not isinstance(pin, dict) or not isinstance(pin.get("path"), str)
+            or not isinstance(pin.get("sha256"), str)):
+        raise ValueError("invalid reused notes pin")
+    path = Path(pin["path"])
+    path = (path if path.is_absolute() else REPO_ROOT / path).resolve()
+    if not path.is_file() or ledger.file_sha256(path) != pin["sha256"]:
+        raise ValueError("reused notes source integrity check failed")
+    expected: dict[str, set[tuple[str, str]]] = defaultdict(set)
+    for ep in tasks.make_episodes(cfg.n_episodes, cfg.split, cfg.seed):
+        for role in tasks.ROLES:
+            expected[tasks.note_key(ep, role, cfg.materials)].add((ep.episode_id, role))
+    records: dict[str, dict[str, Any]] = {}
+    for line in path.read_text().splitlines():
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ValueError("reused notes contain a malformed or truncated JSONL record") from exc
+        if not isinstance(rec, dict):
+            raise ValueError("reused notes require object records")
+        key, ids = rec.get("key"), rec.get("ids")
+        if (not isinstance(key, str) or key not in expected
+                or (rec.get("episode_id"), rec.get("role")) not in expected[key]
+                or not isinstance(ids, list) or any(type(i) is not int or i < 0 for i in ids)
+                or rec.get("n_tokens") != len(ids)
+                or len(ids) > tasks.NOTE_MAX_TOKENS_BY_MATERIALS[cfg.materials]):
+            raise ValueError("reused note does not match the stage's original prompt/token contract")
+        if key in records and records[key] != rec:
+            raise ValueError("reused notes contain conflicting records for one prompt")
+        records[key] = rec
+    if set(records) != set(expected):
+        raise ValueError("reused note cache is incomplete for the matching stage")
+    return list(records.values())
+
+
 def validate_stage_sources(cfg: StageConfig) -> None:
     """Fail before run creation if a consumed selection or model-asset manifest changed."""
     params = cfg.params or {}
@@ -1894,6 +2015,8 @@ def validate_stage_sources(cfg: StageConfig) -> None:
             manifest = resolve_profile(cfg.model_profile).manifest_path
             if pin["sha256"] != ledger.file_sha256(manifest):
                 raise ValueError("pinned model_assets differ from the selected profile manifest")
+    if "reuse_notes" in pins:
+        reusable_notes(cfg)
     if "calibration_metadata" in pins and cfg.calibration is not None:
         if not isinstance(cfg.calibration, dict):
             raise ValueError("pinned calibration_metadata requires explicit calibration paths")
@@ -1919,7 +2042,8 @@ def prepare_run(cfg: StageConfig, config_path: Path, limit: int | None, resume: 
     tok = tok if tok is not None else chat.load_tokenizer(profile=cfg.model_profile)
     chat.require_verified_tokenizer(tok, cfg.model_profile)
     smoke = limit is not None
-    template = template_hash(tok, cfg.materials, cfg.model_profile)
+    template = (template_hash(tok, cfg.materials, cfg.model_profile, provenance=True) if cfg.provenance
+                else template_hash(tok, cfg.materials, cfg.model_profile))
     prefix = prefix_hash(tok, cfg.materials, cfg.model_profile)
     stored: dict[str, Any] | None = None
     if resume is not None:

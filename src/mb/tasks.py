@@ -568,6 +568,15 @@ STOPPED_QIDS: tuple[str, ...] = ("BEH", "BEH_R")
 DEFAULT_QIDS: tuple[str, ...] = tuple(q for q in QIDS if q not in STOPPED_QIDS)
 
 
+def registered_qids(*, provenance: bool = False) -> tuple[str, ...]:
+    """New readouts require an explicit stage contract; legacy defaults stay frozen."""
+    if provenance:
+        from mb.provenance_tasks import QIDS as provenance_qids
+
+        return QIDS + provenance_qids
+    return QIDS
+
+
 @dataclass(frozen=True)
 class Question:
     qid: str

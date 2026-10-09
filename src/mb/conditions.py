@@ -54,6 +54,7 @@ class ArmConfig:
     kv_w_live: float | None = None  # kv scope PC only: weight on the partner's C/R tokens (gain weighs its prefill)
     partner_frame: str = "second"  # protocol v3: "third" / "third_strict" write the donor's memory as a record
     model_profile: str | None = None  # absent preserves all frozen Qwen arm identities
+    donor_robin_conflict: bool = False  # v5: change only B's record of Robin
 
     def __post_init__(self) -> None:
         profile = resolve_profile(self.model_profile)
@@ -92,6 +93,13 @@ class ArmConfig:
             raise ValueError("kv_scope is only valid for kv arms")
         if self.partner_frame not in PARTNER_FRAMES:
             raise ValueError(f"partner_frame must be one of {PARTNER_FRAMES}, got {self.partner_frame!r}")
+        if not isinstance(self.donor_robin_conflict, bool):
+            raise ValueError("donor_robin_conflict must be a boolean")
+        if self.donor_robin_conflict and not (
+                self.readout_mode == "FULL" and self.partner_frame == "second"
+                and (self.condition == "C0" or (self.condition == "ONE"
+                     and self.interface == "kv" and self.kv_scope == "P"))):
+            raise ValueError("donor Robin conflict requires C0 or one-way KV-P FULL")
         if self.partner_frame != "second" and not (self.interface == "kv" and self.direction == "one"):
             raise ValueError("the third-person partner frame is defined for one-way KV arms only")
         if self.kv_scope == "PC":
@@ -168,11 +176,15 @@ class ArmConfig:
             parts.append(f"g{self.gain:g}")
         if self.condition == "MASK":
             parts.append(f"k{self.k}-{self.energy_mode}-{self.mask_direction}")
+        if self.donor_robin_conflict:
+            parts.append("RobinConflict")
         parts.append(self.readout_mode)
         return "/".join(parts)
 
     def identity(self, calibration_hash: str, mask_hash: str, template_hash: str) -> dict:
         ident = asdict(self)
+        if not self.donor_robin_conflict:
+            ident.pop("donor_robin_conflict")
         profile = resolve_profile(self.model_profile)
         if self.model_profile is None:
             ident.pop("model_profile")
