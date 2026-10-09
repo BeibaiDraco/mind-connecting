@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-09T16:30-05:00, Codex (v5 local preparation complete; numerical gates and sample sizes intentionally unfrozen).
+Last updated: 2026-10-09T18:11-05:00, Codex (v5 GPU launch requested; fresh provider state checked, numerical and budget choice pending).
 
 ## Current phase
+
+**V5 launch readiness checked (2026-10-09):** The PI requested starting GPU work. A fresh read-only provider query confirms the retained A100 SXM4 80 GB instance remains actually exited and intended/current/next stopped, at USD 1.2266667/hour when running, with approximately 200 GB allocated disk. Restart availability is not established until a start request succeeds. The offline suite still passes: 361 passed, 5 skipped. The prior explicit instruction to leave gates and sample sizes unfrozen remains unresolved; a concrete structured choice now offers either approval of the implemented v5 defaults and a new USD 60 total / USD 10 initial ceiling, or technical acceptance only under USD 10 without freezing scientific gates/N. No answer has arrived at this checkpoint, no numerical approval is inferred from the generic start request, and no freeze or paid operation has occurred. Read-only engineering follow-up confirmed the deployed checkout must be explicitly installed in its isolated environment; private exact-instance stop/state-verification/verified-backup commands must cover acceptance evidence even when there is no scientific run directory, and setup/download time must be budgeted and guarded before stage execution. All commissioning requirements are recorded in the private v5 handoff. Next: resolve the already-present execution choice, then freeze the approved scope and attempt restoring the retained host with independent setup protection. No restart, new rental, model execution or download occurred.
 
 **V5 local preparation complete (2026-10-09):** The two-checkpoint three-arm provenance study and bounded Llama STATIC supplement are implemented, with independent scientific and engineering reviews. Source-backed stage generation, raw-record gate recomputation, formal analyses, native GPU acceptance, smoke/no-op-resume audits, write-once freezes, detached supervision, cumulative budget protection and verified-backup/shutdown hooks are ready for commissioning. Final offline tests: **361 passed, 5 skipped**. The full local preflight checked 12 fresh splits (2,268 distinct episodes), including 71,424 provenance question/recipient/ordering checks with both native tokenizers; it found no historical overlap or unintended receiver-question/physical-answer changes. The original v4 inputs were verified at their recorded frozen commit, not against the changed v5 code. The PI explicitly chose to **leave thresholds and sample sizes unfrozen**: all current 60/80/600 values and other numerical rules remain implemented planning defaults, no algorithm freeze was created, and no new spending cap is approved. Next: select final research settings and a separate compute budget, regenerate/recheck affected materials if needed, freeze, then commission actual-host stop/backup controls and collect both models' GPU acceptance/smoke evidence before research stages. No remaining local engineering blocker was found; actual GPU suitability, throughput and provider controls remain untested for the next host. Handoff: `docs/runbooks/V5_GPU_HANDOFF.md`; protocol draft: `docs/protocol/PROTOCOL_V5.md`; local evidence: `docs/results/v5/local_preflight.json`. No torch installation, model execution, GPU restart, weight download or outward action occurred.
 
@@ -104,7 +106,6 @@ Last updated: 2026-10-09T16:30-05:00, Codex (v5 local preparation complete; nume
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex /root | Check v5 GPU launch readiness and record pending execution contract | STATUS.md; private launch handoff | 2026-10-09T18:10-05:00 |
 
 
 
