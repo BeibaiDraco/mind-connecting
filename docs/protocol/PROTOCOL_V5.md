@@ -1,11 +1,14 @@
 # Protocol v5: provenance and bounded STATIC supplements
 
-2026-10-09. **IMPLEMENTED DRAFT, NOT FROZEN.** The PI approved local preparation
-of the recommended minimal package and explicitly chose to leave gate thresholds
-and sample sizes unfrozen. All numerical rules below are implemented planning
-defaults, not approved execution parameters. Paid execution is deferred to a
-later GPU launch and requires a separate spending cap. Finalize and freeze this
-contract after the PI selects the parameters and before collecting new data.
+2026-10-09. **Execution contract approved by the PI.** The PI explicitly approved
+the implemented numerical gates, fixed formal N=600 per model/study, bounded
+STATIC search and independent validation, and freezing this version before GPU
+execution. The new v5 spending ceiling is USD 60, with at most USD 10 for initial
+correctness checks and measured throughput. Passing stages may continue without
+another approval only when the projected remaining work fits the total cap.
+Attribution outcomes and significance never determine progression. This approval
+supersedes the earlier instruction to leave the draft thresholds and N unfrozen.
+The separate algorithm SHA256 manifest records the actual freeze and code commit.
 
 ## 1. Scope and immutable history
 
@@ -31,7 +34,7 @@ question and ordering clones the complete saved C48 state independently. The
 statistical unit is the episode; two answer orderings are averaged within it.
 
 All new splits use the `v5_` namespace, seed 0 and disjoint stage identifiers.
-The implemented planning default is fixed formal N600 per model/study. Source-study calibration of questions,
+The approved sample size is fixed formal N600 per model/study. Source-study calibration of questions,
 validation and formal data are disjoint. STATIC uses separate 60/40/80/600
 calibration/selection/validation/formal episodes; midpoint refinements reuse the
 same 40 selection episodes and exact original note token IDs. Nothing is selected
@@ -183,6 +186,7 @@ Local tests do not establish real-GPU correctness or model suitability. On the
 GPU first verify assets/environment, run native runtime acceptance and the new
 four-episode smoke/resume audit, then independent scientific gates. Record actual
 throughput and project all remaining stages before formal collection. Require a
-new approved cumulative budget and instance-local deadline shutdown independent
-of the Mac connection, append-only backup and verified provider stop. No rental,
-restart, download or scientific model execution is authorized by local preparation.
+approved cumulative budget and instance-local deadline shutdown independent
+of the Mac connection, append-only backup and verified provider stop. The PI's
+2026-10-09 execution approval authorizes launch under the limits above; local
+preparation or a successful software test alone does not establish a passed gate.

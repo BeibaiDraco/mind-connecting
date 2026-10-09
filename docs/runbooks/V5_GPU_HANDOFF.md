@@ -1,15 +1,17 @@
 # V5 GPU handoff
 
-Prepared locally on 2026-10-09. **No GPU has been started.** The PI explicitly
-selected “complete implementation first; leave gates and sample size unfrozen.”
-The numerical values in configs and PROTOCOL_V5.md are executable planning
-defaults awaiting that decision, not a frozen protocol or a paid authorization.
+Prepared locally on 2026-10-09; execution approved later the same day. The PI
+approved the implemented numerical gates and fixed formal N=600, with a new
+USD 60 total ceiling and USD 10 initial correctness/throughput ceiling. Passing
+stages may continue when projected remaining costs fit. The protocol records
+this approval; the separate algorithm manifest establishes the actual freeze.
+Read STATUS.md and private control receipts for the live execution state.
 
 ## What is prepared
 
 * Two-checkpoint three-arm provenance experiment, twelve formal question types,
   donor-only Robin mutation, fixed physical answers, separate record truth, and
-  original START/WORD anchors. Baseline 60 and validity 80 are implemented defaults.
+  original START/WORD anchors. Baseline 60 and validity 80 are approved settings.
 * Llama STATIC calibration at three layers, 15 coarse candidates, at most 2
   deterministic refinements reusing exact original note IDs, one untouched 80-
   episode validation, and a conditional three-arm formal comparison.
@@ -25,13 +27,12 @@ defaults awaiting that decision, not a frozen protocol or a paid authorization.
 
 ## Before commissioning a rented instance
 
-1. PI chooses final gates/sample size and new spending cap. If choices differ
-   from the implemented defaults, update the new code/configs and associated
-   tests before freezing; do not edit any historical freeze. The old USD 60 cap
-   belongs to completed v4 and is not carried forward automatically.
-2. Finish `PROTOCOL_V5.md` with the exact approved contract, including the header
-   `Execution contract approved by the PI`. This is a factual approval record,
-   not a bypass string to add while approval is pending.
+1. The PI approved the implemented gates/sample size and a separate USD 60 cap
+   on 2026-10-09. The old v4 cap is separate. Record all new setup/idle/download
+   costs in v5; initial correctness and throughput must stay within USD 10.
+2. `PROTOCOL_V5.md` now contains the factual approval record, including the
+   header `Execution contract approved by the PI`. Later scientific changes
+   require their own PI decision and new version; do not alter a frozen input.
 3. Run the offline suite, retain the independent scientific/engineering reviews,
    commit the complete inputs, then write the algorithm freeze:
 
@@ -41,7 +42,7 @@ defaults awaiting that decision, not a frozen protocol or a paid authorization.
    ```
 
    Commit the resulting new manifest. Freeze verification refuses the current
-   unfrozen draft by design. Later stage manifests are written separately.
+   unapproved drafts by design. Later stage manifests are written separately.
 4. Check the actual offer, available storage and existing model cache. A native
    BF16 GPU with ample memory is required; an 80 GB class instance has prior Llama
    headroom, but a new device still needs acceptance and measured throughput.
@@ -75,7 +76,10 @@ and alert the PI. Files and tokens remain private, outside the repository.
 
 Set explicit `MB_DATA_ROOT` to an existing data directory. Set Hub/Transformers
 offline after the approved pinned weights are cached. Use the isolated Linux
-environment from `scripts/setup_replication_gpu.sh`; never install torch locally.
+environment from `scripts/setup_replication_gpu.sh`; then install this exact
+checkout with `uv pip install --python .venv/bin/python -e .` and verify that
+`mb.__file__` points to it. Never install torch locally. Arm independent setup
+shutdown protection before installs/downloads, which precede the stage launcher.
 
 For each selected config, create a stage freeze and verify it. Example:
 
@@ -138,7 +142,7 @@ Complete raw data are retained; no sample exclusions or significance stopping.
 
 ## Runtime and recovery
 
-The implemented defaults entail 86,400 provenance formal readouts across two
+The approved settings entail 86,400 provenance formal readouts across two
 models, plus 36,000 conditional STATIC formal readouts, 8,640 maximum STATIC
 selection/validation readouts, 13,440 provenance baseline/validity readouts and
 engineering/calibration overhead. The main formal package has 122,400 readouts if
