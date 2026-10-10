@@ -124,7 +124,6 @@ Last updated: 2026-10-10T10:44-05:00, Codex (Qwen complete; STATIC calibration b
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Verify Qwen completion and commission independent bounded STATIC branch | STATUS.md, decision_log.md, new review; private execution controls | 2026-10-10T10:32-05:00 |
 
 
 
