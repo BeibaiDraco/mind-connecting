@@ -128,6 +128,10 @@ Last updated: 2026-10-10T13:06-05:00, Codex (PI accepts observed STATIC CAP loss
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex / root | Prepare stopped-instance continuation, launch protections and handoff | STATUS.md; decision_log.md; scripts/run_v5_stage.py; scripts/run_v5_continuation.py; tests/test_v5_continuation_launch.py; docs/runbooks/V5_CONTINUATION_HANDOFF.md; private preparation controls | 2026-10-10T13:45-05:00 |
+| Codex / arxiv_requirements | Build audited continuation artifacts and freeze | src/mb/v5_continuation.py; scripts/prepare_v5_continuation.py; scripts/freeze_v5_continuation.py; tests/test_v5_continuation.py; configs/v5_continuation/ | 2026-10-10T13:45-05:00 |
+| Codex / pdf_visual_audit | Repair producer-aware CF metadata validation | src/mb/v5_static.py; tests/test_v5_static_cf_metadata.py | 2026-10-10T13:45-05:00 |
+| Codex / manuscript_audit | Document prospective scientific continuation and review | docs/protocol/PROTOCOL_V5_CONTINUATION.md; docs/reviews/v5_continuation_scientific_20261010.md | 2026-10-10T13:45-05:00 |
 
 
 
