@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-10T16:29-05:00, Codex (old host destroyed after backup audit; replacement guarded deployment).
+Last updated: 2026-10-10T16:58-05:00, Codex (replacement formal provenance healthy; guarded handoff complete; sparse check scheduled).
 
 ## Current phase
+
+**Replacement Llama provenance formal started (2026-10-10):** Fresh setup, all eight native tests, all 768 four-episode smoke readouts and exact no-op resume passed under fixed source `69b4627`; the 37-file acceptance inventory was independently rehashed on the SD card. Formal N600 run `20261010-214856_v5_llama31_provenance_confirm_v5_continuation_provenance` began at 21:48:56 UTC. At 21:57 UTC, the exact controller/model child were healthy and 680 unique successful readouts were present, with no failed, duplicate, malformed or identity-mismatched records. The initial count/time estimate is about nine hours for this first study and remains preliminary. Original failures and named prospective CAP exceptions remain unchanged; no attribution effect or significance informed continuation. The independent local and remote full-budget guards remain live under the cumulative USD 100 cap. A temporary-guard ACK timestamp-order bug was detected and independently reproduced. After new same-plan full-guard proofs, actual formal-writing checks and another 37-file SD rehash, the exact temporary guard alone was retired through a separately reviewed one-off helper (23 mocked tests); original ACK, running full-guard code and deadlines were preserved. Subsequent exact controller/model/full-guard checks passed. A separate future-only guard copy corrects the ordering and passes 63 tests; fresh plans must bind it before the next restore. The cumulative conservative reservation is USD 78.79, below USD 100, and is not an invoice. The heartbeat has one check at 02:00 Chicago on October 11, near the preliminary first-study ETA of 01:50; healthy work is not continuously polled. STATIC N600 remains pending after actual provenance completion, backup and provider stop. See `docs/reviews/v5_replacement_commissioning_20261010.md`.
 
 **Replacement host commissioned; deployment in progress (2026-10-10):** The PI explicitly authorized destroying the old instance and renting a replacement under the cumulative USD 100 ceiling. Independent audit rehashed 3,195 durable backup files with no missing/hash/size mismatch before actual destruction was confirmed by API acknowledgement and inventory absence. One new single A100 80GB host was created at USD 1.18667/hour including 200GB disk; earlier quote preflight failures issued no create request. The original financial plan remains byte-identical; a separate audited migration receipt and rebound target document preserve every financial field, with the same original USD 100 deadline. New local and remote full-budget guards and an independent 60-minute setup guard are live. The temporary creation guard completed its proof-bound handoff during verified active input transfer. The fixed source bundle and frozen scientific contracts remain unchanged. Local-to-host transfer is slow and being resumed; model installation/native acceptance/formal collection have not begun. Follow the private handoff current_execution_root rather than the historical destroyed-host binding.
 
@@ -134,7 +136,6 @@ Last updated: 2026-10-10T16:29-05:00, Codex (old host destroyed after backup aud
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex (root with independent reviewers) | Preserve backups, destroy superseded instance and commission a replacement | STATUS.md; decision_log.md; new review; private replacement controls | 2026-10-10T16:10-05:00 |
 
 
 
@@ -236,7 +237,7 @@ Last updated: 2026-10-10T16:29-05:00, Codex (old host destroyed after backup aud
 
 ## Next steps
 
-Current continuation: wait for the PI to top up and explicitly approve the prepared two-study package and numerical cumulative cap; then recheck instance/rate and remaining room, establish fresh guards, and run provenance followed by STATIC under `docs/runbooks/V5_CONTINUATION_HANDOFF.md`. No GPU restart is authorized by preparation alone. Historical milestones follow.
+Current continuation: use the scheduled sparse check for active provenance N600; verified handoff recovery is recorded in the private replacement execution root. After complete source-backed processing, exact SD backup and actual provider stop, bind fresh guard plans to the already independently reviewed future-only timestamp correction before restoring the same replacement host for fixed STATIC N600. Preserve the original financial anchor and cumulative USD 100 cap. Never reuse the destroyed-host binding. Historical milestones follow.
 
 | Milestone | Content | Where |
 |---|---|---|
