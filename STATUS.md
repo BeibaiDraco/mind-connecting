@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-09T19:09-05:00, Codex (v5 engineering fully passed; guarded Llama provenance baseline running).
+Last updated: 2026-10-09T19:10-05:00, Codex (v5 baseline writing verified; background controller and sparse checks handed off).
 
 ## Current phase
 
@@ -114,7 +114,6 @@ Last updated: 2026-10-09T19:09-05:00, Codex (v5 engineering fully passed; guarde
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex /root | Freeze approved v5 and commission GPU launch | STATUS.md, decision_log.md, docs/protocol/PROTOCOL_V5.md, docs/protocol/FREEZE_protocol_v5_algorithm.json, docs/runbooks/V5_GPU_HANDOFF.md; private execution controls | 2026-10-09T18:13-05:00 |
 
 
 
