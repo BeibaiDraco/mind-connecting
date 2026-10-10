@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-09T20:34-05:00, Codex (Llama validity stop audited; independent Qwen baseline writing verified).
+Last updated: 2026-10-09T22:27-05:00, Codex (Qwen v5 N600 formal writing verified; one completion-near check scheduled).
 
 ## Current phase
+
+**V5 Qwen formal N600 is running:** Complete baseline 60 and validity 80 gates were independently reproduced from raw records; all 56 algorithm inputs and six baseline pins match. The RULE branch is eligible, but WORD donor-own access failed its diagnostic, so all word conclusions remain access-limited. Formal run `20261010-025849_v5_qwen_provenance_confirm_v5_qwen_provenance_confirm` began at 02:58:49 UTC on October 10. At 03:25 UTC, 1,528/43,200 successful readouts and 20 complete episodes were verified; no duplicate successful keys or malformed records. Formal freeze verification passed, the prerequisite 221-file SD inventory was rehashed, and original cumulative-budget protection remains active. The preliminary count/time ETA is around 15:21 UTC / 10:21 Chicago on October 10 (about 12 more hours at observation, plus final processing/backup). The `v5` heartbeat now has one check at 10:30 Chicago, replacing half-hour checks. The controller reserves 18.93 hours for formal and 12.40 for remaining STATIC/overhead, projecting cumulative USD 51.22 including elapsed time/reserves, within USD 60; actual STATIC timing must still be measured. Llama provenance remains unavailable after its frozen gate failure; independent bounded Llama STATIC remains pending after Qwen completion, verified backup and actual stop. See `docs/reviews/v5_qwen_formal_start_20261009.md` and the private handoff.
 
 **V5 Qwen continuation (2026-10-09T20:34-05:00):** The same instance was safely restored for the independent approved Qwen branch after Llama stopped. Original budget anchor, USD 60 cap and deadline remain unchanged; the live local full guard, fresh remote full guard, stage watchdog and SD backup observer are in place. Qwen baseline run `20261010-013326_v5_qwen_provenance_base_v5_qwen_provenance_base` is writing: 132/3,840 successful readouts observed with zero malformed records and a live controller/model child. Formal N600 has not started. The unchanged chain advances only after frozen baseline/validity gates, backups and cost checks, reserving the remaining STATIC work. Recovery review: `docs/reviews/v5_qwen_guarded_continuation_20261009.md`. One pre-start recovery time-window bug was fixed in a new private helper with 13 independently reviewed tests; no scientific input changed and no provider start occurred on the failed attempt. Offline suite: 361 passed, 5 skipped. Continue sparse 30-minute checks; announce ETA and reduce checks only after actual formal writing. Llama provenance remains unavailable, and independent Llama STATIC is pending.
 
@@ -118,7 +120,6 @@ Last updated: 2026-10-09T20:34-05:00, Codex (Llama validity stop audited; indepe
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Verify Qwen v5 formal startup and schedule sparse completion check | STATUS.md, decision_log.md, docs/reviews/v5_qwen_formal_start_20261009.md; private handoff | 2026-10-09T22:23-05:00 |
 
 
 
