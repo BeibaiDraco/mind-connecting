@@ -126,7 +126,6 @@ Last updated: 2026-10-10T12:55-05:00, Codex (v5 terminal; STATIC validity recove
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Recover stopped STATIC validity evidence and verify terminal state | STATUS.md, decision_log.md, new review; private controls | 2026-10-10T12:45-05:00 |
 
 
 
