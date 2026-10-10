@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-10T14:03-05:00, Codex (continuation inputs frozen; awaiting PI funding/start).
+Last updated: 2026-10-10T15:57-05:00, Codex (funding confirmed; same-instance restore rejected; actual stop verified).
 
 ## Current phase
+
+**Continuation startup blocked by rejected restore (2026-10-10):** Following the PI funding confirmation, the prepared two fixed N600 studies and cumulative USD 100 protection were admitted in context; the original financial anchor and all scientific inputs remain unchanged. Fresh independent local full-budget and 600-second commissioning guards were verified before exactly one same-instance restore request. The provider response did not satisfy the SDK success contract; the request was cancelled and actual exited/stopped state was verified repeatedly. No remote deployment, model process, native test or formal readout started. Both new local guards were then retired after verified stop; the heartbeat remains paused. Read-only account credit is about USD 72.33. The specific provider rejection reason was not retained, so GPU unavailability is not established; await the instance-page diagnostic or an explicitly approved replacement. No replacement was rented and no spending anchor was reset. Ready source bundle, tokenizer assets, approval receipt and all historical data remain preserved. Offline tests: 428 passed / 5 skipped; private guard tests: 26 passed. See `docs/reviews/v5_continuation_restore_attempt_20261010.md`.
 
 **Fixed Llama continuation prepared locally (2026-10-10):** The PI requested all preparation before topping up and authorizing a restart, and allowed reconsidering the USD 60 ceiling. Two fixed N600 studies are prepared in order: provenance, then STATIC layer16/raw/gain0.5 against KV w1. The new continuation protocol names only the observed CAP exceptions; original v5 failures and analyses remain unchanged. Historical audits independently reproduce complete source chains, all other access/format/matching requirements, and unused formal materials (1,200 episodes; 26,400 native question/ordering checks). The minimal CF metadata checker repair follows the unchanged producer. The new controller requires separate funding/start approval, fresh native/smoke/no-op-resume evidence, source-backed formal analysis, verified backups and provider stops, with a persisted global duplicate-job guard and a pinned provenance-completion receipt before STATIC. An inert USD 100 cumulative-cap proposal preserves the original accounting anchor; it is not approved spending. The provider was queried read-only and remains actually stopped at USD 1.12/hour; no guard/controller/GPU process was launched, and monitoring remains paused. Independent scientific and engineering reviews passed; final offline suite: 428 passed, 5 skipped. The separate continuation algorithm and all three stage freezes verify against the SD mirror; implementation commit `583826c` is recorded in the manifests. All local preparation is complete; only the PI funding/start ratification and the mandatory post-start hardware checks remain. See `docs/protocol/PROTOCOL_V5_CONTINUATION.md` and `docs/runbooks/V5_CONTINUATION_HANDOFF.md`.
 
@@ -130,7 +132,6 @@ Last updated: 2026-10-10T14:03-05:00, Codex (continuation inputs frozen; awaitin
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Guarded startup of the approved fixed Llama continuations | STATUS.md; decision_log.md; private execution receipts | 2026-10-10T14:20-05:00 |
 
 
 
