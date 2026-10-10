@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-10T13:06-05:00, Codex (PI accepts observed STATIC CAP loss in principle; original results retained).
+Last updated: 2026-10-10T14:00-05:00, Codex (local fixed Llama continuation preparation; awaiting funding/start).
 
 ## Current phase
+
+**Fixed Llama continuation prepared locally (2026-10-10):** The PI requested all preparation before topping up and authorizing a restart, and allowed reconsidering the USD 60 ceiling. Two fixed N600 studies are prepared in order: provenance, then STATIC layer16/raw/gain0.5 against KV w1. The new continuation protocol names only the observed CAP exceptions; original v5 failures and analyses remain unchanged. Historical audits independently reproduce complete source chains, all other access/format/matching requirements, and unused formal materials (1,200 episodes; 26,400 native question/ordering checks). The minimal CF metadata checker repair follows the unchanged producer. The new controller requires separate funding/start approval, fresh native/smoke/no-op-resume evidence, source-backed formal analysis, verified backups and provider stops, with a persisted global duplicate-job guard and a pinned provenance-completion receipt before STATIC. An inert USD 100 cumulative-cap proposal preserves the original accounting anchor; it is not approved spending. The provider was queried read-only and remains actually stopped at USD 1.12/hour; no guard/controller/GPU process was launched, and monitoring remains paused. Independent scientific and engineering reviews passed; final offline suite: 428 passed, 5 skipped. Source-freeze/package verification is the final local step. See `docs/protocol/PROTOCOL_V5_CONTINUATION.md` and `docs/runbooks/V5_CONTINUATION_HANDOFF.md`.
 
 **PI capability-tolerance clarification (2026-10-10):** The PI stated that the observed 6.25-percentage-point CAP loss is acceptable. Treat this as acceptance in principle of that observed loss for the current fixed STATIC comparison, rather than a universal replacement cutoff or a retrospective pass of v5. A transparent prospective continuation can retain KV w1, STATIC layer16/raw/gain0.5 and fresh N600 while recording the original failed five-point gate and reporting the observed capability loss, including CF's 5.9375 points. The existing N80 informed this reconsideration and must not be described as independent validation of a newly chosen tolerance. No new setting, source-study restart, numerical general threshold or extra budget was chosen. Before paid continuation, the concrete amendment and CF checker repair require reviewed implementation and a fresh cost/guard assessment under the original cap; no GPU restart or automation change occurred in this clarification. Historical failure and recovery evidence below remain unchanged.
 
@@ -130,7 +132,7 @@ Last updated: 2026-10-10T13:06-05:00, Codex (PI accepts observed STATIC CAP loss
 |---|---|---|---|
 | Codex / root | Prepare stopped-instance continuation, launch protections and handoff | STATUS.md; decision_log.md; scripts/run_v5_stage.py; scripts/run_v5_continuation.py; tests/test_v5_continuation_launch.py; docs/runbooks/V5_CONTINUATION_HANDOFF.md; private preparation controls | 2026-10-10T13:45-05:00 |
 | Codex / arxiv_requirements | Build audited continuation artifacts and freeze | src/mb/v5_continuation.py; scripts/prepare_v5_continuation.py; scripts/freeze_v5_continuation.py; tests/test_v5_continuation.py; configs/v5_continuation/ | 2026-10-10T13:45-05:00 |
-| Codex / pdf_visual_audit | Repair producer-aware CF metadata validation | src/mb/v5_static.py; tests/test_v5_static_cf_metadata.py | 2026-10-10T13:45-05:00 |
+| Codex / pdf_visual_audit | Repair producer-aware CF metadata validation | src/mb/v5_static.py; tests/test_v5_static.py; tests/test_v5_static_cf_metadata.py; private continuation guards/tests | 2026-10-10T13:45-05:00 |
 | Codex / manuscript_audit | Document prospective scientific continuation and review | docs/protocol/PROTOCOL_V5_CONTINUATION.md; docs/reviews/v5_continuation_scientific_20261010.md | 2026-10-10T13:45-05:00 |
 
 

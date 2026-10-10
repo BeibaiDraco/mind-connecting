@@ -130,14 +130,23 @@ def watchdog(doc: dict, control: Path) -> int:
 
 
 def validate_launch(config: Path, freeze: Path, limit: int | None) -> run.StageConfig:
-    frozen = verify(freeze, require_kind="stage")
+    continuation = read(freeze).get("protocol") == "v5-continuation"
+    if continuation:
+        from freeze_v5_continuation import verify as verify_continuation
+        frozen = verify_continuation(freeze)
+        if frozen.get("kind") != "stage":
+            raise ValueError("a continuation stage freeze is required")
+    else:
+        frozen = verify(freeze, require_kind="stage")
     path = Path(frozen["config_path"])
     path = path if path.is_absolute() else ROOT / path
     if path.resolve() != config.resolve():
         raise ValueError("stage freeze belongs to another configuration")
     cfg = run.StageConfig.load(config)
     run.validate_stage_sources(cfg)
-    if (cfg.params or {}).get("provenance_contract"):
+    if continuation and not (cfg.params or {}).get("smoke_only"):
+        from mb.v5_continuation import verify_config_contract
+    elif (cfg.params or {}).get("provenance_contract"):
         from make_v5_provenance import verify_config_contract
     else:
         from mb.v5_static import verify_config_contract
@@ -184,6 +193,20 @@ def collected_run(cfg: run.StageConfig, before: set[Path], resume: Path | None) 
 
 
 def scientific_gate(cfg: run.StageConfig, root: Path) -> tuple[bool, dict]:
+    if (getattr(cfg, "params", None) or {}).get("continuation"):
+        from mb.v5_continuation import analyze_run
+        result = analyze_run(root)
+        output = root / "v5_continuation_summary.json"
+        encoded = json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + "\n"
+        if output.exists():
+            if output.read_text() != encoded:
+                raise ValueError("refusing to replace an existing continuation analysis")
+        else:
+            with output.open("x") as fh:
+                fh.write(encoded)
+        return result.get("consumable") is True, {
+            "step": "v5_continuation_summary", "gate": "complete_analysis",
+            "effect_based_gate": False, "original_v5_gate_reclassified": False}
     if cfg.stage == "calibrate":
         from mb.v5_static import read_calibration
         result = read_calibration(root, cfg.params["model_assets"]["sha256"])
@@ -291,7 +314,8 @@ def _main() -> int:
                              stdin=subprocess.DEVNULL, stdout=log, stderr=log, start_new_session=True)
         expected_hash = hashlib.sha256(json.dumps(doc, sort_keys=True).encode()).hexdigest()
         ready = False
-        for _ in range(30):
+        # A cold scientific import previously took longer than the old three-second window.
+        for _ in range(600):
             if (args.control_dir / "watchdog.json").exists():
                 state = read(args.control_dir / "watchdog.json")
                 try:
@@ -318,6 +342,7 @@ def _main() -> int:
         if args.resume:
             argv += ["--resume", str(args.resume)]
         success = False
+        before_dirs: set[Path] = set()
         try:
             results = run.results_dir()
             before_dirs = set(results.iterdir()) if results.exists() else set()
@@ -354,14 +379,36 @@ def _main() -> int:
             if not gate_ok:
                 success = False
                 raise RuntimeError("scientific prerequisite failed; branch stopped after backup")
-        except BaseException:
+        except BaseException as exc:
             success = False
+            preserve_failure(cfg, args.control_dir, doc, before_dirs, args.resume, exc)
             raise
         finally:
             if not success or not args.keep_session:
                 if not stop_provider(doc, args.control_dir, "completed" if success else "stage_failure"):
                     raise RuntimeError("provider stopped state could not be verified; action required")
     return 0
+
+
+def preserve_failure(cfg: run.StageConfig, control: Path, doc: dict,
+                     before_dirs: set[Path], resume: Path | None, error: BaseException) -> None:
+    """A postprocessing error must not skip preservation of successfully collected data."""
+    actual_run = None
+    try:
+        actual_run = collected_run(cfg, before_dirs, resume)
+    except (OSError, ValueError, RuntimeError, KeyError):
+        pass
+    detail = {"stage": cfg.stage, "split": cfg.split,
+              "run_dir": str(actual_run) if actual_run else None,
+              "collection_complete": False, "gate_passed": False,
+              "error_type": type(error).__name__, "backup_verified": False,
+              "at_epoch": time.time()}
+    best_effort_save(control / "last_stage.json", detail)
+    try:
+        detail["backup_verified"] = quiet_command(private_argv(doc, "backup_command_file"), timeout=900)
+    except (OSError, ValueError, KeyError):
+        pass
+    best_effort_save(control / "last_stage.json", detail)
 
 
 def main() -> int:

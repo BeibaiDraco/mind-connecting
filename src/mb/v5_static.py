@@ -346,7 +346,9 @@ def _checked_records(run: Path, cfg: Any, status: Mapping[str, Any]) -> tuple[li
             if r.get(key, "residual" if key == "interface" else None) != getattr(a, key):
                 raise ValueError("record arm metadata differs from the configured arm")
         ep = episodes[r["episode_id"]]
-        text, options, meanings, cap_id = tasks._question_body(ep, "A", r["qid"], r["rotation_id"])
+        # Runner labels A's options relative to the donor actually connected.
+        question_ep = tasks.make_donor_variant(ep, "CF").donor_episode if a.condition == "CF" else ep
+        text, options, meanings, cap_id = tasks._question_body(question_ep, "A", r["qid"], r["rotation_id"])
         expected_fields = {"split": cfg.split, "materials": "v1", "options": list(options),
                            "label_meaning": list(meanings), "cap_item_id": cap_id,
                            "text_hash": hashlib.sha256(text.encode()).hexdigest()[:16],

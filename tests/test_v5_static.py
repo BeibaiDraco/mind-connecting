@@ -164,7 +164,8 @@ def records_for(cfg, identity, access=None, cf_quality=True):
         for a in cfg.arm_configs():
             for qid in cfg.qids:
                 for rot in ep.rotations:
-                    text, options, meanings, cap_id = tasks._question_body(ep, "A", qid, rot)
+                    question_ep = tasks.make_donor_variant(ep, "CF").donor_episode if a.condition == "CF" else ep
+                    text, options, meanings, cap_id = tasks._question_body(question_ep, "A", qid, rot)
                     logits = [10.0 if m == "own" else access.get(a.name, 0.0) if m == "partner" else 0.0 for m in meanings]
                     if qid.startswith("CAP"):
                         logits = [10.0 if m == "correct" else 0.0 for m in meanings]
@@ -175,7 +176,7 @@ def records_for(cfg, identity, access=None, cf_quality=True):
                         extra = dict(cf_r0_rule=ep.rule.B, cf_r1_rule=ep.rule.spare,
                                      cf_r0_word=ep.word.B, cf_r1_word=ep.word.spare)
                         if qid.startswith("ACC"):
-                            logits = [10.0 if m == "own" else 4.0 if m in ("unused", "distractor") else 0.0 for m in meanings]
+                            logits = [10.0 if m == "own" else 4.0 if m == "partner" else 0.0 for m in meanings]
                     records.append({"episode_id": ep.episode_id, "arm": a.name, "condition": a.condition,
                                     "recipient": "A", "qid": qid, "rotation_id": rot,
                                     "label_logits": logits, "label_meaning": list(meanings), "label_mass": 0.99,
