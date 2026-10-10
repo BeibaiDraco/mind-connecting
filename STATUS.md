@@ -124,6 +124,7 @@ Last updated: 2026-10-10T10:44-05:00, Codex (Qwen complete; STATIC calibration b
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Recover stopped STATIC validity evidence and verify terminal state | STATUS.md, decision_log.md, new review; private controls | 2026-10-10T12:45-05:00 |
 
 
 
