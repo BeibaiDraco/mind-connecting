@@ -130,6 +130,7 @@ Last updated: 2026-10-10T14:03-05:00, Codex (continuation inputs frozen; awaitin
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Guarded startup of the approved fixed Llama continuations | STATUS.md; decision_log.md; private execution receipts | 2026-10-10T14:20-05:00 |
 
 
 
