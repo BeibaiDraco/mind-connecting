@@ -132,6 +132,7 @@ Last updated: 2026-10-10T15:57-05:00, Codex (funding confirmed; same-instance re
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex (root with independent reviewers) | Preserve backups, destroy superseded instance and commission a replacement | STATUS.md; decision_log.md; new review; private replacement controls | 2026-10-10T16:10-05:00 |
 
 
 
