@@ -126,6 +126,7 @@ Last updated: 2026-10-10T12:55-05:00, Codex (v5 terminal; STATIC validity recove
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Record PI acceptance of observed STATIC capability loss | STATUS.md, decision_log.md | 2026-10-10T13:05-05:00 |
 
 
 
