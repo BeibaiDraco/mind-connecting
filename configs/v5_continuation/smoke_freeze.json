@@ -1,0 +1,16 @@
+{
+  "algorithm_path": "docs/protocol/FREEZE_protocol_v5_continuation_algorithm.json",
+  "commit": "583826c7f9785713285beb4fc4b232d9aa5e19f8",
+  "config_path": "configs/v5/provenance/llama31_smoke.yaml",
+  "created_utc": "2026-10-10T19:02:29.247982+00:00",
+  "files": {
+    "configs/v5/provenance/llama31_smoke.yaml": "f7ea86f2afd0861f417662b6d5c370e40648bbc63eb2e5d1f6e1a0605d648e35",
+    "docs/protocol/FREEZE_protocol_v5_continuation_algorithm.json": "3ab1de64a1a1e512eb79c6f6d47a8a0d8664321a38696edb454308c06f123a8e",
+    "materials/tokenizer_llama31_8b_instruct_manifest.json": "286173764103d3d1c61b2adfab84f91da6fb689394b170d56da2ab8014aa8a7d"
+  },
+  "kind": "stage",
+  "n_episodes": 4,
+  "paid_execution_authorized": false,
+  "protocol": "v5-continuation",
+  "split": "v5_llama31_provenance_smoke"
+}
