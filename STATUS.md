@@ -138,6 +138,7 @@ Last updated: 2026-10-11T02:20-05:00, Codex (amended Llama provenance complete; 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex (root with independent reviewers) | Replace unavailable host and commission only fixed STATIC N600 | STATUS.md; decision_log.md; new review; private replacement controls | 2026-10-11T11:11-05:00 |
 
 
 
