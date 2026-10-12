@@ -152,7 +152,7 @@ Last updated: 2026-10-12T15:19-05:00, Codex (sustained-interaction redesign and 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Revise core design around persistent reciprocal adaptation; local proposal and oracle checks only | docs/protocol/PROTOCOL_V6_CONTINUOUS_DRAFT.md; docs/protocol/v6_continuous_checks/; docs/reviews/v6_continuous_design_review_20261012.md; STATUS.md; decision_log.md | 2026-10-12T14:54-05:00 |
+| None | — | — | — |
 
 
 
@@ -254,7 +254,7 @@ Last updated: 2026-10-12T15:19-05:00, Codex (sustained-interaction redesign and 
 
 ## Next steps
 
-Current priority is the PI-requested sustained-interaction design in `docs/protocol/PROTOCOL_V6_CONTINUOUS_DRAFT.md`; it supersedes the earlier single-event recommendation, not any frozen protocol. Its new scientific settings await ratification. No GPU start is authorized. Local implementation and native hardware acceptance are still required before a v6 execution freeze. The completed-evidence manuscript integration remains a separate available task from `docs/paper/post_collection_story_20261012.md`: update model/cohort methods, put the two-model original-record conflict result in the main text, show the STATIC match failure and endpoint-specific boundaries, then reconcile figures, captions, appendices and references. Preserve the existing arXiv version while preparing a separately reviewed next version. No GPU task, restore, rental, guard or heartbeat remains active. Every historical host binding is now invalid for execution. The milestone table below is historical.
+Current priority is the PI-requested sustained-interaction design in `docs/protocol/PROTOCOL_V6_CONTINUOUS_DRAFT.md`; it supersedes the earlier single-event recommendation, not any frozen protocol. Its new scientific settings await ratification. Offline verification passed (428 tests, five skipped); the saved logic-check result was independently reproduced. No GPU start is authorized. Local implementation and native hardware acceptance are still required before a v6 execution freeze. The completed-evidence manuscript integration remains a separate available task from `docs/paper/post_collection_story_20261012.md`: update model/cohort methods, put the two-model original-record conflict result in the main text, show the STATIC match failure and endpoint-specific boundaries, then reconcile figures, captions, appendices and references. Preserve the existing arXiv version while preparing a separately reviewed next version. No GPU task, restore, rental, guard or heartbeat remains active. Every historical host binding is now invalid for execution. The milestone table below is historical.
 
 | Milestone | Content | Where |
 |---|---|---|
