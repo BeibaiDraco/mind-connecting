@@ -148,10 +148,6 @@ Last updated: 2026-10-12T00:10-05:00, Codex (final instance destroyed; all new f
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex (root) | Destroy the completed current instance; integrate evidence and paper story | STATUS.md; decision_log.md; docs/paper/post_collection_story_20261012.md; new closure review; private provider receipts | 2026-10-11T23:58-05:00 |
-| Codex (provenance reviewer) | Reproduce both provenance analyses and report limits | docs/results/v5/provenance_post_collection_20261012.*; private offline scripts | 2026-10-11T23:58-05:00 |
-| Codex (STATIC reviewer) | Reproduce STATIC analysis and cross-check prior evidence | docs/results/v5/static_post_collection_20261012.*; private offline scripts | 2026-10-11T23:58-05:00 |
-| Codex (paper reviewer) | Independent final destruction check and manuscript claim audit | docs/reviews/paper_evidence_audit_20261012.md; private read-only review | 2026-10-11T23:58-05:00 |
 
 
 
