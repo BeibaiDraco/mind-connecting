@@ -1,0 +1,124 @@
+{
+  "echo_counterexample": {
+    "echo_mapping_specificity": 0.0,
+    "possible_echo_feedback_score": 0.5
+  },
+  "goal_task": {
+    "each_physical_initiator_by_fact_pair_cell": 75,
+    "episodes_per_triple": 25,
+    "fact_complete_truth_cases": 2304,
+    "formal_goal_triples": 24,
+    "goal_control_and_record_accuracy_can_dissociate": true,
+    "joint_cells": 8,
+    "own_fact_only_possible_actions": 2
+  },
+  "precision": {
+    "limitations": "Not empirical power or a simulation of the LLM; score variances remain unknown",
+    "method": "Synthetic normal approximation; worst Holm entry threshold alpha/12",
+    "precision_grid": [
+      {
+        "conservative_80pct_normal_mde": 0.05982,
+        "episode_score_sd": 0.25,
+        "n": 240,
+        "pointwise_95_half_width": 0.031629
+      },
+      {
+        "conservative_80pct_normal_mde": 0.119639,
+        "episode_score_sd": 0.5,
+        "n": 240,
+        "pointwise_95_half_width": 0.063258
+      },
+      {
+        "conservative_80pct_normal_mde": 0.239278,
+        "episode_score_sd": 1.0,
+        "n": 240,
+        "pointwise_95_half_width": 0.126515
+      },
+      {
+        "conservative_80pct_normal_mde": 0.358917,
+        "episode_score_sd": 1.5,
+        "n": 240,
+        "pointwise_95_half_width": 0.189773
+      },
+      {
+        "conservative_80pct_normal_mde": 0.037833,
+        "episode_score_sd": 0.25,
+        "n": 600,
+        "pointwise_95_half_width": 0.020004
+      },
+      {
+        "conservative_80pct_normal_mde": 0.075666,
+        "episode_score_sd": 0.5,
+        "n": 600,
+        "pointwise_95_half_width": 0.040008
+      },
+      {
+        "conservative_80pct_normal_mde": 0.151333,
+        "episode_score_sd": 1.0,
+        "n": 600,
+        "pointwise_95_half_width": 0.080015
+      },
+      {
+        "conservative_80pct_normal_mde": 0.226999,
+        "episode_score_sd": 1.5,
+        "n": 600,
+        "pointwise_95_half_width": 0.120023
+      }
+    ],
+    "synthetic_null_small_large_grid": [
+      {
+        "discordance": 0.3,
+        "mean": 0.0,
+        "n": 240,
+        "normal_approx_rejection_probability": 0.004167
+      },
+      {
+        "discordance": 0.3,
+        "mean": 0.05,
+        "n": 240,
+        "normal_approx_rejection_probability": 0.074222
+      },
+      {
+        "discordance": 0.3,
+        "mean": 0.15,
+        "n": 240,
+        "normal_approx_rejection_probability": 0.938951
+      },
+      {
+        "discordance": 0.3,
+        "mean": 0.0,
+        "n": 600,
+        "normal_approx_rejection_probability": 0.004167
+      },
+      {
+        "discordance": 0.3,
+        "mean": 0.05,
+        "n": 600,
+        "normal_approx_rejection_probability": 0.267689
+      },
+      {
+        "discordance": 0.3,
+        "mean": 0.15,
+        "n": 600,
+        "normal_approx_rejection_probability": 0.99998
+      }
+    ]
+  },
+  "round_trip": {
+    "counterexample_averaged_forward_effect": 0.4,
+    "counterexample_changed_forward_effect": 0.0,
+    "enumerated_cases": 6912,
+    "oneway_full_table_broadcast_forward_necessity": 0.0,
+    "random_nonold_switch_expected_specificity": 0.0,
+    "responsive_oracle_specificity": 1.0,
+    "scope": "Algebraic task checks, not observed LLM outcomes or engine tests",
+    "stale_reply_specificity": 0.0
+  },
+  "status": "offline_design_logic_passed_not_frozen",
+  "workload_per_checkpoint": {
+    "G_core_held_records": 96000,
+    "G_cut_records": 14400,
+    "G_text_records": 3840,
+    "paired_postevent_trajectories": 8880
+  }
+}
