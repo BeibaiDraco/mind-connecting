@@ -215,3 +215,8 @@ After provenance N600 completed and the next same-host restore explicitly failed
 ## 2026-10-11 — PI approves the hourly ceiling and creation
 
 The PI replied "Create it, OK" to the explicit proposed USD 1.60/hour ceiling for the replacement, retaining the cumulative USD 100 ceiling and original financial start with earlier automatic shutdown. This authorizes the reviewed conditional hourly-rate exception and actual creation; it does not change the scientific scope. Preserve the original financial documents, record the separately timed approval, and conservatively apply the USD 1.60 guard rate from the original anchor with a five-minute shutdown reserve. The resulting deadline is October 12 12:27:37 UTC, earlier than the historical deadline. Use a cheaper eligible offer when available. Continue only the remaining fixed STATIC N600 after fresh native/smoke/resume acceptance and verified backup protection; no provenance rerun or outcome-dependent selection.
+
+
+## 2026-10-12 UTC — PI authorizes final instance destruction and complete paper assessment
+
+After all approved formal collection, final backup verification and actual stop, the PI explicitly requested destroying the retained instance and thoroughly analyzing the existing evidence, rebuilding the narrative and reviewing the paper. Destroy only the current stopped target after rechecking durable backups and exact identity; retain all data and operational evidence locally. This authorizes offline prespecified analysis and an evidence-based manuscript assessment, not new GPU collection, parameter selection, sample expansion or historical gate reclassification. Existing protocols, failed gates and named continuation exceptions remain unchanged.
