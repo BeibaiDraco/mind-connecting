@@ -150,7 +150,7 @@ Last updated: 2026-10-12T11:52-05:00, Codex (reciprocal core design drafted and 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| None | No active claims | - | - |
+| Codex | Revise core design around persistent reciprocal adaptation; local proposal and oracle checks only | docs/protocol/PROTOCOL_V6_CONTINUOUS_DRAFT.md; docs/protocol/v6_continuous_checks/; docs/reviews/v6_continuous_design_review_20261012.md; STATUS.md; decision_log.md | 2026-10-12T14:54-05:00 |
 
 
 
