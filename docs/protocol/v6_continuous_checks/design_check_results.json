@@ -1,0 +1,51 @@
+{
+  "continuity": {
+    "action_consequences_preserved": true,
+    "invalid_action_holds_own_state": true,
+    "local_input_partner_invariance_cases": 64,
+    "scope": "Reference task kernel, not the unimplemented native model runner",
+    "six_round_oracle_schedules": 384
+  },
+  "limitations": [
+    "No LLM or GPU used",
+    "No native runtime tested",
+    "Complete material and exact-test simulation remain before freeze"
+  ],
+  "precision": {
+    "Holm22_conservative_80pct_normal_mde": 0.12566818933170268,
+    "assumed_episode_score_sd": 0.5,
+    "n": 240,
+    "pointwise_95_half_width": 0.06325756559408298,
+    "scope": "Synthetic normal approximation, not empirical power"
+  },
+  "pulse_paths": {
+    "FRESH_oracle_equals_LIVE": true,
+    "changed_replay_second_round_world_mismatches": 48,
+    "initial_world_and_goal_cases": 48,
+    "responsive_oracle_scores": {
+      "Q_chain": 1.0,
+      "forward": 1.0,
+      "replay": 1.0,
+      "return": 1.0
+    }
+  },
+  "rivals_and_goals": {
+    "common_transfer_row_cases": 576,
+    "direct_initiator_response_cases": 12,
+    "direct_initiator_response_return_contrast": 0.0,
+    "goal_blind_echo_mean_Q": 0.0,
+    "initial_material_joint_cells_each": 30,
+    "note": "Complete updated-goal, probe-alternative and text-subset balancing still requires a generator",
+    "ordinary_cross_side_candidate_collision_detected": true,
+    "random_nonold_switch_component_Q": 0.0,
+    "random_nonold_switch_signed_Delta": 0.6666666666666666,
+    "two_random_switches_chain_Q": -0.3333333333333333
+  },
+  "status": "offline_proposal_checks_passed_not_model_evidence",
+  "workload": {
+    "goal_probe_records_per_model": 34560,
+    "paired_work_periods_per_episode": 80,
+    "paired_work_periods_per_model_with_text": 19560,
+    "two_models_paired_work_periods": 39120
+  }
+}
