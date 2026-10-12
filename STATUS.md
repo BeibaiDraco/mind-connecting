@@ -150,7 +150,7 @@ Last updated: 2026-10-12T11:52-05:00, Codex (reciprocal core design drafted and 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Design and independently review the proposed real-time reciprocal core study; offline only, no freeze or GPU | docs/protocol/PROTOCOL_V6_RECIPROCAL_DRAFT.md; docs/reviews/v6_reciprocal_design_review_20261012.md; docs/protocol/v6_design_checks/; STATUS.md; decision_log.md | 2026-10-12T11:27-05:00 |
+| None | No active claims | - | - |
 
 
 
