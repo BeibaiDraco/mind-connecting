@@ -1,0 +1,39 @@
+schema: v6-continuous-local-draft-1
+status: draft_local_only
+scientific_settings_ratified: false
+hardware_acceptance_authorized: false
+formal_authorized: false
+models:
+  - qwen3_4b_instruct_2507
+  - llama31_8b_instruct
+runtime:
+  rounds: 6
+  work_tokens: 64
+  preparation_tokens: 16
+  generated_window: 16
+  attention: all_layer_exact_softmax_mixture
+  source_delay_ticks: 1
+  gain_candidates: [0.25, 0.5, 1.0]
+  selected_gain: null
+  action_labels: ['1', '2', '3', '4']
+sample_sizes:
+  baseline: 60
+  calibration_per_gain: 40
+  validation: 80
+  formal_per_model: 240
+  text_subset: 60
+analysis:
+  primary_family_size: 22
+  secondary_family_size: 4
+  bootstrap_draws: 10000
+  bootstrap_seed: 0
+neutral_contract:
+  fact_event_schedule: null
+  per_round_probe_schedule: null
+  capability_aggregation: null
+  calibration_precision_rule: null
+  status: requires_prospective_review
+funding:
+  approved_usd: null
+  approved_hourly_rate: null
+  historical_v5_budget_inherited: false
