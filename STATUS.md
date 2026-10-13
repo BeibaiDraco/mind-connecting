@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-12T23:35-05:00, Codex (PI ratified V6; preparing guarded new-instance commissioning).
+Last updated: 2026-10-13T00:19-05:00, Codex (V6 deployed; actual stop verified before model setup because the saved download credential is unavailable).
 
 ## Current phase
+
+**V6 actual deployment held before model setup (2026-10-13):** One authorized new A100 80 GB instance was created at approximately USD1.29963/hour including disk, with the original new V6 USD100/initial12/hourly1.60 budget recorded before provisioning. Exact container identity, about700 GiB free storage, frozen source/material deployment, real dual guards and creation-guard handoff passed;24 input/authority files were rehashed on the mounted SD volume. The PI explicitly approved reuse of the saved project HF credential, and both pinned models passed authenticated access checks before rental; that private credential file was subsequently absent before environment setup. Known project/cache/environment locations contain no replacement, and its disappearance is unexplained. **No environment bootstrap, checkpoint download, native/model test or scientific collection started.** Actual provider exited/stopped status is verified and the local guard has retired after stop; retained disk can still incur storage charges. PI local login restoration is pending. Preserve the exact host and original budget clock; recover only with fresh guards and a separate prelaunch operational namespace, then actual native/smoke/resume, backup and measured whole-workload checks. Private sequential and commissioning helpers are complete and independently reviewed;169 private mocked checks passed, but actual unattended execution remains uncommissioned. Full offline suite682 passed/six skipped/one GPU deselected. Seventy-six additional operational evidence files were archived and rehashed after actual stop. Details: `docs/reviews/v6_commissioning_20261012.md`. Scientific rules and the paper are unchanged.
 
 **V6 ratified and execution authorized (2026-10-12):** The PI explicitly approved the complete scientific package and new USD100 total / USD12 initial / USD1.60 hourly boundaries, then added USD50 credit and instructed proceeding. Preserve N240/text60 per checkpoint, disjoint60/40-per-gain/80 stages, exact neutral gates, no validation reselection, original V6 financial provenance and outcome-blind continuation. This supersedes the pending-ratification notes below. Scientific adoption is recorded in `docs/protocol/PROTOCOL_V6.md`; freeze and concrete private provider/SSH/guard deployment are being prepared before rental. Offline suite682 passed/six skipped/one GPU deselected. No V6 instance or model run exists yet. Next: finish and independently test actual operational adapters, arm creation protection, rent one eligible host, verify actual host/dual guards, then execute protected native acceptance and smoke.
 
@@ -158,7 +160,6 @@ Last updated: 2026-10-12T23:35-05:00, Codex (PI ratified V6; preparing guarded n
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex root | Ratify/freeze V6 and commission guarded new GPU execution | STATUS.md; decision_log.md; docs/protocol/PROTOCOL_V6.md; docs/protocol/FREEZE_protocol_v6.txt; docs/reviews/v6_commissioning_20261012.md; private live-01 deployment files | 2026-10-12T23:32-05:00 |
 
 
 
