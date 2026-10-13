@@ -1,0 +1,66 @@
+{
+  "access_accuracy_min": 0.75,
+  "access_gain_lower_bound_strict_min": 0.0,
+  "all_gains_complete": true,
+  "baseline_accuracy_families": [
+    "task_fullinfo",
+    "assignment_original",
+    "assignment_latest"
+  ],
+  "baseline_accuracy_min": 0.9,
+  "baseline_extra_format_families": [
+    "assignment_original",
+    "assignment_latest"
+  ],
+  "bootstrap": {
+    "draws": 10000,
+    "lower_quantile": 0.05,
+    "seed": 0,
+    "upper_quantile": 0.95
+  },
+  "calibration_cohorts": "disjoint_40_per_gain_with_paired_OFF",
+  "calibration_same_predicate_as_validation": true,
+  "capability_accuracy_families": [
+    "task_fullinfo",
+    "CAP"
+  ],
+  "capability_loss_upper_bound_max": 0.05,
+  "floating_point_boundary_tolerance": 1e-12,
+  "format_absolute_floor_policies": "each_observed_policy",
+  "format_bounds": "point_estimates",
+  "format_families": [
+    "task_fullinfo",
+    "CAP",
+    "continuation_action",
+    "access_fact",
+    "continuation_fact"
+  ],
+  "gains": [
+    0.25,
+    0.5,
+    1.0
+  ],
+  "legal_mass_drop_max": 0.05,
+  "legal_mass_min": 0.9,
+  "runtime": {
+    "choice_labels": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "preparation_tokens": 16,
+    "rounds": 6,
+    "window": 16,
+    "work_tokens": 64
+  },
+  "sample_sizes": {
+    "baseline": 60,
+    "calibration": 40,
+    "validation": 80
+  },
+  "selection": "smallest_passing_gain",
+  "status": "prospective_proposal",
+  "validation_reselection": false,
+  "version": "v6-neutral-admission-1"
+}

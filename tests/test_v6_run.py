@@ -11,6 +11,24 @@ def tree_bytes(path):
     return {str(p.relative_to(path)):p.read_bytes() for p in path.rglob("*") if p.is_file()}
 
 
+def test_explicit_neutral_key_schema_is_preserved_on_resume(tmp_path):
+    directory = tmp_path/"neutral"
+    fields = ("episode_id", "policy", "round_id", "side", "qid")
+    identity = {"key_fields": fields}
+    identity = json.loads(json.dumps(identity))
+    row = dict(zip(fields, ("e0", "OFF", 1, 0, "CAP0")))
+    row["status"] = "ok"
+    ledger = EpisodeLedger(directory, identity, key_fields=fields)
+    ledger.write(row); ledger.close()
+    before = tree_bytes(directory)
+    ledger = EpisodeLedger(directory, identity, resume=True, key_fields=fields)
+    ledger.write(row); ledger.close()
+    assert tree_bytes(directory) == before
+    with pytest.raises(ValueError, match="nonempty"):
+        EpisodeLedger(tmp_path/"invalid", identity, key_fields=())
+    assert not (tmp_path/"invalid").exists()
+
+
 def test_synthetic_run_then_noop_resume(tmp_path):
     episodes = make_episodes(1, "development", 1)
     spec = RuntimeSpec(work_tokens=2, preparation_tokens=1, window=2)

@@ -100,8 +100,12 @@ def _write_new(path: Path, value: Any) -> None:
 class EpisodeLedger:
     """Identity admission precedes every append, including an exact no-op resume."""
 
-    def __init__(self, directory: Path, identity: dict, *, resume: bool = False):
+    def __init__(self, directory: Path, identity: dict, *, resume: bool = False,
+                 key_fields: tuple[str, ...] = KEY_FIELDS):
         self.directory, self.identity = Path(directory), identity
+        if not key_fields or len(set(key_fields)) != len(key_fields):
+            raise ValueError("Ledger key fields must be nonempty and distinct")
+        self.key_fields = tuple(key_fields)
         if resume:
             previous = json.loads((self.directory/"identity.json").read_text())
             if previous != identity:
@@ -115,7 +119,7 @@ class EpisodeLedger:
             for line_no, line in enumerate(path.read_text().splitlines(), 1):
                 try:
                     rec = json.loads(line)
-                    key = record_key(rec)
+                    key = tuple(rec[field] for field in self.key_fields)
                 except (ValueError, KeyError) as exc:
                     raise ValueError(f"Corrupt retained record at {path.name}:{line_no}") from exc
                 if key in self.records:
@@ -128,7 +132,7 @@ class EpisodeLedger:
 
     def write(self, record: dict) -> None:
         canonical_digest(record)  # Reject NaN before writing anything.
-        key = record_key(record)
+        key = tuple(record[field] for field in self.key_fields)
         if key in self.records:
             if self.records[key] != record:
                 raise ValueError("Successful readout changed during exact episode resume")
@@ -164,9 +168,14 @@ def source_manifest() -> dict[str, str]:
     root = Path(__file__).resolve().parents[2]
     names = [*sorted((root/"src"/"mb").glob("v6_*.py")),
              *sorted((root/"scripts").glob("v6_*.py")),
-             root/"src/mb/chat.py", root/"src/mb/model_profiles.py",
+             root/"src/mb/chat.py", root/"src/mb/model_profiles.py", root/"src/mb/tasks.py",
+             root/"materials/tokenizer_manifest.json",
+             root/"materials/tokenizer_llama31_8b_instruct_manifest.json",
              root/"docs/protocol/PROTOCOL_V6_CONTINUOUS_DRAFT.md",
              root/"configs/v6/local_draft.yaml", root/"requirements.txt", root/"pyproject.toml"]
+    names += [p for p in (root/"scripts/prepare_v6_launch.py", root/"scripts/supervise_v6.py",
+                         root/"docs/protocol/V6_EXECUTION_ADDENDUM_DRAFT.md",
+                         root/"configs/v6/admission_proposal.json") if p.exists()]
     return {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in names}
 
 
