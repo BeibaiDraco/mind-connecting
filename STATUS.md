@@ -156,6 +156,7 @@ Last updated: 2026-10-12T23:03-05:00, Codex (V6 execution preparation committed 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex root | Ratify/freeze V6 and commission guarded new GPU execution | STATUS.md; decision_log.md; docs/protocol/PROTOCOL_V6.md; docs/protocol/FREEZE_protocol_v6.txt; docs/reviews/v6_commissioning_20261012.md; private live-01 deployment files | 2026-10-12T23:32-05:00 |
 
 
 
