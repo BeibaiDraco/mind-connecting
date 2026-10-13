@@ -154,7 +154,7 @@ Last updated: 2026-10-12T21:52-05:00, Codex (V6 local implementation committed; 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex root | V6 launch contracts, budget/storage preparation and integration | src/mb/v6_launch.py; src/mb/v6_run.py; tests/test_v6_launch.py; tests/test_v6_run.py; configs/v6/; scripts/prepare_v6_launch.py; docs/protocol/V6_EXECUTION_ADDENDUM_DRAFT.md; docs/runbooks/V6_GPU_HANDOFF.md; STATUS.md; decision_log.md | 2026-10-12T22:17-05:00 |
+| Codex root | V6 launch contracts, budget/storage preparation and integration | src/mb/v6_launch.py; src/mb/v6_run.py; tests/test_v6_launch.py; tests/test_v6_run.py; configs/v6/; scripts/prepare_v6_launch.py; docs/protocol/V6_EXECUTION_ADDENDUM_DRAFT.md; docs/runbooks/V6_GPU_HANDOFF.md; docs/reviews/v6_execution_preparation_review_20261012.md; STATUS.md; decision_log.md | 2026-10-12T22:17-05:00 |
 | Codex tasks agent | V6 neutral materials and collector | src/mb/v6_neutral.py; tests/test_v6_neutral.py; src/mb/v6_supervision.py; scripts/supervise_v6.py; tests/test_v6_supervision.py | 2026-10-12T22:17-05:00 |
 | Codex analysis agent | V6 exact neutral admission predicates | src/mb/v6_admission.py; tests/test_v6_admission.py | 2026-10-12T22:17-05:00 |
 | Codex native agent | V6 native stage execution and resume | src/mb/v6_execution.py; scripts/v6_execute.py; tests/test_v6_execution.py; tests/test_v6_execution_gpu.py | 2026-10-12T22:17-05:00 |
