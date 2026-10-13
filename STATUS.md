@@ -152,7 +152,10 @@ Last updated: 2026-10-12T15:19-05:00, Codex (sustained-interaction redesign and 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| None | — | — | — |
+| Codex root | V6 local orchestration, contracts, ledger, preflight and integration | src/mb/v6_contract.py; src/mb/v6_runtime.py; src/mb/v6_run.py; scripts/v6_local_preflight.py; tests/test_v6_runtime.py; tests/test_v6_run.py; configs/v6/; docs/protocol/V6_IMPLEMENTATION_NOTES.md; docs/runbooks/V6_LOCAL_HANDOFF.md; STATUS.md; decision_log.md | 2026-10-12T21:08-05:00 |
+| Codex tasks agent | V6 task materials and tokenizer audit | src/mb/v6_tasks.py; tests/test_v6_tasks.py | 2026-10-12T21:08-05:00 |
+| Codex analysis agent | V6 scoring and exact analysis simulations | src/mb/v6_analysis.py; tests/test_v6_analysis.py; scripts/v6_simulate_analysis.py | 2026-10-12T21:08-05:00 |
+| Codex native agent | V6 native backend and isolated KV attention | src/mb/v6_native.py; tests/test_v6_native.py; tests/test_v6_native_gpu.py | 2026-10-12T21:08-05:00 |
 
 
 
