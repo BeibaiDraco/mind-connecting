@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T12:11-05:00, Codex (V6 still stopped; browser login and financial recovery pending).
+Last updated: 2026-10-14T12:27-05:00, Codex (both model downloads authorized; GPU stopped pending financial recovery).
 
 ## Current phase
+
+**V6 model access restored; financial recovery pending (2026-10-14):** The PI logged in through the work Chrome profile and explicitly approved creating and securely caching a fine-grained read-only download credential for the two fixed models. The standard local HF cache is restricted to the user; real authenticated index and weight-metadata requests verified both pinned revisions. No weights, credentials or connection details entered the repository; no GPU restore or model execution occurred. Read-only provider billing shows approximately USD9.18 already posted for this exact session, predominantly retained disk at about USD0.2463/hour, with no precise final posted-through watermark. The old initial USD12 allowance cannot cover existing charges plus the unchanged USD3 transfer and five-minute shutdown reserves. A concrete private proposal requests initial USD25 inclusive of past charges within unchanged total USD100/hourly1.60, preserving original provenance and extending only independently evidenced stopped duration. This proposal is awaiting the PI; no financial authority, deadline, frozen source or scientific setting was modified. New financial admission/guard implementation and independent review remain required before any paid restore. Full offline suite:682 passed, six skipped, one GPU deselected.
 
 **V6 login recovery recheck (2026-10-14):** At the PI's request, rechecked the known local HF login and project credential locations; neither has a usable credential. The browser is also signed out, and the official login page was opened for the PI. The exact current provider target was freshly verified exited/stopped in all state fields. No paid restore, credential change, model setup or experiment occurred. The original initial-phase conservative wall-clock deadline has expired because it counts the stopped waiting interval at the running-rate ceiling; this is not evidence of actual budget expenditure. Before restoring, verify actual running/storage/transfer costs and prepare an independently reviewed financial-admission recovery preserving the original provenance and approved caps. Do not reset the anchor or relabel acceptance as a full-budget phase. Local offline suite:682 passed, six skipped, one GPU deselected. All scientific freezes and source files remain unchanged.
 
@@ -162,7 +164,6 @@ Last updated: 2026-10-14T12:11-05:00, Codex (V6 still stopped; browser login and
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Record restored model access and proposed financial recovery | STATUS.md; decision_log.md; private V6 handoff | 2026-10-14T12:28-05:00 |
 
 
 
