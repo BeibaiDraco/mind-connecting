@@ -1,0 +1,14 @@
+V6 instance replacement execution-source freeze
+Original scientific freeze: FREEZE_protocol_v6.txt
+Approved operational replacement: V6_INSTANCE_REPLACEMENT_20261014.md
+source_commit: eb021feca565d94282c4b52a7f25891b2eb3111d
+source_manifest_sha256: 9a0d59fae8414825f79445b115b9af81ed28b5e7bb0743793087ddec0b91fb53
+deployment_package_sha256: e48ae9156abfa2e270849961ffa352358e30ddc4325c5b6375620debd5fff99f
+
+Changed sources:
+a58fe7bee5f9c43f75f1ebd628168ac8d7496c17238c7ca84ec90ca0acf45d3a  src/mb/v6_finance.py
+c44b94d57572cbf340baf1656aa65b477168aabd5e5f79269c0a8ee7616b3a0e  src/mb/v6_launch.py
+
+All other original source-manifest hashes and all16 scientific material hashes are preserved.
+Original financial start/history remain retained; initial25 includes all existing session charges.
+No V6 model or native acceptance has run at this execution-source freeze.
