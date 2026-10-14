@@ -1,0 +1,14 @@
+V6 financial recovery execution-source freeze
+Original scientific freeze: FREEZE_protocol_v6.txt
+Approved operational amendment: V6_FINANCIAL_AMENDMENT_20261014.md
+source_commit: e44f35f23a67fa7a96f9aee2db6b24dfd407e801
+source_manifest_sha256: 980bfb3632f8adb305c7ac9296a3f241457219a806446345bb2ff18720ea5d83
+deployment_package_sha256: a68e48d786b02fc6c6df5b4a90184b50ad55e18afeaa4f4cdc14373547157d82
+
+Changed sources:
+633ff8d31bd9acd9aad79529658c05c950ac66c0a541188abeed82bf7999ed3b  src/mb/v6_finance.py
+c44b94d57572cbf340baf1656aa65b477168aabd5e5f79269c0a8ee7616b3a0e  src/mb/v6_launch.py
+
+All other original source-manifest hashes and all16 scientific material hashes are preserved.
+Original financial start/history remain retained; initial25 includes all existing session charges.
+No V6 model or native acceptance has run at this execution-source freeze.
