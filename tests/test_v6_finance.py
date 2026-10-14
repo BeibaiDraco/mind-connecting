@@ -19,7 +19,9 @@ def recovery(tmp_path):
         path.write_bytes(raw)
         return {"path": str(path), "sha256": hashlib.sha256(raw).hexdigest()}
 
-    binding = "a" * 64
+    old_binding = {"version": "v6-instance-binding-1", "provider": "vast", "instance_id": 111,
+                   "creation_label": "synthetic-old", "creation_intent_sha256": "d"*64}
+    binding = finance.digest(old_binding)
     auth = {"version": "v6-approval-1", "approved": True, "approved_at_epoch": 900,
             "evidence_note": "synthetic financial fixture", "total_cap_usd": 100,
             "initial_cap_usd": 12, "hourly_cap_usd": 1.6}
@@ -71,12 +73,12 @@ def recovery(tmp_path):
         "recovery": {"original_anchor_pin": old_pin, "original_authorization_pin": auth_pin,
                      "amendment_pin": save("amendment", amendment), "ledger_pin": save("ledger", ledger)}}
     return SimpleNamespace(anchor=anchor, old=old, auth=auth, bound=bound, review=review,
-                           ledger=ledger, amendment=amendment, save=save)
+                           ledger=ledger, amendment=amendment, save=save, binding=binding, old_binding=old_binding)
 
 
 def validate(case):
     return finance.validate_anchor(case.anchor, authorization_sha256="b"*64,
-                                   instance_binding_sha256="a"*64, now=40100)
+                                   instance_binding_sha256=case.binding, now=40100)
 
 
 def repin(case, name):
@@ -263,3 +265,162 @@ def test_later_distinct_stopped_interval_does_not_reset_prior_charges(recovery):
     assert validate(recovery)["initial_cap_usd"] == 25
     assert finance.budget_projection(recovery.anchor["budget"], now=40000,
                                      phase="initial")["estimated_spend_usd"] == pytest.approx(9.2)
+
+
+@pytest.fixture
+def transfer(recovery):
+    p = recovery
+    prior_pin = p.save("prior-recovery", p.anchor)
+    prior_auth = {"version": "v6-approval-1", "approved": True, "approved_at_epoch": 39900}
+    prior_auth_pin = p.save("prior-execution-auth", prior_auth)
+    p.anchor["authorization_sha256"] = prior_auth_pin["sha256"]
+    prior_pin = p.save("prior-recovery-bound", p.anchor)
+    approval = {"version": "v6-instance-replacement-approval-1", "approved": True,
+        "approved_at_epoch": 40200, "preserve_entire_budget": True, "maximum_new_instances": 1,
+        "prior_anchor_sha256": prior_pin["sha256"], "prior_authorization_sha256": prior_auth_pin["sha256"],
+        "old_binding_sha256": p.binding, "evidence_note": "synthetic explicit first replacement"}
+    approval_pin = p.save("replacement-approval", approval)
+    backup_pin = p.save("destroy-backup", {"version": "v6-destroy-backup-rehash-1", "verified": True, "files": 94})
+    destroy_intent = {"old_binding_pin": p.save("old-binding", p.old_binding), "old_binding_sha256": p.binding,
+        "authorization_sha256": approval_pin["sha256"], "backup_rehash_sha256": backup_pin["sha256"],
+        "issued_at_epoch": 40300}
+    destroyed = {"version": "v6-old-instance-destroyed-1", "old_binding_sha256": p.binding,
+        "api_success": True, "inventory_complete": True, "inventory_absent": True, "destroyed_verified": True,
+        "observed_at_epoch": 40400, "backup_rehash_pin": backup_pin,
+        "destroy_intent_pin": p.save("destroy-intent", destroy_intent), "error_type": None}
+    history = {"prior_anchor_pin": prior_pin, "prior_authorization_pin": prior_auth_pin,
+               "replacement_authorization_pin": approval_pin, "destruction_receipt_pin": p.save("destroyed", destroyed)}
+    precreate = {"version": "v6-budget-transfer-precreate-1", "budget": copy.deepcopy(p.anchor["budget"]),
+        "authorization_sha256": "e"*64, "creation_label": "synthetic-new", "transfer": history}
+    precreate_pin = p.save("precreate", precreate)
+    intent = {"version": "v6-rental-intent-1", "creation_label": "synthetic-new", "disk": 700,
+        "created_at_epoch": 40500, "precreate_budget_sha256": precreate_pin["sha256"],
+        "authorization_sha256": "e"*64}
+    intent_pin = p.save("creation-intent", intent)
+    binding = {"version": "v6-instance-binding-1", "provider": "vast", "instance_id": 222,
+        "creation_label": "synthetic-new", "creation_intent_sha256": intent_pin["sha256"]}
+    receipt = {"version": "v6-replacement-created-1", "instance_binding_sha256": finance.digest(binding),
+        "creation_intent_sha256": intent_pin["sha256"], "precreate_authority_sha256": precreate_pin["sha256"],
+        "actual_hourly_usd": 1.1, "actual_disk_units": 700, "host_end_epoch": 300000,
+        "observed_at_epoch": 40600, "provider_response_pin": p.save("create-response", {"success": True, "new_contract": 222})}
+    anchor = {"version": "v6-budget-transfer-1", "budget": copy.deepcopy(precreate["budget"]),
+        "authorization_sha256": "e"*64, "instance_binding_sha256": finance.digest(binding),
+        "transfer": {**history, "precreate_authority_pin": precreate_pin, "creation_intent_pin": intent_pin,
+            "new_binding_pin": p.save("new-binding", binding), "creation_receipt_pin": p.save("created", receipt)}}
+    return SimpleNamespace(anchor=anchor, precreate=precreate, intent=intent, binding=binding,
+        receipt=receipt, destroyed=destroyed, approval=approval, prior=p.anchor, save=p.save)
+
+
+def validate_transfer(case):
+    return finance.validate_anchor(case.anchor, authorization_sha256="e"*64,
+        instance_binding_sha256=finance.digest(case.binding), now=40700)
+
+
+def test_first_replacement_preserves_full_budget_and_precreate_is_not_worker_authority(transfer):
+    assert finance.validate_transfer_precreate(transfer.precreate, now=40700)["initial_cap_usd"] == 25
+    assert validate_transfer(transfer)["total_cap_usd"] == 100
+    assert transfer.anchor["budget"] == transfer.prior["budget"]
+    assert finance.budget_projection(transfer.anchor["budget"], now=40700, phase="initial") == \
+        finance.budget_projection(transfer.prior["budget"], now=40700, phase="initial")
+    with pytest.raises(ValueError):
+        finance.validate_anchor(transfer.precreate, now=40700)
+
+
+@pytest.mark.parametrize("kind", ["start", "spend", "cap", "deadline", "checkpoint", "old_binding", "missing_pin"])
+def test_replacement_cannot_reset_history_or_reuse_binding(transfer, kind):
+    if kind == "start":
+        transfer.anchor["budget"]["started_at_epoch"] += 100
+    elif kind == "spend":
+        transfer.anchor["budget"]["reconciliation"]["compute_storage_upper_usd"] = 0
+    elif kind == "cap":
+        transfer.anchor["budget"]["initial_cap_usd"] = 26
+    elif kind == "deadline":
+        transfer.anchor["budget"]["hard_deadline_epoch"] += 1
+    elif kind == "checkpoint":
+        transfer.anchor["budget"]["reconciliation"]["checkpoint_epoch"] += 100
+    elif kind == "old_binding":
+        transfer.anchor["instance_binding_sha256"] = transfer.prior["instance_binding_sha256"]
+    else:
+        transfer.anchor["transfer"].pop("creation_receipt_pin")
+    with pytest.raises(ValueError):
+        validate_transfer(transfer)
+
+
+@pytest.mark.parametrize("field", ["api_success", "inventory_complete", "inventory_absent", "destroyed_verified"])
+def test_creation_guard_refuses_unconfirmed_old_destruction(transfer, field):
+    transfer.destroyed[field] = False
+    transfer.precreate["transfer"]["destruction_receipt_pin"] = transfer.save("bad-destruction", transfer.destroyed)
+    with pytest.raises(ValueError, match="destruction"):
+        finance.validate_transfer_precreate(transfer.precreate, now=40700)
+
+
+@pytest.mark.parametrize("kind", ["missing_approval", "another_anchor", "multiple_instances", "erase_prior_charges"])
+def test_replacement_requires_specific_unchanged_budget_approval(transfer, kind):
+    if kind == "missing_approval":
+        transfer.approval["approved"] = False
+    elif kind == "another_anchor":
+        transfer.approval["prior_anchor_sha256"] = "f"*64
+    elif kind == "multiple_instances":
+        transfer.approval["maximum_new_instances"] = 2
+    else:
+        transfer.approval["preserve_entire_budget"] = False
+    transfer.precreate["transfer"]["replacement_authorization_pin"] = transfer.save("bad-replacement-approval", transfer.approval)
+    with pytest.raises(ValueError, match="replacement approval"):
+        finance.validate_transfer_precreate(transfer.precreate, now=40700)
+
+
+@pytest.mark.parametrize("kind", ["host_end", "hourly_rate", "disk", "new_contract", "response_error", "intent_binding"])
+def test_bound_replacement_requires_sufficient_host_and_exact_creation_success(transfer, kind):
+    if kind == "host_end":
+        transfer.receipt["host_end_epoch"] = 41000
+    elif kind == "hourly_rate":
+        transfer.receipt["actual_hourly_usd"] = 1.61
+    elif kind == "disk":
+        transfer.receipt["actual_disk_units"] = 699
+    elif kind in ("new_contract", "response_error"):
+        transfer.receipt["provider_response_pin"] = transfer.save("bad-response",
+            {"success": kind != "response_error", "new_contract": 111 if kind == "new_contract" else 222})
+    else:
+        transfer.receipt["creation_intent_sha256"] = "f"*64
+    transfer.anchor["transfer"]["creation_receipt_pin"] = transfer.save("bad-created", transfer.receipt)
+    with pytest.raises(ValueError):
+        validate_transfer(transfer)
+
+
+def test_precreate_cannot_select_old_creation_label(transfer):
+    transfer.precreate["creation_label"] = "synthetic-old"
+    with pytest.raises(ValueError, match="new exact creation label"):
+        finance.validate_transfer_precreate(transfer.precreate, now=40700)
+
+
+@pytest.mark.parametrize("approved", [True, False])
+def test_replacement_retains_actual_destroy_intent_pinned_to_raw_pi_consent(transfer, approved):
+    consent = {"version": "v6-pi-replacement-message-1", "approved": approved,
+        "recorded_at_epoch": 40200, "message": "Destroy old and replace.",
+        "question_scope": "One exact replacement preserving all prior charges and fixed caps."}
+    consent_pin = transfer.save("pi-consent", consent)
+    transfer.approval["pi_message_pin"] = consent_pin
+    transfer.precreate["transfer"]["replacement_authorization_pin"] = transfer.save("approval-with-consent", transfer.approval)
+    intent = finance.read_pin(transfer.destroyed["destroy_intent_pin"])
+    intent["authorization_sha256"] = consent_pin["sha256"]
+    transfer.destroyed["destroy_intent_pin"] = transfer.save("actual-destroy-intent", intent)
+    transfer.precreate["transfer"]["destruction_receipt_pin"] = transfer.save("actual-destroyed", transfer.destroyed)
+    if approved:
+        assert finance.validate_transfer_precreate(transfer.precreate, now=40700)["total_cap_usd"] == 100
+    else:
+        with pytest.raises(ValueError, match="PI consent"):
+            finance.validate_transfer_precreate(transfer.precreate, now=40700)
+
+
+@pytest.mark.parametrize("field,value", [("version", "wrong"), ("provider", "another"), ("instance_id", 111)])
+def test_new_binding_cannot_relabel_old_id_or_change_provider_contract(transfer, field, value):
+    transfer.binding[field] = value
+    new_sha = finance.digest(transfer.binding)
+    transfer.anchor["instance_binding_sha256"] = new_sha
+    transfer.anchor["transfer"]["new_binding_pin"] = transfer.save("bad-binding", transfer.binding)
+    transfer.receipt["instance_binding_sha256"] = new_sha
+    transfer.receipt["provider_response_pin"] = transfer.save("matching-response",
+        {"success": True, "new_contract": transfer.binding["instance_id"]})
+    transfer.anchor["transfer"]["creation_receipt_pin"] = transfer.save("binding-created", transfer.receipt)
+    with pytest.raises(ValueError):
+        validate_transfer(transfer)

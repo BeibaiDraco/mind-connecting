@@ -265,3 +265,8 @@ After signing into the work browser, the PI explicitly approved creating and sec
 ## 2026-10-14 — PI approves cumulative V6 financial recovery
 
 The PI explicitly approved initial acceptance up to USD25 including all already incurred session charges, retaining total USD100 and the existing USD1.60/hour ceiling, and extending the deadline only by verified stopped time. The PI instructed repairing protection and continuing. Preserve the original session identifier, original start, immutable historical financial records and all scientific settings. A separately versioned, independently reviewed cumulative-cost checkpoint and admission/guard update must precede paid restore; stopped disk, transfers and uncertainty remain charged, with existing reserves retained. This is an operational financial amendment, not a new spending session, scientific change or retrospective gate exception. See docs/protocol/V6_FINANCIAL_AMENDMENT_20261014.md.
+
+
+## 2026-10-14 — PI authorizes exact V6 instance replacement
+
+After the protected restore failed because the original host lacked GPU capacity, the PI explicitly approved destroying that stopped empty instance after verified backup and renting a replacement. This replaces the execution host within the same cumulative financial session: preserve every prior charge, initial USD25, total USD100 and hourly USD1.60, the current conservative cost checkpoint and original start. Destroy the old target before creating the next; bind the new actual instance through separately reviewed transfer authority and fresh guards. No further stopped-time credit, new spending session, scientific change or gate exception is implied. All V6 native/smoke, source, backup and measured-cost checks remain mandatory before research collection.

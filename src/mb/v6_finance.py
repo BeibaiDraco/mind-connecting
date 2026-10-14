@@ -162,6 +162,10 @@ def validate_anchor(anchor: dict, load_pin: PinLoader = read_pin, *,
     approval and financial anchor remain mandatory, independently pinned facts.
     """
     require(type(anchor) is dict and type(anchor.get("budget")) is dict, "Budget anchor missing")
+    if anchor.get("version") == "v6-budget-transfer-1":
+        return _validate_transfer_anchor(anchor, load_pin,
+            authorization_sha256=authorization_sha256,
+            instance_binding_sha256=instance_binding_sha256, now=now)
     budget = anchor["budget"]
     checkpoint = _budget(budget)
     if authorization_sha256 is not None:
@@ -253,3 +257,144 @@ def validate_anchor(anchor: dict, load_pin: PinLoader = read_pin, *,
     require(checkpoint["verified_stopped_seconds"] <= stopped_total
             and checkpoint["host_end_epoch"] <= host_end, "Recovery exceeds stopped/host bounds")
     return {key: amendment[key] for key in CAP_FIELDS}
+
+
+TRANSFER_HISTORY_PINS = frozenset({"prior_anchor_pin", "prior_authorization_pin",
+                                   "replacement_authorization_pin", "destruction_receipt_pin"})
+
+
+def _transfer_history(authority: dict, load_pin: PinLoader, *, now: float | None) -> tuple[dict, dict, dict]:
+    """A first replacement inherits every dollar and second of the approved anchor."""
+    transfer = authority.get("transfer")
+    require(type(transfer) is dict and TRANSFER_HISTORY_PINS <= set(transfer), "Replacement history pins missing")
+    prior = load_pin(transfer["prior_anchor_pin"])
+    prior_auth = load_pin(transfer["prior_authorization_pin"])
+    approval = load_pin(transfer["replacement_authorization_pin"])
+    destroyed = load_pin(transfer["destruction_receipt_pin"])
+    require(prior.get("version") == "v6-budget-recovery-1", "Only the first approved replacement is supported")
+    validate_anchor(prior, load_pin, authorization_sha256=transfer["prior_authorization_pin"]["sha256"], now=now)
+    require(prior_auth.get("version") == "v6-approval-1" and prior_auth.get("approved") is True,
+            "Prior execution approval missing")
+    prior_time = number(prior_auth.get("approved_at_epoch"), "prior execution approval time")
+    require(authority.get("budget") == prior["budget"], "Replacement changed cumulative budget or deadline")
+    require(approval.get("version") == "v6-instance-replacement-approval-1"
+            and approval.get("approved") is True and approval.get("preserve_entire_budget") is True
+            and type(approval.get("maximum_new_instances")) is int and approval["maximum_new_instances"] == 1
+            and approval.get("prior_anchor_sha256") == transfer["prior_anchor_pin"]["sha256"]
+            and approval.get("prior_authorization_sha256") == transfer["prior_authorization_pin"]["sha256"]
+            and approval.get("old_binding_sha256") == prior["instance_binding_sha256"]
+            and bool(approval.get("evidence_note")), "Explicit exact replacement approval missing")
+    approved = number(approval.get("approved_at_epoch"), "replacement approval time")
+    require(prior_time <= approved and (now is None or approved <= now), "Replacement approval time invalid")
+    require(destroyed.get("version") == "v6-old-instance-destroyed-1"
+            and destroyed.get("old_binding_sha256") == prior["instance_binding_sha256"]
+            and all(destroyed.get(key) is True for key in (
+                "api_success", "inventory_complete", "inventory_absent", "destroyed_verified"))
+            and destroyed.get("error_type") is None, "Old instance destruction is not confirmed")
+    observed = number(destroyed.get("observed_at_epoch"), "destruction observation time")
+    require(approved <= observed and (now is None or observed <= now), "Destruction predates approval or is future")
+    intent = load_pin(destroyed.get("destroy_intent_pin"))
+    backup = load_pin(destroyed.get("backup_rehash_pin"))
+    old_binding = load_pin(intent.get("old_binding_pin"))
+    require(digest(old_binding) == prior["instance_binding_sha256"]
+            and intent.get("old_binding_sha256") == prior["instance_binding_sha256"]
+            and intent.get("backup_rehash_sha256") == destroyed["backup_rehash_pin"]["sha256"],
+            "Destruction intent names another instance, approval or backup")
+    issued = number(intent.get("issued_at_epoch"), "destruction intent time")
+    require(approved <= issued <= observed, "Destruction intent time invalid")
+    if intent.get("authorization_sha256") != transfer["replacement_authorization_pin"]["sha256"]:
+        consent_pin = approval.get("pi_message_pin")
+        consent = load_pin(consent_pin)
+        require(intent.get("authorization_sha256") == consent_pin["sha256"]
+                and consent.get("version") == "v6-pi-replacement-message-1"
+                and consent.get("approved") is True and bool(consent.get("message"))
+                and bool(consent.get("question_scope")), "Destruction lacks the pinned explicit PI consent")
+        recorded = number(consent.get("recorded_at_epoch"), "PI replacement consent time")
+        require(recorded <= issued, "PI consent was recorded after destruction intent")
+    require(backup.get("version") == "v6-destroy-backup-rehash-1" and backup.get("verified") is True
+            and type(backup.get("files")) is int and backup["files"] > 0, "Pre-destruction backup absent")
+    return prior, approval, old_binding
+
+
+def validate_transfer_precreate(authority: dict, load_pin: PinLoader = read_pin, *,
+                                authorization_sha256: str | None = None,
+                                now: float | None = None) -> dict[str, float]:
+    """Admit a protected one-label creation intent before any new instance ID exists.
+
+    This is not worker admission. A final bound anchor additionally needs the
+    exact provider creation receipt, new binding and sufficient host duration.
+    """
+    require(type(authority) is dict and authority.get("version") == "v6-budget-transfer-precreate-1"
+            and type(authority.get("transfer")) is dict
+            and set(authority["transfer"]) == TRANSFER_HISTORY_PINS
+            and "instance_binding_sha256" not in authority, "Invalid replacement precreation authority")
+    if authorization_sha256 is not None:
+        require(authority.get("authorization_sha256") == authorization_sha256, "Precreation has another approval")
+    prior, _, old_binding = _transfer_history(authority, load_pin, now=now)
+    label = authority.get("creation_label")
+    require(type(label) is str and 1 <= len(label) <= 128
+            and all(c.isascii() and (c.isalnum() or c in "_-") for c in label)
+            and label != old_binding.get("creation_label"), "Replacement needs a new exact creation label")
+    return {key: prior["budget"][key] for key in CAP_FIELDS}
+
+
+def _validate_transfer_anchor(anchor: dict, load_pin: PinLoader, *,
+                              authorization_sha256: str | None,
+                              instance_binding_sha256: str | None,
+                              now: float | None) -> dict[str, float]:
+    transfer = anchor.get("transfer")
+    extra = {"precreate_authority_pin", "creation_intent_pin", "new_binding_pin", "creation_receipt_pin"}
+    require(type(transfer) is dict and set(transfer) == TRANSFER_HISTORY_PINS | extra,
+            "Final replacement authority incomplete")
+    if authorization_sha256 is not None:
+        require(anchor.get("authorization_sha256") == authorization_sha256, "Replacement has another approval")
+    if instance_binding_sha256 is not None:
+        require(anchor.get("instance_binding_sha256") == instance_binding_sha256, "Replacement has another binding")
+    precreate = load_pin(transfer["precreate_authority_pin"])
+    caps = validate_transfer_precreate(precreate, load_pin,
+        authorization_sha256=anchor.get("authorization_sha256"), now=now)
+    require(anchor.get("budget") == precreate["budget"]
+            and all(transfer[key] == precreate["transfer"][key] for key in TRANSFER_HISTORY_PINS),
+            "Final replacement reset or substituted creation authority")
+    binding = load_pin(transfer["new_binding_pin"])
+    intent = load_pin(transfer["creation_intent_pin"])
+    receipt = load_pin(transfer["creation_receipt_pin"])
+    require(set(binding) == {"version", "provider", "instance_id", "creation_label", "creation_intent_sha256"}
+            and binding.get("version") == "v6-instance-binding-1" and binding.get("provider") == "vast"
+            and type(binding.get("instance_id")) is int and binding["instance_id"] > 0
+            and digest(binding) == anchor.get("instance_binding_sha256")
+            and binding.get("creation_label") == precreate["creation_label"]
+            and binding.get("creation_intent_sha256") == transfer["creation_intent_pin"]["sha256"],
+            "New exact binding does not match the creation intent")
+    prior = load_pin(transfer["prior_anchor_pin"])
+    require(anchor["instance_binding_sha256"] != prior["instance_binding_sha256"], "Replacement reused old binding")
+    require(intent.get("version") == "v6-rental-intent-1"
+            and intent.get("creation_label") == precreate["creation_label"]
+            and intent.get("precreate_budget_sha256") == transfer["precreate_authority_pin"]["sha256"]
+            and intent.get("authorization_sha256") == anchor.get("authorization_sha256"),
+            "Creation intent changed financial or execution authority")
+    created = number(intent.get("created_at_epoch"), "creation intent time")
+    destroyed = load_pin(transfer["destruction_receipt_pin"])
+    old_intent = load_pin(destroyed["destroy_intent_pin"])
+    old_binding = load_pin(old_intent["old_binding_pin"])
+    require(binding["instance_id"] != old_binding.get("instance_id"), "Replacement reused the old instance ID")
+    require(created >= destroyed["observed_at_epoch"], "Replacement creation preceded verified destruction")
+    require(receipt.get("version") == "v6-replacement-created-1"
+            and receipt.get("instance_binding_sha256") == anchor["instance_binding_sha256"]
+            and receipt.get("creation_intent_sha256") == transfer["creation_intent_pin"]["sha256"]
+            and receipt.get("precreate_authority_sha256") == transfer["precreate_authority_pin"]["sha256"],
+            "Creation receipt names another target or authority")
+    observed = number(receipt.get("observed_at_epoch"), "creation observation time")
+    require(created <= observed and (now is None or observed <= now), "Creation receipt time invalid")
+    raw = load_pin(receipt.get("provider_response_pin"))
+    require(raw.get("success") is True and str(raw.get("new_contract")) == str(binding["instance_id"]),
+            "Provider creation success does not identify the new instance")
+    hourly = number(receipt.get("actual_hourly_usd"), "new actual hourly rate", positive=True)
+    disk = number(receipt.get("actual_disk_units"), "new actual disk", positive=True)
+    require(hourly <= anchor["budget"]["hourly_cap_usd"] and disk >= number(intent.get("disk"), "requested disk", positive=True),
+            "Replacement rate or storage exceeds the approved offer")
+    host_end = number(receipt.get("host_end_epoch"), "new host end")
+    deadline = budget_projection(anchor["budget"], now=observed, phase="full")["effective_deadline_epoch"]
+    require(host_end >= deadline + anchor["budget"]["shutdown_reserve_seconds"],
+            "Replacement host cannot contain the existing full deadline")
+    return caps
