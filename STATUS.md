@@ -160,6 +160,7 @@ Last updated: 2026-10-13T00:19-05:00, Codex (V6 deployed; actual stop verified b
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Record V6 login-recovery and stopped-instance recheck | STATUS.md; private V6 handoff | 2026-10-14T12:14-05:00 |
 
 
 
