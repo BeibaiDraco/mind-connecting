@@ -178,6 +178,7 @@ Last updated: 2026-10-14T16:31-05:00, Codex (bounded refresh repaired; protected
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Diagnose V6 Llama smoke pre-restore transition failure and preserve completed stages | STATUS.md; new operational review; private replacement controls | 2026-10-14T17:53-05:00 |
 
 
 
