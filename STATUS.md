@@ -162,6 +162,7 @@ Last updated: 2026-10-14T12:11-05:00, Codex (V6 still stopped; browser login and
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Record restored model access and proposed financial recovery | STATUS.md; decision_log.md; private V6 handoff | 2026-10-14T12:28-05:00 |
 
 
 
