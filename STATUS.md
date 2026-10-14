@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T16:31-05:00, Codex (bounded refresh repaired; protected exact smoke resume running).
+Last updated: 2026-10-14T17:58-05:00, Codex (Qwen smoke/no-op and Llama native complete; stopped with measured affordability blocker).
 
 ## Current phase
+
+**V6 engineering progress and measured-cost hold (2026-10-14):** Qwen completed both smoke episodes, periodic/final backups and exact byte-identical no-op resume; Llama native acceptance also completed. Fresh independent verification rehashed177 files (2,224,927,782 bytes) and revalidated the no-op receipt. The controller then failed before any Llama smoke restore intent; actual provider stop is freshly verified and the exact unused local guard retired. The discarded exception prevents a conclusive cause; current read-only restore prerequisites all pass. More importantly, measured Qwen episode times are1545.45/1580.58 seconds. Under the unchanged conservative cost rule, Qwen formal compute alone projects158.06 hours / USD252.89 at the hourly cap, exceeding totalUSD100 before other costs. This is a forecast component, not a bill or full two-model ETA. No further restore was attempted, no formal stage exists and no scientific effects were inspected. Recommend offline performance/equivalence preparation before a separately reviewed speed check; do not reset budgets, shrink N or weaken forecast/scientific gates. All original caps/deadlines/source and failures remain. Offline758 passed/six skipped/one deselected. See docs/reviews/v6_measured_cost_hold_20261014.md.
 
 **V6 protected exact smoke recovery (2026-10-14):** The PI authorized operational repair and continuation. A versioned private adapter batches six remote refresh calls into two and sends only uncached evidence, while preserving full remote validation, the40-second bound and55-second lease.152 focused checks passed; the complete offline suite again passed758/six skipped/one deselected. All78 partial scientific files and20 new control/accounting files were rehashed on SD. Fresh provider and cumulative financial checks passed. One fresh controller restored the same instance, remotely rehashed the original partial files and verified one prior attempt/no competing worker, then launched the exact original Qwen smoke with explicit resume. The first refresh took9.36 seconds and fresh dual-guard handoff passed. First concurrent periodic backup remains the live acceptance boundary. All research rules,25/100/hourly1.60 and original deadlines remain unchanged; an additional conservative1GB failed-transfer allowance is included in forecasts. No formal stage has begun. See docs/reviews/v6_refresh_recovery_20261014.md.
 
@@ -178,7 +180,6 @@ Last updated: 2026-10-14T16:31-05:00, Codex (bounded refresh repaired; protected
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Diagnose V6 Llama smoke pre-restore transition failure and preserve completed stages | STATUS.md; new operational review; private replacement controls | 2026-10-14T17:53-05:00 |
 
 
 
