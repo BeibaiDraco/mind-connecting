@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T14:04-05:00, Codex (PI-approved V6 financial repair; same instance stopped before recovery).
+Last updated: 2026-10-14T14:13-05:00, Codex (V6 protection repaired; original GPU unavailable and actually stopped).
 
 ## Current phase
+
+**V6 recovery refused by provider capacity (2026-10-14):** The PI-approved financial repair is committed and separately source-frozen. Full public offline suite730 passed/six skipped/one GPU deselected;186 private checks and independent review passed. A missing original-precreate hash in the first inert authority candidate was caught before any guard/provider call; that candidate was retained and corrected, then real-artifact validation and79-file SD rehash passed. The protected same-instance restore was actually attempted once. Vast returned `resources_unavailable` and queued the requested transition; the failure path cancelled it and verified actual exited/stopped status. No environment bootstrap, download, model or scientific collection began. Both local guards have exited after verified stop;15 failure/stop evidence files were rehashed on SD. Retained disk remains chargeable. Read-only replacement quotes include A10080GB with700 storage units at aboutUSD1.063/hour including disk, below the1.60 ceiling. PI was asked to authorize irreversible destruction of the empty stopped target and replacement; preserve all prior charges under initial25/total100. Do not retry the old queued restore, reset the financial clock, or reuse the old binding for a new instance. Private handoff now points to the recovery namespace and exact failure/stop receipts.
 
 **V6 financial recovery approved and reviewed (2026-10-14):** The PI approved USD25 initial acceptance inclusive of every existing V6 charge, unchanged total USD100/hourly1.60, and deadline extension only by evidenced stopped duration. A shared pure accounting module now drives admission and both private guards; the original start, approvals, failed commissioning and scientific freeze remain intact. Independent review verified a conservative stopped-interval reconstruction, charged storage and uncertainty, and closed a fresh-account-credit check before every restore. New execution artifacts are being sealed before protected same-instance restore. The separately approved scoped HF credential works for both pinned models. No model/bootstrap/scientific collection has started. Scientific materials, stages, gains, gates and N240/text60 are unchanged. Details: docs/protocol/V6_FINANCIAL_AMENDMENT_20261014.md and docs/reviews/v6_financial_recovery_20261014.md.
 
@@ -166,9 +168,6 @@ Last updated: 2026-10-14T14:04-05:00, Codex (PI-approved V6 financial repair; sa
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex root | Approved V6 financial recovery, evidence, deployment and commissioning | STATUS.md; decision_log.md; new financial amendment/freeze/review documents; private recovery authority/evidence | 2026-10-14T12:36-05:00 |
-| Codex finance engine | Shared reconciled budget and admission validation | src/mb/v6_finance.py; src/mb/v6_launch.py; tests/test_v6_finance.py; tests/test_v6_launch.py | 2026-10-14T12:36-05:00 |
-| Codex private recovery | New version of operational recovery controls | private recovery-20261014 helpers/tests only | 2026-10-14T12:36-05:00 |
 
 
 
