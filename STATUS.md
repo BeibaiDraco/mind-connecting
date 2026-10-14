@@ -174,6 +174,7 @@ Last updated: 2026-10-14T15:14-05:00, Codex (Qwen native passed; protected Qwen 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex root | Diagnose stopped V6 smoke supervision failure; preserve data and protection | STATUS.md; new review; private diagnostic and recovery controls | 2026-10-14T15:54-05:00 |
 
 
 
