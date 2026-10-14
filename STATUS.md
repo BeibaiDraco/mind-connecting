@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T15:14-05:00, Codex (Qwen native passed; protected Qwen smoke running).
+Last updated: 2026-10-14T15:58-05:00, Codex (Qwen smoke supervision failed; partial data verified; instance stopped).
 
 ## Current phase
+
+**V6 smoke supervision failure; stopped with verified evidence (2026-10-14):** The Qwen N2 smoke supervisor failed during its first periodic backup/concurrent refresh at20:25 UTC and terminated the worker. Final78-file/983,380,170-byte backup and actual stop at20:30 were verified; this heartbeat independently reproduced all hashes and freshly confirmed stopped status. Zero complete smoke episodes; no Llama, neutral or formal stage started. A fresh-guard same-instance log-only diagnostic restore retrieved retained logs, launched no model, then confirmed actual stop again. Nine diagnostic/control files were backed up and rehashed. The native log has no model traceback; the approximately40-second failed refresh span points to the adapter's aggregate timeout under transfer, but the discarded original exception prevents a conclusive cause claim. Both controller attempts are terminal. Next: local operational correction and reviewed exact-plan smoke recovery before any new paid model launch; do not reuse failed intents or change scientific/financial rules. Original cumulative25/100/hourly1.60 and deadlines remain unchanged. Prior Qwen native8/8 remains valid. Public offline758 passed/six skipped/one GPU deselected. See docs/reviews/v6_smoke_supervision_failure_20261014.md.
 
 **V6 Qwen native accepted; protected sequential continuation (2026-10-14):** Both pinned models are installed and temporary download credentials removed. Qwen passed all eight real native checks; its67-file/94,253,864-byte SD backup was independently rehashed and actual stop verified. A first sequential attachment failed before any subsequent restore because ExFAT AppleDouble metadata entered strict local enumeration. The retained failure led to a narrow read-only local adapter:22 tests and independent real native audit/smoke preparation passed, with all scientific/raw metadata bytes and frozen sources unchanged. After15 new and24 inherited control files were rehashed, one new reviewed controller attached the completed native stage and launched Qwen smoke with a matching worker receipt and running supervisor progress. It preserves cumulative initial25/total100/hourly1.60, the original financial origin/deadlines and every scientific gate. The separate transfer gate passed25 focused checks; full measured affordability has not yet passed. Formal collection has not begun. Both models' native/smoke/no-op, full cost/transfer projections and frozen neutral gates precede formal runs. Hourly sparse key-node checks are active. Public offline suite758 passed/six skipped/one GPU deselected. Details: docs/reviews/v6_replacement_commissioning_20261014.md.
 
@@ -174,7 +176,6 @@ Last updated: 2026-10-14T15:14-05:00, Codex (Qwen native passed; protected Qwen 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex root | Diagnose stopped V6 smoke supervision failure; preserve data and protection | STATUS.md; new review; private diagnostic and recovery controls | 2026-10-14T15:54-05:00 |
 
 
 
