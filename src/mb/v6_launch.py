@@ -16,6 +16,7 @@ from typing import Any
 
 from mb.model_profiles import PROFILES
 from mb.v6_contract import canonical_digest
+from mb.v6_finance import budget_projection, validate_anchor
 
 ROOT = Path(__file__).resolve().parents[2]
 STAGES = frozenset(("acceptance", "smoke", "baseline", "calibration", "validation", "formal"))
@@ -75,33 +76,6 @@ def check_source(manifest: dict[str, str]) -> str:
         require(not Path(name).is_absolute() and ".." not in Path(name).parts
                 and not path.is_symlink() and file_sha256(path) == sha, "Invalid source identity")
     return canonical_digest(manifest)
-
-
-def budget_projection(budget: dict, *, now: float, phase: str,
-                      projected_seconds: float = 0) -> dict[str, float]:
-    """One immutable session anchor, including setup/idle and bandwidth reserves."""
-    require(phase in ("initial", "full"), "Unknown spending phase")
-    required = {"session_id", "started_at_epoch", "total_cap_usd", "initial_cap_usd",
-                "hourly_cap_usd", "bandwidth_reserve_usd", "prior_spend_usd",
-                "accrued_bandwidth_usd", "shutdown_reserve_seconds", "hard_deadline_epoch"}
-    require(type(budget) is dict and set(budget) == required, "Incomplete cumulative budget")
-    require(type(budget["session_id"]) is str and budget["session_id"].startswith("v6-"),
-            "V6 requires a new explicit financial session")
-    for k in required - {"session_id"}:
-        number(budget[k], k, positive=k in {"hourly_cap_usd", "total_cap_usd", "initial_cap_usd"})
-    start, rate = budget["started_at_epoch"], budget["hourly_cap_usd"]
-    require(start <= now, "Financial start cannot be in the future")
-    require(budget["initial_cap_usd"] <= budget["total_cap_usd"], "Initial cap exceeds total")
-    seconds = number(projected_seconds, "projected_seconds")
-    cap = budget["initial_cap_usd"] if phase == "initial" else budget["total_cap_usd"]
-    spent = (budget["prior_spend_usd"] + max(budget["bandwidth_reserve_usd"],
-             budget["accrued_bandwidth_usd"]) + (now-start) * rate / 3600)
-    reserve = budget["shutdown_reserve_seconds"]
-    budget_deadline = now + (cap-spent) * 3600 / rate - reserve
-    deadline = min(budget_deadline, budget["hard_deadline_epoch"])
-    require(now + seconds < deadline, "Budget or deadline cannot contain planned work and shutdown")
-    return {"estimated_spend_usd": spent, "remaining_seconds": deadline-now,
-            "effective_deadline_epoch": deadline, "applicable_cap_usd": cap}
 
 
 def validate_execution(plan_path: str | Path, admission_path: str | Path, *,
@@ -195,7 +169,11 @@ def validate_execution(plan_path: str | Path, admission_path: str | Path, *,
     require(budget["total_cap_usd"] <= auth.get("total_cap_usd", 0)
             and budget["initial_cap_usd"] <= auth.get("initial_cap_usd", 0)
             and budget["hourly_cap_usd"] <= auth.get("hourly_cap_usd", 0), "Financial scope exceeds PI approval")
-    require(budget["started_at_epoch"] >= auth["approved_at_epoch"], "Budget start predates V6 approval")
+    validate_anchor(anchor, lambda pin: pinned(pin)[1],
+                    authorization_sha256=file_sha256(auth_file),
+                    instance_binding_sha256=binding, now=current)
+    if "reconciliation" not in budget:
+        require(budget["started_at_epoch"] >= auth["approved_at_epoch"], "Budget start predates V6 approval")
     expected_phase = "initial" if plan["stage"] in ("acceptance", "smoke") else "full"
     require(proof["phase"] == expected_phase, "Stage cannot bypass its initial or full financial phase")
     remaining = budget_projection(budget, now=current, phase=proof["phase"])

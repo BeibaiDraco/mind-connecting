@@ -182,3 +182,66 @@ def test_fixed_prepared_package_rejects_unapproved_changes(package, change):
         p.plan["runtime"]["gain"] = .25
     with pytest.raises(ValueError):
         validate(p)
+
+
+def test_unverified_recovery_cannot_bypass_original_approval_time(package):
+    p = package
+    p.auth["approved_at_epoch"] = 950
+    p.auth["initial_cap_usd"] = 25
+    p.proof["authorization_pin"] = p.save("new-execution-approval", p.auth)
+    budget = p.proof["budget"]
+    budget["initial_cap_usd"] = 25
+    budget["reconciliation"] = {"version": "v6-cost-checkpoint-1", "checkpoint_epoch": 990,
+        "compute_storage_upper_usd": 1, "other_obligations_usd": 0,
+        "verified_stopped_seconds": 10, "original_hard_deadline_epoch": 3000,
+        "host_end_epoch": 4000}
+    p.anchor.update(version="v6-budget-recovery-1", budget=copy.deepcopy(budget),
+                    authorization_sha256=p.proof["authorization_pin"]["sha256"])
+    p.proof["budget_anchor_pin"] = p.save("forged-recovery", p.anchor)
+    with pytest.raises(ValueError, match="Recovery authority chain incomplete"):
+        validate(p)
+    assert not (p.root / "output").exists()
+
+
+def test_verified_financial_recovery_admits_new_source_approval_without_backdating(package):
+    p = package
+    original_auth_pin = copy.deepcopy(p.proof["authorization_pin"])
+    original_anchor_pin = copy.deepcopy(p.proof["budget_anchor_pin"])
+    # The original synthetic budget has a smaller reserve; recovery cannot
+    # weaken its history, so this separate fixture starts with the real reserve.
+    p.anchor["budget"]["bandwidth_reserve_usd"] = 3
+    original_anchor_pin = p.save("original-anchor-reserved", p.anchor)
+    p.auth.update(approved_at_epoch=950, initial_cap_usd=25)
+    p.proof["authorization_pin"] = p.save("new-source-approval", p.auth)
+    amendment = {"version": "v6-financial-amendment-1", "approved": True,
+        "approved_at_epoch": 960, "original_anchor_sha256": original_anchor_pin["sha256"],
+        "original_authorization_sha256": original_auth_pin["sha256"],
+        "instance_binding_sha256": p.proof["instance_binding_sha256"],
+        "initial_cap_usd": 25, "total_cap_usd": 100, "hourly_cap_usd": 1.6,
+        "include_all_prior_charges": True, "extend_only_verified_stopped_time": True,
+        "evidence_note": "synthetic amended budget; no live authority"}
+    ledger = {"version": "v6-cost-ledger-1", "instance_binding_sha256": p.proof["instance_binding_sha256"],
+        "original_anchor_sha256": original_anchor_pin["sha256"], "started_at_epoch": 900,
+        "checkpoint_epoch": 990, "intervals": [
+            {"start_epoch": 900, "end_epoch": 990, "kind": "unknown", "stopped_bound_pin": None}],
+        "known_posted_total_usd": 1, "other_obligations_usd": 0, "accrued_bandwidth_usd": 0,
+        "host_end_epoch": 4000, "billing_evidence_pins": [p.save("billing", {"synthetic": True})]}
+    budget = {**copy.deepcopy(p.anchor["budget"]), "initial_cap_usd": 25,
+        "reconciliation": {"version": "v6-cost-checkpoint-1", "checkpoint_epoch": 990,
+            "compute_storage_upper_usd": 1, "other_obligations_usd": 0,
+            "verified_stopped_seconds": 0, "original_hard_deadline_epoch": 3000,
+            "host_end_epoch": 4000}}
+    anchor = {"version": "v6-budget-recovery-1", "budget": budget,
+        "authorization_sha256": p.proof["authorization_pin"]["sha256"],
+        "instance_binding_sha256": p.proof["instance_binding_sha256"],
+        "recovery": {"original_anchor_pin": original_anchor_pin, "original_authorization_pin": original_auth_pin,
+                     "amendment_pin": p.save("amendment", amendment), "ledger_pin": p.save("ledger", ledger)}}
+    p.proof["budget_anchor_pin"] = p.save("valid-recovery", anchor)
+    p.proof["budget"] = copy.deepcopy(budget)
+    for role in ("local", "remote"):
+        guard = launch.read(p.proof[role + "_guard_pin"]["path"])
+        guard["budget_anchor_sha256"] = p.proof["budget_anchor_pin"]["sha256"]
+        p.proof[role + "_guard_pin"] = p.save(role + "-recovery-guard", guard)
+    assert validate(p)["stage"] == "smoke"
+    assert budget["started_at_epoch"] == 900 < p.auth["approved_at_epoch"]
+    assert not (p.root / "output").exists()
