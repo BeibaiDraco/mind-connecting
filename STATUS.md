@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-13T00:19-05:00, Codex (V6 deployed; actual stop verified before model setup because the saved download credential is unavailable).
+Last updated: 2026-10-14T12:11-05:00, Codex (V6 still stopped; browser login and financial recovery pending).
 
 ## Current phase
+
+**V6 login recovery recheck (2026-10-14):** At the PI's request, rechecked the known local HF login and project credential locations; neither has a usable credential. The browser is also signed out, and the official login page was opened for the PI. The exact current provider target was freshly verified exited/stopped in all state fields. No paid restore, credential change, model setup or experiment occurred. The original initial-phase conservative wall-clock deadline has expired because it counts the stopped waiting interval at the running-rate ceiling; this is not evidence of actual budget expenditure. Before restoring, verify actual running/storage/transfer costs and prepare an independently reviewed financial-admission recovery preserving the original provenance and approved caps. Do not reset the anchor or relabel acceptance as a full-budget phase. Local offline suite:682 passed, six skipped, one GPU deselected. All scientific freezes and source files remain unchanged.
 
 **V6 actual deployment held before model setup (2026-10-13):** One authorized new A100 80 GB instance was created at approximately USD1.29963/hour including disk, with the original new V6 USD100/initial12/hourly1.60 budget recorded before provisioning. Exact container identity, about700 GiB free storage, frozen source/material deployment, real dual guards and creation-guard handoff passed;24 input/authority files were rehashed on the mounted SD volume. The PI explicitly approved reuse of the saved project HF credential, and both pinned models passed authenticated access checks before rental; that private credential file was subsequently absent before environment setup. Known project/cache/environment locations contain no replacement, and its disappearance is unexplained. **No environment bootstrap, checkpoint download, native/model test or scientific collection started.** Actual provider exited/stopped status is verified and the local guard has retired after stop; retained disk can still incur storage charges. PI local login restoration is pending. Preserve the exact host and original budget clock; recover only with fresh guards and a separate prelaunch operational namespace, then actual native/smoke/resume, backup and measured whole-workload checks. Private sequential and commissioning helpers are complete and independently reviewed;169 private mocked checks passed, but actual unattended execution remains uncommissioned. Full offline suite682 passed/six skipped/one GPU deselected. Seventy-six additional operational evidence files were archived and rehashed after actual stop. Details: `docs/reviews/v6_commissioning_20261012.md`. Scientific rules and the paper are unchanged.
 
@@ -160,7 +162,6 @@ Last updated: 2026-10-13T00:19-05:00, Codex (V6 deployed; actual stop verified b
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Record V6 login-recovery and stopped-instance recheck | STATUS.md; private V6 handoff | 2026-10-14T12:14-05:00 |
 
 
 
