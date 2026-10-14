@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T14:23-05:00, Codex (old V6 instance destroyed; same-budget replacement being prepared).
+Last updated: 2026-10-14T14:38-05:00, Codex (replacement created; deployment validation repair while actually stopped).
 
 ## Current phase
+
+**V6 replacement created; deployment precheck repair (2026-10-14):** One new A10080GB with700 storage units was created at approximatelyUSD1.47074/hour, within the approved1.60 ceiling. Its actual creation receipt and new binding validate against the entire unchanged cumulative initial25/total100 budget. Before any SSH deployment or model download, the deployment builder rejected20 historical neutral material files because their frozen JSON schema is a list rather than an object. The failure path verified actual provider stop. A separate, independently checked deployment helper now admits only those exact approved material filenames, hashes, counts and row schemas; the94-file real manifest and nine tests passed. No research setting, historical evidence or live guard source changed. Next: fresh same-instance guard handoff, protected deployment/bootstrap and native acceptance; include transfer charges in the measured continuation forecast. Latest public offline suite:758 passed, six skipped, one GPU deselected. No model or scientific run has started.
 
 **V6 replacement authorized; old instance destroyed (2026-10-14):** The PI explicitly approved destruction and replacement within cumulative initial25/total100/hourly1.60. Fresh rehash verified94 durable input/failure files. The independently reviewed one-attempt helper (17 mocked checks) confirmed exact old stopped identity, obtained provider destruction success, and verified absence from the complete inventory. Seven destruction/consent files were rehashed on SD. No old instance remains and no V6 bootstrap/model/scientific run has started. A first-replacement financial transfer now preserves the entire prior budget/checkpoint/deadline without further stopped-time credit; the new binding must have its own actual creation and host-lifetime evidence. Full public offline suite758 passed/six skipped/one GPU deselected; independent finance review passed. Fresh private controls and initial-to-chain dispatch remain under final review before one protected replacement rental.
 
