@@ -164,6 +164,9 @@ Last updated: 2026-10-14T12:27-05:00, Codex (both model downloads authorized; GP
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex root | Approved V6 financial recovery, evidence, deployment and commissioning | STATUS.md; decision_log.md; new financial amendment/freeze/review documents; private recovery authority/evidence | 2026-10-14T12:36-05:00 |
+| Codex finance engine | Shared reconciled budget and admission validation | src/mb/v6_finance.py; src/mb/v6_launch.py; tests/test_v6_finance.py; tests/test_v6_launch.py | 2026-10-14T12:36-05:00 |
+| Codex private recovery | New version of operational recovery controls | private recovery-20261014 helpers/tests only | 2026-10-14T12:36-05:00 |
 
 
 
