@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T15:58-05:00, Codex (Qwen smoke supervision failed; partial data verified; instance stopped).
+Last updated: 2026-10-14T16:31-05:00, Codex (bounded refresh repaired; protected exact smoke resume running).
 
 ## Current phase
+
+**V6 protected exact smoke recovery (2026-10-14):** The PI authorized operational repair and continuation. A versioned private adapter batches six remote refresh calls into two and sends only uncached evidence, while preserving full remote validation, the40-second bound and55-second lease.152 focused checks passed; the complete offline suite again passed758/six skipped/one deselected. All78 partial scientific files and20 new control/accounting files were rehashed on SD. Fresh provider and cumulative financial checks passed. One fresh controller restored the same instance, remotely rehashed the original partial files and verified one prior attempt/no competing worker, then launched the exact original Qwen smoke with explicit resume. The first refresh took9.36 seconds and fresh dual-guard handoff passed. First concurrent periodic backup remains the live acceptance boundary. All research rules,25/100/hourly1.60 and original deadlines remain unchanged; an additional conservative1GB failed-transfer allowance is included in forecasts. No formal stage has begun. See docs/reviews/v6_refresh_recovery_20261014.md.
 
 **V6 smoke supervision failure; stopped with verified evidence (2026-10-14):** The Qwen N2 smoke supervisor failed during its first periodic backup/concurrent refresh at20:25 UTC and terminated the worker. Final78-file/983,380,170-byte backup and actual stop at20:30 were verified; this heartbeat independently reproduced all hashes and freshly confirmed stopped status. Zero complete smoke episodes; no Llama, neutral or formal stage started. A fresh-guard same-instance log-only diagnostic restore retrieved retained logs, launched no model, then confirmed actual stop again. Nine diagnostic/control files were backed up and rehashed. The native log has no model traceback; the approximately40-second failed refresh span points to the adapter's aggregate timeout under transfer, but the discarded original exception prevents a conclusive cause claim. Both controller attempts are terminal. Next: local operational correction and reviewed exact-plan smoke recovery before any new paid model launch; do not reuse failed intents or change scientific/financial rules. Original cumulative25/100/hourly1.60 and deadlines remain unchanged. Prior Qwen native8/8 remains valid. Public offline758 passed/six skipped/one GPU deselected. See docs/reviews/v6_smoke_supervision_failure_20261014.md.
 
@@ -176,7 +178,6 @@ Last updated: 2026-10-14T15:58-05:00, Codex (Qwen smoke supervision failed; part
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Repair bounded V6 refresh and recover exact partial smoke; continue approved chain | STATUS.md; new operational review; private replacement controls | 2026-10-14T16:20-05:00 |
 
 
 
