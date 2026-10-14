@@ -168,6 +168,9 @@ Last updated: 2026-10-14T14:13-05:00, Codex (V6 protection repaired; original GP
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex root | Approved V6 replacement, destruction, evidence and commissioning | STATUS.md; decision_log.md; new replacement review/freeze; private replacement authority | 2026-10-14T14:14-05:00 |
+| Codex finance engine | Exact cumulative budget transfer | src/mb/v6_finance.py; src/mb/v6_launch.py; tests/test_v6_finance.py; tests/test_v6_launch.py | 2026-10-14T14:14-05:00 |
+| Codex private recovery | Fresh replacement controls and offline checks | New private replacement-20261014 helpers/tests only | 2026-10-14T14:14-05:00 |
 
 
 
