@@ -176,6 +176,7 @@ Last updated: 2026-10-14T15:58-05:00, Codex (Qwen smoke supervision failed; part
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Repair bounded V6 refresh and recover exact partial smoke; continue approved chain | STATUS.md; new operational review; private replacement controls | 2026-10-14T16:20-05:00 |
 
 
 
