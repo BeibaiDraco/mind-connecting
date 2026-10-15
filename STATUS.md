@@ -194,7 +194,7 @@ Last updated: 2026-10-14T23:51-05:00, Codex (prospective substantial V6 efficien
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| — | No active file claims | — | — |
+| Codex | Isolated V6 efficient attention/prefill prototype and offline acceptance checks; no GPU | new v6_efficient* source/tests, new numerical acceptance draft/runbook/review, STATUS.md, decision_log.md | 2026-10-15T15:40-05:00 |
 
 
 
