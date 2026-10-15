@@ -1,0 +1,13 @@
+{
+  "bad_foreign_mask_detected": true,
+  "cases": 864,
+  "gpu_executed": false,
+  "lane_isolation_checks": 576,
+  "max_absolute_difference": 1.8857138073258284e-13,
+  "model_executed": false,
+  "native_bf16_equivalence_established": false,
+  "own_future_mask_checks": 576,
+  "purpose": "FP64 algebra and mask/lane checks only",
+  "scientific_data": false,
+  "speedup_established": false
+}
