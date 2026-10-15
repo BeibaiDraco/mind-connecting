@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T17:58-05:00, Codex (Qwen smoke/no-op and Llama native complete; stopped with measured affordability blocker).
+Last updated: 2026-10-14T19:48-05:00, Codex (offline V6 performance candidate complete; stopped cost hold remains).
 
 ## Current phase
+
+**V6 offline performance preparation (2026-10-14):** At the PI's request, explained the sustained reciprocal device task and audited the actual scheduler workload: 80 paired work periods / 10,240 generated work tokens and 328 readouts per base episode, plus prompt ingestion, preparation and optional text. Added a separate opt-in native performance candidate with a two-window concatenation cache and bounded packed CPU archive transfers, retaining source/cached mutation checks and logical archive checksums. Added a non-output-reading profiler, structural workload command, 16 focused offline tests and prepared CUDA exact-equivalence/BF16 archive tests. Independent review closed a profiler restoration edge and found no unresolved offline-candidate blocker. Full offline suite: 774 passed, seven skipped, one GPU deselected. Actual native equivalence, speed and affordability remain unverified; serial linked-question forwards remain. No GPU/provider action, production wiring, frozen-file mutation, budget change, source adoption or scientific outcome inspection occurred. Next: review a fresh source/financially protected microbenchmark boundary before any further paid work; preserve all existing deadlines, results and failed attempts. Automation remains paused and the measured-cost hold is unchanged. See docs/runbooks/V6_PERFORMANCE_HANDOFF.md and docs/reviews/v6_performance_independent_20261014.md.
 
 **V6 engineering progress and measured-cost hold (2026-10-14):** Qwen completed both smoke episodes, periodic/final backups and exact byte-identical no-op resume; Llama native acceptance also completed. Fresh independent verification rehashed177 files (2,224,927,782 bytes) and revalidated the no-op receipt. The controller then failed before any Llama smoke restore intent; actual provider stop is freshly verified and the exact unused local guard retired. The discarded exception prevents a conclusive cause; current read-only restore prerequisites all pass. More importantly, measured Qwen episode times are1545.45/1580.58 seconds. Under the unchanged conservative cost rule, Qwen formal compute alone projects158.06 hours / USD252.89 at the hourly cap, exceeding totalUSD100 before other costs. This is a forecast component, not a bill or full two-model ETA. No further restore was attempted, no formal stage exists and no scientific effects were inspected. Recommend offline performance/equivalence preparation before a separately reviewed speed check; do not reset budgets, shrink N or weaken forecast/scientific gates. All original caps/deadlines/source and failures remain. Offline758 passed/six skipped/one deselected. See docs/reviews/v6_measured_cost_hold_20261014.md.
 
@@ -180,7 +182,6 @@ Last updated: 2026-10-14T17:58-05:00, Codex (Qwen smoke/no-op and Llama native c
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Offline V6 workload audit, opt-in performance adapter and equivalence preparation; no GPU | `src/mb/v6_performance.py`, `scripts/v6_performance_audit.py`, new performance tests/review, STATUS.md | 2026-10-14T19:40-05:00 |
 
 
 
