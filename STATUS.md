@@ -180,6 +180,7 @@ Last updated: 2026-10-14T17:58-05:00, Codex (Qwen smoke/no-op and Llama native c
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Offline V6 workload audit, opt-in performance adapter and equivalence preparation; no GPU | `src/mb/v6_performance.py`, `scripts/v6_performance_audit.py`, new performance tests/review, STATUS.md | 2026-10-14T19:40-05:00 |
 
 
 
