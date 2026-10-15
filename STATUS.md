@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T23:17-05:00, Codex (deeper optimization feasibility assessment; bounded benchmark remains isolated; no formal collection).
+Last updated: 2026-10-14T23:35-05:00, Codex (V6 exact benchmark complete; partial backup failure preserved; actual stop verified; heartbeat paused).
 
 ## Current phase
+
+**V6 benchmark closure audit (2026-10-15 04:30 UTC):** Both real checkpoints passed all four exact microchecks and all three paired engineering comparisons. Full-task time reduction is only2.61% Qwen and2.34% Llama. The automatic closure remains failed: the control-copy parser rejected rsync units `B` instead of `bytes`, and the output copy hit its180-second limit twice. Independent rehash verifies65/134 inventory files and all53 private control files; eight Qwen JSON documents were recovered byte-for-byte from the prior read-only snapshot against the original sealed hashes.61 files/2.529GB of raw evidence remain absent locally. Preserve the stopped instance disk; no destroy/restart/retry. Provider actual exited/stopped status was freshly checked, original controller/guard have exited, and the heartbeat is paused. Full-plan illustrative compute alone is251.52hours/USD369.92 at the measured rental rate; the unchanged conservative compute rule gives555.33hours/USD816.75, before overhead/prior charges. Failed copies do not certify end-to-end backup time. Original allowance, costs and deadlines remain intact; no formal or scientific neutral collection started. Continue offline optimization; a separately reviewed and authorized missing-file-only recovery is still needed. Details: docs/reviews/v6_benchmark_closure_20261015.md. Offline797 passed/seven skipped/one GPU deselected.
 
 **V6 deeper optimization feasibility assessment (2026-10-14):** A second source audit and independent review revised the prior prefill/batching priority: first isolate CPU/CUDA stalls from arithmetic, then test per-input foreign FP32 conversion reuse, combined finite flags and a same-step packed token/check/export transfer; consider a two-worker same-GPU engineering probe before a large runtime rewrite. These preserve single-history numerical shapes but are unimplemented and unaccepted. Early input/foreign validation, export creation bytes, exact tick barriers and all failure evidence must remain. Separate processes require a newly reviewed shared supervisor, not duplicate existing launches; no MPS/system change is implied. Tiny B2/T2-or4 exact checks can reject numerical batching early; multi-tick staging/graphs/hash reuse remain conditional. The source-level count of at least71,016 host-observation sites is not measured stalled time. No new model call, paid test, source adoption, scientific change or numerical tolerance is authorized. The original isolated benchmark is in its existing backup/closure path; final independent backup and actual-stop verification remain the supervising task. Follow-up: docs/runbooks/V6_OPTIMIZATION_FEASIBILITY_20261014.md; independent review: docs/reviews/v6_optimization_feasibility_review_20261014.md. Full offline suite: 797 passed, seven skipped, one GPU deselected.
 
@@ -190,7 +192,6 @@ Last updated: 2026-10-14T23:17-05:00, Codex (deeper optimization feasibility ass
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Existing bounded benchmark supervision and final closure; no new test or formal collection | private benchmark evidence/controls; STATUS.md; decision_log.md | 2026-10-14T20:08-05:00 |
 
 
 
