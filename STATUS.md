@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-14T19:48-05:00, Codex (offline V6 performance candidate complete; stopped cost hold remains).
+Last updated: 2026-10-14T20:05-05:00, Codex (bounded engineering benchmark prepared; awaiting initial-allowance amendment).
 
 ## Current phase
+
+**V6 bounded engineering benchmark prepared (2026-10-14):** The PI explicitly requested a small speed/equivalence check before estimating the full workload and forbade formal collection. Prepared an inert, separately sealed32-source-file package with disjoint engineering materials: both pinned models, all four gains in a short exact microcomparison, and paired full-with-TEXT/baseline/calibration workloads. It compares tokens, probabilities, generated exports, sealed/post-commit states, records and all16 full-task archives, preserves failures, and rejects incomplete/synthetic/unbound forecast inputs. Independent review closed failure-retention, final-expiry, native/source binding and JSON-round-trip issues;39 focused checks and the full797-test offline suite passed (seven skipped, one GPU deselected). Actual provider stopped state and matching identity were freshly verified at01:05 UTC; no GPU was started. The original cumulative initialUSD25 deadline is01:06:11 UTC and cannot cover this comparison. A concrete proposed exception is at mostUSD8 incremental inside totalUSD100, with at most four hours through actual stop and hourlyUSD1.60 unchanged; this exception is **not approved**. Private paid dispatch/fresh guard binding remains unarmed pending that consent. Handoff now enforces engineering-only/no formal continuation, and automation remains paused. Native equality, measured speed, and full-package cost are not yet known. See docs/runbooks/V6_BENCHMARK_HANDOFF.md and docs/reviews/v6_benchmark_review_20261014.md.
 
 **V6 offline performance preparation (2026-10-14):** At the PI's request, explained the sustained reciprocal device task and audited the actual scheduler workload: 80 paired work periods / 10,240 generated work tokens and 328 readouts per base episode, plus prompt ingestion, preparation and optional text. Added a separate opt-in native performance candidate with a two-window concatenation cache and bounded packed CPU archive transfers, retaining source/cached mutation checks and logical archive checksums. Added a non-output-reading profiler, structural workload command, 16 focused offline tests and prepared CUDA exact-equivalence/BF16 archive tests. Independent review closed a profiler restoration edge and found no unresolved offline-candidate blocker. Full offline suite: 774 passed, seven skipped, one GPU deselected. Actual native equivalence, speed and affordability remain unverified; serial linked-question forwards remain. No GPU/provider action, production wiring, frozen-file mutation, budget change, source adoption or scientific outcome inspection occurred. Next: review a fresh source/financially protected microbenchmark boundary before any further paid work; preserve all existing deadlines, results and failed attempts. Automation remains paused and the measured-cost hold is unchanged. See docs/runbooks/V6_PERFORMANCE_HANDOFF.md and docs/reviews/v6_performance_independent_20261014.md.
 
@@ -182,7 +184,6 @@ Last updated: 2026-10-14T19:48-05:00, Codex (offline V6 performance candidate co
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Bounded V6 comparison preparation and protected engineering benchmark only; no formal collection | new v6_benchmark module/script/tests, benchmark runbook/review, private performance-control namespace, STATUS.md | 2026-10-14T19:51-05:00 |
 
 
 
