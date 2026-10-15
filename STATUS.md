@@ -186,7 +186,7 @@ Last updated: 2026-10-14T20:31-05:00, Codex (approved bounded engineering benchm
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Approved bounded V6 benchmark dispatch, dual guards, consistency/timing, backup and actual stop | private benchmark controls/tests; new review; STATUS.md; decision_log.md | 2026-10-14T20:08-05:00 |
+| Codex | Approved bounded V6 benchmark supervision and offline bottleneck/optimization plan; no formal collection | private benchmark controls/tests and timing evidence; docs/runbooks/V6_BOTTLENECK_PLAN_20261014.md; new review; STATUS.md; decision_log.md | 2026-10-14T20:08-05:00 |
 
 
 
