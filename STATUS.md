@@ -182,6 +182,7 @@ Last updated: 2026-10-14T19:48-05:00, Codex (offline V6 performance candidate co
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Bounded V6 comparison preparation and protected engineering benchmark only; no formal collection | new v6_benchmark module/script/tests, benchmark runbook/review, private performance-control namespace, STATUS.md | 2026-10-14T19:51-05:00 |
 
 
 
