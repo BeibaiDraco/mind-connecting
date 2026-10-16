@@ -222,7 +222,6 @@ Last updated: 2026-10-16T14:33-05:00, Codex (SDPA retest failed at flex compilat
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Close failed SDPA hardware retest; verify evidence and actual stop | STATUS.md, new review, private closure audit, handoff | 2026-10-16T14:32-05:00 |
 
 
 
