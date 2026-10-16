@@ -224,7 +224,6 @@ Last updated: 2026-10-16, Codex (local flex structural compilation repair review
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Repair flex structural specialization locally; bound and expose compile cost, no GPU | src/mb/v6_flex_compile.py, v6_efficient.py, v6_batch_native.py, engineering packages/tests, new runbook/review, STATUS.md | 2026-10-16 local session |
 
 
 
