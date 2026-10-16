@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-16T11:14-05:00, Codex (deployment command timed out; actual stop confirmed; lossless transport repair prepared).
+Last updated: 2026-10-16T11:24-05:00, Codex (first CUDA gate failed; complete backup and actual stop verified; automation paused).
 
 ## Current phase
+
+**New-card CUDA gate failed; trial closed (2026-10-16):** The A100 reached actual CUDA testing. Its first `efficient_sdpa` operator test failed because a BF16 query received an FP32 additive mask unsupported by the pinned memory-efficient backend. Pytest stopped at one failed test; the approved 23-test gate did not pass. The compiled-flex checks and both real-model micro/full comparisons remain unrun, so there is no measured model speedup or full-workload forecast. All 35 final evidence files and 55 SD control files were independently rehashed; provider actual stop and exact local-guard retirement are confirmed. The completion check is paused. The instance disk/model cache is retained and storage charges continue; no further paid/model action or scientific collection occurred. Historical attempts, original USD8/USD100 accounting, all source freezes and old 61-file gap remain. See `docs/reviews/v6_new_card_cuda_failure_20261016.md`. Final private root is `/private/tmp/mb-v6-execution-20261012/optimization-benchmark-20261016/compressed-deployment4/`. Next: repair the concrete operator compatibility issue locally and prepare a new explicitly bound engineering admission package before any future hardware attempt; do not bypass the failed test.
 
 **Deployment timeout and lossless transport repair (2026-10-16):** The packaging repair hit the existing 300-second deployment-command timeout before remote guard or job launch. Actual provider stop, local guard retirement and all 45 SD control-file hashes are verified; no model attempt occurred. The exact point within transfer/extraction is unproven. A new inert transport-only copy compresses the unchanged canonical bundle to 4,689,128 bytes from 22,005,760 expanded bytes, verifies every payload byte/member, bounds both wire and expanded sizes, and retains the 300-second command limit. It also preserves deployment-phase diagnostics. The same offline model cache, original creation/start/end limits, cumulative transfer allowance and all scientific gates remain. No GPU speedup is claimed. Prior failed roots remain preserved; the instance is stopped while the new transport copy is reviewed.
 
@@ -214,7 +216,6 @@ Last updated: 2026-10-16T11:14-05:00, Codex (deployment command timed out; actua
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Repair pre-model cache packaging and continue the existing bounded engineering trial | STATUS.md; new review record; private packaging-recovery3 controls | 2026-10-16T10:56-05:00 |
 
 
 
