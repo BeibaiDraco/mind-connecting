@@ -42,6 +42,26 @@ def test_engineering_precision_note_and_policy_are_bound():
     with pytest.raises(ValueError,match="stale"):trial.validate(p)
 
 
+def test_compile_policy_and_new_check_are_source_bound(tmp_path):
+    p=trial.prepare_compiler_check(tmp_path/"compiler")
+    trial.validate_compiler_check(p)
+    assert p["stages"][0]["expected_tests"]==10 and p["stages"][1]["expected_tests"]==55
+    assert "src/mb/v6_flex_compile.py" in p["source_sha256"]
+    assert "tests/test_v6_flex_compile_gpu.py" in p["source_sha256"]
+    assert "docs/runbooks/V6_FLEX_COMPILE_REPAIR_20261016.md" in p["source_sha256"]
+    for key in ("paid_launch_authorized","formal_authorized","real_checkpoint_loading",
+                "automatic_retry","whole_workload_forecast_allowed"):
+        assert p[key] is False
+    assert p["proposed_lifecycle_seconds"]==1800 and p["proposed_incremental_cap_usd"]==2.
+    p["flex_compile_policy"]["max_graphs_per_owner"]=32
+    with pytest.raises(ValueError,match="stale"):trial.validate_compiler_check(p)
+
+
+def test_main_package_cannot_silently_replace_compile_policy():
+    p=trial.proposal();p["flex_compile_policy"]["key_length"]="static"
+    with pytest.raises(ValueError,match="stale"):trial.validate(p)
+
+
 def test_intermediate_disagreement_blocks_even_when_final_token_matches():
     hidden=np.ones(2)
     a=[(hidden,np.array([1.,0.])),(hidden,np.array([0.,1.]))]

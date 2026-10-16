@@ -14,8 +14,9 @@ import numpy as np
 from mb.v6_contract import Export, Probe, canonical_digest
 from mb.v6_native import NativeBackend, NativeState, NativeKVPayload, _tensor_hash, _tensor_stamp
 from mb.v6_state_guard import DeviceStateGuard
+from mb.v6_flex_compile import FlexCompilation, compile_policy, mark_structure
 
-VERSION = "v6-fixed-cohort-engineering-1"
+VERSION = "v6-fixed-cohort-engineering-2"
 NAME = "mb_v6_fixed_cohort_engineering"
 CONTEXT = contextvars.ContextVar("v6_fixed_cohort", default=None)
 
@@ -149,6 +150,22 @@ def _attention(module, query, key, value, attention_mask, dropout=0., scaling=No
     return output.transpose(1,2).contiguous(), None
 
 
+def packed_flex() -> FlexCompilation:
+    """One compiler owner for the same packed attention used by the backend."""
+    import torch
+    from torch.nn.attention.flex_attention import flex_attention
+    def fused(q,k,v,allowed,bias):
+        mark_structure(q,k,v)
+        torch._dynamo.mark_static(allowed,0)
+        torch._dynamo.mark_static(allowed,1)
+        def score_mod(score,b,h,qi,ki):
+            good = (qi < allowed.shape[1]) & (ki < allowed.shape[2])
+            visible = allowed[b,qi.clamp(max=allowed.shape[1]-1),ki.clamp(max=allowed.shape[2]-1)]
+            return torch.where(good & visible, score+bias[ki.clamp(max=bias.shape[0]-1)], -torch.inf)
+        return flex_attention(q,k,v,score_mod=score_mod,enable_gqa=True)
+    return FlexCompilation(fused)
+
+
 class PackedBackend(NativeBackend):
     status = "fixed_cohort_engineering_not_admitted"
 
@@ -160,7 +177,6 @@ class PackedBackend(NativeBackend):
             raise ValueError("Explicit bounded fixed prefix capacity required")
         super().__init__(model, tokenizer, hardware_acceptance_authorized=hardware_acceptance_authorized)
         import torch
-        from torch.nn.attention.flex_attention import flex_attention
         from transformers import AttentionInterface
         from transformers.masking_utils import AttentionMaskInterface, sdpa_mask
         if torch.__version__.split('+')[0] != '2.6.0' or torch.backends.cuda.matmul.allow_tf32:
@@ -169,16 +185,12 @@ class PackedBackend(NativeBackend):
         self.prefix_capacity=prefix_capacity
         self.model_identity = canonical_digest({"native":self.model_identity,"version":VERSION,
             "chunk":chunk,"prefix_capacity":prefix_capacity,"foreign_capacity":16,
-            "kernel":"compiled_flex","science":False})
-        def fused(q,k,v,allowed,bias):
-            def score_mod(score,b,h,qi,ki):
-                good = (qi < allowed.shape[1]) & (ki < allowed.shape[2])
-                visible = allowed[b,qi.clamp(max=allowed.shape[1]-1),ki.clamp(max=allowed.shape[2]-1)]
-                return torch.where(good & visible, score+bias[ki.clamp(max=bias.shape[0]-1)], -torch.inf)
-            return flex_attention(q,k,v,score_mod=score_mod,enable_gqa=True)
-        self._fused = torch.compile(fused, fullgraph=True, dynamic=True)
+            "kernel":"compiled_flex","compile_policy":compile_policy(),"science":False})
+        self._fused = packed_flex()
         AttentionInterface.register(NAME,_attention)
         AttentionMaskInterface.register(NAME,sdpa_mask)
+
+    def compilation_report(self): return self._fused.report()
 
     @classmethod
     def from_local_cache(cls, **kwargs):

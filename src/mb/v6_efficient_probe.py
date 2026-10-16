@@ -24,6 +24,7 @@ import numpy as np
 
 from mb.v6_efficient import (KERNELS, VERSION, JointKernel, Layout,
                              bias_policy, diagnostic_error, scalar_oracle)
+from mb.v6_flex_compile import compile_policy
 
 ENGINEERING_LIMIT = 2 ** -7
 
@@ -40,10 +41,12 @@ def layouts() -> tuple[Layout, ...]:
 def source_hashes() -> dict[str, str]:
     root = Path(__file__).resolve().parents[2]
     names = ("src/mb/v6_efficient.py", "src/mb/v6_efficient_native.py",
+             "src/mb/v6_flex_compile.py",
              "src/mb/v6_efficient_probe.py", "src/mb/v6_native.py",
              "src/mb/v6_contract.py", "src/mb/model_profiles.py",
              "docs/protocol/V6_NUMERICAL_ACCEPTANCE_DRAFT.md",
-             "docs/runbooks/V6_SDPA_DTYPE_REPAIR_20261016.md")
+             "docs/runbooks/V6_SDPA_DTYPE_REPAIR_20261016.md",
+             "docs/runbooks/V6_FLEX_COMPILE_REPAIR_20261016.md")
     return {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in names}
 
 
@@ -60,6 +63,7 @@ def prepare(directory: Path, kernel: str) -> dict:
         raise ValueError("Name exactly one fused candidate")
     package = {"version": VERSION, "kernel": kernel, "source_sha256": source_hashes(),
         "operator_bias_policy": bias_policy(),
+        "flex_compile_policy": compile_policy(),
         "operator_cases": [asdict(case) for case in layouts()], "seed": 940215,
         "timing_repeats": 5, "engineering_max_abs_over_value_scale": ENGINEERING_LIMIT,
         "scientific_admission": False, "paid_launch_authorized": False,
@@ -75,6 +79,7 @@ def prepare(directory: Path, kernel: str) -> dict:
 def validate_package(package: dict) -> None:
     if (package.get("version") != VERSION or package.get("kernel") not in KERNELS
             or package.get("operator_bias_policy") != bias_policy()
+            or package.get("flex_compile_policy") != compile_policy()
             or package.get("source_sha256") != source_hashes()
             or package.get("operator_cases") != [asdict(case) for case in layouts()]
             or package.get("seed") != 940215 or package.get("timing_repeats") != 5
@@ -194,6 +199,7 @@ def inspect_case(layout: Layout, tensors: tuple[Any, ...], kernel: JointKernel,
     save_arrays(evidence / "candidate.npz", {"output": observed})
     report = error_screen(expected, observed, (cpu[2], cpu[4]))
     report.update({"layout": asdict(layout), "first_call_compile_warmup_seconds": first_seconds,
+                   "compilation": kernel.compilation_report(),
                    "strict_checks": {}, "scientific_admission": False})
     emit({"phase": "candidate_numeric", "report": report})
     check()
@@ -268,6 +274,7 @@ def run_operator_probe(package: dict, directory: Path, *, check: Callable[[], No
     check()
     directory.mkdir(parents=True, exist_ok=False)
     write_new(directory / "package.json", package)
+    kernel = None
     try:
         import torch
         write_new(directory / "environment.json", runtime_environment(package["kernel"]))
@@ -295,6 +302,7 @@ def run_operator_probe(package: dict, directory: Path, *, check: Callable[[], No
                 raise ValueError("Predetermined operator screen failed; no tolerance change/retry")
         check()
         summary = {"version": VERSION, "operator_cases_complete": len(layouts()),
+            "compilation": kernel.compilation_report(),
             "status": "operator_screen_complete_model_integration_unverified",
             "scientific_admission": False, "whole_experiment_forecast_allowed": False,
             "automatic_continuation": False}
@@ -302,6 +310,7 @@ def run_operator_probe(package: dict, directory: Path, *, check: Callable[[], No
         return summary
     except BaseException as exc:
         write_new(directory / "failure.json", {"error_type": type(exc).__name__,
+            "compilation": kernel.compilation_report() if kernel is not None else None,
             "error": str(exc), "scientific_admission": False, "automatic_continuation": False})
         (directory / "failure_traceback.txt").write_text(traceback.format_exc())
         raise

@@ -12,6 +12,7 @@ from typing import Any
 
 from mb.v6_contract import Export, canonical_digest
 from mb.v6_efficient import JointKernel, Layout, VERSION
+from mb.v6_flex_compile import compile_policy
 from mb.v6_native import NativeBackend, NativeState
 
 ATTENTION_NAME = "mb_v6_efficiency_engineering_only"
@@ -103,7 +104,8 @@ class EfficientPrototype(NativeBackend):
         from transformers import AttentionInterface
         from transformers.masking_utils import AttentionMaskInterface, sdpa_mask
         self.model_identity = canonical_digest({"native": self.model_identity,
-            "prototype": VERSION, "kernel": kernel, "chunk": chunk, "scientific_admission": False})
+            "prototype": VERSION, "kernel": kernel, "chunk": chunk,
+            "compile_policy": compile_policy(), "scientific_admission": False})
         AttentionInterface.register(ATTENTION_NAME, _attention)
         AttentionMaskInterface.register(ATTENTION_NAME, sdpa_mask)
 

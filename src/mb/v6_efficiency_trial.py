@@ -24,6 +24,7 @@ from mb.v6_contract import RuntimeSpec,canonical_digest
 from mb.v6_run import NativeArchiveWriter,source_manifest
 from mb.v6_benchmark import PROFILES
 from mb.v6_efficient import bias_policy
+from mb.v6_flex_compile import compile_policy
 
 VERSION="v6-bounded-optimization-trial-1"
 CASES=("short_repeat","full_cohort","baseline_fixture","calibration_fixture")
@@ -40,11 +41,13 @@ def proposal() -> dict:
     supporting=[*sorted((root/"tests").glob("test_v6_*py")),
         root/"docs/runbooks/V6_LOCAL_OPTIMIZATION_TRIAL_20261015.md",
         root/"docs/runbooks/V6_SDPA_DTYPE_REPAIR_20261016.md",
+        root/"docs/runbooks/V6_FLEX_COMPILE_REPAIR_20261016.md",
         root/"docs/reviews/v6_local_optimization_review_20261015.md"]
     for p in supporting:
         sources[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()
     value={"version":VERSION,"source_sha256":sources,"profiles":list(PROFILES),
         "operator_bias_policy":bias_policy(),
+        "flex_compile_policy":compile_policy(),
         "backend":{"chunk":16,"prefix_capacity":4096,"foreign_capacity":16,"cohort_width":2,"kernel":"compiled_flex"},
         "order":["operator_and_tiny_architecture_tests","teacher_forced_all_gains",*CASES],
         "gains":[0.,.25,.5,1.],"engineering_seed":208741,
@@ -86,6 +89,41 @@ def prepare(directory:Path) -> dict:
     package=proposal(); directory=Path(directory);directory.mkdir(parents=True,exist_ok=False)
     _write(directory/"package.json",package)
     return package
+
+
+def compiler_check_proposal() -> dict:
+    """A smaller inert diagnostic: no real weights, full timing or continuation."""
+    source = proposal()
+    regression = "tests/test_v6_flex_compile_gpu.py"
+    return {"version":"v6-flex-compiler-check-1", "source_sha256":source["source_sha256"],
+        "operator_bias_policy":bias_policy(), "flex_compile_policy":compile_policy(),
+        "stages":[
+            {"name":"targeted", "expected_tests":10, "pytest_nodes":[regression,
+                "tests/test_v6_efficient_gpu.py::test_linked_prefill_and_cohort_repeat_isolation_and_owned_outputs"]},
+            {"name":"complete", "expected_tests":55, "pytest_nodes":[
+                "tests/test_v6_efficient_gpu.py", "tests/test_v6_batch_gpu.py", regression]}],
+        "require_zero_failures_errors_skips":True, "stop_on_first_failure":True,
+        "runtime_contract":{"torch":"2.6.0", "transformers":"4.57.1", "matmul_tf32":False},
+        "proposed_incremental_cap_usd":2., "proposed_lifecycle_seconds":1800,
+        "proposed_worker_seconds":900, "shutdown_and_backup_reserve_seconds":900,
+        "hourly_cap_usd":1.6, "noncompute_reserve_usd":1.2, "cumulative_cap_usd":100.,
+        "retain_original_financial_anchor_and_all_prior_charges":True,
+        "models":"tiny_random_architecture_fixtures_and_random_operator_tensors_only",
+        "real_checkpoint_loading":False, "paid_launch_authorized":False,
+        "formal_authorized":False, "automatic_scientific_continuation":False,
+        "whole_workload_forecast_allowed":False, "automatic_retry":False,
+        "private_controller_and_fresh_financial_admission_bound":False}
+
+
+def prepare_compiler_check(directory:Path) -> dict:
+    package=compiler_check_proposal(); directory=Path(directory);directory.mkdir(parents=True,exist_ok=False)
+    _write(directory/"package.json",package)
+    return package
+
+
+def validate_compiler_check(package:dict) -> None:
+    if canonical_digest(package)!=canonical_digest(compiler_check_proposal()):
+        raise ValueError("Changed or stale compiler diagnostic package")
 
 
 def validate(package:dict) -> None:
@@ -222,12 +260,14 @@ def run_case(directory:Path,package:dict,backend,profile:str,case:str,*,
             "case_seconds_including_restore_checks":elapsed,"records":sum(map(len,records)),
             "exact_same_backend_replay":not neutral_case,"native_archive_restore_verified":not neutral_case,
             "record_noop_resume_verified":True,"scientific_admission":False,
+            "compilation":backend.compilation_report(),
             "bytes_before_result":sum(p.stat().st_size for p in directory.rglob('*') if p.is_file())}
         event({"phase":"measurement_ready"})
         return _publish_result(directory,result,check)
     except BaseException as exc:
         event({"phase":"failed","error_type":type(exc).__name__,"message":str(exc)})
         _write(directory/"failure.json",{"error_type":type(exc).__name__,"message":str(exc),
+            "compilation":backend.compilation_report(),
             "traceback":traceback.format_exc(),"scientific_admission":False,"retry_authorized":False})
         raise
 
@@ -301,6 +341,7 @@ def teacher_forced_micro(directory:Path,package:dict,native,candidate,*,
                     np.savez(f,**phase_arrays);f.flush();os.fsync(f.fileno())
                 _write(directory/f"gain-{label}-{name}-phase.json",{
                     "phase":name,"seconds_including_trace_capture":timing[name],
+                    "candidate_compilation":candidate.compilation_report(),
                     "positions_by_lane":[len(t) for t in position_traces[name]],"scientific_admission":False})
                 check()
             differences=[]
@@ -324,6 +365,7 @@ def teacher_forced_micro(directory:Path,package:dict,native,candidate,*,
             report={"gain":gain,"same_greedy_tokens_at_every_real_position":same_tokens,
                 "real_positions_compared":sum(map(len,inputs)),"tensor_differences":differences,
                 "timing_seconds_including_first_compile_if_any":timing,"common_donor_bytes":True,
+                "compilation":candidate.compilation_report(),
                 "scientific_equivalence":False}
             _write(directory/f"gain-{label}.json",report);reports.append(report);check()
             if not same_tokens:raise ValueError("Teacher-forced greedy disagreement: retain and review; do not proceed")
@@ -333,5 +375,6 @@ def teacher_forced_micro(directory:Path,package:dict,native,candidate,*,
         return _publish_result(directory,result,check)
     except BaseException as exc:
         _write(directory/"failure.json",{"error_type":type(exc).__name__,"message":str(exc),
+            "compilation":candidate.compilation_report(),
             "traceback":traceback.format_exc(),"retry_authorized":False})
         raise

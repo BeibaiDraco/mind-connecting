@@ -11,8 +11,9 @@ from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
+from mb.v6_flex_compile import FlexCompilation, mark_structure
 
-VERSION = "v6-efficient-prototype-2"
+VERSION = "v6-efficient-prototype-3"
 KERNELS = ("efficient_sdpa", "compiled_flex")
 
 
@@ -163,6 +164,7 @@ class JointKernel:
                 from torch.nn.attention.flex_attention import flex_attention
 
                 def fused(query, key, value, own_end, prefix, log_gain):
+                    mark_structure(query, key, value)
                     def modify(score, batch, head, query_index, key_index):
                         foreign = key_index >= own_end
                         visible = foreign | (key_index <= prefix + query_index)
@@ -170,7 +172,7 @@ class JointKernel:
                         return torch.where(visible, biased, -float("inf"))
                     return flex_attention(query, key, value, score_mod=modify, enable_gqa=True)
 
-                self._compiled = torch.compile(fused, fullgraph=True, dynamic=True)
+                self._compiled = FlexCompilation(fused)
             return self._compiled(q, k, v,
                 torch.tensor(layout.own, device=q.device),
                 torch.tensor(layout.prefix, device=q.device),
@@ -194,6 +196,9 @@ class JointKernel:
         with sdpa_kernel(SDPBackend.EFFICIENT_ATTENTION):
             return torch.nn.functional.scaled_dot_product_attention(q, k, v,
                 attn_mask=mask[None, None], dropout_p=0., is_causal=False)
+
+    def compilation_report(self) -> dict | None:
+        return self._compiled.report() if self._compiled is not None else None
 
 
 @dataclass(frozen=True)
