@@ -200,6 +200,7 @@ Last updated: 2026-10-15T20:46-05:00, Codex (local V6 optimization delivered in 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Double-check V6 confidence, evidence and remaining hardware risks | STATUS.md; docs/reviews/v6_doublecheck_20261016.md | 2026-10-16 |
 
 
 
