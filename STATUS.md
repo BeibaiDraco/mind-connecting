@@ -220,6 +220,7 @@ Last updated: 2026-10-16T13:31-05:00, Codex (reviewed same-instance engineering 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Close failed SDPA hardware retest; verify evidence and actual stop | STATUS.md, new review, private closure audit, handoff | 2026-10-16T14:32-05:00 |
 
 
 
