@@ -218,6 +218,7 @@ Last updated: 2026-10-16T11:56-05:00, Codex (local SDPA dtype repair and precisi
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Bind and execute PI-requested bounded SDPA retest with 47 CUDA gates; engineering only | private sdpa-retest-20261016 controls, new review, STATUS.md, decision_log.md | 2026-10-16T13:18-05:00 |
 
 
 
