@@ -202,7 +202,6 @@ Last updated: 2026-10-16T00:15-05:00, Codex (V6 confidence double-check; no GPU 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Double-check V6 confidence, evidence and remaining hardware risks | STATUS.md; docs/reviews/v6_doublecheck_20261016.md | 2026-10-16 |
 
 
 
