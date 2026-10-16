@@ -218,7 +218,6 @@ Last updated: 2026-10-16T11:56-05:00, Codex (local SDPA dtype repair and precisi
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Repair isolated SDPA mask dtype and bind explicit engineering precision policy; no paid action | src/mb/v6_efficient*.py, src/mb/v6_efficiency_trial.py, tests/test_v6_efficient*.py, tests/test_v6_efficiency_trial.py, new runbook/review, STATUS.md | 2026-10-16 |
 
 
 
