@@ -1,6 +1,6 @@
 # STATUS
 
-Last updated: 2026-10-15T20:42-05:00, Codex (local V6 optimization implementation, independent review and bounded next-trial proposal; no GPU or scientific adoption).
+Last updated: 2026-10-15T20:46-05:00, Codex (local V6 optimization delivered in e21ac90; claim released; no GPU or scientific adoption).
 
 ## Current phase
 
@@ -200,7 +200,6 @@ Last updated: 2026-10-15T20:42-05:00, Codex (local V6 optimization implementatio
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Implement local V6 optimization package and bounded engineering trial preparation | STATUS.md; new v6_batch*, v6_state_guard*, v6_archive_store*, v6_efficiency_trial* modules/scripts/tests; new runbook/review | 2026-10-15 |
 
 
 
