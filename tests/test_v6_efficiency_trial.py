@@ -33,6 +33,15 @@ def test_boolean_cannot_alias_frozen_numeric_gain():
     with pytest.raises(ValueError):trial.validate(p)
 
 
+def test_engineering_precision_note_and_policy_are_bound():
+    p=trial.proposal()
+    assert "docs/runbooks/V6_SDPA_DTYPE_REPAIR_20261016.md" in p["source_sha256"]
+    assert p["operator_bias_policy"]["efficient_sdpa"]=="query_dtype_before_aligned_slice"
+    assert p["operator_bias_policy"]["scope"]=="unadopted_engineering_candidate"
+    p["operator_bias_policy"]["efficient_sdpa"]="float32"
+    with pytest.raises(ValueError,match="stale"):trial.validate(p)
+
+
 def test_intermediate_disagreement_blocks_even_when_final_token_matches():
     hidden=np.ones(2)
     a=[(hidden,np.array([1.,0.])),(hidden,np.array([0.,1.]))]

@@ -12,8 +12,17 @@ from typing import Any
 
 import numpy as np
 
-VERSION = "v6-efficient-prototype-1"
+VERSION = "v6-efficient-prototype-2"
 KERNELS = ("efficient_sdpa", "compiled_flex")
+
+
+def bias_policy() -> dict[str, str]:
+    """Declare the new engineering candidate without replacing the v1 contract."""
+    return {"version": VERSION,
+            "efficient_sdpa": "query_dtype_before_aligned_slice",
+            "compiled_flex": "float32_score_bias",
+            "oracle": "float64_scores_with_unrounded_log_gain",
+            "scope": "unadopted_engineering_candidate"}
 
 
 @dataclass(frozen=True)
@@ -167,10 +176,12 @@ class JointKernel:
                 torch.tensor(layout.prefix, device=q.device),
                 torch.tensor(math.log(layout.gain) if active else 0., device=q.device, dtype=torch.float32))
         from torch.nn.attention import SDPBackend, sdpa_kernel
-        # Align mask row strides for memory-efficient CUDA kernels, without
-        # adding any padding keys to the actual attention computation.
+        # The pinned efficient CUDA kernel requires bias and query dtypes to
+        # match. Allocate in that dtype before slicing to retain aligned rows;
+        # casting a sliced mask can compact away the stride padding. BF16 gain
+        # rounding remains subject to the unchanged independent oracle screen.
         width = k.shape[2]
-        mask = torch.zeros((layout.queries, ((width + 7) // 8) * 8), device=q.device, dtype=torch.float32)
+        mask = torch.zeros((layout.queries, ((width + 7) // 8) * 8), device=q.device, dtype=q.dtype)
         mask = mask[:, :width]
         visible = torch.arange(layout.own, device=q.device)[None] <= (
             layout.prefix + torch.arange(layout.queries, device=q.device)[:, None])

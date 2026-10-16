@@ -33,6 +33,19 @@ def test_tampered_plan_refused(tmp_path, key, value):
         probe.validate_package(changed)
 
 
+def test_new_bias_policy_is_bound_and_cannot_claim_old_fp32_contract(tmp_path):
+    package = probe.prepare(tmp_path / "plan", "efficient_sdpa")
+    assert package["operator_bias_policy"]["efficient_sdpa"] == "query_dtype_before_aligned_slice"
+    assert package["operator_bias_policy"]["compiled_flex"] == "float32_score_bias"
+    assert package["operator_bias_policy"]["oracle"] == "float64_scores_with_unrounded_log_gain"
+    assert "docs/runbooks/V6_SDPA_DTYPE_REPAIR_20261016.md" in package["source_sha256"]
+    for invalid in (None, {}, {**package["operator_bias_policy"], "efficient_sdpa": "float32"}):
+        changed = copy.deepcopy(package)
+        changed["operator_bias_policy"] = invalid
+        with pytest.raises(ValueError):
+            probe.validate_package(changed)
+
+
 def test_default_execution_and_expired_lease_refuse_before_cuda_or_output(tmp_path):
     package = probe.prepare(tmp_path / "plan", "compiled_flex")
     with pytest.raises(PermissionError):

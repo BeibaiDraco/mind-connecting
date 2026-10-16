@@ -42,6 +42,47 @@ def test_fused_operator_independent_oracle_and_exact_repetition(kind):
     assert torch.isfinite(singleton).all()
 
 
+@pytest.mark.parametrize("dtype", (torch.bfloat16, torch.float32), ids=("bf16", "fp32"))
+@pytest.mark.parametrize("gain", (0., .25, .5, 1.))
+@pytest.mark.parametrize("foreign", (0, 1, 16))
+def test_efficient_sdpa_mask_dtype_stride_and_unrounded_oracle(dtype, gain, foreign, monkeypatch):
+    layout = Layout(2, 4, 2, 4, 7, foreign, 16, gain)
+    torch.manual_seed(940216)
+    values = tuple(torch.randn(shape, device="cuda", dtype=dtype) for shape in layout.shapes)
+    originals = tuple(x.clone() for x in values)
+    cpu = tuple(x.float().cpu().numpy().astype(np.float64) for x in values)
+    # The target keeps the original gain; never round the oracle to the mask.
+    expected = scalar_oracle(layout, cpu)
+    real = torch.nn.functional.scaled_dot_product_attention
+    seen = []
+
+    def checked(q, k, v, **kwargs):
+        mask = kwargs["attn_mask"]
+        assert mask.dtype == q.dtype == k.dtype == v.dtype == dtype
+        assert mask.device == q.device
+        assert mask.shape == (1, 1, layout.queries, k.shape[2])
+        assert mask.stride(-1) == 1 and mask.stride(-2) % 8 == 0
+        seen.append(True)
+        return real(q, k, v, **kwargs)
+
+    monkeypatch.setattr(torch.nn.functional, "scaled_dot_product_attention", checked)
+    kernel = JointKernel("efficient_sdpa")
+    with torch.no_grad():
+        actual = kernel(layout, values)
+        repeated = kernel(layout, values)
+        changed = tuple(x.clone() for x in values)
+        changed[1][:, :, layout.prefix + 1:] += 10
+        changed[2][:, :, layout.prefix + 1:] -= 10
+        future_changed = kernel(layout, changed)
+    assert len(seen) == 3
+    assert torch.isfinite(actual).all() and actual.dtype == dtype
+    assert torch.equal(actual, repeated)
+    assert torch.equal(actual[:, :, 0], future_changed[:, :, 0])
+    scale = max(np.abs(cpu[2]).max(), np.abs(cpu[4]).max() if foreign else 0.)
+    assert np.max(np.abs(actual.float().cpu().numpy() - expected)) <= ENGINEERING_LIMIT * scale
+    assert all(torch.equal(a, b) for a, b in zip(originals, values))
+
+
 @pytest.fixture(params=(QWEN, LLAMA31), ids=lambda p: p.model_type)
 def backend(request):
     from transformers import LlamaConfig, LlamaForCausalLM, Qwen3Config, Qwen3ForCausalLM

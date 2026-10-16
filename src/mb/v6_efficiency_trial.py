@@ -23,6 +23,7 @@ from mb.v6_batch_neutral import NeutralCohortRunner
 from mb.v6_contract import RuntimeSpec,canonical_digest
 from mb.v6_run import NativeArchiveWriter,source_manifest
 from mb.v6_benchmark import PROFILES
+from mb.v6_efficient import bias_policy
 
 VERSION="v6-bounded-optimization-trial-1"
 CASES=("short_repeat","full_cohort","baseline_fixture","calibration_fixture")
@@ -38,10 +39,12 @@ def proposal() -> dict:
     root=Path(__file__).resolve().parents[2]
     supporting=[*sorted((root/"tests").glob("test_v6_*py")),
         root/"docs/runbooks/V6_LOCAL_OPTIMIZATION_TRIAL_20261015.md",
+        root/"docs/runbooks/V6_SDPA_DTYPE_REPAIR_20261016.md",
         root/"docs/reviews/v6_local_optimization_review_20261015.md"]
     for p in supporting:
         sources[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()
     value={"version":VERSION,"source_sha256":sources,"profiles":list(PROFILES),
+        "operator_bias_policy":bias_policy(),
         "backend":{"chunk":16,"prefix_capacity":4096,"foreign_capacity":16,"cohort_width":2,"kernel":"compiled_flex"},
         "order":["operator_and_tiny_architecture_tests","teacher_forced_all_gains",*CASES],
         "gains":[0.,.25,.5,1.],"engineering_seed":208741,

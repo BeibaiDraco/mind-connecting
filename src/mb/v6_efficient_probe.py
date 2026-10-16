@@ -23,7 +23,7 @@ from typing import Any, Callable
 import numpy as np
 
 from mb.v6_efficient import (KERNELS, VERSION, JointKernel, Layout,
-                             diagnostic_error, scalar_oracle)
+                             bias_policy, diagnostic_error, scalar_oracle)
 
 ENGINEERING_LIMIT = 2 ** -7
 
@@ -42,7 +42,8 @@ def source_hashes() -> dict[str, str]:
     names = ("src/mb/v6_efficient.py", "src/mb/v6_efficient_native.py",
              "src/mb/v6_efficient_probe.py", "src/mb/v6_native.py",
              "src/mb/v6_contract.py", "src/mb/model_profiles.py",
-             "docs/protocol/V6_NUMERICAL_ACCEPTANCE_DRAFT.md")
+             "docs/protocol/V6_NUMERICAL_ACCEPTANCE_DRAFT.md",
+             "docs/runbooks/V6_SDPA_DTYPE_REPAIR_20261016.md")
     return {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in names}
 
 
@@ -58,6 +59,7 @@ def prepare(directory: Path, kernel: str) -> dict:
     if kernel not in KERNELS:
         raise ValueError("Name exactly one fused candidate")
     package = {"version": VERSION, "kernel": kernel, "source_sha256": source_hashes(),
+        "operator_bias_policy": bias_policy(),
         "operator_cases": [asdict(case) for case in layouts()], "seed": 940215,
         "timing_repeats": 5, "engineering_max_abs_over_value_scale": ENGINEERING_LIMIT,
         "scientific_admission": False, "paid_launch_authorized": False,
@@ -72,6 +74,7 @@ def prepare(directory: Path, kernel: str) -> dict:
 
 def validate_package(package: dict) -> None:
     if (package.get("version") != VERSION or package.get("kernel") not in KERNELS
+            or package.get("operator_bias_policy") != bias_policy()
             or package.get("source_sha256") != source_hashes()
             or package.get("operator_cases") != [asdict(case) for case in layouts()]
             or package.get("seed") != 940215 or package.get("timing_repeats") != 5
