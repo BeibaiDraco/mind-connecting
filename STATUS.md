@@ -248,7 +248,6 @@ Last updated: 2026-10-18, Codex (both saved Qwen engineering episodes reconstruc
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Reconstruct both saved Qwen engineering episodes; descriptive reciprocity analysis only | STATUS.md; decision_log.md; new docs/reviews/v6_two_episode_walkthrough_20261018.md; private derived analysis | 2026-10-18 |
 
 
 
