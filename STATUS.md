@@ -242,7 +242,6 @@ Last updated: 2026-10-18, Codex (Qwen-only engineering timing running; saved-tra
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Qwen-only complete engineering timing; separate CPU diagnosis of Llama discrepancy | STATUS.md; decision_log.md; new review records; private qwen-timing controls and numerical analysis | 2026-10-18 17:49 UTC |
 
 
 
