@@ -244,6 +244,7 @@ Last updated: 2026-10-18, Codex (Qwen timing complete and independently closed; 
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Audit V6 bottlenecks and propose a separate exploratory pilot; no GPU launch | STATUS.md; decision_log.md; new docs/reviews/v6_bottlenecks_and_exploration_20261018.md | 2026-10-18 |
 
 
 
