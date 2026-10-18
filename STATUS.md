@@ -238,7 +238,6 @@ Last updated: 2026-10-18, Codex (real-model benchmark failed the Llama numerical
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Execute one bounded real-model engineering benchmark after the passed CUDA gate | STATUS.md; decision_log.md; new review; private real-model-benchmark-20261018 controls | 2026-10-18 01:29 UTC |
 
 
 
