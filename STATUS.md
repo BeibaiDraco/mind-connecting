@@ -238,6 +238,7 @@ Last updated: 2026-10-18, Codex (real-model benchmark failed the Llama numerical
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Qwen-only complete engineering timing; separate CPU diagnosis of Llama discrepancy | STATUS.md; decision_log.md; new review records; private qwen-timing controls and numerical analysis | 2026-10-18 17:49 UTC |
 
 
 
