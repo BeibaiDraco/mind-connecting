@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-19, Codex (fixed two-pair native interaction pilot running; formal collection remains off).
+Last updated: 2026-10-19, Codex (two-pair interaction exploration complete and independently audited; no formal launch).
 
 ## Current phase
+
+**Small interaction exploration closed (2026-10-19):** All300 native readouts and333 archived files (645,468,160 bytes) are independently verified, including300 full-vocabulary argmax checks,24 bitwise unchanged-Replay readouts,12 restored native artifacts, and separate text-rule/actual-world reconstruction (100 action truths/50 pair-rounds/300 worlds). Computation plus restoration took24.23 minutes. Case1 has a correct forward response lost under forward cut, reverse cut or matched return replay, but both return actions are wrong; case2 does not reproduce a correct LIVE chain. Natural LIVE actions are3/6 and2/6; partner-beacon readout0/6 and1/6. These are two exploratory episodes, not300 independent observations or scientific admission. Both job processes exited; provider running/GPU idle and exact original dual guards healthy. Job heartbeat paused; original18:32:18 stop-request/18:37:18 lifecycle bound andUSD8/four-hour origin remain unchanged. No more model dispatch. Next proposal: isolate current-fact transmission and own-rule retention in continuing histories, with a matched text capability control, before another small interaction check. Details: `docs/reviews/v6_small_interaction_results_20261019.md`.
 
 **Fixed small interaction pilot running (2026-10-19):** The unique `interaction-pilot-1` worker is writing native readouts;24/300 verified at the launch milestone. Same held instance, no restart, original USD8/four-hour financial origin and active dual guards unchanged. Source/control prelaunch SD backup passed. Only the fixed two-case LIVE/OFF/FRESH and early L/Fcut/Rcut/Replay exploration is authorized. First sparse completion check is16:25 Chicago; the prepared one-time backup and independent saved-array/causal-descriptive audit follow completion. No automatic scientific expansion, formal dispatch or routine stage-end stop; original18:32:18 stop-request/18:37:18 lifecycle boundaries remain. The claim stays open for this background collection and its required closure.
 
