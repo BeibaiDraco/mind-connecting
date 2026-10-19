@@ -81,3 +81,21 @@ def test_empty_path_repair_preserves_live_route_and_state_identity(monkeypatch):
                                    ((donor,), 0., 'native'), ((donor,), 1., 'packed')]:
         obj._consume(state, (1, 2), window, gain)
         assert calls[-1] == (expected, (state, (1, 2), window, gain))
+
+
+def test_fresh_holdout_disjoint_and_balanced_without_changing_prompt():
+    from mb import v6_action_holdout as h
+    new, old = h.cases(), c.make_short_cases()
+    assert len(new) == 32 and new == h.cases() and len(h.work_materials()) == 64
+    assert not {x.episode.episode_id for x in new} & (
+        {x.episode.episode_id for x in old} | {x.episode_id for x in c.make_history_episodes()})
+    for attr in ['action_names', 'goal_names']:
+        assert not {getattr(x.episode, attr) for x in new} & {getattr(x.episode, attr) for x in old}
+    assert not {x.episode.option_orders[0] for x in new} & {x.episode.option_orders[0] for x in old}
+    assert Counter((x.side, x.world.beacons[x.side] == x.world.beacons[1-x.side]) for x in new) == {
+        (side, same): 8 for side in (0, 1) for same in (False, True)}
+    assert Counter(d.work_item(x,'facts_first_nowork')[0].candidates.index(
+        d.work_item(x,'facts_first_nowork')[0].correct) for x in new) == {i:8 for i in range(4)}
+    for x in new:
+        a, n = d.work_item(x,'facts_first_nowork'); b, m = d.work_item(x,'facts_first_work64')
+        assert (n,m)==(0,64) and (a.system,a.private,a.question)==(b.system,b.private,b.question)
