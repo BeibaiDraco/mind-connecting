@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from mb import v6_task_clarity as clarity, v6_tasks as tasks
 
 ARMS = ("joint_p2", "rule_pair", "oracle_pair", "oracle_button", "compact_joint")
+WORK_ARMS = ("minimal_oracle_pair", "facts_first_nowork", "facts_first_work64")
 
 
 @dataclass(frozen=True)
@@ -64,3 +65,32 @@ def score(item: Item, token: int, legal_ids: tuple[int, ...]) -> dict:
         raise ValueError("Four distinct answer IDs required")
     choice = item.candidates[legal_ids.index(token)] if token in legal_ids else None
     return {"choice": choice, "correct": choice == item.correct, "invalid": choice is None}
+
+
+def work_item(case: clarity.ShortCase, arm: str) -> tuple[Item, int]:
+    """Manually specified follow-up; no result-dependent dispatch or selection."""
+    if arm not in WORK_ARMS:
+        raise ValueError("Unknown work diagnostic arm")
+    ep, w, side = case.episode, case.world, case.side
+    x = make_item(case, "joint_p2")
+    system, private, question = x.system, x.private, x.question
+    if arm == "minimal_oracle_pair":
+        goal = w.goals[side]
+        pair = [ep.action_names[tasks.correct_action(goal, b)] for b in (0, 1)]
+        system = "Apply the supplied rule. Answer with exactly one choice ID."
+        private = (f"If the signal is Dim, press {pair[0]}. "
+                   f"If the signal is Bright, press {pair[1]}. "
+                   f"The signal is {tasks.BEACON_NAMES[w.beacons[1-side]]}.")
+        question = ("Which button does the supplied rule require?\n"
+                    + x.question.split("\n", 2)[-1])
+    else:
+        private += ("\n" + x.question.split("\n", 1)[0]
+            + "\nWork through the decision: identify your assigned goal, retrieve "
+            "its Dim/Bright rule, use the OTHER beacon, then identify the button. "
+            "The own-device transition happens only after that decision.")
+    return (Item(x.case_id, arm, system, private, question, x.candidates, x.correct),
+            64 if arm == "facts_first_work64" else 0)
+
+
+def work_materials() -> tuple[tuple[Item, int], ...]:
+    return tuple(work_item(case, arm) for arm in WORK_ARMS for case in clarity.make_short_cases())

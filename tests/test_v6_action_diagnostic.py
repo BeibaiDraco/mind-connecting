@@ -50,3 +50,34 @@ def test_invalid_output_is_preserved():
     assert d.score(item, token, (10, 11, 12, 13))['correct']
     with pytest.raises(ValueError): d.make_item(c.make_short_cases()[0], 'unbounded')
     with pytest.raises(ValueError): d.score(item, token, (10, 10, 12, 13))
+
+
+def test_followup_is_fixed_and_work_inputs_are_paired():
+    assert len(d.work_materials()) == 192
+    for case in c.make_short_cases():
+        a, na = d.work_item(case, 'facts_first_nowork')
+        b, nb = d.work_item(case, 'facts_first_work64')
+        assert (na, nb) == (0, 64)
+        assert (a.system, a.private, a.question, a.correct, a.candidates) == (
+            b.system, b.private, b.question, b.correct, b.candidates)
+        x, n = d.work_item(case, 'minimal_oracle_pair')
+        assert n == 0 and 'Own-device' not in x.system
+        ep, w, side = case.episode, case.world, case.side
+        rules = dict(re.findall(r'If the signal is (Dim|Bright), press (\w+)\.', x.private))
+        button = rules[t.BEACON_NAMES[w.beacons[1-side]]]
+        label = t.LABELS[x.candidates.index(x.correct)]
+        assert f'{label}. {button}\n' in x.question
+
+
+def test_empty_path_repair_preserves_live_route_and_state_identity(monkeypatch):
+    from mb.v6_empty_path_native import EmptyPathNativeBackend as E
+    from mb.v6_native import NativeBackend as N
+    from mb.v6_batch_native import PackedBackend as P
+    calls = []
+    monkeypatch.setattr(N, '_consume', lambda self, *args: calls.append(('native', args)))
+    monkeypatch.setattr(P, '_consume', lambda self, *args: calls.append(('packed', args)))
+    obj = object.__new__(E); state = object(); donor = object()
+    for window, gain, expected in [((), 0., 'native'), ((), 1., 'native'),
+                                   ((donor,), 0., 'native'), ((donor,), 1., 'packed')]:
+        obj._consume(state, (1, 2), window, gain)
+        assert calls[-1] == (expected, (state, (1, 2), window, gain))
