@@ -251,6 +251,7 @@ Last updated: 2026-10-18, Codex (saved V6 action failures diagnosed offline; tas
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Implement isolated task-clarity candidates and offline diagnostic package; no GPU | new v6_task_clarity module/tests/script/runbook/review, STATUS.md, decision_log.md | 2026-10-19 |
 
 
 
