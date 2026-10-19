@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-19 17:35 Chicago, Codex (small fixed-scene partner-goal/stage diagnostic prepared; no formal launch).
+Last updated: 2026-10-19 17:38 Chicago, Codex (small fixed-scene goal/stage diagnostic running; no formal launch).
 
 ## Current phase
+
+**Small goal/stage exploration running (2026-10-19):** Unique `goal-stage-diagnostic-1` worker has 10/240 successful native readouts, with fresh original guard heartbeat. Prelaunch nine-file SD backup verified; full offline suite 1264 passed/10 skipped/1 GPU deselected, exact isolated deployment and 240 synthetic rows passed. The same allocation was neither stopped nor restarted; original USD8/four-hour origin, 2GiB egress cap and 18:32:18/18:37:18 stop/lifecycle bounds remain unchanged. Worker cutoff is 18:13:21 Chicago, leaving backup margin. The only completion heartbeat is 17:58 Chicago; prepared one-time raw backup and all-case offline analysis follow success. Claim remains open through background collection and closure. No formal run, parameter selection, sample expansion or automatic retry.
 
 **Fixed-scene goal/stage diagnostic prepared (2026-10-19):** PI authorized changing only the partner goal and separating work-time from answer-time influence on the held GPU. Reuse both complete initial layouts and both focal roles; three partner assignments each, four work/readout channel cells, five discarded questions = 240 native readouts. Recipient initial/prepared state, beacons, prompts and correct action remain fixed; no actual action is committed. Readout-only gets the disconnected partner's real generated window. Four local material tests and exact isolated original-bundle deployment/240 synthetic rows passed. Full offline suite 1264 passed/10 skipped/1 GPU deselected; private controls compiled and root-reviewed before launch. New private root `goal-stage-diagnostic-1`; original four-hour/USD8 guards and cutoff remain unchanged. No formal dispatch or automatic expansion. Plan: `docs/reviews/v6_goal_stage_plan_20261019.md`.
 
