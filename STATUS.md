@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-19, Codex (small diagnostics complete; concrete work-period and empty-path remedies verified; GPU held).
+Last updated: 2026-10-19, Codex (fixed two-pair native interaction pilot running; formal collection remains off).
 
 ## Current phase
+
+**Fixed small interaction pilot running (2026-10-19):** The unique `interaction-pilot-1` worker is writing native readouts;24/300 verified at the launch milestone. Same held instance, no restart, original USD8/four-hour financial origin and active dual guards unchanged. Source/control prelaunch SD backup passed. Only the fixed two-case LIVE/OFF/FRESH and early L/Fcut/Rcut/Replay exploration is authorized. First sparse completion check is16:25 Chicago; the prepared one-time backup and independent saved-array/causal-descriptive audit follow completion. No automatic scientific expansion, formal dispatch or routine stage-end stop; original18:32:18 stop-request/18:37:18 lifecycle boundaries remain. The claim stays open for this background collection and its required closure.
 
 **Small real-interaction exploration prepared (2026-10-19):** PI authorized two fresh Qwen pairs on the already-held GPU, three-round LIVE/OFF/FRESH histories plus early live/forward-cut/return-cut/matched-replay pulse branches,300 readouts. Original native computation,64/16/16 clocks, fixed exploratory gain1.0 and P2/work clarification; no oracle partner facts enter LIVE. Both-side-order exact replay and channel-leakage checks pass; full offline suite1256 passed/10 skipped/1 GPU deselected. Separate90-minute worker bound stays inside the unchanged original four-hour/USD8 allocation. No formal dispatcher. Plan: `docs/reviews/v6_small_interaction_plan_20261019.md`.
 
