@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-19, Codex (two-pair interaction exploration complete and independently audited; no formal launch).
+Last updated: 2026-10-19, Codex (small channel/own-rule exploration running on the same held GPU; no formal launch).
 
 ## Current phase
+
+**Channel/rule exploration running (2026-10-19):** Unique `channel-diagnostic-1` worker has20/300 real native readouts, with exact original guard health verified. Same held allocation, no restart, originalUSD8/four-hour origin/deadlines and2GiB upload cap unchanged; prelaunch source/control SD hashes passed. Both new source deployment and300 synthetic rows were tested before model execution. No required outcome or adaptive continuation; preserve unexpected and failed observations. First sparse closure check17:10 Chicago. Prepared one-time backup, all-case saved-array/world analysis and actual-state verifier are in the private root. The claim remains open for background collection and closure.
 
 **Small channel/rule diagnostic prepared (2026-10-19):** PI requested continued exploration open to unexpected outcomes. Two fresh three-round native Qwen cases compare LIVE/OFF with and without a self-state reporting instruction, plus a clearly labeled factual-text/no-link capability control.300 readouts include action, own goal/rule, original partner-beacon report and four-way A/B beacon pair. Only actual actions continue history; generated notes are unconstrained and all errors retained. No success threshold, significance claim, parameter selector, formal dispatch or expansion. Full offline suite1260 passed/10 skipped/1 GPU deselected; exact private deployment import and300 synthetic rows passed. Same original four-hour/USD8 allocation and guards; about1GiB transfer headroom supports the bounded archive. Unique prepared root `channel-diagnostic-1`; prospective plan `docs/reviews/v6_channel_diagnostic_plan_20261019.md`.
 
