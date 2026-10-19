@@ -278,7 +278,6 @@ Last updated: 2026-10-19, Codex (two-pair interaction exploration complete and i
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Fixed two-pair real-interaction exploration with cut/replay controls | New v6_interaction_pilot module/tests, new review, STATUS/decision log; private current allocation controls | 2026-10-19 15:49 Chicago |
 
 
 
