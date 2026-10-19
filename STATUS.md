@@ -258,7 +258,6 @@ Last updated: 2026-10-19, Codex (short diagnostic blocked by unavailable GPU; qu
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Bounded Qwen short task-clarity diagnostic; no history or formal continuation | STATUS.md, decision_log.md, new review; private task-clarity-short-20261019 controls | 2026-10-19 |
 
 
 
