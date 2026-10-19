@@ -254,7 +254,6 @@ Last updated: 2026-10-19, Codex (isolated task-clarity candidates and small diag
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Implement isolated task-clarity candidates and offline diagnostic package; no GPU | new v6_task_clarity module/tests/script/runbook/review, STATUS.md, decision_log.md | 2026-10-19 |
 
 
 
