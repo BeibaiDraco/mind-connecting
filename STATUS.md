@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-19, Codex (PI-authorized short Qwen diagnostic prepared for bounded execution; no history/formal continuation).
+Last updated: 2026-10-19, Codex (short diagnostic blocked by unavailable GPU; queued restore cancelled and actual stop independently verified).
 
 ## Current phase
+
+**Short diagnostic restore failed and closed (2026-10-19):** Provider rejected the one restore with `resources_unavailable` and queued it. The controller cancelled the transition; root independently verified exited/stopped state, controller/guard exit and143 prelaunch plus48 final-control SD hashes. No connection/deployment/model execution occurred:0/384 answers, no scientific result. Current private root is `task-clarity-short-20261019`; handoff records terminal unavailable status and no automatic retry. A replacement A10080GB quote aroundUSD1.23/hour was read only; PI choice on a newly bound replacement versus staying stopped is pending. No new rental/destruction or formal/history run. Full offline suite1246 passed/10 skipped/1 GPU deselected. See `docs/reviews/v6_task_clarity_short_execution_20261019.md`.
 
 **Short diagnostic authorized and prepared (2026-10-19):** The PI requested trying the prepared task-clarity package. Bound only64 short cases × P0/P1/P2 × reference/optimized =384 native answers; all errors and numerical differences retained, no selector/history/formal continuation. New private root `task-clarity-short-20261019` under the existing V6 execution tree. Agent containment is USD4/two hours, original financial provenance retained. Initial provider read confirms same-instance stopped state and about USD1.300/hour. Fresh dual guards, one-attempt scope and prelaunch SD seal are required before restoration. Root review and27 private control checks passed; all75 old source pins are unchanged. See `docs/reviews/v6_task_clarity_short_execution_20261019.md`.
 
