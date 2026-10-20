@@ -292,6 +292,7 @@ Last updated: 2026-10-20 00:13 Chicago, Codex (first-principles interface synthe
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Recover original self-boundary motivation and distinguish candidate research questions; discussion only | STATUS.md; decision_log.md; new docs/reviews/self_boundary_research_agenda_20261020.md | 2026-10-20 01:18 Chicago |
 
 
 
