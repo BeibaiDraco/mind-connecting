@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-20 00:13 Chicago, Codex (first-principles interface synthesis; proposed small development sequence; no GPU dispatch).
+Last updated: 2026-10-20 01:20 Chicago, Codex (original self-boundary motivation recovered; candidate agenda only; no GPU dispatch).
 
 ## Current phase
+
+**Self-boundary research motivation (2026-10-20):** Revisited the September framing at the PI's request. The proposed central question concerns how access, goal control and self/other attribution are maintained or dissociate when another responsive agent enters the decision process. Communication competence is a prerequisite; possible endpoints include selective integration with preserved boundaries, accurately attributed adoption, and a mismatch between causal control and its attribution. Current own-goal/own-rule results are a lead, not direct measurement of causal self-monitoring. Neutral role-binding and generic interference remain necessary alternative explanations. New conceptual record: `docs/reviews/self_boundary_research_agenda_20261020.md`. No question, metric, interface, formal design or new GPU work is adopted by this discussion.
 
 **Interface/interaction synthesis (2026-10-20):** Reviewed the complete small diagnostics, original native attention and synchronous runtime, and the saved last-16-token windows. The immediate functional gap is usable partner-observation access with intact own-rule use; causal influence is already present in some contexts, but reliable useful reciprocal chains are not established. The proposal separates designated observation-state export, receiving, and private decision, first testing actual generated-message text versus K/V before another small closed-loop experiment. It preserves structured interference as a candidate finding and distinguishes it from generic impairment. This is a proposal only: no frozen protocol, scientific source, model, gain, N or GPU dispatch changed. Original guard receipt confirms actual stop at 18:32:31 Chicago on October 19 and local guardian completion; no new provider query or restart occurred. Full offline suite:1264 passed,10 skipped,1 GPU deselected (43.37s). New review: `docs/reviews/v6_interface_first_principles_20261020.md`.
 
