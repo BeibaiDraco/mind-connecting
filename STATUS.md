@@ -1,8 +1,12 @@
 # STATUS
 
-Last updated: 2026-10-20 01:20 Chicago, Codex (original self-boundary motivation recovered; candidate agenda only; no GPU dispatch).
+Last updated: 2026-10-20 01:38 Chicago, Codex (PI-requested research reset drafted; current priorities updated; no GPU dispatch).
 
 ## Current phase
+
+**Research reset requested by PI (2026-10-20):** The program is being reshaped around selective use of partner information, local goal control, source attribution and prospective causal self-prediction, with responsive interaction as an explanatory factor. Task/communication competence are prerequisites rather than the research endpoint. The new `docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md` specifies the central question, competing explanations, evidence limits and a simplified two-action, persistent-history task. All 16 basic symbolic worlds pass the intended current-versus-mediated influence checks; no model/material implementation is claimed. `docs/paper/self_boundary_story_reset_20261020.md` separates completed findings from future result-dependent narrative. The v5 third-party counterevidence and Llama qualifications remain explicit. Old V6 formal collection remains unstarted/on hold and its automation is verified PAUSED; no interface, threshold, N or paid run is newly frozen/authorized.
+
+Reset-document verification: all seven relative links resolve; whitespace checks pass; the unchanged offline code suite passes with 1264 passed, 10 skipped and 1 GPU deselected (44.11s). These checks do not validate the proposed model behavior.
 
 **Self-boundary research motivation (2026-10-20):** Revisited the September framing at the PI's request. The proposed central question concerns how access, goal control and self/other attribution are maintained or dissociate when another responsive agent enters the decision process. Communication competence is a prerequisite; possible endpoints include selective integration with preserved boundaries, accurately attributed adoption, and a mismatch between causal control and its attribution. Current own-goal/own-rule results are a lead, not direct measurement of causal self-monitoring. Neutral role-binding and generic interference remain necessary alternative explanations. New conceptual record: `docs/reviews/self_boundary_research_agenda_20261020.md`. No question, metric, interface, formal design or new GPU work is adopted by this discussion.
 
@@ -294,7 +298,7 @@ Last updated: 2026-10-20 01:20 Chicago, Codex (original self-boundary motivation
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Reshape research around selective integration, causal control and attribution; design and evidence draft only | STATUS.md; decision_log.md; new docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md; new docs/paper/self_boundary_story_reset_20261020.md | 2026-10-20 01:26 Chicago |
+| Codex | Reshape research around selective integration, causal control and attribution; design and evidence draft only | STATUS.md; decision_log.md; paper/README.md; new docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md; new docs/paper/self_boundary_story_reset_20261020.md | 2026-10-20 01:26 Chicago |
 
 
 
@@ -396,7 +400,7 @@ Last updated: 2026-10-20 01:20 Chicago, Codex (original self-boundary motivation
 
 ## Next steps
 
-Qwen engineering timing is complete, backed up and stopped, with automation paused. Use the qualified Qwen-only estimate and explicit historical comparison limits in the closure review; do not revive the consumed attempt or infer scientific adoption. The next engineering questions are efficient archival/verification scheduling and the narrow Llama RMSNorm/projection diagnostic described in the saved-trace review. They do not authorize a new paid run or formal collection by themselves. Any scientific numerical adoption remains a prospective PI decision, with original scientific gates, samples and failed evidence preserved. No two-model completion estimate is available. Retain original financial charges, stopped-disk evidence and the old historical backup gap. Manuscript integration remains separate; preserve the released arXiv version. The milestone table below is historical.
+Current priority is the PI-requested research reset, starting from `docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md`. Make the minimal task, source/control questions, neutral binding comparison and counterfactual update timing concrete in a torch-free material specification before any runtime work. The initial 16-world symbolic check validates only the proposed causal logic. Review complete small development trajectories before choosing a confirmatory target; no formal N, threshold or new execution budget is frozen. Existing V6 formal collection is on hold, automatic scientific continuation is false, and the v6 check is PAUSED. Benchmark optimization and Llama numerical repair are retained engineering history, not the immediate scientific agenda. Preserve all historical costs, failures and backup qualifications. For the paper, use `docs/paper/self_boundary_story_reset_20261020.md` as a prospective direction and `docs/paper/post_collection_story_20261012.md` for the completed-evidence limits; preserve the released version and do not insert anticipated findings. The milestone table below is historical.
 
 | Milestone | Content | Where |
 |---|---|---|
@@ -413,7 +417,8 @@ Checkpoints for reporting to the PI: M2 complete, M3 speed measurement, G1, Pilo
 
 ## Blockers and pending items
 
-- The engineering CUDA/compiler gate passed, including the former linked-prefill regression, but real-checkpoint consistency/speed and complete-workload affordability remain unmeasured. The diagnostic is closed; fresh scope, finance and guard binding are required for any later paid comparison. Retained disk continues billing against the original cumulative cap, and the older 61-file backup gap remains unresolved. No scientific continuation is authorized.
+- Current scientific prerequisites: specify and validate the simplified task and prospective prediction questions; establish usable partner information; keep generic record interference and transcript-based prediction as competing explanations. Current own-goal/own-rule results do not yet measure causal self-prediction. The new proposal is not executable or frozen.
+- Historical engineering blocker (not a current benchmark status): earlier CUDA/compiler admission preceded full real-checkpoint timing and affordability checks. Later qualified Qwen timing and native diagnostics are documented in the October18-19 reviews. Llama/optimized numerical adoption and the older61-file backup gap remain separate unresolved history; they do not authorize new paid work or renewed formal collection. No current cost or provider status is inferred from this old entry.
 - No blocker remains for analysis of the completed studies. The current PDF still presents the original Qwen story and must be updated before it can represent the full two-model/v5 evidence. No new GPU experiment is approved or needed for the proposed bounded revision; stronger mechanism claims would require separate PI decisions. The older entries below are historical.
 - The v2 driver and the v3 strength pilot chain are old scripts (`exit=` in their logs is always 0); the completeness of the affected runs has been checked one by one; all later runs use `scripts/run_chain.sh`.
 - Historical second-model plan: completed through Llama v4 and the separately labeled v5 continuations; not a pending model-selection task.

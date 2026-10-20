@@ -1,5 +1,7 @@
 # Paper: the starting point handed over to Codex
 
+Current orientation, 2026-10-20: the PI requested a research reset around selective integration, causal control and self/other attribution under responsive interaction. See [the new research-story draft](../docs/paper/self_boundary_story_reset_20261020.md) and [research-design draft](../docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md). These are prospective directions, not collected results. The [October12 assessment](../docs/paper/post_collection_story_20261012.md) governs the limits of the completed two-model/v5 evidence. The preserved TeX/PDF and `STORY.md` below document the original manuscript; their older broad interpretation must not override later counterevidence. No manuscript rewrite or publication is implied by the reset.
+
 PI decision, 2026-09-25: write the paper after the results of the v3 confirmatory experiment are in, with Codex drafting. The first arXiv version does not include a second model; the second version adds it. Submission counts as public release and is done by the PI, or with the PI's explicit consent at that time.
 
 ## Existing materials
