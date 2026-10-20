@@ -298,7 +298,6 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Reshape research around selective integration, causal control and attribution; design and evidence draft only | STATUS.md; decision_log.md; paper/README.md; new docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md; new docs/paper/self_boundary_story_reset_20261020.md | 2026-10-20 01:26 Chicago |
 
 
 
