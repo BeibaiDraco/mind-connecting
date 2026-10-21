@@ -300,6 +300,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Anchor the steering critique in the existing manuscript and completed controls | STATUS.md; decision_log.md; new docs/reviews/steering_critique_existing_evidence_20261020.md | 2026-10-20 20:48 Chicago |
 
 
 
