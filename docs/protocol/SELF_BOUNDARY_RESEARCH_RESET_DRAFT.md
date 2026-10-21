@@ -6,17 +6,24 @@ The PI has authorized restructuring the research program. This document makes th
 
 ## 1. Research commitment
 
-**Central question:** When another responsive system participates in an agent's internal decision process, can the agent use the other's information while retaining its own task commitments and accurately tracking the source and influence of that information?
+**Central question:** How does the functional placement of internal-state coupling change the relationship between information access, goal-guided action and self/other attribution, and how is that relationship modified by reciprocal responsiveness?
 
-**Explanatory question:** Does reciprocal responsiveness change the relationship among information access, goal control and attribution, beyond what the delivered content alone explains?
+The behavioral question remains whether the recipient can use the other's information while retaining its own task commitments and accurately tracking the source and influence of that information. A live return path is one condition of this question, not its definition.
+
+**Connection question:** Which sender representations and recipient computations does a bridge actually couple, and how does that placement change information use, goal control and source/influence attribution?
+
+**Reciprocity question:** At a specified connection, what additional changes arise when the donor responds to the recipient? Placement and reciprocal topology are separate experimental dimensions whose interaction must also be tested.
 
 The motivating brain-bridging question concerns the boundary of a cognitive individual. Our experimentally accessible object is the organization of separately maintained histories, commitments, actions and their reports. A report of "I" is not itself a measure of that organization. Coordination and influence do not identify experiential subjects.
 
 The working hypothesis is that access, control and attribution can dissociate. Preserved selective boundaries under deep access would be as informative as a reproducible breakdown. A useful result need not involve more errors, greater convergence or stronger interference.
 
+PI clarification on October 20: do not make bidirectionality the defining criterion for a meaningful self-related intervention. A one-way intervention into an independently characterized decision or source-binding computation may be informative. A bidirectional connection can remain uninformative or disruptive if its payload and receiving computation are poorly specified. Calling an incoming influence steering does not determine its functional or scientific significance.
+
 ## 2. What changes in the project
 
 - Task success and channel throughput become prerequisites, not the main scientific result.
+- Characterize the function of the sender/read site, recipient/write site, representation, operation and timing before interpreting a bridge as involving a particular self-related process. No layer is assumed to be a consciousness or self area.
 - An intervention on another agent's state must be connected to actual behavior, and behavior must be distinguished from historical provenance and causal self-prediction.
 - Static memory studies remain evidence about their tested interface. They cannot be retrospectively relabeled as a live reciprocal experiment.
 - The third-party conflict result becomes a central constraint on a self-related interpretation. Generic record interference is an explicit competing account.
@@ -51,6 +58,18 @@ These accounts may coexist; the aim is to estimate their explanatory limits.
 | Broad impairment | Errors track disruption of general task/format abilities rather than specific source or control relations | Preserved unrelated ability and content-specific effects under specified load controls |
 
 Equal nominal gain does not match effective attention load. Live input and an identical recording into an identical deterministic state must agree; feedback claims concern new interventions and the responses they elicit.
+
+### Connection placement crossed with topology
+
+The connection itself is a scientific treatment. Its identity includes donor layer/head or subspace and token interval; recipient layer/head or subspace and processing phase; payload (K/V, residual state or another specified representation); mapping and normalization; addition, mixing or retrieval operation; strength, bandwidth and delay. Same checkpoint weights do not guarantee equivalent roles, positions or reference frames in two histories.
+
+Candidate functional roles include fact retrieval, actor/source binding and goal-to-action selection. These are hypotheses for localization, not known modules or synonyms for early/middle/late layers. A representation being decodable at a site would not show that the site controls the behavior. Independent, small causal patch/remove/restore contrasts with matched neutral actors and task performance should establish the limited role supported by the data.
+
+Cross a small, prospectively bounded set of independently characterized connection candidates with one-way current-donor input and reciprocal input; retain OFF and recorded/fresh open-loop controls for the relevant causal comparison. Do not immediately execute a full combinatorial grid. First separate payload changes from recipient-site changes, then test topology at fixed connection settings. Report site-by-topology dependence rather than only a pooled two-way advantage.
+
+Sites must not be selected for producing the largest self-attribution error or feedback benefit in the later confirmation cases. Mechanism discovery may inspect exploratory effects if a future approved scope explicitly allows it, but all searched candidates must be recorded and subsequent claims tested on untouched materials. No new selector is authorized here. Effective attention mass, perturbation scale, content access and unrelated ability are distinct checks; none alone makes two interfaces equivalent. Matching away the main effect of a site would change the question.
+
+The current V6 native bridge uses the donor's generated K/V across all attention layers, competing with own-context attention; it has not localized a self-related recipient computation. The observation-window proposal changes payload and schedule, not evidence of functional localization. Details and checked primary sources: [placement and reciprocity correction](../reviews/connection_placement_and_reciprocity_20261020.md).
 
 ## 5. What existing data contribute
 
@@ -112,6 +131,8 @@ The observation-window/receiving-phase design is only a candidate; no new channe
 
 The first design questions are what is transmitted and how it is received. Optimization for throughput and a second model can wait until the scientific object is intelligible.
 
+This transmission-development sequence does not establish a functional receiving locus. Pair it with the bounded placement analysis above, separating sender content and recipient location/timing. A fact-only task is useful for diagnosing access; it cannot establish that a channel reaches goal control or source binding. One-way mechanism experiments have their own scientific purpose even before reliable closed-loop cooperation exists.
+
 ### C. Test selective integration and prospective self-prediction
 
 From a common pre-intervention checkpoint, branch on the own rule, donor rule and donor observation, changing one named field at a time and keeping irrelevant current-world facts fixed. Compare actual native actions and continuous contrasts; retain every branch.
@@ -124,7 +145,7 @@ A separate predictor with the same visible transcript, but without the tested in
 
 ### D. Ask whether response-contingent interaction matters
 
-Only after usable access and interpretable measurements, introduce a private observation change after a shared snapshot. Check the entire path: A's changed observation -> B's appropriate actual action -> B's actual next observation -> A's appropriate next action.
+For a claim about useful reciprocity, establish usable access and interpretable measurements, then introduce a private observation change after a shared snapshot. Check the entire path: A's changed observation -> B's appropriate actual action -> B's actual next observation -> A's appropriate next action. This prerequisite does not make successful cooperation necessary for a separately controlled one-way source/control finding.
 
 Use LIVE, forward cut, return cut and matched pre-intervention return replay, with an unchanged-input replay check. Include a fresh open-loop donor receiving its permitted private updates but not recipient feedback; stale replay alone confounds responsiveness and current content. Existing FRESH shadows inherit actual prior histories and therefore do not remove feedback across an entire episode.
 
@@ -148,4 +169,4 @@ The next implementation artifact should be a torch-free material/truth-table and
 
 The current manuscript can independently be revised to accurately report the completed provenance evidence. The research reset does not justify delaying necessary factual corrections or inserting anticipated live-interaction findings. Whether the mature new evidence becomes a continuation or a separate paper depends on the results and is not decided here.
 
-Priorities are: finalize this compact task and measurement contract; check it locally; perform one bounded development batch only with a new explicit execution package; then decide whether a confirmatory question has become identifiable. Existing freezes, failed gates, numerical failures, budget history and raw data remain intact.
+Priorities are: specify the connection's functional role and the compact task/measurement contract together; check their logic locally; perform one bounded development batch only with a new explicit execution package; then decide whether a confirmatory question has become identifiable. Existing freezes, failed gates, numerical failures, budget history and raw data remain intact.
