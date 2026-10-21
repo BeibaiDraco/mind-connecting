@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-20 20:19 Chicago, Codex (PI correction: connection placement and reciprocity separated; documentation only).
+Last updated: 2026-10-20 20:49 Chicago, Codex (steering critique reconciled with the existing paper; no redesign or model execution).
 
 ## Current phase
+
+**Existing steering evidence is the anchor (2026-10-20):** Re-read the preserved manuscript, V1 hidden-state appendix and completed STATIC/provenance assessments at the PI's request. V1 already tested online hidden-state injection in ONE/TWO; STATIC is a calibration-averaged rule direction, not all context-derived intervention. Qwen's matched mean-access KV/STATIC contrast supports an access/attribution dissociation, not a categorical distinction from steering; Llama's formal match failed. Finding an effective functional site alone does not answer the responsive-partner critique. New reconciliation separates content/representation, recipient mechanism and reciprocal dependence: `docs/reviews/steering_critique_existing_evidence_20261020.md`. No new protocol, selector, scientific source, GPU run or manuscript rewrite. Offline suite: 1264 passed, 10 skipped, one GPU deselected (44.04s).
 
 **Connection placement and reciprocity separated (2026-10-20):** The PI clarified that where/how a connection enters the recipient is a scientific question independent of whether the sender responds. Updated the reset draft accordingly: characterize candidate fact-use, actor/source-binding and goal-to-action roles without presuming a self layer; distinguish sender payload, recipient site and timing; then cross a bounded set of candidates with one-way/two-way topology. Neither successful cooperation nor bidirectionality is necessary for every controlled source/control finding. Current all-layer K/V attention does not provide functional localization, and the observation-window proposal alone would not establish it. New primary-source-backed review: `docs/reviews/connection_placement_and_reciprocity_20261020.md`. No code, frozen protocol, selector, model execution or budget changed.
 
