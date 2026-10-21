@@ -41,3 +41,19 @@ No reviewed source was identified as testing exactly our combination of known or
 Existing corpus: a worthwhile bounded empirical source-attribution paper is supportable in my assessment, provided the revised manuscript integrates counterevidence and distinguishes matched from unmatched comparisons. Novelty is moderate/uncertain relative to the closest audits; publication or top-conference acceptance is not established by this judgment.
 
 Stronger brain-bridge-inspired question: not answered by current evidence. Additional experiments must add a causal result about selective use, control or attribution under a specified connection, rather than merely another latent carrier or a larger donor-following rate. See the [candidate comparison and evidence ladder](precedents/internal_coupling_self_other.md). No new experiment is adopted by this assessment.
+
+## Later October 20 discovery: capacity and self-prediction precedents
+
+The PI subsequently clarified that the next paper need not center the old manuscript. The new [candidate comparison](candidates.md) and [recommendations](recommendations.md) consider a distinct connection-dependent capacity question. Searches added public terms for LLM metacognition, external capability, causal agency and human external-knowledge attribution. A fresh-context reviewer supplied additional primary leads, which the root opened and checked at the sections below.
+
+| Primary source and locator | Relevant comparison; consequence |
+|---|---|
+| [Fisher, Goddu & Keil 2015](https://www.apa.org/pubs/journals/releases/xge-0000070.pdf), Experiment 1c and discussion, full-text sections inspected | Human external access versus self-estimated knowledge with content/time controls. A design analogy for B, not evidence of LLM effects. |
+| [Language Models (Mostly) Know What They Know](https://arxiv.org/html/2207.05221), §5.3–5.4 inspected | Knowing estimates already account for source materials/hints in the studied trained models. Additional information raising confidence is not a new contribution by itself. |
+| [Looking Inward](https://arxiv.org/html/2410.13787), §3.4 and limitations inspected | Trained self-prediction following behavior-changing finetuning. Our candidate changes available partner computation without training, but must not assume comparable measurement competence. |
+| [Generalized Correctness Models](https://arxiv.org/html/2509.24988), §3.1 and Appendix A inspected | Self-versus-cross correctness prediction and history baselines constrain claims of privileged self-knowledge. |
+| [MetaCogAgent](https://arxiv.org/html/2605.17292), §III-B/C and discussion inspected | Confidence/history-based delegation is already studied. Use this as a closest comparator, not an established validation of its reported performance or our candidate. |
+| [Me, Myself, and pi](https://arxiv.org/html/2603.20276), abstract/taxonomy/limitations passages inspected | Additional introspection-taxonomy lead. A placeholder identifier appears in its references; no strong empirical conclusion in this dossier depends on it. |
+| [OverForge](https://arxiv.org/abs/2609.39727), reviewer-identified adaptation lead | Full root reading pending; limits any proposed first partner-adaptation claim. Candidate C remains conditional/parked. |
+
+Search queries included `language model agents external capability self knowledge collaboration metacognition borrowed capabilities latent communication`, `language models sense of agency control attribution action intention intervention`, and `Searching for explanations How the Internet inflates estimates of internal knowledge Fisher Goddu Keil 2015 pdf`, restricted to primary-source domains as appropriate. This extends, rather than completes, the scoped novelty check. No exact connection-dependent prospective-calibration result was identified in these searches; absence from the retrieved set is not priority evidence.

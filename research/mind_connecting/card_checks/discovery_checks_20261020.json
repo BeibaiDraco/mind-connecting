@@ -1,0 +1,93 @@
+{
+  "arms": [
+    "W0R0",
+    "W0R1",
+    "W1R0",
+    "W1R1"
+  ],
+  "capability_counterexample": {
+    "foreign_fact_retained_after_receipt": "Connected and disconnected actions can both remain correct; no current dependency is established.",
+    "fresh_partner_private_fact_after_branch": "Dependency is possible, but actual linked/cut performance must establish it; a forecast failure cannot be assumed.",
+    "inference": "Source origin, present dependency and ability forecast require separate measurements."
+  },
+  "input_sha256": "2f42ad4f937bb7654e440738716025563064f2c55f28801e4cd8cdf547443f7c",
+  "layouts": 2,
+  "policy_check": {
+    "accuracies_against_target": {
+      "constant_one": 0.5,
+      "constant_zero": 0.5,
+      "copy_ideal_partner_action": 0.5,
+      "use_own_fact_own_goal": 0.5,
+      "use_partner_fact_own_goal": 1.0,
+      "use_partner_fact_partner_goal": 0.5
+    },
+    "consequence": "All five alternatives have identical accuracy but distinct intervention patterns; accuracy alone cannot identify goal capture, action copying or missing input.",
+    "distinct_full_response_patterns": 6,
+    "fact_distortion_and_goal_adoption_observationally_identical": true,
+    "limitation": "Ideal deterministic alternatives only. Distorting the perceived partner fact to xB XOR gA XOR gB while retaining gA gives exactly the same actions as adopting gB. Behavioral patterns alone do not identify a goal-representation change.",
+    "variables": [
+      "xA",
+      "xB",
+      "gA",
+      "gB"
+    ],
+    "worlds": 16
+  },
+  "postwork_state_groups_shared_across_readout_conditions": 24,
+  "prepared_state_groups_invariant": 4,
+  "qids": [
+    "action",
+    "latest_goal",
+    "own_rule",
+    "partner_beacon",
+    "partner_goal"
+  ],
+  "questions_per_cell": [
+    5
+  ],
+  "rows": 240,
+  "sample_schema": [
+    "arm",
+    "array_path",
+    "array_sha256",
+    "available_partner_exports",
+    "candidate_map",
+    "checkpoint",
+    "choice",
+    "consumed_tokens",
+    "correct",
+    "correct_choice",
+    "donor_goal",
+    "episode_id",
+    "exploratory",
+    "focal_side",
+    "formal_authorized",
+    "kind",
+    "legal_logits",
+    "legal_mass",
+    "model_profile",
+    "policy",
+    "postwork_pair_digest",
+    "qid",
+    "question",
+    "read_on",
+    "readout_incoming",
+    "recipient_postwork_digest",
+    "recipient_prepared_digest",
+    "round_id",
+    "side",
+    "status",
+    "token_ids",
+    "top_probability",
+    "top_token",
+    "version",
+    "work_on",
+    "world"
+  ],
+  "scope": "Exposed developmental evidence: coverage only; synthetic policies are not model results",
+  "unique_cells": 48,
+  "unique_keys": 240,
+  "world_action_lengths": [
+    0
+  ]
+}
