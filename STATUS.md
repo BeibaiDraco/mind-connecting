@@ -300,7 +300,6 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Separate functional connection placement from reciprocal topology in the research reset | STATUS.md; decision_log.md; docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md; new docs/reviews/connection_placement_and_reciprocity_20261020.md | 2026-10-20 20:17 Chicago |
 
 
 
