@@ -306,6 +306,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Reassess expected, nontrivial and unexpected results across all completed experiments | STATUS.md; docs/results/experiment_value_audit_2026-10-22.md | 2026-10-22 20:31 Chicago |
 
 
 
