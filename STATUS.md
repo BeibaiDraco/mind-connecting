@@ -312,6 +312,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Reopen the conceptual self/other question from the brain-bridge motivation; compare independent candidates with current evidence and primary literature | STATUS.md; research/mind_connecting/conceptual_focus_20261024.md; research/mind_connecting/conceptual_review_20261024.md; research/mind_connecting/conceptual_inputs_20261024.md; research/mind_connecting/conceptual_candidates_20261024.md; research/mind_connecting/README.md; research/mind_connecting/brief.md; research/mind_connecting/NEXT.md | 2026-10-24 15:42 Chicago |
 
 
 
