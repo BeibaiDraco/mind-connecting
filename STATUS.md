@@ -308,6 +308,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Explain experiment settings, STATIC/KV mechanisms, controls and unexpected findings to the PI using existing evidence | STATUS.md | 2026-10-23 23:32 Chicago |
 
 
 
