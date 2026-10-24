@@ -1,8 +1,10 @@
 # Research discovery dossier
 
-Current recommendation: [Conceptual focus, October 24](conceptual_focus_20261024.md). When two instances share internal memory, what makes each continue its own unfinished commitments rather than the other's? Historical attribution and consequential continuation may be separable; this is a research question, not an established result. Useful actual task performance remains a prerequisite. No protocol or run is adopted.
+Current recommendation: [Share knowledge, preserve goals](goal_preservation_20261024/recommendation.md). Can a recipient reuse another instance's private knowledge for its own independently assigned task without adopting the donor's unrelated contract? Closest prior work already establishes benign goal interference; the proposed increment requires useful compositional transfer. No protocol or run is adopted.
 
 - [Brief](brief.md) and [current continuation](NEXT.md)
+- [Latest sources](goal_preservation_20261024/sources.md), [task sketch](goal_preservation_20261024/plan.md), [logical check](goal_preservation_20261024/recombination_check.json), and [independent review](goal_preservation_20261024/review.md)
+- [Earlier conceptual focus](conceptual_focus_20261024.md)
 - [Conceptual review](conceptual_review_20261024.md), [neutral inputs](conceptual_inputs_20261024.md), and [fresh candidates](conceptual_candidates_20261024.md)
 - [Earlier October 24 strategy](publication_strategy_20261024.md) and [its review](publication_review_20261024.md)
 - [Whole-project evidence audit](../../docs/results/experiment_value_audit_2026-10-22.md)
