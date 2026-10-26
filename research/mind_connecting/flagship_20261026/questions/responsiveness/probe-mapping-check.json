@@ -1,0 +1,71 @@
+{
+  "scope": "Exact logical enumeration, not observed model behavior",
+  "hidden_codes_per_calibration": 4,
+  "a_button_cases_per_code": 2,
+  "timeline_cases_checked": 16,
+  "timeline_scope": "Stipulated fixed A commitment; all early live/yoked payloads precede observations; late gate hidden from acquisition",
+  "imported_bit_values_before_acquisition": 0,
+  "assumption": "Independent uniform bits; perfect calibrated probes; no side-channel evidence",
+  "results": [
+    {
+      "calibration": "aligned",
+      "policy": "coordinate_complement",
+      "world_action_cases": 8,
+      "same_button": 0.0,
+      "same_component": 0.0,
+      "information_rank_bits": 2.0,
+      "both_bits_acquired": 1.0,
+      "ideal_code_accuracy_bound": 1.0
+    },
+    {
+      "calibration": "aligned",
+      "policy": "copy_button",
+      "world_action_cases": 8,
+      "same_button": 1.0,
+      "same_component": 1.0,
+      "information_rank_bits": 1.0,
+      "both_bits_acquired": 0.0,
+      "ideal_code_accuracy_bound": 0.5
+    },
+    {
+      "calibration": "aligned",
+      "policy": "copy_component",
+      "world_action_cases": 8,
+      "same_button": 1.0,
+      "same_component": 1.0,
+      "information_rank_bits": 1.0,
+      "both_bits_acquired": 0.0,
+      "ideal_code_accuracy_bound": 0.5
+    },
+    {
+      "calibration": "crossed",
+      "policy": "coordinate_complement",
+      "world_action_cases": 8,
+      "same_button": 1.0,
+      "same_component": 0.0,
+      "information_rank_bits": 2.0,
+      "both_bits_acquired": 1.0,
+      "ideal_code_accuracy_bound": 1.0
+    },
+    {
+      "calibration": "crossed",
+      "policy": "copy_button",
+      "world_action_cases": 8,
+      "same_button": 1.0,
+      "same_component": 0.0,
+      "information_rank_bits": 2.0,
+      "both_bits_acquired": 1.0,
+      "ideal_code_accuracy_bound": 1.0
+    },
+    {
+      "calibration": "crossed",
+      "policy": "copy_component",
+      "world_action_cases": 8,
+      "same_button": 0.0,
+      "same_component": 1.0,
+      "information_rank_bits": 1.0,
+      "both_bits_acquired": 0.0,
+      "ideal_code_accuracy_bound": 0.5
+    }
+  ]
+}

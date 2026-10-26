@@ -1,0 +1,4 @@
+PASS: 25 worlds, 75 held-out applications.
+Each private observation is insufficient; combined premises identify the rule.
+Fresh accuracy cannot distinguish a stored rule from retained-premise recomputation.
+One saved earlier answer alone is insufficient for the new challenge family.
