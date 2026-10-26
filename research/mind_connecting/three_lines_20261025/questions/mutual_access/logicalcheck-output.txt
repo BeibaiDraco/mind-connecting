@@ -1,0 +1,3 @@
+PASS: equal first-order knowledge, different warranted second-order knowledge.
+Expected launch utility: private=-1; acknowledged=2; wait=0.
+Synthetic logical result only; no model/task/channel validation.

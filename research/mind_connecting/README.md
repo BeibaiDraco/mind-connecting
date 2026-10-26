@@ -1,8 +1,9 @@
 # Research discovery dossier
 
-Current assessment: [Evidence-led gap audit](gap_audit_20261024/assessment.md). Deeper primary-source reading found LACO already studies useful internal-state sharing with retained local control. The previous positive broad-gap recommendation is withdrawn. A specific causal mechanism remains unresolved, but a distinctive new flagship contribution has not yet been identified. Existing findings remain valuable; no protocol or run is adopted.
+Current assessment: [Three-line research synthesis](three_lines_20261025/recommendations.md) and [reading guide](three_lines_20261025/reading-guide.md). The PI has reopened the original brain-connection vision across philosophy, psychology, neuroscience, accumulated literature and all experiments. The inquiry now compares perspective tracking, history-dependent organization, responsive opportunity creation and post-separation competence. A bounded mutual-access/receipt-visibility check establishes logical feasibility but reduces the minimal design to a conditional reliability extension, deferred as a flagship. Controlled interdependence and responsive organization remain research queues, not adopted experiments. The previous broad goal-preservation novelty claim remains withdrawn.
 
-- [Current continuation](NEXT.md), [audit brief](gap_audit_20261024/brief.md), [closest sources](gap_audit_20261024/sources.md), [existing clues](gap_audit_20261024/evidence.md), and [independent review](gap_audit_20261024/final-review.md)
+- [Current continuation](NEXT.md), [full new workspace](three_lines_20261025/README.md), [independent screening](three_lines_20261025/screening.md)
+- [Prior gap audit](gap_audit_20261024/assessment.md), [audit brief](gap_audit_20261024/brief.md), [closest sources](gap_audit_20261024/sources.md), [existing clues](gap_audit_20261024/evidence.md), and [independent review](gap_audit_20261024/final-review.md)
 - [Historical goal-preservation proposal](goal_preservation_20261024/recommendation.md), [task sketch](goal_preservation_20261024/plan.md), [logical check](goal_preservation_20261024/recombination_check.json), and [then-current review](goal_preservation_20261024/review.md); their positive novelty assessment is superseded by the current audit
 - [Original discovery brief](brief.md)
 - [Earlier conceptual focus](conceptual_focus_20261024.md)
@@ -15,4 +16,4 @@ Current assessment: [Evidence-led gap audit](gap_audit_20261024/assessment.md). 
 - [Executed structural/coverage check](card_checks/discovery_checks_20261020.py) and [output](card_checks/discovery_checks_20261020.json)
 - [Unfrozen reset draft](../../docs/protocol/SELF_BOUNDARY_RESEARCH_RESET_DRAFT.md)
 
-The latest audit corrects the novelty assessment, preserving historical proposals, results and protocols. This is a targeted continuation, not a repetition of every independent discovery stage.
+The current synthesis preserves the prior novelty correction while reopening scientifically distinct opportunities. Historical proposals, results and frozen protocols remain intact.

@@ -1,0 +1,9 @@
+# Early coordinator ideas, withheld from the formal questioner
+
+October 25, 2026. These are exploratory prompts, not a preferred shortlist. They go to independent screening only after broad knowledge review and fresh generation.
+
+1. The original vision asks about the organization of a coupled system, not merely cross-instance errors. One possibility is to examine whether a continuing capacity depends on coordinated complementary contributions, on copied content, or on particular interaction history. Human transactive memory and perceptual crossing already study organization and interaction dependence, so merely demonstrating a benefit of two agents cannot supply novelty. Earlier dependency forecasting overlaps and retains its consumed cycle.
+2. Historical origin, present causal contribution and reported ownership can be put in conflict. The temptation is to call this a new identity-continuity experiment, but role-index, persona and memory-scope precedents are close, and swapping an entire deterministic state only relabels an identical computation. Any such proposal needs more than a history-copy demonstration and retains old linked-argument limits where applicable.
+3. Sharing states can make apparently separate opinions evidentially dependent. A possible distinct scientific axis concerns whether coupled agents track the provenance/independence of evidence or count their own echoed information as external corroboration. This is an unverified lead from the brain-connection motivation, not an observed project effect; multi-agent debate, correlated errors and circular reporting could already cover it. Root is searching those conceptual equivalents. It should be screened against actual primary comparisons rather than promoted through a new phrase.
+
+The point of these ideas is breadth and comparison. No proposed answer or favored outcome is supplied to the formal questioner.

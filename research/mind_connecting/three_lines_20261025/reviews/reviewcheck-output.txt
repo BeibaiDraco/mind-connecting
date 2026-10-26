@@ -1,0 +1,7 @@
+PASS: equal first-order knowledge, different warranted second-order knowledge.
+Expected launch utility: private=-1; acknowledged=2; wait=0.
+Synthetic logical result only; no model/task/channel validation.
+PASS: direct local lookup equals the perspective policy in all six worlds.
+PASS: removing failure worlds removes the no-receipt uncertainty.
+PASS: a different delivery prior changes launch preference without certainty.
+Scope: logic and conditional policy only; no model behavior or task validation.
