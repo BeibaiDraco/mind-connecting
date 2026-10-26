@@ -1,0 +1,44 @@
+# Prioritize a causal test of complementary inquiry
+
+October 26, 2026. The PI now prioritizes impact and answerability, with mechanism discovery as an opportunity rather than a prerequisite, and explicitly requires two internally communicating LLMs and a conceptually striking question. Under those criteria, my first small investment changes from the previous conceptual favorite to the acquisition/use candidate. **Recommend a bounded native feasibility/causal diagnostic; defer adoption as the main flagship.** The concept can be expressed as: after accessing your internal thinking, can I still discover what you have not discovered? The implemented question concerns complementary information production, not psychological independence or the number of minds. The current task does not yet establish a surprising general principle, and the native implementation alone is not the novelty.
+
+**Question:** when one frozen instance receives another's internal pre-observation state, does it preserve the action differentiation required to obtain complementary new evidence, or follow the other instance at the level of button choice or measurement target? Can prospective action-map and timing interventions predict the consequences for actual acquired information and task success?
+
+The contribution would be a falsifiable account of *which behavioral relation changes*, under conditions where useful late evidence transfer is separately established. A generic finding that communication reduces diversity, or a generic recommendation to communicate later, would not suffice. The old goal-preservation argument is not revived: the agents have the same joint objective, and the endpoint is actual new environmental evidence rather than a self/goal report.
+
+## Why this is the first investment
+
+The formation candidate is conceptually attractive, but its concrete first implementation is text/notebook based and needs acquired routines before any native question can be answered. Its nearest precedent already performs experienced partner swaps. The portability candidate estimates a broad role bundle and is very close to contextual reuse and generation effects. Their longer causal chains and unresolved prerequisites reduce their present expected research return. This is a change in investment ranking under the PI's added criteria, not evidence that their scientific questions are uninteresting.
+
+The chosen candidate has objective truth, an exact information ledger and brief actual actions. It can reveal whether an apparently helpful communication interface changes future information production, and identify conditions under which a behavior that looks like agreement is useful or redundant. A successful causal account can be valuable without identifying heads, layers or a unique neural representation. However, a two-button error alone would be a diagnostic, not a substantial paper.
+
+## The closest evidence narrows the claim
+
+[ArcticSwarm](https://arxiv.org/html/2609.01870) already restricts peer reads during evidence gathering and measures real search coverage and final accuracy. On 830 BrowseComp-Plus questions, removing isolation changes accuracy from 82.6% to 78.8%. [Interlat](https://arxiv.org/html/2511.09149) already evaluates latent communication in action environments and discusses exploration using success and trajectory length. [The Weight of Teamwork](https://arxiv.org/html/2610.24131) already separates candidate production from final selection. Older human-search and active-sensing results further prevent broad first-ever claims. See [source and runtime audit](source-and-runtime-check.md).
+
+The inspected comparisons do not settle the proposed private-cue × action-coordinate intervention on exactly accounted new facts. That is a bounded unresolved comparison, not proof that the entire literature lacks it. Its importance depends on producing an explanation that predicts fresh behavior and a practically consequential outcome. If it merely recreates ordinary unresponsive copying in arbitrary symbols without useful internal transfer or generalization, do not expand it into the main paper.
+
+## The experiment in plain terms
+
+A and B must jointly discover a hidden two-component code. A receives a random private cue constraining its next measurement and commits its choice. Its early state is captured before either hidden value appears. B receives or does not receive that state, then commits one measurement. Only then are actual readings revealed. Finally B may send its observed value back to A for a real answer. The late-gate assignment is concealed throughout acquisition.
+
+A's left/right buttons measure x/y. B's public mapping is either the same or reversed. Under aligned maps, the same buttons duplicate a measurement; under reversed maps, the same buttons cover both components. A fresh private-cue intervention changes the donor's commitment. Button-following, semantic-target-following and complement-taking therefore predict different response maps. Common-label preferences and ordinary mapping errors remain rivals; explicit competence controls and paired cue interventions are necessary. These signatures identify behavioral accounts, not uniquely the internal computation.
+
+Independently control the early message and late return. Use a forced-complementary acquisition arm to assess useful late transfer on comparable evidence, rather than selecting naturally successful trials. Pre-observation donor swaps test dependence on the carried commitment without importing an unmeasured hidden bit. Every actually measured or imported fact belongs in the information ledger. The full [staged plan](plan.md) specifies finite development, comparisons and decision criteria.
+
+## What must be learned before adding mechanistic complexity
+
+1. The model can use the public instrument map and combine two explicitly supplied facts. Otherwise the task is unsuitable.
+2. The native interface can carry useful late evidence under this task's exact numerical/state contract. Otherwise an acquisition failure says little about the scientific question.
+3. A prospective cue/map intervention changes committed measurement choices and new evidence coverage in a reproducible way, beyond generic disruption and label preferences. Effects must be reported even when final accuracy hides them.
+4. The resulting account predicts fresh worlds and a second prespecified task family with a different surface/operation structure. Mere extra labels in the same lookup table are insufficient generalization.
+
+An explanatory paper need not depend on neuron-level identification, but these causal behavioral results alone do not yet secure a flagship contribution. In particular, the proposed wiring task is a close relative of the instrument task, not a broadly independent demonstration. An optional next layer replaces/restores finite native message segments, with wrong-content and disruption controls, to locate state contributions. Such interventions do not prove a pure rule, ownership or policy representation. Exhaustive head searches, trained probes and consciousness claims are unnecessary and outside this proposal.
+
+## What would change the decision
+
+Advance only after useful task competence and native transfer. A strong case combines controlled acquisition effects, independently useful late transfer, prospective behavioral predictions and replication outside the calibration task. Either a well-supported limit or a demonstrated protective condition can be useful; absence of an effect with poor transfer or imprecise intervals cannot.
+
+Stop a flagship claim if the result is only generic impairment, a known timing improvement, a scalar reporting mismatch, or a surface-specific toy effect. Do not tune prompts, gain or task variants to obtain the desired acquisition loss. Existing selector constraints remain in force unless the PI adopts new ones. Formal sample size, meaningful effect margins, run budget and second-family details must be frozen before execution; no GPU or scientific change is authorized by this advice.
+
+The repository already has cloning, archived native states, discarded probes, committed actions and replay primitives. It does not have the new instrument world, leakage audit, stage gates or confirmed useful communication for it. The immediate work is therefore a finite offline task/contract audit followed by a separately proposed small competence pilot. Native transfer is mandatory; text is a comparison and cannot become a fallback main study. The deliverable of that pilot is a yes/no investment decision, not a promised discovery. The independent [plan review](review.md) defers a flagship claim under the PI's heightened criterion while supporting this limited conditional investment. The full execution ledger and budget remain to be specified before any model run.
