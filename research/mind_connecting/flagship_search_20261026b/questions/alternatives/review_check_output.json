@@ -1,0 +1,16 @@
+{
+  "scope": "Exact synthetic six-cell rule; not evidence of model performance.",
+  "perfect_native_U": "1",
+  "perfect_alternative_swap_U": "3/4",
+  "best_summary_rule_U_given_fixed_six_cell_support": "7/8",
+  "ideal_advantage_over_that_optimal_summary_rule": "1/8",
+  "bound_scope": "Conditional on the fixed abstract labeling/support; not an upper bound on the observed model-arm effect. Public generator information and private relabeling determine the implementable summary-only rule.",
+  "breaking_case_native_U": "3/4",
+  "breaking_case_swapped_U": "1/2",
+  "breaking_case_no_message_U": "5/8",
+  "breaking_case_passes_written_numeric_stage2_gate": true,
+  "breaking_case_BC_reversals_correct": true,
+  "breaking_case_CD_actions_both_wrong": true,
+  "raw_evidence_recomputation_U": "1",
+  "implication": "Written Stage 2 gate can advance a policy worse than the summary control; the primary signature does not distinguish hypothesis transfer from evidence recomputation."
+}

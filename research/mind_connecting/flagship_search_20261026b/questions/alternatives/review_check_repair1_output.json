@@ -1,0 +1,97 @@
+{
+  "scope": "Exact stipulated outcome fixtures, not model performance or threshold justification.",
+  "cases": {
+    "old_breaking_case": {
+      "checks": {
+        "validity": true,
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "summary_positive": false,
+        "paired_BC": true,
+        "third_rank": false,
+        "retention": true
+      },
+      "pass": false
+    },
+    "intended_valid_case": {
+      "checks": {
+        "validity": true,
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "summary_positive": true,
+        "paired_BC": true,
+        "third_rank": true,
+        "retention": true
+      },
+      "pass": true
+    },
+    "raw_evidence_recomputation": {
+      "checks": {
+        "validity": true,
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "summary_positive": true,
+        "paired_BC": true,
+        "third_rank": true,
+        "retention": true
+      },
+      "pass": true
+    },
+    "equal_summary": {
+      "checks": {
+        "validity": true,
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "summary_positive": false,
+        "paired_BC": true,
+        "third_rank": true,
+        "retention": true
+      },
+      "pass": false
+    },
+    "insufficient_paired_reversals": {
+      "checks": {
+        "validity": true,
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "summary_positive": true,
+        "paired_BC": false,
+        "third_rank": true,
+        "retention": true
+      },
+      "pass": false
+    },
+    "insufficient_third_rank": {
+      "checks": {
+        "validity": true,
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "summary_positive": true,
+        "paired_BC": true,
+        "third_rank": false,
+        "retention": true
+      },
+      "pass": false
+    },
+    "insufficient_retention": {
+      "checks": {
+        "validity": true,
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "summary_positive": true,
+        "paired_BC": true,
+        "third_rank": true,
+        "retention": false
+      },
+      "pass": false
+    }
+  },
+  "conclusion": "Repair 1 excludes the original failure and independently enforces each added requirement. It intentionally does not identify a representation mechanism."
+}

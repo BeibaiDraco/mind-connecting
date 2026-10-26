@@ -1,0 +1,29 @@
+# Fixed inputs for the PI-requested renewed question search
+
+October 26, 2026. The PI explicitly requests finding a striking research question after the preceding search did not justify a flagship. This is a renewed user-authorized search, not automatic reopening. Earlier reviewed facts and failures remain evidence; do not preserve any prior ranking. No old candidate answers or coordinator early ideas are supplied in this packet. Existing knowledge notes necessarily discuss broad scientific opportunities; this exposure is disclosed.
+
+## Scientific aim and constraints
+
+Find consequential, concrete scientific questions about TWO LLM INSTANCES DIRECTLY EXCHANGING INTERNAL STATES. Start from the brain-bridge vision: if another system's memories/thinking enter my computation, what changes in access, perspective, agency, continuity or the organization of cognition? Questions need not be narrowly about goals or errors. Impact and answerability are more important than identifying a unique neuron-level mechanism. Interesting positive capacities and counterintuitive boundaries are welcome. A text-first study does not meet the request, though text is an important comparison. The project must remain scientifically meaningful without a consciousness or subject-count claim.
+
+Use the pinned frozen Qwen3-4B-Instruct-2507 pair; no trained interface or model change. No prior task must be reused. Fresh controlled environments and later formal studies are possible proposals, not authorized runs. Existing snapshot/actual-commitment/replay/native-window primitives are available; no reliable useful complete native reciprocal chain is established. A direction can be worth testing even with a prerequisite, but do not assume latent decodability entails native receiver use. No target-effect data analysis is permitted in discovery.
+
+## Full three-source reading set
+
+1. Field: ../three_lines_20261025/knowledge/field/overview.md and all four paper notes there; ../three_lines_20261025/knowledge/supplementary_sources.md, introspection_sources.md, late_coordination_sources.md; this workspace's field-refresh.md. Original vision: docs/background/Brain_Bridging_to_LLM_Selfhood_Research_Handoff_2026-09-23.md §§2–5/Appendix. New refresh includes consequential original-method evidence, not candidate prescriptions. Read originals decisive for your candidate families.
+2. Patterns: ../three_lines_20261025/knowledge/patterns/question-patterns.md, its cases/ files and source-index.md; ../three_lines_20261025/knowledge/pattern-selection.md. Three detailed cases supply ways of asking questions, not mandatory methods or universal claims.
+3. Platform and observations: ../three_lines_20261025/knowledge/dataset/{card.md,source-report.md,prior-use.md}; ../gap_audit_20261024/evidence.md; ../mechanism_priority_20261026/source-and-runtime-check.md for current native implementation and new acquisition precedents. Read scientific bodies, not only indexes.
+
+The original three knowledge bodies have completed independent reviews: ../three_lines_20261025/reviews/{field.md,patterns.md,dataset.md}; they are reused unchanged. New field preparation must have a completed independent field-review.md before dispatch. This handoff is ready only after the coordinator records that collection below. Dataset unknowns remain explicit; no absence of past useful interaction establishes impossibility.
+
+## Known overlapping propositions and causal limits
+
+Generic legitimate goal leakage/useful sharing with retained local control, source-report transplants, authority/source confusion, partner swaps, role-dependent retention, confidence forecasts, early communication/search conformity, and duplicated-evidence recovery already have close prior work. Broad neighboring literature is not a reason to reject every particular new proposition: inspect what was actually manipulated and measured, not just the paper's aspiration. Do not claim novelty from the carrier, a task's arbitrary symbols, or a factorial combination alone.
+
+Source-report changes do not establish actual control; sibling reports do not identify the state used for an action; exact same deterministic states cannot have different behavior because of unobserved historical essence. Frozen weights can support contextual learning and state change, but not parameter learning. A higher pair score can reflect external orchestration or extra compute. Common source counts differ from independent evidence. Human implicit confidence communication exists; probe-based latent uncertainty recoverability is not demonstration of a native receiver using it. These are factual limits, not preferred verdicts.
+
+## Return
+
+Write candidates.md with a small, substantively diverse set dictated by scientific promise. For each: one intuitive striking question; exact untested proposition and rival possibilities; why the answer would change understanding/practice; closest actual evidence; decisive feasible native experiment; what would make it trivial; first affordable check; and how all three knowledge sources informed it. Do not require a successful effect in advance, but do not equate an untested exact combination with importance. Do not screen or adopt your own candidates. No subagents, models, target-effect searches, shared-file edits or git. Coordinator early ideas go only to independent screening.
+
+Readiness collection, October 26 at22:36 UTC: new field author explicitly completed and froze field-refresh.md; separate reviewer explicitly completed field-review.md with no material blocker. Coordinator read both actual files. Prior dataset/pattern/field reviews remain completed for unchanged reused notes. All three substantive streams are ready for informed generation at their recorded scope. This does not certify any question's novelty.

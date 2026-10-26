@@ -1,0 +1,62 @@
+# Independent plan review: native access to residual alternatives
+
+Completed initial assessment: October 26, 2026, 22:59 UTC. Status: **conditional scientific opportunity; two consequential specification/claim repairs required before the intended feasibility gate is ready.** This is not approval of a flagship, protocol, model execution or spending.
+
+## Reviewed materials and independence
+
+Read the author's explicitly completed `development.md`, `plan.md`, `finite_world_check.py` and `finite_world_output.json`, the native-runtime source note and relevant protocol/state code. Initial plan SHA256: `19729f8845737113100d7f8ed6bea49962de91e1ef83a097255302f689834469`; development SHA256: `a4e410ccede7c0ae9458c8a839a57b7bb1c3b5f621be30db73bdcbeb6d042f5b`. Read original sources independently before receiving the completed plan. Did not read the screening verdict or root recommendation. Coordinator disclosed the concern about a missing actual donor commitment after initial plan reading; I verified it against the timeline rather than treating it as established. Root startup/governance documents exposed prior dossiers' verdicts, which do not decide this assessment.
+
+Executed only the independent [exact check](review_check.py); [recorded output](review_check_output.json). No model, raw outcomes, author-file modifications, shared-file changes or git operations.
+
+## Scientific value and source boundary
+
+The strongest potentially supported conclusion is that a recipient uses donor-dependent information beyond a common leading answer/scalar summary appropriately across contingencies unknown to the donor. This is a worthwhile operational test of a central claim about rich internal communication. It need not originate that claim or identify a unique neural code to matter. The weak link is whether the actual computation and continuation rule require this stronger behavior rather than a weaker useful-information response.
+
+[Interlat v5](https://arxiv.org/html/2511.09149v5), §5.2 and Appendix F, associates top-k mass dispersion, compression and task performance with preserved parallel hypotheses. Its evidence is broader than a lone probe, but does not itself perform the proposed residual-support/late-contingency intervention. The proposed behavioral test can sharpen that interpretation. Freezing the model is not its conceptual contribution. Earlier v2 uses Appendix H; v5, checked here, uses F.
+
+[Confidence Laundering](https://arxiv.org/html/2606.20662v1), A.8–A.11, fits uncertainty predictors and evaluates recoverability/classification. This leaves native recipient contingent action meaningfully open in that paper. However [ICR](https://arxiv.org/html/2610.01042v1), §3, already evaluates native textual/latent revision with fixed initial records, no-message extra reasoning, both-wrong recovery and question-cluster uncertainty. Therefore neither native use, revision, preservation nor recovery is new by itself. The plan states the remaining contrast correctly.
+
+These inspected sources support a conditional value case, not an exhaustive absence claim or an impact guarantee. The other cited sources were not independently reopened in this bounded review; the three above decide its central comparison.
+
+## Exact rule check: meaningful contrast, incomplete continuation rule
+
+The six-cell proposal has two donor worlds and three cues. Its balanced utility weights retained-leader cells jointly by 1/2 and excluded-leader cells jointly by 1/2. Direct enumeration gives:
+
+| Response | Balanced utility |
+|---|---:|
+| Intended full-information recipient | 1 |
+| Same policy supplied the other donor world | 3/4 |
+| Best winner/scalar/cue-only policy | 7/8 |
+| Raw-evidence recomputation | 1 |
+
+Thus the primary donor-content effect is identifiable. The `{B,C}` cue supplies all swap leverage; `{C,D}` tests a third-ranked choice in one world but does not distinguish donor versions. The six cells genuinely defeat unconditional winner copying and universal runner-up copying. They are a narrow competence test, not broad robustness across residual orderings. The ideal advantage over the optimal summary rule under this fixed abstract labeling/support is only 1/8. This is **not** an upper bound on the observed model-arm difference: an imperfect summary reader can score below its information bound. Public generator information and private relabeling determine whether that optimal rule is implementable. The .10 proposed practical margin needs explicit calibration to the finalized comparison and precision/cost assessment; 24 families are not justified as a confirmatory sample.
+
+**Finding R1, consequential:** the Stage 2 continuation rule omits the stated required summary comparison and a third-rank-use requirement. The independent counterexample always keeps A when all classes remain, correctly selects B/C for both donor-dependent `{B,C}` cases, but incorrectly chooses D for `{C,D}`. It has native U=.75, swapped U=.50, and a valid no-message control U=.625. All numeric continuation criteria and both B/C reversals pass, yet summary U=.875 is better and third-rank recovery fails. Every action is valid; this is not a missing-prerequisite counterexample. Require the continuation disposition to use the summary result and specified rank/retention behavior, or explicitly prevent this case from advancing the intended alternative-use claim. This is an objection to the written gate, not evidence that the task or all lower-cost continuation would be worthless.
+
+## Actual donor answer versus oracle leader
+
+**Finding R2, consequential:** the native inference branch performs 64 work tokens and a seal, but never commits its own answer. The actual answer/scalar arm is generated from a sibling. Consequently a stable *task-optimal* leader is established, while a common actual answer discarded by the native donor is not. The sibling may choose A while the native inference continuation favors B or C. The primary statistic remains the same. The headline and stronger interpretation currently outrun the contract.
+
+A defensible repair could record and consume an actual choice on each exported trajectory, use that trajectory's choice in the answer comparator, retain all prospectively generated families, and report agreement/leader mismatch without selecting the primary population on it. This would characterize what was chosen; it would not guarantee matching actual choices. The resulting primary language must remain explicit about the oracle-versus-observed distinction. Alternatively narrow the headline and donor-answer claims. If commitment is added, its timing and sender-cost ledger must change too. A same-trajectory commitment is a proposed remedy requiring recheck, not a currently implemented fact.
+
+## Mechanism, units, execution and remaining investment
+
+Raw premises plus recipient recomputation exactly reproduce the ideal primary signature. The author acknowledges this; that is a real limit rather than a fatal flaw in the bounded operational question. Inference versus rehearsal can test whether donor processing improves later use at a fixed receiver budget, but can also reflect compression, binding or retrieval. It cannot alone establish transmission of an already-computed alternative distribution. The text/full-evidence controls are appropriate and should remain necessary evidence for interpretation.
+
+Episode/layout clustering, prospective inclusion, disjoint stages, no target-based tuning, no zero-imputation and three-contrast simultaneous inference are sensible. The 13-arm, 24-family, six-cell arithmetic is 1,872 receiver choices; 192 sender diagnostic readouts and Stage 1's 72 choices are separately stated. Material generation, seal/forced-token admission, actual native window import/commit semantics and price/runtime accounting remain unimplemented. The two-premise task is not validated by the abstract count enumeration. These are appropriately open; reusable native primitives are not execution readiness.
+
+Recommendation: preserve this as a concrete candidate for a bounded native feasibility decision, with the two findings repaired and independently checked. Require the processing comparison and stronger cross-contingency evidence before pursuing the flagship interpretation. Do not dismiss the question merely because a normal information-processing mechanism can answer it, and do not present simple fact relay as proof of shared unfinished inference. Initial review is complete; no substantive repair cycle has yet been verified.
+
+## Repair 1 independently verified — 2026-10-26 23:09 UTC
+
+**Completed recheck; R1 and R2 are closed at the planning/specification level.** The current disposition is a worthwhile conditional candidate for a bounded native feasibility decision, with execution admission, PI adoption and stronger scientific interpretation still pending. One substantive repair cycle is consumed; one remains. This conclusion supersedes the initial note's pending-repair status without changing that historical assessment.
+
+Read the explicitly completed repair of `plan.md`, `development.md` and author `repair-check.json`. Checked plan SHA256 `9d02166dedb69fa16fdcaffc4c3d986deb4a2e204f7b83bee7ffd3dda68892d0` and development SHA256 `b93f3811c307f1dce6decb4d7a657d3ce8b2f439eb1ab1de4b19487244ce39f8`. The evidence-stage table now explicitly includes the minimal actual-choice step, matching the detailed timeline; that alignment is editorial, not another scientific repair.
+
+For R1, independently implemented the revised conjunction in [review_check_repair1.py](review_check_repair1.py), rather than accepting the author's result file. [Recorded results](review_check_repair1_output.json) reject the original failure on both the measured-summary and third-rank requirements. The intended full-information case passes. Additional fixtures with equal summary utility, only 17 paired B/C reversals, only 17 third-rank successes, or only 39 retained leaders independently fail their respective new requirements. All fixtures stipulate complete valid outputs. This verifies the rule's logical behavior, not model efficacy, acceptable precision or the scientific adequacy of its numerical tolerances. The distinction between the 7/8 ideal summary rule and measured Qwen performance is now preserved, with separate future practical margins rather than an automatic .10 summary margin.
+
+For R2, all three export paths now select and consume their actual candidate before the common seal. The answer-only comparator uses the inference export trajectory's consumed answer. Its scalar comparator uses the normalized candidate-choice probability from logits recorded at that same decision, before the consumed choice and seal can alter them. Supplemental elicited confidence remains separately labeled sibling evidence. The plan explicitly retains all families, reports observed agreement/leader mismatch and nonchosen receiver actions with unconditional denominators, and limits any same-actual-answer interpretation to what those observations support. The common oracle leader no longer silently establishes a common actual answer. The motivating headline remains a question; it is not a promised characterization of every family.
+
+The new choice operation changes the early condition's meaning: it contains minimal choice computation and cannot serve as an entirely unprocessed-evidence baseline. The revised timeline says this explicitly. The ledger adds the correct `24 × 2 × 3 = 144` donor commitments to 1,872 receiver decisions and the existing 192-readout cap; Stage 1's 72 outputs remain separate. Common choice prompts, consumed tokens, seal/prefill tokens and comparison compute allocations are to be logged. These are proposal counts and a contract, not a measured complete runtime/price estimate. Existing primitives do not by themselves verify the new work–choice–seal ordering; runner admission remains necessary.
+
+Raw-evidence recomputation still passes the repaired gate, as independently checked. Therefore the repair does not turn the main endpoint into proof of a transferred hypothesis representation. The paper opportunity remains conditional counterfactual use of donor information plus an explanatory donor-processing comparison; compression, binding and retrieval remain valid explanations. That limitation is accurately carried through the repaired plan and development note. No further substantive redesign is needed to present this conditional planning outcome honestly.

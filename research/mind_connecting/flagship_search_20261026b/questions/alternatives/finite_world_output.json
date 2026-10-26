@@ -1,0 +1,61 @@
+{
+  "scope": "Stipulated task distribution, not model confidence or model behavior.",
+  "construction": "Uniform prior over 15 surviving micro-worlds, with hypothesis counts a permutation of [8,4,2,1]; late truthful clue reveals membership in a surviving set of size 2,3,4. Decisions maximize conditional probability; all cue branches equally weighted by design, not sampled in natural frequency.",
+  "donor_worlds": 24,
+  "cues_per_world": 11,
+  "decision_cells": 264,
+  "common_max_probability": "8/15",
+  "common_entropy_bits": 1.640223928941852,
+  "correct_rank_counts": {
+    "1": 168,
+    "2": 72,
+    "3": 24
+  },
+  "winner_retained_cells": 168,
+  "winner_excluded_cells": 96,
+  "summary_indistinguishability_groups": 44,
+  "ambiguous_groups": 16,
+  "best_winner_maxprob_entropy_and_cue_policy_accuracy": "53/66",
+  "same_summary_policy_on_winner_excluded_accuracy": "11/24",
+  "always_winner_accuracy": "7/11",
+  "always_runner_up_accuracy": "3/11",
+  "full_distribution_or_raw_evidence_oracle_accuracy": "1",
+  "counterexample_same_visible_summary": [
+    {
+      "masses": [
+        8,
+        4,
+        2,
+        1
+      ],
+      "winner": 0,
+      "cue_survivors": [
+        1,
+        2
+      ],
+      "correct": 1,
+      "correct_prior_rank": 2,
+      "winner_retained": false,
+      "always_winner_correct": false,
+      "always_runner_up_correct": true
+    },
+    {
+      "masses": [
+        8,
+        2,
+        4,
+        1
+      ],
+      "winner": 0,
+      "cue_survivors": [
+        1,
+        2
+      ],
+      "correct": 2,
+      "correct_prior_rank": 2,
+      "winner_retained": false,
+      "always_winner_correct": false,
+      "always_runner_up_correct": true
+    }
+  ]
+}

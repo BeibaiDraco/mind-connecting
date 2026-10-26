@@ -1,0 +1,47 @@
+{
+  "scope": "Synthetic proposed gate check; all outputs stipulated valid and complete, not model evidence. Formula evaluates listed inequalities directly. Raw-evidence recomputation shares the ideal full-information result.",
+  "cases": {
+    "review_counterexample": {
+      "inputs": {
+        "native": 0.75,
+        "swap": 0.5,
+        "no_message": 0.625,
+        "summary": 0.875,
+        "bc": 24,
+        "third": 0,
+        "retained": 48
+      },
+      "checks": {
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "positive_summary_effect": false,
+        "paired_BC": true,
+        "third_rank": false,
+        "retention": true
+      },
+      "all_pass": false
+    },
+    "ideal_full_information": {
+      "inputs": {
+        "native": 1.0,
+        "swap": 0.75,
+        "no_message": 0.625,
+        "summary": 0.875,
+        "bc": 24,
+        "third": 24,
+        "retained": 48
+      },
+      "checks": {
+        "native_floor": true,
+        "swap_margin": true,
+        "no_message_margin": true,
+        "positive_summary_effect": true,
+        "paired_BC": true,
+        "third_rank": true,
+        "retention": true
+      },
+      "all_pass": true
+    }
+  }
+}
