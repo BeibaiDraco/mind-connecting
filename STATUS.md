@@ -322,6 +322,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Select a mechanism-focused priority and develop a concrete staged research plan | STATUS.md; decision_log.md; research/mind_connecting/mechanism_priority_20261026/; research/mind_connecting/README.md; research/mind_connecting/NEXT.md | 2026-10-26 17:06 Chicago |
 
 
 
