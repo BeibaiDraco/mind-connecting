@@ -330,6 +330,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Audit primary-source scope and reassess the shared-perspective proposal across connection modes | STATUS.md; decision_log.md; research/mind_connecting/connection_scope_20261027/; research/mind_connecting/README.md; research/mind_connecting/NEXT.md | 2026-10-27 00:35 Chicago |
 
 
 
