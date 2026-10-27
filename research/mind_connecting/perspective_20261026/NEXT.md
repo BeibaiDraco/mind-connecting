@@ -1,0 +1,9 @@
+# Next discriminability check
+
+Retain the shared-content/multiple-situated-use question as a conceptual priority, not an execution recommendation. Read [recommendations](recommendations.md), [screening](screening.md), [candidates](candidates.md), [field supplement](field-supplement.md), [independent field review](field-review.md), and [root original checks](root-source-checks.md).
+
+The next authorized local preparation is an exact crossed action table and primary-source comparison: does the proposed factual-content by current-control by donor-frame manipulation distinguish something beyond the existing Paul centering, LACO ego-control and Li role-index comparisons? Include a neutral named-controller solution. No new model run, target-effect selection or adopted metric follows. If the distinction reduces to exhausted goal-control or acquisition/use map interference, do not restart either argument. A simultaneous dual-use proposal earns a distinct development argument only after demonstrating its scientific difference. A new experiment needs PI adoption and independently established native competence, materials and execution contracts.
+
+Q2 joins the earlier undeveloped retrieval/rescue queue. Before development, compare its exact behavior-property outcome with Patchscopes and Binder, using a complete history/compute/self-clone/readout ledger. Q3 remains information-deferred pending the common-information/evidence-recycling literature. No deep plan was commissioned in this bounded conceptual pass; none should be inferred from the illustration. The [final document review and correction recheck](final-review.md) are complete.
+
+Existing counts remain goal-control2, capacity/portability2, acquisition/use2, formation1, alternatives1; no substantive candidate repair is consumed by this conceptual screening. No result or protocol is changed. The alternatives plan remains a separate content-use option, not evidence about self or fusion.

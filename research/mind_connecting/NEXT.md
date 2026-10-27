@@ -1,5 +1,9 @@
 # Smallest useful continuation
 
+Latest update, October26 at23:03 Chicago: the PI asks how connection architecture relates to self and first-person experience. Read the [current conceptual assessment](perspective_20261026/recommendations.md), [screening](perspective_20261026/screening.md), and [current next checks](perspective_20261026/NEXT.md) first. No new candidate is promoted or adopted. Q1 needs a contribution check beyond recentering and generic binding; Q2 joins the prior retrieval/rescue queue and needs a fair readout ledger; Q3 needs missing primary literature. The earlier alternatives plan below remains a separate, more developed content-use option. It does not test subject fusion.
+
+The following preserves the previous alternatives-study continuation and its unresolved contracts; it is not automatic authorization to implement that study.
+
 Updated October 26, 2026 after the PI explicitly requested another search for an eye-opening question centered on two internally communicating LLMs.
 
 Read the new [recommendation](flagship_search_20261026b/recommendations.md), [plan](flagship_search_20261026b/questions/alternatives/plan.md), [development check](flagship_search_20261026b/questions/alternatives/development.md), [screening](flagship_search_20261026b/screening.md), [source checks](flagship_search_20261026b/late-source-checks.md) and [workspace index](flagship_search_20261026b/README.md). The leading new question is whether a native receiver can use a donor-supported alternative that the donor did not select, in response to private evidence the donor never saw. This is a positive recommendation for a staged study, not a demonstrated effect, adopted protocol or first-in-literature certification.
