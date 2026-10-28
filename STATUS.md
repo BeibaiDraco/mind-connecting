@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-28 02:44 Chicago, Codex (approved V7 acceptance package prepared; H100 commissioning next).
+Last updated: 2026-10-28 03:04 Chicago, Codex (approved H100 instance commissioned; pinned dependency setup running).
 
 ## Current phase
+
+**V7 H100 commissioned (2026-10-28, Codex):** One H100 SXM 80 GB, instance `58065462` (`v7-approved-20261028`), 120 GiB disk, quoted USD 2.6431/hour including storage. Source `9cb073a` and 121 source hashes are deployed; exact public tokenizer assets are copied separately. The controller runs dependency setup, the two GPU checkpoint tests, then the 12-episode engineering package, stopping on any failure. A passed engineering receipt waits for a disk-capacity check before the separate pilot dispatch. The SD control backup includes the source bundle, approval, configuration and controller. No ownership output has been opened or scored; no pilot has started. Complete cache/result backup and verification precede successful-instance destruction; failures preserve the instance. Execution evidence review is claimed below.
 
 **V7 engineering/pilot approved and prepared (2026-10-28, Codex):** PI approved protocol commit `5b78a32`, SHA256 `39c607bb5a51cdc480c6dee6780fb74970b1a2a2678b231029510888770768c0`, for section 7 steps 1–2 only. Approval and the later permission to destroy after verified SD backup are appended in `decision_log.md`. Claude's runner review approves base smoke/pilot. Added the approved fifth generalization arm prospectively (50 trials/episode; no generalization dispatch). Prepared a separate engineering module with 12 fixed-input dev episodes, a native batch-noise BF16 envelope locked before translated errors, per-step/geometry timing at batches 1/4/8/12, and a CAP0-only all-arm runner exercise. No scientific choices are scored or opened. A failed check prevents pilot dispatch; a passed receipt supplies the measured batch for the 80-episode pilot. Recipe: `docs/reviews/v7_execution_codex_20261028.md`. Full offline suite: 1371 passed, 11 skipped, 1 GPU test deselected (47.08s). No instance rented yet. Private local control root: `/private/tmp/mb-v7-execution-20261028`; SD has approximately 748 GiB available. Formal execution remains unauthorized; Claude owns pilot gates.
 
@@ -353,7 +355,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | Approved V7 H100 acceptance and conditional pilot; sealed ownership outputs, backup and lifecycle closeout | src/mb/v7_run.py, src/mb/v7_acceptance.py (new), tests/test_v7_runner.py, tests/test_v7_acceptance.py (new), tests/test_v7_kv_gpu.py, configs/v7/, docs/reviews/v7_execution_codex_20261028.md (new), decision_log.md, STATUS.md; private V7 execution artifacts on SD | 2026-10-28 02:27 Chicago |
+| Codex | Approved V7 H100 acceptance and conditional pilot; sealed ownership outputs, backup and lifecycle closeout | src/mb/v7_run.py, src/mb/v7_acceptance.py (new), tests/test_v7_runner.py, tests/test_v7_acceptance.py (new), tests/test_v7_kv_gpu.py, configs/v7/, docs/reviews/v7_execution_codex_20261028.md, docs/reviews/v7_gpu_acceptance_codex_20261028.md (new), decision_log.md, STATUS.md; private V7 execution artifacts on SD | 2026-10-28 02:27 Chicago |
 | Claude Code | Revision Phase 1: protocol V7 draft, use-assay and generalization-variant materials, offline analyses | docs/protocol/PROTOCOL_V7_DRAFT.md (new), src/mb/v7_tasks.py (new), tests/test_v7_tasks.py (new), scripts/v7_*.py (new), research/mind_connecting/address_ownership_20261027/ | 2026-10-28 01:04 Chicago |
 
 
