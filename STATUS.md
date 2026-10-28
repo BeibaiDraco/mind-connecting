@@ -365,6 +365,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | V7 answer-position diagnostic persistence, storage correction and Claude review; conditional pilot continuation | `src/mb/v7_run.py`, `tests/test_v7_runner.py`, new `docs/reviews/v7_logging_*_20261028.md`, private pilot controls, `STATUS.md`, append-only `decision_log.md` | 2026-10-28 11:06 Chicago |
 
 
 
