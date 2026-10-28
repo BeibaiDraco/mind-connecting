@@ -347,6 +347,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Review V7 draft/materials, then implement R4 runner integration for Claude review; offline only | src/mb/v7_run.py (new), src/mb/run.py, tests/test_v7_runner.py (new), docs/reviews/v7_protocol_materials_review_codex_20261028.md (new), docs/reviews/v7_runner_implementation_codex_20261028.md (new), STATUS.md | 2026-10-28 01:50 Chicago |
 | Claude Code | Revision Phase 1: protocol V7 draft, use-assay and generalization-variant materials, offline analyses | docs/protocol/PROTOCOL_V7_DRAFT.md (new), src/mb/v7_tasks.py (new), tests/test_v7_tasks.py (new), scripts/v7_*.py (new), research/mind_connecting/address_ownership_20261027/ | 2026-10-28 01:04 Chicago |
 
 
