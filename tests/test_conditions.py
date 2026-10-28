@@ -100,3 +100,26 @@ def test_strict_third_person_frame_is_named_apart():
     assert a.name == "ONE/KV-P/w0.8/3ps/FULL"
     with pytest.raises(ValueError):
         ArmConfig("TWO", gain=0.8, interface="kv", kv_scope="P", partner_frame="third_strict")
+
+
+def test_v7_placement_identity_and_legacy_compatibility():
+    from dataclasses import asdict, replace
+
+    native = ArmConfig("ONE", gain=1, interface="kv", kv_scope="P")
+    expected = asdict(native)
+    for key in ("kv_position", "kv_log_spans", "model_profile", "donor_robin_conflict"):
+        expected.pop(key)
+    expected.update(tau=1, calibration_hash="none", mask_hash="none", template_hash="tmpl",
+                    model_revision="cdbee75f17c01a7cc42f958dc650907174af0554")
+    assert native.identity("none", "none", "tmpl") == expected
+    shifted = replace(native, kv_position="before_own", kv_log_spans=True)
+    assert shifted.name == "ONE/KV-P/w1/P-before-own/spanlog/FULL"
+    ident = shifted.identity("none", "none", "tmpl")
+    assert ident["kv_geometry_contract"]["delta_rule"] == "own_start-donor_end"
+    assert shifted.config_hash("none", "none", "tmpl") != native.config_hash("none", "none", "tmpl")
+    for change in (dict(kv_scope="ALL"), dict(condition="TWO"), dict(kv_position="later"),
+                   dict(kv_log_spans="yes")):
+        with pytest.raises(ValueError):
+            replace(shifted, **change)
+    with pytest.raises(ValueError):
+        ArmConfig("C0", kv_log_spans=True)

@@ -13,6 +13,7 @@ import math
 from dataclasses import asdict, dataclass
 
 from mb.model_profiles import resolve_profile
+from mb.kv_geometry import PLACEMENTS, placement_contract
 
 
 class ContractIncomplete(NotImplementedError):
@@ -55,6 +56,8 @@ class ArmConfig:
     partner_frame: str = "second"  # protocol v3: "third" / "third_strict" write the donor's memory as a record
     model_profile: str | None = None  # absent preserves all frozen Qwen arm identities
     donor_robin_conflict: bool = False  # v5: change only B's record of Robin
+    kv_position: str = "native"  # v7: translate the complete donor P bank before own position zero
+    kv_log_spans: bool = False  # diagnostic only; declared at prefill, never a selector
 
     def __post_init__(self) -> None:
         profile = resolve_profile(self.model_profile)
@@ -91,6 +94,13 @@ class ArmConfig:
                 raise ValueError("message form does not apply to KV reading; leave it at the default")
         elif self.kv_scope is not None:
             raise ValueError("kv_scope is only valid for kv arms")
+        if self.kv_position not in PLACEMENTS:
+            raise ValueError(f"kv_position must be one of {PLACEMENTS}")
+        if self.kv_position != "native" and not (
+                self.interface == "kv" and self.kv_scope == "P" and self.direction == "one"):
+            raise ValueError("before_own placement requires one-way KV-P")
+        if not isinstance(self.kv_log_spans, bool) or (self.kv_log_spans and self.interface != "kv"):
+            raise ValueError("kv_log_spans must be boolean and requires a KV arm")
         if self.partner_frame not in PARTNER_FRAMES:
             raise ValueError(f"partner_frame must be one of {PARTNER_FRAMES}, got {self.partner_frame!r}")
         if not isinstance(self.donor_robin_conflict, bool):
@@ -170,6 +180,10 @@ class ArmConfig:
             parts += [f"KV-{self.kv_scope}", w]
             if self.partner_frame != "second":
                 parts.append({"third": "3p", "third_strict": "3ps"}[self.partner_frame])
+            if self.kv_position != "native":
+                parts.append("P-before-own")
+            if self.kv_log_spans:
+                parts.append("spanlog")
         elif self.bridged:
             parts.append(f"L{self.layer}")
             parts.append(self.form)
@@ -183,6 +197,13 @@ class ArmConfig:
 
     def identity(self, calibration_hash: str, mask_hash: str, template_hash: str) -> dict:
         ident = asdict(self)
+        if self.kv_position == "native":
+            ident.pop("kv_position")
+        if not self.kv_log_spans:
+            ident.pop("kv_log_spans")
+        if self.kv_position != "native" or self.kv_log_spans:
+            ident["kv_geometry_contract"] = placement_contract(self.kv_position)
+            ident["kv_span_contract"] = "P_half_open_joint_mass_per_layer_query_head_v1"
         if not self.donor_robin_conflict:
             ident.pop("donor_robin_conflict")
         profile = resolve_profile(self.model_profile)

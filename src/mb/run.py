@@ -289,6 +289,10 @@ class StageConfig:
         for arm in d["arms"]:
             if not arm["donor_robin_conflict"]:
                 arm.pop("donor_robin_conflict")
+            if arm["kv_position"] == "native":
+                arm.pop("kv_position")
+            if not arm["kv_log_spans"]:
+                arm.pop("kv_log_spans")
         if self.model_profile is None:
             d.pop("model_profile")
             for arm in d["arms"]:
@@ -421,6 +425,10 @@ def reflection_groups(arms: list[ArmConfig]) -> list[list[ArmConfig]]:
         spec = dataclasses.asdict(arm)
         if not spec["donor_robin_conflict"]:
             spec.pop("donor_robin_conflict")
+        if spec["kv_position"] == "native":
+            spec.pop("kv_position")
+        if not spec["kv_log_spans"]:
+            spec.pop("kv_log_spans")
         spec.pop("recipients")
         spec["readout_mode"] = "RO" if arm.readout_mode == "RO" else "FULL"
         groups.setdefault(ledger.canonical_hash(spec), []).append(arm)
@@ -471,7 +479,12 @@ def snapshot_hash(state: Any) -> str:
             marker([type(value).__name__, str(value)])
         elif dataclasses.is_dataclass(value) or hasattr(value, "__dict__"):
             marker(["object", type(value).__module__, type(value).__qualname__])
-            visit(vars(value))
+            fields = vars(value)
+            # An unused optional V7 field must not invalidate pre-V7 C48 fingerprints.
+            if (type(value).__module__ == "mb.runtime" and type(value).__qualname__ == "State"
+                    and fields.get("kv_banks") is None):
+                fields = {k: v for k, v in fields.items() if k != "kv_banks"}
+            visit(fields)
         else:
             raise TypeError(f"unsupported snapshot field type: {type(value)!r}")
 
@@ -685,6 +698,11 @@ class Runner:
                           *chat.header(self.tok)]
         return ids + tasks.reflection_turn_ids(self.tok, self.cfg.materials)
 
+    def prefix_spans(self, ep: tasks.Episode, role: str, frame: str,
+                     prefix_ids: list[int]) -> list[tuple[str, int, int]]:
+        """Override in the V7 runner with material-declared logical P-bank spans."""
+        return [("P", 0, len(prefix_ids))]
+
     def ensure_c0_reflections(self, engine, chunk: list[tasks.Episode]) -> None:
         from mb.runtime import make_plan
 
@@ -810,7 +828,14 @@ class Runner:
                         lang = (self.tok.decode(ids), arm.lang)
                         lang_meta[p] = {"lang_source_sha": ledger.canonical_hash(ids), "lang_n_tokens": len(ids)}
                     prefixes += [self.prefix(ep, "A", lang), self.prefix(donor, "B", frame=arm.partner_frame)]
-                state = engine.prefill(prefixes)
+                if arm.kv_position != "native" or arm.kv_log_spans:
+                    span_rows = []
+                    for p, (ep, donor) in enumerate(zip(chunk, donors)):
+                        span_rows += [self.prefix_spans(ep, "A", "second", prefixes[2 * p]),
+                                      self.prefix_spans(donor, "B", arm.partner_frame, prefixes[2 * p + 1])]
+                    state = engine.prefill(prefixes, attention_spans=span_rows)
+                else:
+                    state = engine.prefill(prefixes)
                 idx = self.mask_indices(arm)
                 if idx is not None:
                     idx = idx.to(engine.device)
@@ -844,7 +869,7 @@ class Runner:
 
         c_path = self._tick_path("C", arm, chash, chunk_index)
         np.savez_compressed(c_path, episode_ids=np.array([e.episode_id for e in chunk]),
-                            **{k: v.cpu().numpy() for k, v in ticklog.items()})
+                            **self._tick_payload(ticklog))
         consumed = state.consumed_matrix().cpu()
         for i, (ep, view) in enumerate(zip(chunk, donors)):
             text_a, text_b = self.tok.decode(consumed[2 * i].tolist()), self.tok.decode(consumed[2 * i + 1].tolist())
@@ -882,11 +907,22 @@ class Runner:
                     self.log(f"[{arm.name}] chunk {chunk_index} {qid}: {error}")
                 if out is not None and "r_inj_ratio" in out:
                     keys = [json.dumps([chunk[p].episode_id, r, q.qid, q.rotation_id]) for p, r, q in part]
-                    rticks.append((keys, {k: out[k].cpu().numpy() for k, _ in TICK_ARRAYS}))
+                    arrays = {k: out[k].cpu().numpy() for k, _ in TICK_ARRAYS}
+                    arrays.update(self._tick_payload({k: v for k, v in out.items()
+                        if k == "kv_geometry" or k in ("r_kv_span_mass", "r_kv_query_pos", "r_kv_bank_mass",
+                                                       "g_kv_span_mass", "g_kv_query_pos", "g_kv_bank_mass")}))
+                    rticks.append((keys, arrays))
                 for j, (p, recipient, q) in enumerate(part):
                     ep = chunk[p]
                     rec = self._base_record(arm, ident, chash, mhash, ep, recipient, q)
                     rec.update(lang_meta[p])
+                    if "kv_geometry" in ticklog:
+                        geometry = ticklog["kv_geometry"][2 * p + (recipient == "B")]
+                        rec["kv_condition_identity"] = geometry
+                        rec["resolved_condition_hash"] = ledger.canonical_hash(
+                            {"config_hash": chash, "kv_condition_identity": geometry})
+                    if out is not None and "kv_geometry" in out:
+                        rec["r_kv_condition_identity"] = out["kv_geometry"][j]
                     if snapshot is not None:
                         rec.update(c48_snapshot_key=snapshot.key, c48_snapshot_sha256=snapshot.sha256)
                     if arm.donor_variant:
@@ -947,6 +983,16 @@ class Runner:
         self.snapshot_hashes[key] = sha
 
     @staticmethod
+    def _tick_payload(values: dict[str, Any]) -> dict[str, Any]:
+        """NPZ-safe diagnostics: numeric summaries and JSON metadata, never object arrays."""
+        import numpy as np
+
+        return {("kv_geometry_json" if name == "kv_geometry" else name):
+                (np.array([json.dumps(row, sort_keys=True, allow_nan=False) for row in value])
+                 if name == "kv_geometry" else value.cpu().numpy())
+                for name, value in values.items()}
+
+    @staticmethod
     def _save_rticks(path: Path, parts: list[tuple[list[str], dict[str, Any]]]) -> None:
         import numpy as np
 
@@ -960,6 +1006,27 @@ class Runner:
                 buf[:, :x.shape[1]] = x
                 padded.append(buf)
             arrays[name] = np.concatenate(padded)
+        if any("kv_geometry_json" in a for _, a in parts):
+            arrays["kv_geometry_json"] = np.concatenate([
+                a.get("kv_geometry_json", np.array(["null"] * len(ks))) for ks, a in parts])
+        for name in ("r_kv_span_mass", "r_kv_query_pos", "r_kv_bank_mass",
+                     "g_kv_span_mass", "g_kv_query_pos", "g_kv_bank_mass"):
+            present = [a[name] for _, a in parts if name in a]
+            if not present:
+                continue
+            # Span counts and generated-output lengths can differ between branch chunks.
+            shape = tuple(max(x.shape[d] for x in present) for d in range(1, present[0].ndim))
+            padded, lengths = [], []
+            fill = -1 if name.endswith("query_pos") else float("nan")
+            for keys, a in parts:
+                buf = np.full((len(keys), *shape), fill, dtype=present[0].dtype)
+                x = a.get(name)
+                if x is not None:
+                    buf[tuple(slice(0, n) for n in x.shape)] = x
+                padded.append(buf)
+                lengths.extend([0 if x is None else x.shape[1]] * len(keys))
+            arrays[name] = np.concatenate(padded)
+            arrays[name + "_lengths"] = np.array(lengths)
         np.savez_compressed(path, trial_keys=np.array([k for ks, _ in parts for k in ks]),
                             lengths=np.concatenate([np.full(len(ks), a["r_inj_ratio"].shape[1]) for ks, a in parts]),
                             **arrays)

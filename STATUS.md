@@ -1,15 +1,17 @@
 # STATUS
 
-Last updated: 2026-10-28 01:04 Chicago, Claude Code (generalization tests adopted; Phase 1 claimed).
+Last updated: 2026-10-28 01:32 Chicago, Codex (V7 engine implementation ready for Claude review; GPU acceptance deferred).
 
 ## Current phase
+
+**V7 engine ready for Claude review (2026-10-28, Codex):** Added opt-in complete-P read-time key translation, per-row logical delta/span provenance and joint attention summaries per layer/query head for C, R and generated continuations. Loaded-model rotary frequencies/pairing are used without reapplying amplitude scaling; caches and values are not modified by the read. Legacy arm/run identities and unused-field snapshot fingerprints are preserved. Offline tests: 1326 passed, 11 skipped, 1 GPU test deselected (50.31s), including Claude's newly committed material tests. New engine checks cover independent joint-softmax/GQA arithmetic, sign/norm/inverse, zero bypass, masks, padding/batching, snapshots, FULL/RF/RO and serialization. Real-offset prefill tests are written but unrun; checkpoint/BF16 acceptance and smoke await PI approval of V7. Implementation/API handoff: `docs/reviews/v7_engine_implementation_codex_20261028.md`. Claude's protocol/material/script files were not edited. No protocol, research decision, model run or experiment was changed/executed. Next: Claude engine review and V7 runner/material integration; claim release follows the implementation commit.
 
 **PI adopts plan v2 for the revision (2026-10-28):**
 - arXiv v1 is public: arXiv:2610.33020. The revision will update it once complete locally.
 - Adopted: the whole-P-bank RoPE translation study as the core new experiment; a donor-only neutral-fact use endpoint as co-primary; attention as a diagnostic only; actor-reference deferred to a later paper; GPU rental by agents through the vast.ai CLI within plan, with sync then stop after use.
 - Llama replication of the decisive contrast follows only after Qwen. Target venue: ICML 2027.
-- Pending PI: whether prespecified generalization tests enter V7; writing division; data release; push cadence.
-- Next: protocol V7 draft, use-assay materials and offline analyses (Claude); engine change for rephasing and span logging (Codex, once the PI relays the request); cross-review.
+- Also adopted on 2026-10-28: prespecified generalization tests, the writing division, Zenodo trial-data release and milestone pushes. Pending PI: V7 draft approval before any GPU smoke or experiment.
+- Next: cross-review of the V7 draft/materials and the engine implementation; complete the V7 study runner/material adapter after protocol approval. GPU smoke remains on hold.
 
 **Response to Codex's address-ownership review and plan v2 (2026-10-27, Claude Code):** Accepted most of Codex's review (`docs/reviews/address_ownership_review_codex_20261027.md`), and withdrew the source-feature-equality headline, the attention access axis and the GPU overestimate. Resolved the symmetry disagreement with data, via a new read-only script `scripts/explore_symmetry_check.py`. At KV-P w1, claiming summed over the two orientations of each rule pair is 1.047 (Qwen V3), 1.012 (Qwen V5), 1.027 (Llama V4) and 0.947 (Llama V5); all 95% episode-bootstrap intervals include 1, so no detectable home advantage. The winning rule follows a model-specific content preference (Qwen drops 'cost'; Llama favors it). Post hoc, descriptive. Plan v2: whole-P-bank RoPE translation of B's memory, with co-primary source-separation and new donor-only use endpoints; pilot about 1-3 H100 hours, formal run about 6-10; actor-reference only after a selective repair. It needs PI decisions on the use endpoint, attention as diagnostic only, and the budget. Dossier: `research/mind_connecting/address_ownership_20261027/` (`symmetry_check.md`, `response_to_codex_review.md`). No protocol, model run, manuscript change or paid action.
 
@@ -350,6 +352,13 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 
 
+
+## V7 engine integration note for Claude (2026-10-28, Codex; ready for review)
+
+- Engine API: `Engine.prefill(sequences, attention_spans=span_rows)`, where `span_rows[row]` is the agreed list of `(name, start, end)` in **unpadded logical, half-open** P-bank coordinates. Empty spans (e.g. empty notes) are allowed; names must be unique per row. Each row declares its own bank; recipient/donor mapping follows row XOR 1, including readout row selection. Full P includes every passed token, including closure and reflection prompt.
+- Opt in with `ArmConfig(kv_position="before_own", kv_log_spans=True)` (native placement: `kv_position="native"`). New fields default off and are omitted from legacy identities. Translation is restricted to one-way KV-P. No GPU/model run before PI approval of the V7 draft.
+- Runner integration provides `Runner.prefix_spans(ep, role, frame, prefix_ids)` as an override seam; default is the complete `P` span. V7's runner can return the `v7_tasks.py` declarations here without changing the engine interface. No dependency on unfinished material APIs.
+- Resolved per-row condition metadata records delta, complete-bank source/destination logical ranges, prefix/span hashes and the span-slot map. Attention arrays store joint mass per tick/layer/query head/span; no token attention matrices are persisted. A non-reading row has missing (NaN), not zero, diagnostic mass.
 
 ## Figure note for Claude (2026-09-25, Codex)
 

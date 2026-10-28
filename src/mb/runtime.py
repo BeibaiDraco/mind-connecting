@@ -15,8 +15,10 @@ never modifying either cache), weighted by w, excluding the partner's current-ti
 
 from __future__ import annotations
 
+import copy
 import math
 from dataclasses import dataclass, field
+from typing import Any, Callable
 
 import torch
 from transformers import AttentionInterface, AutoModelForCausalLM, DynamicCache, PreTrainedTokenizerBase
@@ -27,6 +29,7 @@ from mb import chat
 from mb.bridge import (MESSAGE_DTYPE, BridgeHook, LayerCalibration, apply_transform, ema_update,
                        message, rms, scram_matrix)
 from mb.conditions import MODEL_REVISION, ArmConfig
+from mb.kv_geometry import Span, bank_metadata, digest, rephase_keys, resolve_geometry
 from mb.model_profiles import ModelProfile, QWEN, resolve_profile
 from mb.tasks import NOTE_MAX_TOKENS, REFLECTION_TICKS, U_OPEN_TOKENS  # noqa: F401 (re-exported)
 
@@ -45,6 +48,8 @@ class KVPlan:
     log_w: float  # added to the attention logits of partner keys (prefill segment for scope PC)
     scope: str  # "C": partner's C/R tokens; "ALL": partner's whole valid cache; "P": prefill only; "PC": split weights
     log_w_live: float | None = None  # scope PC: added to partner keys in the C/R segment
+    position: str = "native"
+    log_spans: bool = False
 
 
 class _KVContext:
@@ -60,6 +65,10 @@ class _KVContext:
         self.mass_cr_sum: torch.Tensor | None = None  # same, restricted to the partner's C/R tokens
         self.c_start = 0
         self.n_layers = 0
+        self.delta = self.rephase_mask = self.inv_freq = self.rotate_half = None
+        self.own_spans = self.donor_spans = self.span_valid = None
+        self.span_mass: dict[int, torch.Tensor] = {}
+        self.bank_mass: dict[int, torch.Tensor] = {}
 
 
 KV_CONTEXT = _KVContext()
@@ -74,9 +83,11 @@ def kv_attention(module, query, key, value, attention_mask, dropout=0.0, scaling
     receiver's output is bit-identical to the plain path. query [B, H, q, D]; key/value
     [B, KVH, L, D] (full cache incl. this tick); attention_mask is HF's boolean sdpa mask or None.
     """
+    ctx = KV_CONTEXT
+    if ctx.active and query.shape[1] % key.shape[1]:
+        raise RuntimeError("query heads must be divisible by KV heads")
     out, weights = sdpa_attention_forward(module, query, key, value, attention_mask, dropout=dropout,
                                           scaling=scaling, is_causal=is_causal, **kwargs)
-    ctx = KV_CONTEXT
     if not ctx.active or ctx.receivers is None or ctx.receivers.numel() == 0:
         return out, weights
     if query.shape[2] != 1:
@@ -95,6 +106,9 @@ def kv_attention(module, query, key, value, attention_mask, dropout=0.0, scaling
     par_ok = ctx.readable.index_select(0, recv)[:, :length]
     k_own = key.index_select(0, recv).float().unsqueeze(2)  # [n, KVH, 1, L, D]
     k_par = key.index_select(0, partner).float().unsqueeze(2)
+    if ctx.delta is not None:
+        k_par = rephase_keys(k_par, ctx.delta, ctx.rephase_mask[:, :length],
+                            ctx.inv_freq, ctx.rotate_half)
     v_par = value.index_select(0, partner).float().unsqueeze(2)
     own_logits = torch.matmul(q, k_own.transpose(-1, -2)) * scale  # [n, KVH, G, 1, L]
     own_logits = own_logits.masked_fill(~own_ok[:, None, None, None, :], -math.inf)
@@ -116,6 +130,18 @@ def kv_attention(module, query, key, value, attention_mask, dropout=0.0, scaling
     ctx.mass_sum = mass if ctx.mass_sum is None else ctx.mass_sum + mass
     ctx.mass_cr_sum = mass_cr if ctx.mass_cr_sum is None else ctx.mass_cr_sum + mass_cr
     ctx.n_layers += 1
+    if ctx.own_spans is not None:
+        p_own = torch.exp(own_logits - lse_own)
+        own_joint = ((1 - beta) * p_own).view(n, heads, length)
+        donor_joint = (beta * p_par).view(n, heads, length)
+        masses = (torch.einsum("nhl,nsl->nhs", own_joint, ctx.own_spans[:, :, :length].float())
+                  + torch.einsum("nhl,nsl->nhs", donor_joint, ctx.donor_spans[:, :, :length].float()))
+        layer = module.layer_idx  # zero-based layer index, query-head order matches native GQA
+        if layer in ctx.span_mass:
+            raise RuntimeError(f"duplicate attention diagnostic for layer {layer}")
+        ctx.span_mass[layer] = masses.masked_fill(~ctx.span_valid[:, None, :], math.nan)
+        bank_beta = beta.view(n, heads, 1)
+        ctx.bank_mass[layer] = torch.cat((1 - bank_beta, bank_beta), dim=-1)
     return out, weights
 
 
@@ -162,6 +188,7 @@ class State:
     tick: int = 0  # logical ticks consumed since the prefix
     phase: str = "P"  # "P" after prefill, "C" during/after reflection, "R" inside a readout branch
     c_start: int = 0  # physical cache index of the first C token (= prefill length)
+    kv_banks: list[dict] | None = None  # opt-in, immutable P-token/span provenance in logical coordinates
 
     @property
     def rows(self) -> int:
@@ -193,6 +220,8 @@ def select_rows(state: State, idx: torch.Tensor | list[int], config) -> State:
         tick=state.tick,
         phase=state.phase,
         c_start=state.c_start,
+        kv_banks=([copy.deepcopy(state.kv_banks[i]) for i in idx_t.tolist()]
+                  if state.kv_banks is not None else None),
     )
 
 
@@ -232,7 +261,9 @@ def make_plan(arm: ArmConfig, roles: list[str], static_rules: list[str | None], 
         live = None
         if arm.kv_scope == "PC":
             live = math.log(arm.kv_w_live) if arm.kv_w_live > 0 else -math.inf
-        return Plan(arm.tau, 0.0, "none", donor, kv=KVPlan(receivers, math.log(arm.gain), arm.kv_scope, live))
+        return Plan(arm.tau, 0.0, "none", donor,
+                    kv=KVPlan(receivers, math.log(arm.gain), arm.kv_scope, live,
+                              arm.kv_position, arm.kv_log_spans))
     if arm.condition == "STATIC":
         assert cal is not None and d is not None
         static = torch.zeros(rows, d, device=device)
@@ -269,6 +300,9 @@ class TickLog:
     cos_pair: list[torch.Tensor] = field(default_factory=list)
     kv_mass: list[torch.Tensor] = field(default_factory=list)  # partner attention mass (NaN: not reading)
     kv_mass_cr: list[torch.Tensor] = field(default_factory=list)  # ... on the partner's C/R tokens only
+    kv_span_mass: list[torch.Tensor] = field(default_factory=list)  # [rows,layers,query_heads,span_slots]
+    kv_bank_mass: list[torch.Tensor] = field(default_factory=list)  # [rows,layers,query_heads,own/donor]
+    kv_query_pos: list[torch.Tensor] = field(default_factory=list)  # logical query coordinate
 
     def stacked(self) -> dict[str, torch.Tensor]:
         return {k: torch.stack(v, dim=1).cpu() for k, v in vars(self).items() if v}
@@ -305,6 +339,9 @@ class Engine:
         self._w32: torch.Tensor | None = None
         self.last_kv_mass: torch.Tensor | None = None
         self.last_kv_mass_cr: torch.Tensor | None = None
+        self.last_kv_span_mass: torch.Tensor | None = None
+        self.last_kv_bank_mass: torch.Tensor | None = None
+        self._kv_rotary = None
         model.config._attn_implementation = KV_ATTENTION
 
     def close(self) -> None:
@@ -331,8 +368,13 @@ class Engine:
         return message(ema, self.cal)
 
     @torch.no_grad()
-    def prefill(self, sequences: list[list[int]]) -> State:
+    def prefill(self, sequences: list[list[int]], *, attention_spans: list[list[Span]] | None = None) -> State:
         """Left-padded prefill with bridge writes off; captures z0 (seed) and chooses C1."""
+        banks = None
+        if attention_spans is not None:
+            if len(attention_spans) != len(sequences):
+                raise ValueError("attention_spans must contain one declaration list per row")
+            banks = [bank_metadata(seq, spans) for seq, spans in zip(sequences, attention_spans)]
         rows, length = len(sequences), max(len(s) for s in sequences)
         ids = torch.full((rows, length), self.pad_id, dtype=torch.long, device=self.device)
         attn = torch.zeros(rows, length, dtype=torch.long, device=self.device)
@@ -356,7 +398,88 @@ class Engine:
             raise RuntimeError("prefill seed capture failed")
         ema = z0.clone()
         return State(cache, attn, pos[:, -1] + 1, self.no_eos_argmax(logits), logits, self._messages(ema), ema,
-                     c_start=length)
+                     c_start=length, kv_banks=banks)
+
+    def _rotary_spec(self) -> tuple[torch.Tensor, Callable, dict]:
+        """Use the pinned model's stationary frequencies and its actual pairing function."""
+        rotary = self.model.model.rotary_emb
+        if rotary.rope_type not in ("default", "llama3"):
+            raise ValueError("read-time translation requires validated stationary rotary frequencies")
+        if self._kv_rotary is None:
+            if self.model.config.model_type == "qwen3":
+                from transformers.models.qwen3.modeling_qwen3 import rotate_half
+            elif self.model.config.model_type == "llama":
+                from transformers.models.llama.modeling_llama import rotate_half
+            else:
+                raise ValueError("no validated rotary pairing for this model")
+            inv_freq = rotary.inv_freq.detach().float().clone()
+            identity = {"rope_type": rotary.rope_type, "pairing": rotate_half.__module__ + ".rotate_half",
+                        "inv_freq_sha256": digest(inv_freq.cpu().tolist()),
+                        "cached_attention_scaling": float(rotary.attention_scaling),
+                        "rephase_attention_scaling": 1.0}
+            self._kv_rotary = inv_freq, rotate_half, identity
+        if not torch.equal(self._kv_rotary[0], rotary.inv_freq.float()):
+            raise ValueError("rotary frequencies changed after the geometry was resolved")
+        return self._kv_rotary
+
+    def kv_condition_identity(self, state: State, kv: KVPlan | None) -> list[dict | None] | None:
+        """Resolved row identities, kept beside the constant arm identity in records."""
+        if kv is None or (kv.position == "native" and not kv.log_spans):
+            return None
+        if state.rows % 2 or kv.receivers.shape != (state.rows,):
+            raise ValueError("KV geometry requires complete interleaved pairs")
+        if kv.position not in ("native", "before_own"):
+            raise ValueError("unknown KV position")
+        if kv.position != "native" and kv.scope != "P":
+            raise ValueError("whole-P translation requires KV-P scope")
+        if state.kv_banks is None:
+            raise ValueError("V7 geometry requires attention_spans at prefill (empty row lists are allowed)")
+        lengths = state.attn[:, :state.c_start].sum(dim=1).tolist()
+        if lengths != [bank["length"] for bank in state.kv_banks]:
+            raise ValueError("P-bank provenance disagrees with valid logical lengths")
+        _, _, rotary = self._rotary_spec()
+        result = []
+        for row, receiving in enumerate(kv.receivers.tolist()):
+            if not receiving:
+                result.append(None)
+                continue
+            entry = resolve_geometry(state.kv_banks[row], state.kv_banks[row ^ 1], kv.position,
+                                     log_spans=kv.log_spans)
+            entry["rotary"] = rotary
+            entry["sha256"] = digest({k: v for k, v in entry.items() if k != "sha256"})
+            result.append(entry)
+        return result
+
+    def _kv_geometry_begin(self, state: State, kv: KVPlan) -> None:
+        ctx = KV_CONTEXT
+        metadata = self.kv_condition_identity(state, kv)
+        ctx.delta = ctx.rephase_mask = ctx.inv_freq = ctx.rotate_half = None
+        ctx.own_spans = ctx.donor_spans = ctx.span_valid = None
+        ctx.span_mass = {}
+        ctx.bank_mass = {}
+        if metadata is None:
+            return
+        rows = ctx.receivers.tolist()
+        logical = state.attn.cumsum(dim=-1) - 1
+        if kv.position != "native":
+            ctx.delta = torch.tensor([metadata[r]["delta"] for r in rows], device=self.device)
+            ctx.rephase_mask = ctx.readable.index_select(0, ctx.receivers)
+            ctx.inv_freq, ctx.rotate_half, _ = self._rotary_spec()
+        if not kv.log_spans:
+            return
+        width = max((len(metadata[r]["spans"]) for r in rows), default=0)
+        shape = (len(rows), width, state.attn.shape[1])
+        ctx.own_spans = torch.zeros(shape, dtype=torch.bool, device=self.device)
+        ctx.donor_spans = torch.zeros_like(ctx.own_spans)
+        ctx.span_valid = torch.zeros((len(rows), width), dtype=torch.bool, device=self.device)
+        for i, row in enumerate(rows):
+            for j, span in enumerate(metadata[row]["spans"]):
+                own = span["bank"] == "own"
+                source = row if own else row ^ 1
+                mask = ((logical[source] >= span["start"]) & (logical[source] < span["end"])
+                        & state.attn[source].bool())
+                (ctx.own_spans if own else ctx.donor_spans)[i, j] = mask
+                ctx.span_valid[i, j] = True
 
     def _kv_begin(self, state: State, kv: KVPlan) -> None:
         """Partner positions each receiver may read this tick (state.attn already has this tick's column)."""
@@ -379,12 +502,15 @@ class Engine:
         ctx.c_start = state.c_start
         ctx.mass_sum = ctx.mass_cr_sum = None
         ctx.n_layers = 0
+        self._kv_geometry_begin(state, kv)
         ctx.active = True
 
     def _kv_end(self, rows: int, kv: KVPlan | None, completed: bool = True) -> None:
         ctx = KV_CONTEXT
         mass = torch.full((rows,), math.nan, device=self.device)
         mass_cr = torch.full((rows,), math.nan, device=self.device)
+        span_mass = None
+        bank_mass = None
         try:
             if kv is not None and ctx.active and ctx.receivers is not None and ctx.receivers.numel():
                 if completed and ctx.n_layers != self.model.config.num_hidden_layers:
@@ -393,11 +519,27 @@ class Engine:
                 if ctx.n_layers:
                     mass[ctx.receivers] = ctx.mass_sum / ctx.n_layers
                     mass_cr[ctx.receivers] = ctx.mass_cr_sum / ctx.n_layers
+                if completed and kv.log_spans:
+                    layers = self.model.config.num_hidden_layers
+                    if sorted(ctx.span_mass) != list(range(layers)):
+                        raise RuntimeError("missing layer in attention span diagnostics")
+                    received = torch.stack([ctx.span_mass[i] for i in range(layers)], dim=1)
+                    span_mass = torch.full((rows, *received.shape[1:]), math.nan, device=self.device)
+                    span_mass[ctx.receivers] = received
+                    received_bank = torch.stack([ctx.bank_mass[i] for i in range(layers)], dim=1)
+                    bank_mass = torch.full((rows, *received_bank.shape[1:]), math.nan, device=self.device)
+                    bank_mass[ctx.receivers] = received_bank
         finally:
             self.last_kv_mass, self.last_kv_mass_cr = mass, mass_cr
+            self.last_kv_span_mass = span_mass
+            self.last_kv_bank_mass = bank_mass
             ctx.active = False
             ctx.receivers = ctx.readable = ctx.mass_sum = ctx.mass_cr_sum = ctx.pos_bias = None
             ctx.n_layers = 0
+            ctx.delta = ctx.rephase_mask = ctx.inv_freq = ctx.rotate_half = None
+            ctx.own_spans = ctx.donor_spans = ctx.span_valid = None
+            ctx.span_mass = {}
+            ctx.bank_mass = {}
 
     @torch.no_grad()
     def step(self, state: State, tokens: torch.Tensor, injection: torch.Tensor | None,
@@ -409,10 +551,10 @@ class Engine:
         self.hook.mode = "tick"
         self.hook.injection = injection
         self.hook.write_enabled = injection is not None
-        if kv is not None:
-            self._kv_begin(state, kv)
         completed = False
         try:
+            if kv is not None:
+                self._kv_begin(state, kv)
             out = self.model.model(input_ids=tokens[:, None], attention_mask=state.attn,
                                    position_ids=state.next_pos[:, None], past_key_values=state.cache,
                                    use_cache=True)
@@ -466,6 +608,11 @@ class Engine:
         nan = torch.full((state.rows,), math.nan, device=self.device)
         log.kv_mass.append(self.last_kv_mass if self.last_kv_mass is not None else nan)
         log.kv_mass_cr.append(self.last_kv_mass_cr if self.last_kv_mass_cr is not None else nan)
+        if self.last_kv_span_mass is not None:
+            log.kv_span_mass.append(self.last_kv_span_mass.cpu())
+            log.kv_query_pos.append((state.next_pos - 1).cpu())
+        if self.last_kv_bank_mass is not None:
+            log.kv_bank_mass.append(self.last_kv_bank_mass.cpu())
         if state.rows % 2 == 0:
             log.cos_pair.append(torch.nn.functional.cosine_similarity(z[0::2], z[1::2], dim=-1))
 
@@ -505,7 +652,7 @@ class Engine:
 
     @torch.no_grad()
     def run_reflection(self, state: State, plan: Plan, ticks: int = REFLECTION_TICKS, write: bool = True
-                       ) -> dict[str, torch.Tensor]:
+                       ) -> dict[str, Any]:
         """Phase C: ``ticks`` lockstep ticks; with write=False (RO) messages still update.
 
         Returns stacked per-tick diagnostics (tokens, injection/host RMS ratio, message norm,
@@ -522,13 +669,17 @@ class Engine:
             logits, _, z = self.step(state, tokens, inj, kv=plan.kv if write else None)
             self.advance(state, logits, z, plan.tau, update_messages=True)
             self._log_tick(log, state, tokens, inj, z)
-        return log.stacked()
+        result = log.stacked()
+        geometry = self.kv_condition_identity(state, plan.kv)
+        if geometry is not None:
+            result["kv_geometry"] = geometry
+        return result
 
     @torch.no_grad()
     def run_readout(self, snapshot: State, branches: list[tuple[int, str]], suffixes: torch.Tensor,
                     arm: ArmConfig, static_rules: list[str | None], generate: int = 0,
                     mask_idx: torch.Tensor | None = None,
-                    require_tick: int | None = REFLECTION_TICKS) -> dict[str, torch.Tensor]:
+                    require_tick: int | None = REFLECTION_TICKS) -> dict[str, Any]:
         """Phase R for a chunk of branches with equal suffix length.
 
         ``branches``: (pair index in the snapshot, recipient role). ``suffixes``: [n, L] tokens
@@ -565,6 +716,7 @@ class Engine:
             plan = Plan(arm.tau, 0.0, "none", torch.full((n,), -1, dtype=torch.long, device=self.device))
             recip = torch.arange(n, device=self.device)
         state.phase = "R"
+        geometry = self.kv_condition_identity(state, plan.kv)
         suffixes = suffixes.to(self.device)
         log = TickLog()
         last_h = None
@@ -585,6 +737,13 @@ class Engine:
             "label_logprobs": logprobs.index_select(1, self.label_ids),
             "label_mass": logprobs.index_select(1, self.label_ids).exp().sum(dim=-1),
         }
+        if geometry is not None:
+            out["kv_geometry"] = [geometry[i] for i in recip.tolist()]
+        if log.kv_span_mass:
+            out["r_kv_span_mass"] = torch.stack(log.kv_span_mass, 1).index_select(0, recip.cpu())
+            out["r_kv_query_pos"] = torch.stack(log.kv_query_pos, 1).index_select(0, recip.cpu())
+        if log.kv_bank_mass:
+            out["r_kv_bank_mass"] = torch.stack(log.kv_bank_mass, 1).index_select(0, recip.cpu())
         if full and log.inj_ratio:
             # Per-tick recipient diagnostics [n, L]; donors sit at recip + 1 in the paired layout.
             out["r_inj_ratio"] = torch.stack(log.inj_ratio, 1).index_select(0, recip)
@@ -611,8 +770,15 @@ class Engine:
                 inj = self.injection(state, plan, glog) if full else None
                 logits, _, z = self.step(state, tokens, inj, kv=plan.kv if full else None)
                 self.advance(state, logits, z, plan.tau, update_messages=full)
+                if full and plan.kv is not None and plan.kv.log_spans:
+                    self._log_tick(glog, state, tokens, inj, z)
                 rec_logits = logits.index_select(0, recip)
             out["generated"] = generated
+            if glog.kv_span_mass:
+                out["g_kv_span_mass"] = torch.stack(glog.kv_span_mass, 1).index_select(0, recip.cpu())
+                out["g_kv_query_pos"] = torch.stack(glog.kv_query_pos, 1).index_select(0, recip.cpu())
+            if glog.kv_bank_mass:
+                out["g_kv_bank_mass"] = torch.stack(glog.kv_bank_mass, 1).index_select(0, recip.cpu())
             if full and glog.unmatched:
                 out["g_unmatched_ticks"] = torch.stack(glog.unmatched, 1).index_select(0, recip).sum(dim=1)
         return out
