@@ -359,6 +359,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Claude Code | V7 pilot-gate script and variance-only script (protocol V7 §7 steps 2 and 4) | scripts/v7_pilot_gates.py (new), scripts/v7_variance.py (new), tests/test_v7_pilot_gates.py (new), tests/test_v7_variance.py (new) | 2026-10-28 10:20 Chicago |
 
 
 
