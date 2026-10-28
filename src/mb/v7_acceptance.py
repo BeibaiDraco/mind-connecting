@@ -1,4 +1,4 @@
-"""V7 engineering-only checkpoint checks, timing and BF16 calibration.
+"""V7 engineering-only production relocation checks and timing.
 
 No ownership readouts are collected here. The small runner exercise collects CAP0
 only and never scores choices. Pilot collection is a separate, conditional step.
@@ -6,7 +6,7 @@ only and never scores choices. Pilot collection is a separate, conditional step.
 from __future__ import annotations
 
 import argparse
-import dataclasses
+import gc
 import json
 import math
 import time
@@ -16,34 +16,53 @@ from typing import Any
 import yaml
 
 from mb import chat, ledger, run, tasks, v7_run
+from mb import v7_relocation as relocation
 from mb.model_profiles import QWEN
 
-APPROVED_SHA = "39c607bb5a51cdc480c6dee6780fb74970b1a2a2678b231029510888770768c0"
+APPROVED_SHA = "608350de020b9392672142916484afc953e846344fe733f00e0b3c3f27479e09"
 BATCHES = (1, 4, 8, 12)
-METRICS = tuple(f"{kind}_{stat}" for kind in ("key", "value", "logit") for stat in ("max_abs", "rms"))
+SAVED_HASHES = {
+    "saved_inputs.json": "a1526e1d9516d6427a5ed037aa14e62e77ce127c9ad4afa8c176427aa045d566",
+    "notes.jsonl": "b65956e6562cceda1cc4f4034e7faad0a980e8bc3482cbeaeab22effe9ac681d",
+    "bf16_baseline.json": "b79e6700a00f916f3fd7b609d282f76c24caf3bbba5026a2cdf9ef16e3686172",
+    "bf16_comparison.json": "1ca40d9bdd4a2c8d9d8abdb23a6740b7d618eb9239f1c367a0f53553e8ccfd71",
+}
 RECIPE = {
-    "version": "v7-bf16-batch-envelope-v1", "episodes": 12, "split": "v7_dev", "seed": 0,
-    "batches": list(BATCHES), "reference": "native one episode per batch, identical saved P inputs",
-    "baseline": "maximum observed native batch-composition error per metric over all rows and layers",
-    "comparison": "fp32 R(-L) of native BF16 keys versus actual BF16 offset prefill at the same batch size",
-    "limits": "each comparison error must be <= its measured baseline envelope; no multiplier or fixed floor",
-    "metrics": list(METRICS), "decision": "all metrics finite and within envelope; otherwise stop before pilot",
-    "timing": "8 teacher-forced neutral tokens per arm/batch; first 2 warmup ticks excluded from selection",
-    "selection": "minimum translated/logged total measured seconds per episode-token; ties prefer smaller batch",
-    "runner_exercise": "12 dev episodes, all 14 base arms, CAP0 only, no choice scoring",
+    "version": "v7-production-relocation-v2", "episodes": 12, "split": "v7_dev", "seed": 0,
+    "batches": list(BATCHES), "saved_files": SAVED_HASHES,
+    "comparison": "production KV-P w2 all layers, before_own on native B versus native read on real offset B",
+    "reference": "clone the same native A state; replace only donor state with a real [-L_B, 0) prefill",
+    "gate": "all A-row logits and own/donor span masses, all layers/heads, eight teacher-forced ticks, FP32",
+    "logit_atol": relocation.LOGIT_ATOL, "logit_rtol": relocation.LOGIT_RTOL,
+    "mass_atol": relocation.MASS_ATOL, "mass_rtol": 0.0, "bf16_is_gate": False,
+    "bf16": "same production comparison plus native joint-read padding variability; descriptive only",
+    "timing": "8 teacher-forced neutral tokens per arm/batch; first 2 warmup ticks excluded",
+    "selection": "after CAP0 passes, minimum translated/logged seconds per episode-token; ties prefer smaller batch",
+    "runner_exercise": "12 saved dev episodes, all 14 base arms, CAP0 only at fixed maximum candidate batch 12",
 }
 
 
-def envelope(rows: list[dict[str, float]]) -> dict[str, float]:
-    if not rows or any(not math.isfinite(row[k]) or row[k] < 0 for row in rows for k in METRICS):
-        raise ValueError("baseline errors must be finite, nonnegative and nonempty")
-    return {k: max(row[k] for row in rows) for k in METRICS}
+def validated_saved_inputs(root: Path) -> tuple[dict, dict[str, str]]:
+    for name, sha in SAVED_HASHES.items():
+        if ledger.file_sha256(root / name) != sha:
+            raise ValueError(f"saved input/evidence hash mismatch: {name}")
+    data = relocation.read_saved_inputs(root / "saved_inputs.json", SAVED_HASHES["saved_inputs.json"])
+    return data, dict(SAVED_HASHES)
 
 
-def within_envelope(rows: list[dict[str, float]], limits: dict[str, float]) -> bool:
-    return bool(rows) and all(math.isfinite(limits[k]) and limits[k] >= 0
-                             and math.isfinite(row[k]) and 0 <= row[k] <= limits[k]
-                             for row in rows for k in METRICS)
+def validate_material_compatibility(tok, data: dict, notes_path: Path) -> None:
+    adapter = v7_run.V7Runner.__new__(v7_run.V7Runner)
+    adapter.cfg = v7_run.V7Config("v7_dev", "base", 12)
+    adapter.tok = tok
+    adapter.notes = {row["key"]: row["ids"] for row in v7_run._check_notes(notes_path)}
+    _, episodes = adapter._stage_episodes(None)
+    adapter.active_arm = next(a for a in adapter.cfg.arm_configs() if a.arm_id == "orig_w2")
+    adapter._input_cache, adapter._prefix_cache, adapter._bank_cache = {}, {}, {}
+    parts = [adapter._prefix_parts(ep, role) for ep in episodes for role in tasks.ROLES]
+    reconstructed = {"episodes": [ep.episode_id for ep in episodes],
+                     "prefix_ids": [x[0] for x in parts], "attention_spans": [x[1] for x in parts]}
+    if json.loads(json.dumps(reconstructed)) != data:
+        raise ValueError("current materials or span declarations differ from saved engineering inputs")
 
 
 def choose_batch(rows: list[dict[str, Any]]) -> int:
@@ -90,98 +109,12 @@ def timed_engine_class(path: Path):
     return TimedEngine
 
 
-def capture(state) -> list[dict]:
-    from mb.runtime import cache_layers
-
-    result = []
-    for row, length in enumerate(state.attn.sum(-1).tolist()):
-        result.append({"key": [k[row, :, -length:].float().cpu() for k, _ in cache_layers(state.cache)],
-                       "value": [v[row, :, -length:].float().cpu() for _, v in cache_layers(state.cache)],
-                       "logit": [state.logits[row].float().cpu()]})
-    return result
-
-
-def errors(expected: dict, actual: dict) -> dict[str, float]:
-    result = {}
-    for kind in ("key", "value", "logit"):
-        differences = [(a - b).float() for a, b in zip(expected[kind], actual[kind], strict=True)]
-        result[kind + "_max_abs"] = max(float(d.abs().max()) for d in differences)
-        result[kind + "_rms"] = max(float(d.square().mean().sqrt()) for d in differences)
-    return result
-
-
-def offset_prefill(engine, prefixes: list[list[int]]):
-    import torch
-    from transformers import DynamicCache
-
-    width = max(map(len, prefixes))
-    ids = torch.full((len(prefixes), width), engine.pad_id, device=engine.device, dtype=torch.long)
-    attn = torch.zeros_like(ids)
-    for row, tokens in enumerate(prefixes):
-        ids[row, -len(tokens):] = torch.tensor(tokens, device=engine.device)
-        attn[row, -len(tokens):] = 1
-    positions = (attn.cumsum(-1) - 1).clamp(min=0) - attn.sum(-1)[:, None]
-    cache = DynamicCache(config=engine.model.config)
-    engine.hook.mode = "prefill"
-    try:
-        output = engine.model.model(input_ids=ids, attention_mask=attn, position_ids=positions,
-                                    past_key_values=cache, use_cache=True)
-    finally:
-        engine.hook.mode = "tick"
-    from types import SimpleNamespace
-    return SimpleNamespace(cache=cache, attn=attn, logits=engine._lm_logits(output.last_hidden_state[:, -1]))
-
-
-def bf16_check(engine, prefixes: list[list[int]], root: Path) -> bool:
-    import torch
-    from mb.kv_geometry import rephase_keys
-
-    references = []
-    for start in range(0, len(prefixes), 2):
-        state = engine.prefill(prefixes[start:start + 2])
-        references.extend(capture(state))
-        del state
-    torch.save(references, root / "native_reference.pt")
-    baseline = []
-    for batch in BATCHES:
-        for start in range(0, len(prefixes), 2 * batch):
-            state = engine.prefill(prefixes[start:start + 2 * batch])
-            for index, actual in enumerate(capture(state)):
-                baseline.append({"batch": batch, "row": start + index,
-                                 **errors(references[start + index], actual)})
-            del state
-    limits = envelope(baseline)
-    # This file is committed to disk before any offset-prefill errors are computed.
-    write_once(root / "bf16_baseline.json", {"recipe": RECIPE, "limits": limits, "rows": baseline})
-    freq, pairing, _ = engine._rotary_spec()
-    freq = freq.cpu()
-    compared = []
-    for batch in BATCHES:
-        for start in range(0, len(prefixes), 2 * batch):
-            sequences = prefixes[start:start + 2 * batch]
-            native = engine.prefill(sequences)
-            expected_rows = capture(native)
-            del native
-            shifted = offset_prefill(engine, sequences)
-            actual_rows = capture(shifted)
-            del shifted
-            for index, (expected, actual) in enumerate(zip(expected_rows, actual_rows)):
-                length = len(sequences[index])
-                expected["key"] = [rephase_keys(key[None, :, None], torch.tensor([-length]),
-                    torch.ones((1, length), dtype=torch.bool), freq, pairing)[0, :, 0] for key in expected["key"]]
-                compared.append({"batch": batch, "row": start + index, **errors(expected, actual)})
-    passed = within_envelope(compared, limits)
-    write_once(root / "bf16_comparison.json", {"passed": passed, "limits": limits,
-                "observed": envelope(compared), "rows": compared})
-    return passed
-
-
-def benchmark(engine, prefixes: list[list[int]], spans: list[list[tuple]], root: Path) -> int:
+def benchmark(engine, prefixes: list[list[int]], spans: list[list[tuple]], root: Path) -> list[dict]:
     import torch
     from mb.conditions import ArmConfig
     from mb.runtime import make_plan
 
-    rows, selected = [], []
+    rows = []
     token = chat.encode(engine.tok, "Continue")[0]
     for batch in BATCHES:
         for mode in ("legacy", "logged", "translated"):
@@ -210,13 +143,9 @@ def benchmark(engine, prefixes: list[list[int]], spans: list[list[tuple]], root:
             row = {"mode": mode, "batch": batch, "seconds_per_episode_token": elapsed / denominator,
                    "measured_seconds": elapsed, "passed": True}
             rows.append(row)
-            if mode == "translated":
-                selected.append(row)
             print(json.dumps({"event": "timing", **row}), flush=True)
-    batch = choose_batch(selected)
-    write_once(root / "timing_selection.json", {"measurements": rows, "selected_episodes_per_batch": batch,
-                "selected_max_rows": 2 * batch, "recipe": RECIPE["selection"]})
-    return batch
+    write_once(root / "timing_measurements.json", {"measurements": rows, "batch_selection_pending": True})
+    return rows
 
 
 def engineering_run(root: Path, engine_cls, model, tok, batch: int) -> dict:
@@ -256,17 +185,22 @@ def engineering_run(root: Path, engine_cls, model, tok, batch: int) -> dict:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--saved-input-dir", type=Path, required=True)
     parser.add_argument("--approved-protocol-sha256", required=True)
     args = parser.parse_args(argv)
     cfg = v7_run.V7Config("v7_dev", "base", 12)
     v7_run.validate_launch(cfg, args.output / "engineering.yaml", args.approved_protocol_sha256, None)
     if args.approved_protocol_sha256 != APPROVED_SHA:
         raise ValueError("acceptance receipt differs from the bounded PI approval")
+    data, hashes = validated_saved_inputs(args.saved_input_dir)
     args.output.mkdir(parents=True, exist_ok=False)
+    for name in hashes:
+        with (args.output / name).open("xb") as stream:
+            stream.write((args.saved_input_dir / name).read_bytes())
     write_once(args.output / "recipe.json", {**RECIPE, "source_hash": run.source_hash(),
                "protocol_sha256": APPROVED_SHA, "git": run.git_state()})
-    phase, started, passed = "model_load", time.perf_counter(), False
-    durations = {}
+    phase, started, durations = "fp32_model_load", time.perf_counter(), {}
+    model = engine = None
     try:
         import torch
         from mb.runtime import load_model
@@ -275,55 +209,69 @@ def main(argv: list[str] | None = None) -> int:
             raise RuntimeError("V7 acceptance requires the authorized GPU")
         torch.set_num_threads(8)
         tok = chat.load_tokenizer(profile=QWEN.key)
-        model = load_model(dtype=torch.bfloat16, profile=QWEN.key, tokenizer=tok)
-        durations[phase] = time.perf_counter() - started
+        if hashes:
+            validate_material_compatibility(tok, data, args.output / "notes.jsonl")
+        prefixes, spans = data["prefix_ids"], data["attention_spans"]
+        token = chat.encode(tok, "Continue")[0]
         engine_cls = timed_engine_class(args.output / "steps.jsonl")
+        model = load_model(dtype=torch.float32, profile=QWEN.key, tokenizer=tok)
         engine = engine_cls(model, tok, 18, None)
-        try:
-            phase, started = "save_inputs", time.perf_counter()
-            adapter = v7_run.V7Runner.__new__(v7_run.V7Runner)
-            adapter.cfg, adapter.tok, adapter.run_dir, adapter.notes = cfg, tok, args.output, {}
-            _, episodes = adapter._stage_episodes(None)
-            adapter.active_arm = next(a for a in cfg.arm_configs() if a.arm_id == "orig_w2")
-            adapter._input_cache, adapter._prefix_cache, adapter._bank_cache = {}, {}, {}
-            engine.tag = "input_notes"
-            adapter.ensure_notes(engine, [(ep, role) for ep in episodes for role in tasks.ROLES])
-            parts = [adapter._prefix_parts(ep, role) for ep in episodes for role in tasks.ROLES]
-            prefixes, spans = [p[0] for p in parts], [p[1] for p in parts]
-            write_once(args.output / "saved_inputs.json", {"episodes": [ep.episode_id for ep in episodes],
-                        "prefix_ids": prefixes, "attention_spans": spans})
-            durations[phase] = time.perf_counter() - started
-            phase, started = "bf16", time.perf_counter()
-            with torch.inference_mode():
-                passed = bf16_check(engine, prefixes, args.output)
-            durations[phase] = time.perf_counter() - started
-            if not passed:
-                raise RuntimeError("BF16 comparison exceeds the measured native batch envelope")
-            phase, started = "timing", time.perf_counter()
-            with torch.inference_mode():
-                batch = benchmark(engine, prefixes, spans, args.output)
-            durations[phase] = time.perf_counter() - started
-        finally:
-            engine.close()
+        durations[phase] = time.perf_counter() - started
+        phase, started = "fp32_relocation", time.perf_counter()
+        with torch.inference_mode():
+            gate = relocation.run_comparison(engine, prefixes, spans, args.output,
+                                             precision="fp32", token=token, batches=BATCHES)
+        durations[phase] = time.perf_counter() - started
+        if not gate["passed"]:
+            raise RuntimeError("FP32 production relocation equivalence failed")
+        engine.close()
+        engine = model = None
+        gc.collect()
+        torch.cuda.empty_cache()
+        phase, started = "bf16_model_load", time.perf_counter()
+        model = load_model(dtype=torch.bfloat16, profile=QWEN.key, tokenizer=tok)
+        engine = engine_cls(model, tok, 18, None)
+        durations[phase] = time.perf_counter() - started
+        phase, started = "bf16_descriptive", time.perf_counter()
+        with torch.inference_mode():
+            relocation.run_comparison(engine, prefixes, spans, args.output,
+                                      precision="bf16", token=token, batches=BATCHES)
+        durations[phase] = time.perf_counter() - started
+        phase, started = "timing", time.perf_counter()
+        with torch.inference_mode():
+            measurements = benchmark(engine, prefixes, spans, args.output)
+        durations[phase] = time.perf_counter() - started
+        engine.close()
+        engine = None
         phase, started = "engineering_collection", time.perf_counter()
-        result = engineering_run(args.output, engine_cls, model, tok, batch)
+        result = engineering_run(args.output, engine_cls, model, tok, max(BATCHES))
         durations[phase] = time.perf_counter() - started
         if not result["passed"]:
             raise RuntimeError("engineering collection incomplete or failed")
+        phase, started = "batch_selection", time.perf_counter()
+        batch = choose_batch([row for row in measurements if row["mode"] == "translated"])
+        write_once(args.output / "timing_selection.json", {"measurements": measurements,
+            "selected_episodes_per_batch": batch, "selected_max_rows": 2 * batch,
+            "cap0_passed_before_selection": True, "cap0_batch": max(BATCHES), "recipe": RECIPE["selection"]})
         pilot = v7_run.V7Config("v7_pilot", "base", 80, tag="approved", episodes_per_batch=batch, max_rows=2 * batch)
         (args.output / "pilot.yaml").write_text(yaml.safe_dump(pilot.resolved()))
+        durations[phase] = time.perf_counter() - started
         write_once(args.output / "acceptance.json", {"passed": True, "durations_seconds": durations,
-                   "source_hash": run.source_hash(), "protocol_sha256": APPROVED_SHA,
-                   "selected_batch": batch, "pilot_config_sha256": ledger.file_sha256(args.output / "pilot.yaml")})
+            "source_hash": run.source_hash(), "protocol_sha256": APPROVED_SHA,
+            "fp32_relocation_passed": True, "bf16_is_gate": False, "saved_file_hashes": hashes,
+            "selected_batch": batch, "pilot_config_sha256": ledger.file_sha256(args.output / "pilot.yaml")})
         print(json.dumps({"event": "acceptance", "passed": True, "selected_batch": batch}), flush=True)
         return 0
     except Exception as exc:
         durations[phase] = time.perf_counter() - started
         write_once(args.output / "acceptance.json", {"passed": False, "failed_phase": phase,
-                    "reason": str(exc), "durations_seconds": durations, "source_hash": run.source_hash(),
-                    "protocol_sha256": APPROVED_SHA, "pilot_dispatched": False})
+            "reason": str(exc), "durations_seconds": durations, "source_hash": run.source_hash(),
+            "protocol_sha256": APPROVED_SHA, "pilot_dispatched": False, "bf16_is_gate": False})
         print(json.dumps({"event": "acceptance", "passed": False, "phase": phase, "reason": str(exc)}), flush=True)
         return 1
+    finally:
+        if engine is not None:
+            engine.close()
 
 
 if __name__ == "__main__":

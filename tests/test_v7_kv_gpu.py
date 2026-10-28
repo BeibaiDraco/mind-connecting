@@ -107,3 +107,16 @@ def test_runtime_zero_shift_logging_gqa_padding_and_snapshot_isolation(engine):
     batch_logits, _, batch_geometry = tick(batched, shifted_arm)
     torch.testing.assert_close(batch_logits[:2], shifted, atol=3e-3, rtol=2e-3)
     assert batch_geometry[:2] == geometry
+
+
+@torch.no_grad()
+def test_production_relocation_matches_true_donor_prefill_for_eight_ticks(engine, tmp_path):
+    from mb import v7_relocation
+
+    prefixes = _prefixes(engine)
+    result = v7_relocation.run_comparison(engine, prefixes, _spans(prefixes), tmp_path,
+        precision='fp32', token=chat.encode(engine.tok, 'Continue')[0], batches=(1,))
+    assert result['passed'] is True and result['is_gate']
+    assert len(result['comparison']) == 8
+    assert result['provenance'][0]['reference_prefill_offsets'] == [0, -len(prefixes[1])]
+    assert result['provenance'][0]['reference_read_offset'] == 0
