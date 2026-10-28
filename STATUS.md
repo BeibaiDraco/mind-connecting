@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-28 10:05 Chicago, Claude Code (failed V7 BF16 acceptance reviewed: no engine defect; replacement FP32 relocation gate proposed in the V7 draft, pending PI approval).
+Last updated: 2026-10-28 09:27 Chicago, Codex (revised V7 approval recorded; relocation implementation claimed).
 
 ## Current phase
+
+**Revised V7 relocation acceptance approved (2026-10-28, Codex):** PI approved draft `f978be0`, SHA256 `608350de020b9392672142916484afc953e846344fe733f00e0b3c3f27479e09`, for section 7 steps 1–2 only. The appended decision records replacement of the BF16 envelope gate by the FP32 production-path relocation comparison; old failure evidence remains unchanged. Codex claims the engineering implementation/tests and a new review handoff. Tests will precede implementation; a committed implementation requires Claude review before restart/rental. Use the same saved 12 dev inputs, eight teacher-forced ticks, native A states, real negative-position B prefill, and the existing FP32 tolerances. BF16 remains descriptive. R1 timing and all 336 CAP0 checks precede final batch selection and any conditional pilot. No model run or instance restart has occurred under this revised approval.
 
 **V7 BF16 acceptance failure reviewed (2026-10-28, Claude Code):** No engine defect. The check never ran the production translated path (rotation applied to fp32 CPU copies), and it compared two different BF16 rounding sources (absolute position vs. padding width) by their maxima: with 58 vs 34 distinct samples, a correct engine exceeds such an envelope with probability 0.63 per metric. Values, which translation never touches, exceeded too; the key/value error ratio is 0.299 in the comparison vs 0.294 in the baseline, and logits pass. Proposed replacement in the V7 draft (§5, §7 step 1): an FP32 relocation gate through the production joint read (translated arm on native B vs native arm on B prefilled at [−L_B, 0), 12 saved dev inputs, eight ticks, existing FP32 tolerances), with the BF16 comparison descriptive only. Revised draft SHA256 `608350de020b9392672142916484afc953e846344fe733f00e0b3c3f27479e09`, pending PI approval; Codex then implements, Claude reviews, and the approved R1 timing, CAP0 runner exercise and pilot follow. See `docs/reviews/v7_bf16_acceptance_review_claude_20261028.md`.
 
@@ -359,6 +361,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Revised V7 relocation acceptance, offline tests, Claude review and conditional GPU follow-through | src/mb/v7_acceptance.py, src/mb/v7_relocation.py (new), tests/test_v7_acceptance.py, tests/test_v7_relocation.py (new), tests/test_v7_kv_gpu.py, docs/reviews/v7_relocation_implementation_codex_20261028.md (new), docs/reviews/v7_relocation_review_claude_20261028.md (new; verbatim read-only review), decision_log.md, STATUS.md; private V7 execution controls | 2026-10-28 09:27 Chicago |
 | Claude Code | V7 pilot-gate script and variance-only script (protocol V7 §7 steps 2 and 4) | scripts/v7_pilot_gates.py (new), scripts/v7_variance.py (new), tests/test_v7_pilot_gates.py (new), tests/test_v7_variance.py (new) | 2026-10-28 10:20 Chicago |
 
 
