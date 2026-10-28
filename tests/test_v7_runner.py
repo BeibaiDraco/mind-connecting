@@ -48,7 +48,7 @@ def seed_notes(r):
                 r.notes[r._note_key(ep, role)] = chat.encode(r.tok, f"Saved {role} note.")
 
 
-@pytest.mark.parametrize("variant,arms,count", [("base", 14, 261), ("table", 4, 40), ("laptop", 4, 40)])
+@pytest.mark.parametrize("variant,arms,count", [("base", 14, 261), ("table", 5, 50), ("laptop", 5, 50)])
 def test_exact_schedule_and_unique_identity(variant, arms, count):
     cfg = v.V7Config("v7_formal", variant, 12)
     selected = cfg.arm_configs()
@@ -59,7 +59,7 @@ def test_exact_schedule_and_unique_identity(variant, arms, count):
     assert all(k[2] == "A" for k in expected)
     assert {k[1].split("/")[-1] for k in expected if k[3] == "U_OPEN"} == (v.OPEN_ARMS if variant == "base" else set())
     if variant != "base":
-        assert {a.arm_id for a in selected} == {"c0", "orig_w2", "trans_w2", "trans_w2_cf"}
+        assert {a.arm_id for a in selected} == {"c0", "orig_w2", "trans_w2", "orig_w2_cf", "trans_w2_cf"}
     assert len(run.reflection_groups(selected)) == arms
 
 

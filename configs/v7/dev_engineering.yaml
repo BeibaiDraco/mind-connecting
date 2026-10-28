@@ -1,0 +1,7 @@
+split: v7_dev
+variant: base
+n_episodes: 12
+seed: 0
+tag: engineering
+episodes_per_batch: 8
+max_rows: 16

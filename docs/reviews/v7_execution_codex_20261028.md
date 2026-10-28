@@ -1,0 +1,19 @@
+# V7 approved engineering and pilot execution
+
+Codex, October 28, 2026. Approval: protocol commit `5b78a32`, SHA256 `39c607bb5a51cdc480c6dee6780fb74970b1a2a2678b231029510888770768c0`. Scope is section 7 steps 1–2 only. Formal execution remains unauthorized. The PI's final lifecycle instruction permits destruction after complete SD backup and verification; bugs preserve the instance and diagnostics.
+
+## Prospective engineering recipe
+
+Run the two checkpoint tests in `tests/test_v7_kv_gpu.py` first. They must pass without skips. Then run `mb.v7_acceptance` on exactly 12 `v7_dev` base episodes, seed 0. Save the actual card/note/closure/reflection-prompt token IDs and declarations once. No START, PROV, DETECT or report questions are collected by this acceptance module, and it does not score any choices.
+
+For BF16, the reference is the unchanged native prefill with one episode per batch. Repeat native prefill on identical saved inputs at 1, 4, 8 and 12 episodes per batch. For K, V and final full-vocabulary logits, calculate maximum absolute error and RMS error; cache metrics take the maximum over layers. Set each tolerance to the maximum observed native batch-composition error over all rows/compositions. Write that baseline receipt before computing translated errors. Compare fp32 read-time R(-L) of the native BF16 keys with a true offset-position BF16 prefill at each batch size; values and final logits should remain invariant to the shift up to the same measured envelope. Every metric must be finite and within its own envelope. There is no multiplier, fixed numerical floor, target-based tuning, or widening after seeing translation errors. A zero native envelope requires exact agreement. This is a conservative engineering acceptance rule, not a scientific effect-size margin. Any failure stops progression before pilot.
+
+R1 timing uses eight teacher-forced neutral tokens at every candidate batch size under native legacy KV-P, native KV-P with span logging, and translated KV-P with span logging. Each step records synchronized wall time and the time spent constructing geometry/masks; the first two ticks are warmup. Choose the batch with the smallest translated/logged seconds per episode-token (ties prefer the smaller batch), only if all candidates pass engineering checks. CUDA synchronization is part of instrumentation, so timings describe this instrumented execution, not an uninstrumented throughput claim. The saved pilot config uses the selected batch and twice that many readout rows. The checked-in dev config is an input template, not a preselected performance winner.
+
+Finally exercise the production V7 runner on all 14 base arms and both CAP0 rotations for these 12 dev episodes (336 engineering readouts). Check completeness, finiteness, geometry persistence and failure status only; do not score CAP answers. This subset remains a smoke artifact, not a complete scientific V7 run. Acceptance failures are retained, with no silent acceptance retry. Only a passing final receipt permits the separate 80-episode pilot (20,880 raw trials). Claude owns pilot gates; no gate, ownership analysis, variance step, seal or formal stage is dispatched by this collector.
+
+The approved fifth generalization cell (`orig_w2_cf`) is added prospectively to `arms_for`; table/laptop coverage becomes 50 trials per episode. No generalization data will be collected under this authorization.
+
+## Evidence and closeout
+
+Execution receipts, exact environment, source archive, timings, failures (if any), immutable run files and persistent caches will be retained in the private V7 execution directory and copied to the SD card. STATUS records the instance, measured batch, acceptance/pilot state and verified lifecycle result. This initial note records the recipe before renting or inspecting numerical acceptance outcomes; it does not claim any GPU check has passed.

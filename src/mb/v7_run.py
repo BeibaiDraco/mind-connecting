@@ -64,8 +64,7 @@ def arms_for(variant: str) -> list[V7Arm]:
             arm("same_orig_w2", copy_A=True), arm("same_trans_w2", copy_A=True),
             arm("third_orig_w2", partner_frame="third_strict"),
             arm("third_trans_w2", partner_frame="third_strict")]
-    # The missing ORIG counterfactual generalization cell is a protocol-review item.
-    names = {"c0", "orig_w2", "trans_w2", "trans_w2_cf"}
+    names = {"c0", "orig_w2", "trans_w2", "orig_w2_cf", "trans_w2_cf"}
     return base if variant == "base" else [a for a in base if a.arm_id in names]
 
 
