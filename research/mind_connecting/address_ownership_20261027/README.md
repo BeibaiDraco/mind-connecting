@@ -2,7 +2,18 @@
 
 October 27, 2026, Claude Code, at the PI's request ("check carefully whether this view is new and good, and do the survey and proposal"). Advisory. No protocol, model run, manuscript change or paid action is adopted.
 
-## Verdict in brief
+## Current state (after Codex's review, October 27)
+
+- Codex reviewed the dossier: `docs/reviews/address_ownership_review_codex_20261027.md`, verdict "promising with fixes".
+- Claude's point-by-point response and **plan v2**, which supersedes `proposal.md`, are in [response_to_codex_review.md](response_to_codex_review.md).
+- A new zero-GPU result is in [symmetry_check.md](symmetry_check.md). At equal weight, swapping which side holds which rule gives claiming sums of 0.95–1.05 in four studies, every interval including 1. Owner identity has no detectable effect, and a model-specific content preference decides the winner.
+- Plan v2 is a bounded study:
+  - whole-bank RoPE translation of B's memory;
+  - co-primary endpoints of source separation **and** a new donor-only use assay;
+  - pilot about 1–3 H100 hours, formal run about 6–10 H100 hours;
+  - a link to Codex's actor-reference task only if a selective repair appears.
+
+## Verdict in brief (first pass; see corrections above)
 
 1. **The first idea ("in a transformer, 'mine' is an address, not a label") is not new**, in three ways:
    - It is the draft paper's own Section 4 account ("two cards, one slot"), including the relocation test, which was never run.
@@ -18,8 +29,9 @@ October 27, 2026, Claude Code, at the PI's request ("check carefully whether thi
 1. [internal_evidence.md](internal_evidence.md): what the draft already says, the verified numbers, the token-alignment facts, the symmetry concession, and corrections to the earlier verbal summary.
 2. [novelty_audit.md](novelty_audit.md): four literature strands (binding and parallel contexts; LLM self-attribution; KV communication systems; human source memory and philosophy), the claim-by-claim status, and competing-account predictions.
 3. [review_response.md](review_response.md): the hostile review and what changed.
-4. [proposal.md](proposal.md): the revised question, step 0 (zero GPU), step 1 (placement), step 2 (own operations, format, where the vector enters).
+4. [proposal.md](proposal.md): first-pass proposal (superseded).
+5. [symmetry_check.md](symmetry_check.md) and [response_to_codex_review.md](response_to_codex_review.md): the current state and plan v2.
 
 ## Not done
 
-No model was run. The step 0 analyses of existing records have not been run. Subagent-read sources are marked; the passages Claude re-read are marked **[verified]** in the audit.
+No model was run. Of the offline analyses, only the symmetry check has been run. The full confusion matrix, use-assay design and protocol V7 draft are pending. Subagent-read sources are marked; the passages Claude re-read are marked **[verified]** in the audit.

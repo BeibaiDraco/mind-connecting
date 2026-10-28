@@ -2,6 +2,8 @@
 
 October 27, 2026, Claude Code. Revised after four literature strands and a hostile review ([review_response.md](review_response.md)). A recommendation for PI assessment, not an adopted protocol. The supporting files are [internal_evidence.md](internal_evidence.md) and [novelty_audit.md](novelty_audit.md).
 
+> **Superseded (October 27, 2026).** Replaced by plan v2 in [response_to_codex_review.md](response_to_codex_review.md) after Codex's review. Several statements below are withdrawn there: the source-feature-equality headline, the attention-based access axis, the convergence prediction, "every published fix is trained" (LACO is training-free) and the GPU estimate. Kept unchanged for the record.
+
 ## The question
 
 Humans do not store a "whose memory" tag. They infer a memory's source from its features: where and when it was encoded, its perceptual detail, and the record of the mental operations that produced it (Johnson, Hashtroudi & Lindsay 1993). When two sources' features are identical, the theory predicts chance-level attribution decided by relative strength. Shoemaker and Parfit made the same point for the brain-bridge case: a quasi-memory received from someone else carries no internal mark of whose it is. Parfit's Jane can tell Paul's memories from her own only through outside knowledge.

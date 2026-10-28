@@ -2,6 +2,12 @@
 
 October 27, 2026, Claude Code. Checked against the result files and code named in each row. Post hoc reinterpretation of completed results, not new model evidence.
 
+> **Corrections (October 27, 2026); see [symmetry_check.md](symmetry_check.md) and [response_to_codex_review.md](response_to_codex_review.md).**
+> - The symmetry is approximate, with two named exceptions (the pre-link first reflection token, and note-length position offsets). It is confirmed empirically: no detectable home advantage in four studies.
+> - The 181-token duplication is the ideal deterministic case, not a measured tensor equality.
+> - Strict third person is not a positional null (M −3.211, p = .000158).
+> - "Only a role account survives" is too strong.
+
 ## The account already exists in our draft
 
 The idea that "mine" is decided by where a record sits is **not new inside this project**. The draft's Section 4, "A simple account: two cards, one slot" (`paper/sections/account_and_discussion.tex`), states it: each head returns one blend of A's and B's values, B's keys keep their original rotary positions, both cards share one template, and A "takes as its own the assignment there that is not Robin's, whichever line it sits on and whatever name the line carries." The draft lists four predictions. The sharpest one is "Place B's cache at positions that do not overlap A's card, and give it no header ... if claiming stays at the memory link's level, the account is wrong." It is still **untested**. Its third prediction, that a conflicting Robin entry would also move, was later tested in V5 (49.9% Qwen, 48.5% Llama) and came out as predicted. Codex's supplemental draft (`docs/protocol/SUPPLEMENTAL_STUDIES_DRAFT.md`, line 233) already lists "genuine rotary-position relocation" with design constraints. The PI's earlier decision log (2026-09-25 entry, line 135) records that the account's positional premise was narrowed after a line-order split.

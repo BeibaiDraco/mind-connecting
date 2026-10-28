@@ -2,6 +2,12 @@
 
 October 27, 2026, Claude Code. Four literature strands were run as independent subagent searches that read primary sources (arXiv HTML methods and results unless marked). Claude re-read the passages marked **[verified]** directly. Unmarked numbers come from the subagent's reading of the source and were not re-checked. This file covers strands B (binding and parallel contexts) and C (LLM self-attribution). Strands A (KV communication systems) and D (human, philosophy, brain bridges) are in the sections below them.
 
+> **Corrections (October 27, 2026), after Codex's review; see [response_to_codex_review.md](response_to_codex_review.md).**
+> - LACO's remedy is training-free.
+> - Feng & Steinhardt motivate a null hypothesis for relocation; they do not predict our outcome.
+> - Absolute "no one has" statements should read "the inspected sources do not report this comparison".
+> - "Every source-monitoring feature equalized exactly" is withdrawn.
+
 ## Bottom line
 
 1. **As a general thesis, "mine is an address, not a label" is not new.** For text, Li et al. (2026) state outright that the self-index "is attached to the Assistant slot" and that "a stateless model cannot distinguish its own earlier tokens from identical tokens placed in that slot by someone else" **[verified]**. Ye, Cui & Hadfield-Menell (ICML 2026) find that position and style, more than tags, write the latent role. The prefill literature shows that models mostly own whatever sits in their assistant slot.
