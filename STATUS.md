@@ -345,6 +345,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | V7 engine: read-time whole-P RoPE translation, declared-span joint attention summaries and offline acceptance; Claude review requested | src/mb/runtime.py, src/mb/conditions.py, src/mb/run.py, src/mb/kv_geometry.py (new), tests/test_v7_kv_*.py (new), tests/test_conditions.py, docs/reviews/v7_engine_implementation_codex_20261028.md (new) | 2026-10-28 01:07 Chicago |
 | Claude Code | Revision Phase 1: protocol V7 draft, use-assay and generalization-variant materials, offline analyses | docs/protocol/PROTOCOL_V7_DRAFT.md (new), src/mb/v7_tasks.py (new), tests/test_v7_tasks.py (new), scripts/v7_*.py (new), research/mind_connecting/address_ownership_20261027/ | 2026-10-28 01:04 Chicago |
 
 
