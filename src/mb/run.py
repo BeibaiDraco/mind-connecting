@@ -538,7 +538,7 @@ class Runner:
             raise ValueError(f"model hidden size {self.d} differs from profile {self.profile.hidden_size}")
         self.cal = cal_map
         self.cal_meta = cal_meta
-        self.all_episodes, self.episodes = stage_episodes(cfg, limit)
+        self.all_episodes, self.episodes = self._stage_episodes(limit)
         self.by_id = {e.episode_id: e for e in self.all_episodes}
         self.mm_donor: dict[str, str] = {}
         self.notes: dict[str, list[int]] = {}
@@ -573,6 +573,12 @@ class Runner:
         self.pass_index = 0
 
     # -- identity per arm ---------------------------------------------------------------
+
+    def _stage_episodes(self, limit: int | None) -> tuple[list[tasks.Episode], list[tasks.Episode]]:
+        return stage_episodes(self.cfg, limit)
+
+    def _mention_counts(self, ep: tasks.Episode, text: str) -> dict[str, int]:
+        return tasks.mention_counts(ep, text)
 
     def mask_indices(self, arm: ArmConfig):
         from mb.bridge import nested_mask_indices
@@ -883,8 +889,8 @@ class Runner:
                 "kv_mass_A": (float(ticklog["kv_mass"][2 * i].nanmean())
                               if "kv_mass" in ticklog and bool(ticklog["kv_mass"][2 * i].isfinite().any()) else None),
                 "reflection_A": text_a, "reflection_B": text_b,
-                "mentions_A": tasks.mention_counts(ep if self.cfg.provenance else view, text_a),
-                "mentions_B": tasks.mention_counts(view, text_b),
+                "mentions_A": self._mention_counts(ep if self.cfg.provenance else view, text_a),
+                "mentions_B": self._mention_counts(view, text_b),
             }, ensure_ascii=False) + "\n")
         self.ticks_summary.flush()
 
