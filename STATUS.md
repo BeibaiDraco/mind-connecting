@@ -351,6 +351,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Codex | Approved V7 H100 acceptance and conditional pilot; sealed ownership outputs, backup and lifecycle closeout | src/mb/v7_run.py, src/mb/v7_acceptance.py (new), tests/test_v7_runner.py, tests/test_v7_acceptance.py (new), tests/test_v7_kv_gpu.py, configs/v7/, docs/reviews/v7_execution_codex_20261028.md (new), decision_log.md, STATUS.md; private V7 execution artifacts on SD | 2026-10-28 02:27 Chicago |
 | Claude Code | Revision Phase 1: protocol V7 draft, use-assay and generalization-variant materials, offline analyses | docs/protocol/PROTOCOL_V7_DRAFT.md (new), src/mb/v7_tasks.py (new), tests/test_v7_tasks.py (new), scripts/v7_*.py (new), research/mind_connecting/address_ownership_20261027/ | 2026-10-28 01:04 Chicago |
 
 
