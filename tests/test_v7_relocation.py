@@ -165,3 +165,23 @@ def test_mass_error_in_one_head_or_donor_cannot_be_hidden_by_averaging():
     assert all(x['logits']['within'] and x['own']['within'] for x in rows)
     assert not r.fp32_passed(rows)
     assert not r.fp32_passed([])
+
+
+def test_precision_receipt_checks_model_and_cache_not_only_label(monkeypatch):
+    api = fake_runtime(monkeypatch)
+    api.float32 = np.dtype(np.float32)
+    api.bfloat16 = 'bf16'
+    api.backends = SimpleNamespace(cuda=SimpleNamespace(matmul=SimpleNamespace(allow_tf32=False),
+        flash_sdp_enabled=lambda: True, math_sdp_enabled=lambda: True))
+    api.get_float32_matmul_precision = lambda: 'highest'
+    engine = SimpleNamespace(model=SimpleNamespace(parameters=lambda: [Tensor([1.], np.float32)],
+        config=SimpleNamespace(_attn_implementation='mb_kv')))
+    receipt = r.precision_metadata(engine, 'fp32')
+    assert receipt['parameter_dtypes'] == ['float32'] and receipt['matmul_allow_tf32'] is False
+    state = SimpleNamespace(cache=SimpleNamespace(layers=[SimpleNamespace(
+        keys=Tensor([1.], np.float32), values=Tensor([2.], np.float32))]))
+    r.check_cache_precision(state, 'fp32')
+    state.cache.layers[0].values = Tensor([2.], np.float64)
+    with pytest.raises(RuntimeError, match='cache precision'): r.check_cache_precision(state, 'fp32')
+    engine.model.parameters = lambda: [Tensor([1.], np.float64)]
+    with pytest.raises(RuntimeError, match='model precision'): r.precision_metadata(engine, 'fp32')

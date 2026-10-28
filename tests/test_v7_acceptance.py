@@ -67,6 +67,7 @@ def test_stage_order_fp32_gate_and_descriptive_bf16_then_cap0_before_selection(t
     monkeypatch.setitem(sys.modules, 'mb.runtime', SimpleNamespace(
         load_model=lambda **kw: events.append('load-' + kw['dtype']) or Model(kw['dtype'])))
     monkeypatch.setattr(a, 'timed_engine_class', lambda path: Engine)
+    monkeypatch.setattr(a, 'validate_material_compatibility', lambda *args: events.append('materials'))
     monkeypatch.setattr(a.chat, 'load_tokenizer', lambda **kw: object())
     monkeypatch.setattr(a.chat, 'encode', lambda *args: [42])
     monkeypatch.setattr(a, 'validated_saved_inputs', lambda *args: (

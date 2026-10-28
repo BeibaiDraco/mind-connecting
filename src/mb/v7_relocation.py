@@ -84,7 +84,36 @@ def prefill_relocated_reference(engine, prefixes: list[list[int]], native):
     for ref_layer, base_layer in zip(cache_layers(reference.cache), cache_layers(native.cache), strict=True):
         if any(not torch.equal(a[0::2], b[0::2]) for a, b in zip(ref_layer, base_layer)):
             raise RuntimeError('receiver cache changed while constructing the reference')
+    for row in range(1, native.rows, 2):
+        if all(torch.equal(a[0][row], b[0][row]) for a, b in
+               zip(cache_layers(reference.cache), cache_layers(native.cache), strict=True)):
+            raise RuntimeError('true donor relocation left all donor keys unchanged')
     return reference
+
+
+def precision_metadata(engine, precision: str) -> dict:
+    import torch
+
+    expected = torch.float32 if precision == 'fp32' else torch.bfloat16
+    dtypes = {parameter.dtype for parameter in engine.model.parameters()}
+    if dtypes != {expected}:
+        raise RuntimeError(f'model precision does not match {precision}: {dtypes}')
+    cuda = torch.backends.cuda
+    return {'parameter_dtypes': sorted(map(str, dtypes)),
+            'matmul_allow_tf32': bool(cuda.matmul.allow_tf32),
+            'float32_matmul_precision': torch.get_float32_matmul_precision(),
+            'attention_implementation': engine.model.config._attn_implementation,
+            'sdpa_enabled': {name: getattr(cuda, name + '_sdp_enabled', lambda: None)()
+                             for name in ('flash', 'mem_efficient', 'math', 'cudnn')}}
+
+
+def check_cache_precision(state, precision: str) -> None:
+    import torch
+    from mb.runtime import cache_layers
+
+    expected = torch.float32 if precision == 'fp32' else torch.bfloat16
+    if any(tensor.dtype != expected for layer in cache_layers(state.cache) for tensor in layer):
+        raise RuntimeError('cache precision differs from the comparison label')
 
 
 def trace(engine, state, spans: list[list], token: int, *, translated: bool) -> list[dict[str, np.ndarray]]:
@@ -156,6 +185,7 @@ def run_comparison(engine, prefixes: list[list[int]], spans: list[list], root: P
 
     if precision not in ('fp32', 'bf16') or batches[0] != 1:
         raise ValueError('comparison requires a declared precision and batch-1 baseline first')
+    actual_precision = precision_metadata(engine, precision)
     compared, padding, provenance, baseline = [], [], [], []
     for batch in batches:
         for start in range(0, len(prefixes), 2 * batch):
@@ -163,6 +193,8 @@ def run_comparison(engine, prefixes: list[list[int]], spans: list[list], root: P
             native = engine.prefill(sequences, attention_spans=declared)
             translated = select_rows(native, list(range(native.rows)), engine.model.config)
             reference = prefill_relocated_reference(engine, sequences, native)
+            check_cache_precision(native, precision)
+            check_cache_precision(reference, precision)
             provenance.append({'batch': batch, 'row_start': start, 'banks': native.kv_banks,
                 'reference_prefill_offsets': [0 if i % 2 == 0 else -len(seq) for i, seq in enumerate(sequences)],
                 'translated_read_offsets': [-len(sequences[i + 1]) for i in range(0, len(sequences), 2)],
@@ -192,7 +224,7 @@ def run_comparison(engine, prefixes: list[list[int]], spans: list[list], root: P
         'passed': fp32_passed(compared) if precision == 'fp32' else None,
         'comparison': compared, 'native_padding_variability': padding, 'provenance': provenance,
         'teacher_forced_token': token, 'ticks': TICKS, 'batches': list(batches),
-        'cache_tensors_rephased_in_reference': False, 'receiver_initial_state_exact': True}
+        'precision_metadata': actual_precision, 'cache_tensors_rephased_in_reference': False, 'receiver_initial_state_exact': True}
     with (root / f'relocation_{precision}.json').open('x') as stream:
         json.dump(result, stream, indent=2, allow_nan=False)
     return result

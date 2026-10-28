@@ -209,8 +209,10 @@ def main(argv: list[str] | None = None) -> int:
             raise RuntimeError("V7 acceptance requires the authorized GPU")
         torch.set_num_threads(8)
         tok = chat.load_tokenizer(profile=QWEN.key)
-        if hashes:
-            validate_material_compatibility(tok, data, args.output / "notes.jsonl")
+        phase, started = "material_check", time.perf_counter()
+        validate_material_compatibility(tok, data, args.output / "notes.jsonl")
+        durations[phase] = time.perf_counter() - started
+        phase, started = "fp32_model_load", time.perf_counter()
         prefixes, spans = data["prefix_ids"], data["attention_spans"]
         token = chat.encode(tok, "Continue")[0]
         engine_cls = timed_engine_class(args.output / "steps.jsonl")
@@ -254,7 +256,8 @@ def main(argv: list[str] | None = None) -> int:
             "selected_episodes_per_batch": batch, "selected_max_rows": 2 * batch,
             "cap0_passed_before_selection": True, "cap0_batch": max(BATCHES), "recipe": RECIPE["selection"]})
         pilot = v7_run.V7Config("v7_pilot", "base", 80, tag="approved", episodes_per_batch=batch, max_rows=2 * batch)
-        (args.output / "pilot.yaml").write_text(yaml.safe_dump(pilot.resolved()))
+        with (args.output / "pilot.yaml").open("x") as stream:
+            stream.write(yaml.safe_dump(pilot.resolved()))
         durations[phase] = time.perf_counter() - started
         write_once(args.output / "acceptance.json", {"passed": True, "durations_seconds": durations,
             "source_hash": run.source_hash(), "protocol_sha256": APPROVED_SHA,
