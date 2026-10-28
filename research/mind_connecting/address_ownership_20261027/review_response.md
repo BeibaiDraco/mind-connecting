@@ -1,0 +1,21 @@
+# Hostile review and how the proposal changed
+
+October 27, 2026. An independent subagent reviewed the first draft of the proposal as a demanding area chair, reading the code, results and draft paper. Verdict: **promising with fixes**. Claude checked its token-level claims with the local tokenizer: the 181-token identical prefix and the 280-token strict third-person card diverging at token 29 are both confirmed.
+
+| Objection | Accepted? | Change |
+|---|---|---|
+| **The ~50% at w = 1 is forced by exchange symmetry** (identical template and positions, identical scoring, counterbalanced triples, mixed reflection). The six estimates are implementation checks, not replications. | **Yes.** This was the most dangerous objection, and it also overturns the "zero home advantage" claim Claude made to the PI earlier on October 27. | The symmetry concession was added to the evidence file. The proposal now treats the symmetric bridge as the controlled zero point (the source monitoring framework's identical-features limit) and asks which added asymmetry restores ownership. A Bradley–Terry check is step 0. |
+| ACC matching is biased: ACC asks about B's assignment, gets Robin's rule 84% of the time at no link, and so contains attribution. | Yes | Matching was replaced by weight grids and the shift of the 50% point in log w, compared with an attribution-free access axis (attention mass on B's rule-phrase tokens). |
+| "Relocated curve below at every access level" cannot hold; curves converge at high w. | Yes | The prediction is restated as a 50%-point shift larger than the access shift, with a prespecified equivalence margin. |
+| Relocating B only to an earlier position cannot separate the slot account from recency. | Yes | Added "B later", a swap that moves A's own segment, and a person × placement 2×2 with correct separation as a co-primary readout. |
+| The 181 duplicated prefix states act as +log 2 on A's own prefix; relocating them creates a displaced duplicate scenario (an APE-style failure). Excluding only the sink changes the normalizer. | Yes | One rule for all linked arms (leave the duplicates unshifted, or exclude them), chosen before any run. The anchor is a new condition if they are excluded. |
+| Δ must be defined per row (left padding); B's readable segment includes a variable-length note. | Yes | Rotation goes inside `kv_attention` after the fp32 upcast, with per-row offsets. Whether the note moves must be stated. |
+| The "known-other label" prediction was already run (strict third person names a participant A's card calls the other) and failed. | Yes; it was also found independently in the template check | Removed as a new cell. It is reported as an existing answer: labels inside the memory do not restore ownership. |
+| The strict third-person card is misaligned by a few tokens, and the line-order split shifts B's line by about 14 tokens. Small Δ cells are redundant. | Yes | Δ = 16 dropped. Only placements outside the card region remain. |
+| The line-order split shows content or role addressing at line resolution, so the "region gate" has no discriminating support yet. | Yes | The evidence file now states that only relocation can show whether placement matters at all. Role binding is a full competing account with its own predictions. |
+| Missing the joint-encoding text baseline (B's *card* as untagged text in A's stream) and a same-content relocation control. | Yes | Both added. |
+| A readout-only arm adds an extra copy of A's rule (frequency confound). | Yes | B's unlinked reflection is exposed whenever A's is, to balance record counts. |
+| If relocation works, ML reviewers will call it expected engineering. A well-powered null with the encoding contrast may be more interesting. | Partly | The paper's contribution is now the source-feature decomposition, not relocation alone. Both outcomes are framed in advance. |
+| Cost is underestimated: 6–8 GPU-hours is optimistic. | Yes | Restated as several GPU-days for step 1. |
+
+The reviewer's single most dangerous objection was that the effect is a relabelled field-retrieval collision that binding work already predicts. The revised framing accepts it for the symmetric case. The contribution is then the asymmetric cases: which feature, added back, makes the model's own memory win.
