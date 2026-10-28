@@ -565,3 +565,13 @@ The PI adopted Claude's recommendations for the revision cycle:
 (4) The actor-reference task is deferred to a later paper.
 (5) Agents may rent GPUs through the vast.ai CLI within this plan. Each instance is synced and stopped (not destroyed) after use.
 Further: the Llama 3.1 8B replication of the decisive contrast follows only after the Qwen study is complete. The primary target venue is ICML 2027. arXiv v1 is public as arXiv:2610.33020 (the earlier hold was resolved). The revised manuscript will update arXiv once it is complete locally. Whether prespecified generalization tests enter V7 awaits the PI's decision after an explanation. No protocol is frozen and no GPU work has started. | PI (explicit adoption); Claude Code (recommendations)
+
+
+## 2026-10-28 — Generalization tests and revision logistics
+
+The PI adopted prespecified generalization tests for V7 as secondary analyses on three variants unseen during design: a table-format card, the source-qualified question, and a new same-structure scenario with new rule names and words. The PI also confirmed the defaults:
+- Claude writes the main narrative of the revision; Codex integrates V4/V5 and reviews the whole manuscript.
+- Trial data are released on Zenodo with the revision.
+- The public repository is pushed at milestones after a large-file and secret check.
+
+Work division: Codex implements and validates the engine change (read-time rephasing and span logging); Claude drafts protocol V7, the use-assay and variant materials, and the analysis scripts. Each reviews the other's work. | PI (explicit confirmation); Claude Code (recommendations)
