@@ -164,6 +164,96 @@ class Array(np.ndarray):
         return np.asarray(self)
 
 
+def test_answer_position_payload_keeps_exact_last_query_without_mutation():
+    span = Array(np.arange(2 * 3 * 2 * 4 * 6, dtype=np.float32).reshape(2, 3, 2, 4, 6))
+    span[0, -1, 1, 2, 3] = np.nan
+    bank = Array(np.arange(2 * 3 * 2 * 4 * 2, dtype=np.float32).reshape(2, 3, 2, 4, 2))
+    pos = Array([[41, 42, 43], [101, 102, 103]], dtype=np.int64)
+    geometry = [{"delta": -11, "span_hash": "first"}, {"delta": -23, "span_hash": "second"}]
+    values = {"r_kv_span_mass": span, "r_kv_bank_mass": bank, "r_kv_query_pos": pos,
+              "g_kv_span_mass": span, "g_kv_bank_mass": bank, "g_kv_query_pos": pos,
+              "kv_geometry": geometry}
+    before = {k: v.copy() for k, v in values.items() if isinstance(v, np.ndarray)}
+    payload = v.V7Runner._tick_payload(values)
+    assert set(payload) == {"r_kv_span_mass", "r_kv_bank_mass", "r_kv_query_pos", "kv_geometry_json",
+                            "g_kv_span_mass", "g_kv_bank_mass", "g_kv_query_pos"}
+    for name in ("r_kv_span_mass", "r_kv_bank_mass", "r_kv_query_pos"):
+        np.testing.assert_array_equal(payload[name], before[name][:, -1:])
+        assert payload[name].dtype == before[name].dtype
+    for name in ("g_kv_span_mass", "g_kv_bank_mass", "g_kv_query_pos"):
+        np.testing.assert_array_equal(payload[name], before[name])
+    assert [json.loads(row) for row in payload["kv_geometry_json"]] == geometry
+    for name, original in before.items():
+        np.testing.assert_array_equal(values[name], original)
+    # The inherited serializer remains a full-tick path for earlier protocols.
+    legacy = run.Runner._tick_payload(values)
+    assert legacy["r_kv_span_mass"].shape[1] == 3 and "g_kv_span_mass" in legacy
+
+
+def test_answer_position_payload_omits_reflection_mass_but_keeps_legacy_diagnostics():
+    values = {"kv_span_mass": Array(np.zeros((2, 3, 2, 2, 4))),
+              "kv_bank_mass": Array(np.zeros((2, 3, 2, 2, 2))),
+              "kv_query_pos": Array([[1, 2, 3], [5, 6, 7]]),
+              "inj_ratio": Array([[.1, .2, .3], [.4, .5, .6]]),
+              "kv_geometry": [{"delta": -11}, None]}
+    payload = v.V7Runner._tick_payload(values)
+    assert set(payload) == {"inj_ratio", "kv_geometry_json"}
+    np.testing.assert_array_equal(payload["inj_ratio"], values["inj_ratio"])
+    assert [json.loads(row) for row in payload["kv_geometry_json"]] == values["kv_geometry"]
+
+
+def test_answer_positions_selected_before_ragged_branch_padding(tmp_path):
+    parts = []
+    legacy_parts = []
+    for ticks, slots, offset in ((3, 6, 41), (5, 4, 101)):
+        shape = (1, ticks, 2, 4, slots)
+        mass = Array(np.arange(np.prod(shape), dtype=np.float32).reshape(shape))
+        mass[0, -1, 0, 0, 0] = np.nan
+        values = {"r_kv_span_mass": mass,
+                  "r_kv_bank_mass": Array(np.arange(ticks * 16, dtype=np.float32).reshape(1, ticks, 2, 4, 2)),
+                  "r_kv_query_pos": Array([np.arange(offset, offset + ticks)]),
+                  "kv_geometry": [{"delta": -offset, "spans": list(range(slots))}]}
+        legacy = run.Runner._tick_payload(values)
+        compact = v.V7Runner._tick_payload(values)
+        for key, fill in run.TICK_ARRAYS:
+            legacy[key] = compact[key] = np.arange(ticks).astype(np.asarray(fill).dtype).reshape(1, ticks)
+        key = [json.dumps([f"ep-{ticks}", "A", "CAP0", 0])]
+        parts.append((key, compact))
+        legacy_parts.append((key, legacy))
+    v.V7Runner._save_rticks(tmp_path / "compact.npz", parts)
+    run.Runner._save_rticks(tmp_path / "legacy.npz", legacy_parts)
+    with np.load(tmp_path / "compact.npz", allow_pickle=False) as compact, np.load(
+            tmp_path / "legacy.npz", allow_pickle=False) as legacy:
+        for name in ("trial_keys", "lengths", "kv_geometry_json", *(k for k, _ in run.TICK_ARRAYS)):
+            np.testing.assert_array_equal(compact[name], legacy[name])
+        for row, (_, arrays) in enumerate(legacy_parts):
+            for name in ("r_kv_span_mass", "r_kv_bank_mass", "r_kv_query_pos"):
+                expected = arrays[name][0, -1]
+                actual = compact[name][row, 0]
+                if np.ndim(expected):
+                    actual = actual[tuple(slice(0, n) for n in expected.shape)]
+                np.testing.assert_array_equal(actual, expected)
+                assert compact[name + "_lengths"][row] == 1
+        assert compact["r_kv_span_mass"].shape == (2, 1, 2, 4, 6)
+        assert np.isnan(compact["r_kv_span_mass"][1, :, :, :, 4:]).all()
+        np.testing.assert_array_equal(compact["r_kv_query_pos"][:, 0], [43, 105])
+
+
+def test_logging_policy_change_refuses_resume_even_with_code_override(tmp_path, tok, monkeypatch):
+    cfg, path, prep = prepared(tmp_path, tok, monkeypatch)
+    identity_path = prep.run_dir / "identity.json"
+    original = json.loads(identity_path.read_text())
+    assert original["attention_logging"] == {
+        "schema": "v7-answer-position-v1", "readout": "last_suffix_query",
+        "open_answer": "all_tokens", "reflection": False, "generated_continuation": True}
+    original.pop("attention_logging")
+    identity_path.write_text(json.dumps(original))
+    before = {p: p.read_bytes() for p in prep.run_dir.rglob("*") if p.is_file()}
+    with pytest.raises(SystemExit, match="attention_logging"):
+        v.prepare_run(cfg, path, resume=prep.run_dir, allow_code_change=True, tok=tok)
+    assert {p: p.read_bytes() for p in prep.run_dir.rglob("*") if p.is_file()} == before
+
+
 @dataclasses.dataclass
 class FakeState:
     prefixes: list
@@ -198,6 +288,9 @@ class FakeEngine:
         if plan.arm.kv_log_spans:
             values["kv_geometry"] = [resolve_geometry(state.banks[i], state.banks[i ^ 1], plan.arm.kv_position)
                                      if i % 2 == 0 else None for i in range(n)]
+            values["kv_span_mass"] = Array(np.ones((n, 2, 2, 2, 4)))
+            values["kv_bank_mass"] = Array(np.ones((n, 2, 2, 2, 2)))
+            values["kv_query_pos"] = Array(np.tile(np.arange(2), (n, 1)))
         return values
 
     def run_readout(self, state, rows, suffixes, selected, rules, generate=0, mask_idx=None):
@@ -212,9 +305,15 @@ class FakeEngine:
         if selected.kv_log_spans:
             geometry = [resolve_geometry(state.banks[p * 2], state.banks[p * 2 + 1], selected.kv_position) for p, _ in rows]
             out["kv_geometry"] = geometry
-            out["r_kv_span_mass"] = Array(np.zeros((n, ticks, 2, 2, len(geometry[0]["spans"]))))
-            out["r_kv_bank_mass"] = Array(np.zeros((n, ticks, 2, 2, 2)))
+            shape = (n, ticks, 2, 2, len(geometry[0]["spans"]))
+            tick_values = np.arange(ticks, dtype=np.float32)[None, :, None, None, None]
+            out["r_kv_span_mass"] = Array(np.broadcast_to(tick_values, shape))
+            out["r_kv_bank_mass"] = Array(np.broadcast_to(tick_values, (n, ticks, 2, 2, 2)))
             out["r_kv_query_pos"] = Array(np.tile(np.arange(ticks), (n, 1)))
+            if generate:
+                out["g_kv_span_mass"] = Array(np.ones((n, generate - 1, 2, 2, shape[-1])))
+                out["g_kv_bank_mass"] = Array(np.ones((n, generate - 1, 2, 2, 2)))
+                out["g_kv_query_pos"] = Array(np.tile(np.arange(generate - 1), (n, 1)))
         return out
 
     def close(self):
@@ -247,6 +346,26 @@ def collector(cfg, prep, tok, fake_model):
     return r
 
 
+def test_persistence_filter_leaves_all_synthetic_answer_records_unchanged(tmp_path, tok, monkeypatch, fake_model):
+    compact_serializer = v.V7Runner._tick_payload
+    roots = []
+    for name, serializer in (("legacy", run.Runner._tick_payload), ("compact", compact_serializer)):
+        directory = tmp_path / name
+        directory.mkdir()
+        monkeypatch.setattr(v.V7Runner, "_tick_payload", staticmethod(serializer))
+        cfg, _, prep = prepared(directory, tok, monkeypatch)
+        r = collector(cfg, prep, tok, fake_model)
+        try:
+            r.run_arms(cfg.arm_configs(), passes=1)
+        finally:
+            r.close()
+        roots.append(prep.run_dir)
+        assert v.run_completeness(prep.run_dir)["status"] == "complete"
+        assert all(a.kv_log_spans for a in cfg.arm_configs() if a.condition != "C0")
+    for relative in ("records/attempt-000.jsonl", "notes.jsonl", "lang.jsonl", "ticks.jsonl", "snapshots.jsonl"):
+        assert (roots[0] / relative).read_bytes() == (roots[1] / relative).read_bytes()
+
+
 @pytest.mark.parametrize("variant", material.VARIANTS)
 def test_full_dispatch_serialization_retry_and_completed_resume(tmp_path, tok, monkeypatch, fake_model, variant):
     cfg, path, prep = prepared(tmp_path, tok, monkeypatch, variant)
@@ -271,6 +390,18 @@ def test_full_dispatch_serialization_retry_and_completed_resume(tmp_path, tok, m
             if "kv_geometry_json" in arrays:
                 assert len(arrays["kv_geometry_json"]) == len(arrays["trial_keys"])
                 assert json.loads(arrays["kv_geometry_json"][0])["spans"]
+                assert arrays["r_kv_span_mass"].shape[1] == 1
+                assert arrays["r_kv_bank_mass"].shape[1] == 1
+                np.testing.assert_array_equal(arrays["r_kv_query_pos"][:, 0], arrays["lengths"] - 1)
+                np.testing.assert_array_equal(arrays["r_kv_span_mass_lengths"], np.ones(len(arrays["trial_keys"])))
+            if "g_kv_span_mass" in arrays:
+                expected = [tasks.U_OPEN_TOKENS - 1 if json.loads(key)[2] == "U_OPEN" else 0
+                            for key in arrays["trial_keys"]]
+                for field in ("g_kv_span_mass", "g_kv_bank_mass", "g_kv_query_pos"):
+                    np.testing.assert_array_equal(arrays[field + "_lengths"], expected)
+    for archive in (prep.run_dir / "ticks").glob("C*.npz"):
+        with np.load(archive, allow_pickle=False) as arrays:
+            assert not {"kv_span_mass", "kv_bank_mass", "kv_query_pos"} & set(arrays.files)
     if variant == "base":
         modes = [x for x in FakeEngine.calls if isinstance(x[0], str)]
         assert ("orig_w2_ro", False) in modes and ("trans_w2_ro", False) in modes

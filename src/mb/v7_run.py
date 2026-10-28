@@ -25,6 +25,8 @@ from mb.kv_geometry import bank_metadata
 from mb.model_profiles import QWEN
 
 CONTRACT = "v7-runner-v1"
+ATTENTION_LOGGING = {"schema": "v7-answer-position-v1", "readout": "last_suffix_query",
+                     "open_answer": "all_tokens", "reflection": False, "generated_continuation": True}
 PROTOCOL = run.REPO_ROOT / "docs/protocol/PROTOCOL_V7_DRAFT.md"
 OPEN_ARMS = frozenset({"c0", "orig_w2", "trans_w2", "orig_w1", "trans_w1",
                        "same_orig_w2", "same_trans_w2", "third_orig_w2", "third_trans_w2"})
@@ -161,6 +163,7 @@ def build_identity(cfg: V7Config, tok, limit: int | None = None) -> dict[str, An
     episodes_for(cfg, limit)
     template = material_digest(cfg, tok)
     identity = {"contract": CONTRACT, "stage_config": cfg.resolved(), "limit": limit,
+            "attention_logging": ATTENTION_LOGGING,
             "model_profile": QWEN.identity(), "template_hash": template,
             "tokenizer_manifest_sha": ledger.file_sha256(Path(QWEN.manifest_path)),
             "protocol_sha256": ledger.file_sha256(PROTOCOL),
@@ -276,6 +279,18 @@ def prepare_run(cfg: V7Config, config_path: Path, limit: int | None = None, resu
 
 class V7Runner(run.Runner):
     """Reuse the reviewed C/R engine, branching, retry and tick serialization paths."""
+
+    @staticmethod
+    def _tick_payload(values: dict[str, Any]) -> dict[str, Any]:
+        """Keep the answer-producing query before branches with different lengths are padded."""
+        diagnostics = ("kv_span_mass", "kv_bank_mass", "kv_query_pos")
+        readout = tuple("r_" + field for field in diagnostics)
+        selected = {}
+        for name, value in values.items():
+            if name in diagnostics:
+                continue
+            selected[name] = value[:, -1:] if name in readout else value
+        return run.Runner._tick_payload(selected)
 
     def _stage_episodes(self, limit: int | None) -> tuple[list[tasks.Episode], list[tasks.Episode]]:
         full = episodes_for(self.cfg)
