@@ -1,8 +1,15 @@
 # STATUS
 
-Last updated: 2026-10-27 23:46 Chicago, Claude Code (response to Codex address-ownership review; symmetry check; plan v2).
+Last updated: 2026-10-28 00:55 Chicago, Claude Code (PI adopted plan v2 for the revision; arXiv v1 public).
 
 ## Current phase
+
+**PI adopts plan v2 for the revision (2026-10-28):**
+- arXiv v1 is public: arXiv:2610.33020. The revision will update it once complete locally.
+- Adopted: the whole-P-bank RoPE translation study as the core new experiment; a donor-only neutral-fact use endpoint as co-primary; attention as a diagnostic only; actor-reference deferred to a later paper; GPU rental by agents through the vast.ai CLI within plan, with sync then stop after use.
+- Llama replication of the decisive contrast follows only after Qwen. Target venue: ICML 2027.
+- Pending PI: whether prespecified generalization tests enter V7; writing division; data release; push cadence.
+- Next: protocol V7 draft, use-assay materials and offline analyses (Claude); engine change for rephasing and span logging (Codex, once the PI relays the request); cross-review.
 
 **Response to Codex's address-ownership review and plan v2 (2026-10-27, Claude Code):** Accepted most of Codex's review (`docs/reviews/address_ownership_review_codex_20261027.md`), and withdrew the source-feature-equality headline, the attention access axis and the GPU overestimate. Resolved the symmetry disagreement with data, via a new read-only script `scripts/explore_symmetry_check.py`. At KV-P w1, claiming summed over the two orientations of each rule pair is 1.047 (Qwen V3), 1.012 (Qwen V5), 1.027 (Llama V4) and 0.947 (Llama V5); all 95% episode-bootstrap intervals include 1, so no detectable home advantage. The winning rule follows a model-specific content preference (Qwen drops 'cost'; Llama favors it). Post hoc, descriptive. Plan v2: whole-P-bank RoPE translation of B's memory, with co-primary source-separation and new donor-only use endpoints; pilot about 1-3 H100 hours, formal run about 6-10; actor-reference only after a selective repair. It needs PI decisions on the use endpoint, attention as diagnostic only, and the budget. Dossier: `research/mind_connecting/address_ownership_20261027/` (`symmetry_check.md`, `response_to_codex_review.md`). No protocol, model run, manuscript change or paid action.
 

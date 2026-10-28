@@ -554,3 +554,14 @@ The PI forwarded Claude's explicit A–G review request. Codex independently che
 ## 2026-10-27 — Reconcile address-ownership review and record the symmetry check
 
 Codex reviewed Claude's address-ownership dossier (promising with fixes). Claude accepts the review except on the symmetry point, which a post hoc check now settles empirically. At equal KV weight, claiming summed over rule-pair orientations is near 1 in four studies (Qwen V3/V5, Llama V4/V5; all intervals include 1), so owner identity has no detectable effect and a model-specific content preference decides the winning rule. Plan v2, for PI decision: bounded whole-bank RoPE translation with co-primary source-separation and donor-only use endpoints, attention logged as a diagnostic only, Codex's stopping rules, and actor-reference only after a selective repair. Nothing adopted: no protocol, selector, metric, N, model run, manuscript change or paid action. | PI (asked both agents to reconcile before experiments); Claude Code (response and offline analysis); Codex (review)
+
+
+## 2026-10-28 — PI adopts plan v2 for the paper revision
+
+The PI adopted Claude's recommendations for the revision cycle:
+(1) The whole-P-bank RoPE translation study (plan v2, `research/mind_connecting/address_ownership_20261027/response_to_codex_review.md`) is the core new experiment.
+(2) A donor-only neutral-fact use endpoint is a co-primary endpoint alongside source separation; its exact materials, validation and margins are to be specified in protocol V7.
+(3) Attention is logged as a diagnostic only. Parameters are fixed in advance and never selected from ownership outcomes (AGENTS.md §5).
+(4) The actor-reference task is deferred to a later paper.
+(5) Agents may rent GPUs through the vast.ai CLI within this plan. Each instance is synced and stopped (not destroyed) after use.
+Further: the Llama 3.1 8B replication of the decisive contrast follows only after the Qwen study is complete. The primary target venue is ICML 2027. arXiv v1 is public as arXiv:2610.33020 (the earlier hold was resolved). The revised manuscript will update arXiv once it is complete locally. Whether prespecified generalization tests enter V7 awaits the PI's decision after an explanation. No protocol is frozen and no GPU work has started. | PI (explicit adoption); Claude Code (recommendations)
