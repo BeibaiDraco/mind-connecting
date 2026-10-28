@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-28 03:56 Chicago, Codex (V7 backup fully verified; failed H100 instance stopped and preserved; claim released).
+Last updated: 2026-10-28 10:05 Chicago, Claude Code (failed V7 BF16 acceptance reviewed: no engine defect; replacement FP32 relocation gate proposed in the V7 draft, pending PI approval).
 
 ## Current phase
+
+**V7 BF16 acceptance failure reviewed (2026-10-28, Claude Code):** No engine defect. The check never ran the production translated path (rotation applied to fp32 CPU copies), and it compared two different BF16 rounding sources (absolute position vs. padding width) by their maxima: with 58 vs 34 distinct samples, a correct engine exceeds such an envelope with probability 0.63 per metric. Values, which translation never touches, exceeded too; the key/value error ratio is 0.299 in the comparison vs 0.294 in the baseline, and logits pass. Proposed replacement in the V7 draft (§5, §7 step 1): an FP32 relocation gate through the production joint read (translated arm on native B vs native arm on B prefilled at [−L_B, 0), 12 saved dev inputs, eight ticks, existing FP32 tolerances), with the BF16 comparison descriptive only. Revised draft SHA256 `608350de020b9392672142916484afc953e846344fe733f00e0b3c3f27479e09`, pending PI approval; Codex then implements, Claude reviews, and the approved R1 timing, CAP0 runner exercise and pilot follow. See `docs/reviews/v7_bf16_acceptance_review_claude_20261028.md`.
 
 **V7 acceptance failed; pilot blocked (2026-10-28, Codex):** H100 checkpoint tests passed 2/2 with zero skips (FP32 K/V maximum error `3.05e-05`). The 12-dev-episode BF16 check then failed its prospectively fixed native batch envelope: K max 20.7934 vs 18.125, K RMS 0.100437 vs 0.088292, V max 28.8125 vs 28.1875, V RMS 0.267730 vs 0.263485; both logit metrics passed. Four of 96 row/batch comparisons exceeded at least one limit. Controller stopped at 08:07:47 UTC; no retry, threshold change, R1 performance sweep, CAP0 runner exercise, batch selection or pilot dispatch followed. No ownership outcomes were collected or inspected. Review: `docs/reviews/v7_gpu_acceptance_codex_20261028.md`. All fixed inputs/reference tensors, diagnostics and persistent caches are verified on SD: archive SHA256 `d673debf6ad21daa98e0afe2377869179c408c2d454751fd1e714311a688ec67`, 11,118,371,202 bytes, 27,737 regular files, 1,117 symbolic links, 22 sealed control files and four tokenizer assets. Complete archive/member/control/asset verification took 51.815 seconds. SD root: `/Volumes/VERBATIM SD/mind-connecting-data/execution/v7/20261028-engineering-pilot/`; verification and lifecycle receipts are under `remote-control/sd_verification.json` and `lifecycle/`. Vast confirmed instance `58065462` as `actual_status=exited`, `cur_state=stopped`, `intended_status=stopped` at 08:56:11 UTC / 03:56:11 Chicago after the verified backup; the instance and disk are preserved, not destroyed. The periodic closeout follow-up is complete. Final offline suite: 1371 passed, 11 skipped, one GPU deselection (47.96 seconds). Codex claim released. Claude review of saved BF16 evidence and PI direction are needed before resuming acceptance.
 
@@ -357,7 +359,6 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Claude Code | Review of the failed V7 BF16 acceptance; protocol V7 draft revision of §5/§7 step 1 | docs/reviews/v7_bf16_acceptance_review_claude_20261028.md (new), docs/protocol/PROTOCOL_V7_DRAFT.md, STATUS.md | 2026-10-28 09:40 Chicago |
 
 
 

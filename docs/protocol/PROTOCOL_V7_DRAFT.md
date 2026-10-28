@@ -1,6 +1,6 @@
 # Protocol v7 (DRAFT): where an imported memory lies and whose it is taken to be
 
-**Status:** draft for PI approval, October 28, 2026, Claude Code; revised after Codex's draft review (ad64c92). Not frozen. PI approval of this draft authorizes only the engineering smoke and the pilot (§7 steps 1–2); the formal runs require the final freeze. Open items are listed in §12.
+**Status:** draft for PI approval, October 28, 2026, Claude Code; revised after Codex's draft review (ad64c92) and again after the failed BF16 acceptance check (§7 step 1). Not frozen. PI approval of this draft authorizes only the engineering smoke and the pilot (§7 steps 1–2); the formal runs require the final freeze. Open items are listed in §12.
 
 **Lineage:**
 - PI adoption of plan v2: decision_log, 2026-10-28.
@@ -77,7 +77,7 @@ The joint pattern of claiming, use and the same-content control discriminates th
   - sign and orientation;
   - norm preservation;
   - inverse rotation within a stated tolerance;
-  - agreement with a real prefill of B's bank at offset positions;
+  - agreement with a real prefill of B's bank at offset positions, through the production joint read (§7 step 1);
   - padding and batch invariance;
   - untouched-source and snapshot isolation;
   - mask spans;
@@ -117,7 +117,9 @@ U_OPEN is collected in arms 1, 3, 4, 7, 8 and 11–14.
 1. **Engineering smoke** (12–24 `v7_dev` episodes). No scientific outcome is inspected.
    - Run the §5 acceptance on the pinned checkpoint (`tests/test_v7_kv_gpu.py`).
    - Record per-step timing (engine review R1).
-   - Run a BF16 comparison: read-time rotation versus a real offset prefill, judged against the unmodified path's own variability across batch compositions on the same saved inputs (engine review R2).
+   - **Relocation gate (FP32).** On the 12 saved `v7_dev` inputs, compare two conditions over eight teacher-forced ticks: the production translated arm (KV-P, w2, all layers) with B prefilled natively, and the native arm (δ = 0) with B's bank prefilled at positions [−L_B, 0) and the same span declarations. A's state is identical. The receiver rows' logits and own/donor span masses must agree within the FP32 tolerances already in `tests/test_v7_kv_gpu.py` (logits 3 × 10⁻³ absolute, 2 × 10⁻³ relative; masses 2 × 10⁻³ absolute). A correct implementation passes with certainty.
+   - **BF16 comparison (descriptive).** The same two conditions in BF16, reported beside the unmodified path's padding variability. Not a gate: in BF16 neither side is ground truth.
+   - The first BF16 check (read-time rotation versus a BF16 offset prefill, against the maximum batch-composition error) failed and is kept in the record. It did not run the production path, and it compared two different rounding sources by their maxima, which fails a correct engine by chance (`docs/reviews/v7_bf16_acceptance_review_claude_20261028.md`).
 2. **Pilot** (80 `v7_pilot` base episodes, all 14 base arms, the episodes' two rotations).
    - The gates read only USE, CAP, format and label mass. They check that the measuring instrument works and say nothing about the results:
      - **U1 competence:** USE "fact" choices in arm 2 (A holds the fact itself) are ≥ 90%. If the model miscomputes the total more than one time in ten even when it has the fact, a later loss of use could not be separated from arithmetic failure.
@@ -220,9 +222,10 @@ The PI rejected fixed pass/fail margins (2026-10-28): a cut-off such as "at leas
 Resolved:
 - Codex reviewed this draft and the materials (ad64c92). Its five required clarifications are incorporated: the generalization ORIG counterfactual arm, the seal → variance → freeze order, the inconclusive-use wording with repair direction and pooled C0, no equivalence labels, and enumerated families and tests.
 - Claude reviewed the engine (`docs/reviews/v7_engine_review_claude_20261028.md`) and the runner (`docs/reviews/v7_runner_review_claude_20261028.md`).
+- Codex added the generalization ORIG counterfactual arm to the runner registry (9cb073a).
+- The first BF16 acceptance check failed. Claude's review found no engine defect and replaced the rule with the FP32 relocation gate in §7 step 1 (`docs/reviews/v7_bf16_acceptance_review_claude_20261028.md`).
 - The PI settled on 2026-10-28: no fixed pass/fail margins (§9), and the text reference arm deferred (§6).
 
 Before the parameter seal:
-- The runner registry adds the generalization ORIG counterfactual arm.
 - Claude writes and Codex reviews the pilot-gate script and the variance-only script.
-- The GPU acceptance and smoke results (§7 step 1) are reviewed.
+- The relocation gate and the rest of §7 step 1 pass and are reviewed.
