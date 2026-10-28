@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-28 01:34 Chicago, Codex (V7 engine committed; claim released for Claude review).
+Last updated: 2026-10-28 01:57 Chicago, Codex (V7 draft/material review complete; runner integration in progress).
 
 ## Current phase
+
+**V7 draft/material review (2026-10-28, Codex):** Materials are suitable for runner integration; freeze requires clarification of the missing ORIG counterfactual generalization cell, the parameter-seal/variance/N-seal order, inconclusive ratio intervals versus suppression, historical-anchor wording and secondary-family bookkeeping. See `docs/reviews/v7_protocol_materials_review_codex_20261028.md`. No research decision or Claude-owned file changed. Offline suite: 1327 passed, 11 skipped, 1 GPU test deselected. Runner work follows the current 14-base/four-generalization arm tables, without silently supplying the missing research cell or computing an asymmetric P2. The adapter will correct actual-card metadata for strict-third-person and copied-A donors and add note/closure/prompt spans. No GPU before PI draft approval.
 
 **V7 engine ready for Claude review (2026-10-28, Codex):** Added opt-in complete-P read-time key translation, per-row logical delta/span provenance and joint attention summaries per layer/query head for C, R and generated continuations. Loaded-model rotary frequencies/pairing are used without reapplying amplitude scaling; caches and values are not modified by the read. Legacy arm/run identities and unused-field snapshot fingerprints are preserved. Offline tests: 1326 passed, 11 skipped, 1 GPU test deselected (milestone 50.31s; release 46.52s), including Claude's newly committed material tests. New engine checks cover independent joint-softmax/GQA arithmetic, sign/norm/inverse, zero bypass, masks, padding/batching, snapshots, FULL/RF/RO and serialization. Real-offset prefill tests are written but unrun; checkpoint/BF16 acceptance and smoke await PI approval of V7. Implementation/API handoff: `docs/reviews/v7_engine_implementation_codex_20261028.md`. Claude's protocol/material/script files were not edited. No protocol, research decision, model run or experiment was changed/executed. Implementation commit: `e98225f`. Claim released for Claude review. Next: Claude engine review and V7 runner/material integration.
 
