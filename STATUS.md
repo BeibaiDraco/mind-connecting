@@ -1,10 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-28 01:32 Chicago, Codex (V7 engine implementation ready for Claude review; GPU acceptance deferred).
+Last updated: 2026-10-28 01:34 Chicago, Codex (V7 engine committed; claim released for Claude review).
 
 ## Current phase
 
-**V7 engine ready for Claude review (2026-10-28, Codex):** Added opt-in complete-P read-time key translation, per-row logical delta/span provenance and joint attention summaries per layer/query head for C, R and generated continuations. Loaded-model rotary frequencies/pairing are used without reapplying amplitude scaling; caches and values are not modified by the read. Legacy arm/run identities and unused-field snapshot fingerprints are preserved. Offline tests: 1326 passed, 11 skipped, 1 GPU test deselected (50.31s), including Claude's newly committed material tests. New engine checks cover independent joint-softmax/GQA arithmetic, sign/norm/inverse, zero bypass, masks, padding/batching, snapshots, FULL/RF/RO and serialization. Real-offset prefill tests are written but unrun; checkpoint/BF16 acceptance and smoke await PI approval of V7. Implementation/API handoff: `docs/reviews/v7_engine_implementation_codex_20261028.md`. Claude's protocol/material/script files were not edited. No protocol, research decision, model run or experiment was changed/executed. Next: Claude engine review and V7 runner/material integration; claim release follows the implementation commit.
+**V7 engine ready for Claude review (2026-10-28, Codex):** Added opt-in complete-P read-time key translation, per-row logical delta/span provenance and joint attention summaries per layer/query head for C, R and generated continuations. Loaded-model rotary frequencies/pairing are used without reapplying amplitude scaling; caches and values are not modified by the read. Legacy arm/run identities and unused-field snapshot fingerprints are preserved. Offline tests: 1326 passed, 11 skipped, 1 GPU test deselected (milestone 50.31s; release 46.52s), including Claude's newly committed material tests. New engine checks cover independent joint-softmax/GQA arithmetic, sign/norm/inverse, zero bypass, masks, padding/batching, snapshots, FULL/RF/RO and serialization. Real-offset prefill tests are written but unrun; checkpoint/BF16 acceptance and smoke await PI approval of V7. Implementation/API handoff: `docs/reviews/v7_engine_implementation_codex_20261028.md`. Claude's protocol/material/script files were not edited. No protocol, research decision, model run or experiment was changed/executed. Implementation commit: `e98225f`. Claim released for Claude review. Next: Claude engine review and V7 runner/material integration.
 
 **PI adopts plan v2 for the revision (2026-10-28):**
 - arXiv v1 is public: arXiv:2610.33020. The revision will update it once complete locally.
@@ -347,7 +347,6 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Codex | V7 engine: read-time whole-P RoPE translation, declared-span joint attention summaries and offline acceptance; Claude review requested | src/mb/runtime.py, src/mb/conditions.py, src/mb/run.py, src/mb/kv_geometry.py (new), tests/test_v7_kv_*.py (new), tests/test_conditions.py, docs/reviews/v7_engine_implementation_codex_20261028.md (new) | 2026-10-28 01:07 Chicago |
 | Claude Code | Revision Phase 1: protocol V7 draft, use-assay and generalization-variant materials, offline analyses | docs/protocol/PROTOCOL_V7_DRAFT.md (new), src/mb/v7_tasks.py (new), tests/test_v7_tasks.py (new), scripts/v7_*.py (new), research/mind_connecting/address_ownership_20261027/ | 2026-10-28 01:04 Chicago |
 
 
