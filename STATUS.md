@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-28 03:04 Chicago, Codex (approved H100 instance commissioned; pinned dependency setup running).
+Last updated: 2026-10-28 03:14 Chicago, Codex (GPU checkpoint passed; BF16 engineering acceptance failed; no pilot, backup in progress).
 
 ## Current phase
+
+**V7 acceptance failed; pilot blocked (2026-10-28, Codex):** H100 checkpoint tests passed 2/2 with zero skips (FP32 K/V maximum error `3.05e-05`). The 12-dev-episode BF16 check then failed its prospectively fixed native batch envelope: K max 20.7934 vs 18.125, K RMS 0.100437 vs 0.088292, V max 28.8125 vs 28.1875, V RMS 0.267730 vs 0.263485; both logit metrics passed. Four of 96 row/batch comparisons exceeded at least one limit. Controller stopped at 08:07:47 UTC; no retry, threshold change, R1 performance sweep, CAP0 runner exercise, batch selection or pilot dispatch followed. No ownership outcomes were collected or inspected. Review: `docs/reviews/v7_gpu_acceptance_codex_20261028.md`. All fixed inputs/reference tensors, diagnostics and roughly 13 GiB of persistent caches are being archived for SD backup. Instance `58065462` remains running only for archival/transfer; after verified backup, stop and preserve the failed instance, without destruction. Claude review of saved BF16 evidence and PI direction are needed before resuming acceptance.
 
 **V7 H100 commissioned (2026-10-28, Codex):** One H100 SXM 80 GB, instance `58065462` (`v7-approved-20261028`), 120 GiB disk, quoted USD 2.6431/hour including storage. Source `9cb073a` and 121 source hashes are deployed; exact public tokenizer assets are copied separately. The controller runs dependency setup, the two GPU checkpoint tests, then the 12-episode engineering package, stopping on any failure. A passed engineering receipt waits for a disk-capacity check before the separate pilot dispatch. The SD control backup includes the source bundle, approval, configuration and controller. No ownership output has been opened or scored; no pilot has started. Complete cache/result backup and verification precede successful-instance destruction; failures preserve the instance. Execution evidence review is claimed below.
 
