@@ -575,3 +575,8 @@ The PI adopted prespecified generalization tests for V7 as secondary analyses on
 - The public repository is pushed at milestones after a large-file and secret check.
 
 Work division: Codex implements and validates the engine change (read-time rephasing and span logging); Claude drafts protocol V7, the use-assay and variant materials, and the analysis scripts. Each reviews the other's work. | PI (explicit confirmation); Claude Code (recommendations)
+
+
+## 2026-10-28 — No fixed pass/fail margins in V7; text reference arm deferred
+
+The PI rejected the proposed fixed margins (20-point meaningful drop, 10-point equivalence, 10-point use noninferiority) as arbitrary: a 19-point effect is not scientifically different from a 20-point one. The V7 draft now uses estimation-first analysis. Every estimand is reported with a 95% episode-bootstrap interval and interpreted against reference effects fixed in advance from existing V3 data: cutting the link (−95.8 points), the strict third-person wording (−4.5 at w1, +0.1 at w2) and cohort spread (47.3–52.3% at w1). Use retention is reported as a fraction of the original placement's gain over no link. The descriptive labels follow interval facts, not cut-offs. Pilot gates are kept as instrument-validity checks, each with a stated rationale. The text reference arm is deferred. | PI (explicit); Claude Code (draft revision)
