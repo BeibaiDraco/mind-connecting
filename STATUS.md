@@ -332,6 +332,7 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
+| Claude Code | Address-ownership thesis: novelty audit, internal evidence check and proposal (PI request) | research/mind_connecting/address_ownership_20261027/ (new) | 2026-10-27 22:11 Chicago |
 
 
 
