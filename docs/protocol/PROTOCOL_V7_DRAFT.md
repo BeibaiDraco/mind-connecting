@@ -1,6 +1,6 @@
 # Protocol v7 (DRAFT): where an imported memory lies and whose it is taken to be
 
-**Status:** draft for PI approval, October 28, 2026, Claude Code. Not frozen; nothing here authorizes a GPU run. Codex reviews this draft; Claude reviews Codex's engine change. Open items are listed in §12.
+**Status:** draft for PI approval, October 28, 2026, Claude Code; revised after Codex's draft review (ad64c92). Not frozen. PI approval of this draft authorizes only the engineering smoke and the pilot (§7 steps 1–2); the formal runs require the final freeze. Open items are listed in §12.
 
 **Lineage:**
 - PI adoption of plan v2: decision_log, 2026-10-28.
@@ -40,10 +40,10 @@ The joint pattern of claiming, use and the same-content control discriminates th
 
   Variants of one split share the legacy assignment structure by construction, so cross-variant comparisons are paired.
 - **Records:** append-only shards, identity hashing, one automatic retry per failed trial, no imputation, resume refusal on identity change (AGENTS.md §6). A smoke run is never scientific evidence.
-- **Selection:** none from ownership, detection, report or use outcomes:
+- **Selection:** nothing is selected from ownership (START, WORD, NOW, ACC_RULE, PROV), detection or report outcomes:
   - weights are the historical w = 1 and w = 2;
-  - the translation offset is set by geometry (§5);
-  - the pilot may revise only the use assay (§7), and only on fresh episodes.
+  - the translation offset is set by geometry (§5).
+  - **The one bounded exception is instrument validation (PI-authorized).** The pilot gates read USE, CAP, format and label mass (§7). Only USE failures may trigger a revision, of the use assay alone, on a fresh pilot episode namespace declared by amendment.
 
 ## 4. Materials (`src/mb/v7_tasks.py`)
 
@@ -69,7 +69,7 @@ The joint pattern of claiming, use and the same-content control discriminates th
 - **Original placement:** the historical KV-P joint read (`src/mb/runtime.py:68-120`). Partner keys keep their logical RoPE positions.
 - **Translated placement:** for each receiving row, take B's complete P bank (card, note, closing tokens, reflection prompt) and set δ_row = −(logical length of that bank).
   - Apply the RoPE rotation R(δ_row) to the fp32 partner keys inside the joint read, using the model's own rotary frequencies and pairing. B's bank then sits immediately before A's first token, and every query-key distance stays positive.
-  - Values, masks, cache contents and A's own computation are unchanged. No cache is mutated.
+  - B's values, all masks and all cache contents are unchanged, and so is A's native attention computation at a given query; no cache is mutated. A's later hidden states and generated text can change, as a consequence of the changed read.
   - δ, the translated span and the operation version enter the condition identity.
 - **Same weight rule:** partner logits receive +log w in both placements.
 - **Engineering acceptance (Codex's list), before any pilot:**
@@ -93,7 +93,7 @@ All linked arms use KV scope P, recipient A, fact holder B, and FULL readout unl
 |---|---|---|
 | 1 | C0 | Baseline; USE guessing rate |
 | 2 | C0, fact holder A ("full information") | USE competence ceiling |
-| 3 | ORIG w2 | Anchor (historical 97%) |
+| 3 | ORIG w2 | Replication anchor. The added note line means it need not reproduce the historical 97% exactly. |
 | 4 | TRANS w2 | **Primary contrast with 3** |
 | 5 | ORIG w2, counterfactual N′ | Donor-dependence of use at original placement |
 | 6 | TRANS w2, counterfactual N′ | Donor-dependence of use under translation |
@@ -108,28 +108,37 @@ All linked arms use KV scope P, recipient A, fact holder B, and FULL readout unl
 
 U_OPEN is collected in arms 1, 3, 4, 7, 8 and 11–14.
 
-**Generalization (G1 table, G3 laptop):** arms C0, ORIG w2, TRANS w2, and TRANS w2 counterfactual N′.
+**Generalization (G1 table, G3 laptop):** five arms: C0, ORIG w2, TRANS w2, ORIG w2 counterfactual N′, TRANS w2 counterfactual N′. The ORIG counterfactual cell was added after Codex's review (ad64c92), so the pooled use contrast is defined exactly as in the base study.
 
 **Text reference arm (B's card as quoted text in A's context): deferred** (PI, 2026-10-28). Historical tagged and untagged text arms remain the text comparison; the arm can be added by amendment.
 
 ## 7. Stages and gates
 
-1. **Engineering smoke** (12–24 `v7_dev` episodes): §5 acceptance only. No scientific outcome is inspected.
-2. **Pilot** (80 `v7_pilot` episodes, all base arms, one rotation pair). Gates read only USE, CAP, format and label mass:
-   These gates check that the measuring instrument works. They say nothing about the results.
-   - **U1 competence:** USE "fact" choices in arm 2 (A holds the fact itself) are ≥ 90%. If the model miscomputes the total more than one time in ten even when it has the fact, a later loss of use could not be separated from arithmetic failure.
-   - **U2 no leakage:** USE "fact" choices in arm 1 (no link) are ≤ 40%. Chance is 25%; well above chance would mean the answer can be guessed without B's information.
-   - **U3 donor dependence at original placement:** arm 3 "fact" choices exceed arm 1 by ≥ 25 points, **and** arm 5 "cf" choices exceed arm 1's "cf" rate by ≥ 25 points. The retention fraction R divides by this gain. If the gain were small, R would be too imprecise to tell "use kept" from "use lost" at N = 600.
-   - **Q1 quality:** CAP in every linked arm is within 5 points of C0, and label mass is ≥ 0.95. This is the same quality screen used in v2–v5.
-   - If U1–U3 fail, the use assay may be revised (wording or the fact's position). The revision is recorded, and a fresh pilot runs on new episodes. START, PROV, DETECT and report outcomes may not be used for any revision; they are not opened before the freeze. If Q1 fails, stop and report to the PI.
-3. **Freeze:** tag `protocol-v7` with a FREEZE file (SHA256 of this protocol, materials, configs, code). N is set from the pilot variance (§11).
-4. **Formal:** base arms on fresh `v7_formal` episodes, then generalization arms. One run per variant; no interim looks at outcomes.
+1. **Engineering smoke** (12–24 `v7_dev` episodes). No scientific outcome is inspected.
+   - Run the §5 acceptance on the pinned checkpoint (`tests/test_v7_kv_gpu.py`).
+   - Record per-step timing (engine review R1).
+   - Run a BF16 comparison: read-time rotation versus a real offset prefill, judged against the unmodified path's own variability across batch compositions on the same saved inputs (engine review R2).
+2. **Pilot** (80 `v7_pilot` base episodes, all 14 base arms, the episodes' two rotations).
+   - The gates read only USE, CAP, format and label mass. They check that the measuring instrument works and say nothing about the results:
+     - **U1 competence:** USE "fact" choices in arm 2 (A holds the fact itself) are ≥ 90%. If the model miscomputes the total more than one time in ten even when it has the fact, a later loss of use could not be separated from arithmetic failure.
+     - **U2 no leakage:** USE "fact" choices in arm 1 (no link) are ≤ 40%. Chance is 25%; well above chance would mean the answer can be guessed without B's information.
+     - **U3 donor dependence at original placement:** arm 3 "fact" choices exceed arm 1 by ≥ 25 points, **and** arm 5 "cf" choices exceed arm 1's "cf" rate by ≥ 25 points. Use retention is measured relative to this gain; if the gain were small, "use kept" and "use lost" could not be told apart at N = 600.
+     - **Q1 quality:** CAP in every linked arm is within 5 points of C0, and label mass is ≥ 0.95. This is the same quality screen used in v2–v5.
+   - If U1–U3 fail, the use assay may be revised (wording or the fact's position) once. The revision is recorded and a fresh pilot runs on a new episode namespace declared by amendment. If Q1 fails, stop and report to the PI.
+   - The analysis code reads ownership, detection and report outcomes from pilot records only in step 4, and only as variances.
+3. **Parameter seal** (tag `protocol-v7-params`, with a FREEZE file of SHA256 hashes). Fixes this protocol, materials, arm registry, weights, geometry, question sets, runner and analysis code. Nothing after this point may change them.
+4. **Variance-only step.** A separately reviewed script reads the pilot records and outputs only the paired standard deviations needed in §11 (P1, D_use) and the implied N. It prints no means, differences or intervals. Its output is committed before step 5.
+5. **Final freeze** (tag `protocol-v7`): records N and the variance output.
+6. **Formal base run** on fresh `v7_formal` episodes, then the generalization runs (G1, G3) on the same split. One run per variant; no interim looks at outcomes.
 
 ## 8. Endpoints
 
 **Co-primary (base, FULL, w2):**
 - **P1 source separation:** paired difference in START partner-choice rate, TRANS w2 (arm 4) minus ORIG w2 (arm 3). Each episode's rate is averaged over its two rotations. The logit contrast M is reported in the same direction as a companion.
-- **P2 donor-dependent use:** tracking rate T = P(choose 2 × the value shown in B's card). It is pooled over the shown-N arm and its counterfactual-N′ arm, for each placement (arms 3+5 vs 4+6). The estimand is T_TRANS − T_ORIG.
+- **P2 donor-dependent use:** tracking rate T = P(choose 2 × the value shown in B's card), pooled with equal weight over the shown-N arm and its counterfactual-N′ arm for each placement (ORIG: arms 3 and 5; TRANS: arms 4 and 6).
+  - For the no-link baseline, the same C0 answers (arm 1) are scored against both targets with the same weights: T_C0 = ½·P(choose 2N) + ½·P(choose 2N′).
+  - The estimands are the **use difference** D_use = T_TRANS − T_ORIG and the **use gain under translation** G_TRANS = T_TRANS − T_C0. Both are unnormalized.
+  - The retention fraction R = G_TRANS / (T_ORIG − T_C0) is reported as a descriptive companion only.
 
 **Integrity:** CAP and label mass per arm, against C0. The same-content control (arms 11–12) shows the disruption caused by translation itself.
 
@@ -160,43 +169,60 @@ The PI rejected fixed pass/fail margins (2026-10-28): a cut-off such as "at leas
 | Spread of equal-weight estimates across five cohorts | 47.3%–52.3% | Cohort-to-cohort variation |
 
 **How each result is described:**
-- **Existence of a placement effect:** the 95% interval for P1 excludes 0.
+- **Placement effect in the repair direction:** P1 < 0, with the 95% interval below 0. An interval above 0 (claiming increased) is reported as an effect in the opposite direction.
 - **Size of the placement effect:** P1 as a fraction of the cut-link anchor (P1 / −95.8), with its interval. For example, a 19-point reduction is reported as about one fifth of the effect of removing the partner's memory, larger than the third-person wording effect. It counts as a real effect, not a failure.
-- **Use retained:** T_TRANS is above the no-link rate T_C0, with the interval of the difference excluding 0. Report the retention fraction R = (T_TRANS − T_C0) / (T_ORIG − T_C0) with its interval. R near 1 means use is fully kept; R near 0 means translation removed B's information.
-- **Selective repair:** a placement effect exists, use is retained (R's interval excludes 0), and the same-content control (arms 11–12) shows no START own-rule loss or CAP drop of comparable size. The strength of the repair is described by the pair (fraction of ownership restored, fraction of use kept), both with intervals. No single threshold turns this into a yes/no label.
-- **Donor suppression:** a placement effect exists but R's interval includes 0. This is attenuation, not repair (stopping rule 1).
-- **No detectable placement effect:** P1's interval includes 0. The result is stated as "translation changes claiming by no more than [interval bound] points". It is compared with the third-person anchor, and is not called equivalence unless the bound is smaller than that anchor.
-- **Quality:** CAP and label mass per arm are reported against C0. A linked arm with a CAP loss outside the interval of the same-content control is flagged as disrupted.
+- **Use:**
+  - **Use retained:** G_TRANS's interval lies above 0. Report D_use with its interval alongside, and R as descriptive.
+  - **Use lost:** G_TRANS's interval includes 0 **and** D_use's interval lies below 0.
+  - **Use inconclusive:** otherwise. This includes intervals that include both 0 and the full original gain. It is never read as suppression (stopping rule 6).
+  - **R's interval:** if more than 2.5% of bootstrap draws have an original gain (T_ORIG − T_C0) of zero or less, R's 95% interval is reported as undefined, because a two-sided 95% interval cannot be formed. Only the unnormalized contrasts are then interpreted.
+- **Selective repair:** a placement effect in the repair direction and use retained, with the same-content contrast (below) reported alongside. Its strength is described by P1's fraction of the cut-link anchor and by R, both with intervals. No single threshold turns this into a yes/no label.
+- **Donor suppression:** a placement effect in the repair direction with use lost. This is attenuation, not repair (stopping rule 1).
+- **No detectable placement effect:** P1's interval includes 0. The result is stated only as "translation changed claiming by between [lower] and [upper] points", next to the anchors in the table. No equivalence or refutation label is used unless the PI adopts a bounded hypothesis before the freeze.
+- **Disruption by translation itself:** a prespecified contrast in the same-content control. Same-content TRANS minus same-content ORIG (arms 12 − 11), for START own-rule choices and for CAP, with intervals, reported next to P1 and D_use. It is described, not thresholded.
+- **Quality:** CAP and label mass per arm, reported against C0.
 
-**Secondary families** (S1–S7, and G1–G3 for generalization) are reported with intervals, Holm-adjusted within each family when a "different from zero" statement is made.
+**Tests and families.** P-values come from two-sided paired t-tests on episode-level differences; intervals come from the episode bootstrap. The co-primary statements are each reported on their own. "Selective repair" requires both, so no adjustment is needed across them (intersection-union). Holm adjustment applies within each family below; every contrast is TRANS minus ORIG at w2, FULL, unless noted.
+- **S1 (w1):** claiming difference (arms 8 − 7); home-advantage index difference.
+- **S2:** claiming difference under RO (arms 10 − 9).
+- **S3:** person × placement interaction in correct separation, (14 − 13) − (4 − 3).
+- **S4:** NOW difference; WORD difference; reverse-error difference.
+- **S5:** DETECT P(yes) difference (4 − 3); DETECT P(yes), ORIG w2 minus C0 (3 − 1); same-content false-alarm rate, ORIG minus C0 (11 − 1).
+- **S6 (G2):** PROV_SELF_RULE donor-own choice difference; Robin choice difference.
+- **S7:** open reports mentioning both code words; open reports mentioning anything unusual.
+- **Generalization family:** P1 and D_use in G1; P1 and D_use in G3.
 
-**Generalization:** in each variant, report the P1 and R analogues with intervals. Describe whether the direction matches the base result and how the sizes compare.
+**Generalization:** in each variant, report P1, D_use, G_TRANS and R with intervals. Describe whether the direction matches the base result and how the sizes compare.
 
 **Rule content:** all claiming analyses also report results stratified by ordered rule pair, because rule identity carries much of the variance at w1.
 
 ## 10. Stopping rules (Codex's F1–F6, adopted)
 
 1. Source improvement without donor-dependent use, or with comparable same-content or CAP disruption, is attenuation, not repair.
-2. A validated translation whose P1 interval includes 0 and is narrower than the third-person anchor, with use retained, refutes this bounded placement hypothesis. It does not show that ownership lives entirely in content.
+2. If a validated translation leaves P1's interval around 0 with use retained, report the interval bounds next to the anchors. Claim no refutation or equivalence unless the PI adopted a bounded hypothesis before the freeze. Never claim that ownership lives entirely in content.
 3. Results that reduce to content preference, answer position or generic binding interference, with no new predictive consequence, are not promoted.
 4. If the use assay cannot be validated (U1–U3 after one revision), no claim about shared useful information is made.
-5. Gains only from rewritten tasks, no held-out generalization, or a need for prohibited target-based tuning end the program after the pilot. The negative result goes into the manuscript.
+5. If the base result appears only with rewritten tasks, fails to generalize in the formal G1/G3 runs, or would need prohibited target-based tuning, the program ends after the generalization runs. The negative result goes into the manuscript.
 6. Imprecise nulls and failed implementation checks are inconclusive, not evidence for the opposite mechanism.
 
 ## 11. Precision and sample size
 
 - **Planning reference:** N = 600 base episodes and N = 300 per generalization variant.
-- **At the freeze:** use the pilot's paired SDs of P1 and T to check that N = 600 gives 95% interval half-widths of about 5 points or less for P1 and for T_TRANS − T_ORIG. That is precise enough to tell an effect the size of the third-person anchor apart from a partial repair. In V3 at w2, the paired SD of the cut-link difference was 0.17 (half-width ±1.4 points); at w1 the per-episode SD was 0.47 (±3.8 points). If the pilot implies a half-width above 5 points, the PI decides whether to raise N.
+- **At the final freeze:** take the variance-only output (§7 step 4). Check that N = 600 base episodes gives 95% interval half-widths of about 5 points or less for P1 and for D_use. That is precise enough to tell an effect the size of the third-person anchor apart from a partial repair. In V3 at w2, the paired SD of the cut-link difference was 0.17 (half-width ±1.4 points); at w1 the per-episode SD was 0.47 (±3.8 points). If the implied half-width exceeds 5 points, the PI decides whether to raise N. Generalization variants use N = 300 unless the PI decides otherwise.
 
 - **Historical throughput** (V3 on an H100, batch 40) was about 4 s per episode-arm, before allowances. On that basis:
   - the base formal set (14 arms × 600) is about 9–10 H100 hours;
-  - the generalization set (2 × 4 arms × 300) is about 3 hours;
+  - the generalization set (2 × 5 arms × 300) is about 3–4 hours;
   - the pilot is about 2 hours.
 
-## 12. Open items before the freeze
+## 12. Status of open items
 
-1. Codex's review of this draft and of the materials module.
-2. Claude's review of the engine change and its acceptance evidence (§5).
-3. A runner integration plan for V7 records. Codex owns the runner; the metadata fields come from `v7_tasks.record_metadata`.
+Resolved:
+- Codex reviewed this draft and the materials (ad64c92). Its five required clarifications are incorporated: the generalization ORIG counterfactual arm, the seal → variance → freeze order, the inconclusive-use wording with repair direction and pooled C0, no equivalence labels, and enumerated families and tests.
+- Claude reviewed the engine (`docs/reviews/v7_engine_review_claude_20261028.md`) and the runner (`docs/reviews/v7_runner_review_claude_20261028.md`).
+- The PI settled on 2026-10-28: no fixed pass/fail margins (§9), and the text reference arm deferred (§6).
 
-Settled by the PI on 2026-10-28: no fixed pass/fail margins (§9); the text reference arm is deferred (§6).
+Before the parameter seal:
+- The runner registry adds the generalization ORIG counterfactual arm.
+- Claude writes and Codex reviews the pilot-gate script and the variance-only script.
+- The GPU acceptance and smoke results (§7 step 1) are reviewed.
