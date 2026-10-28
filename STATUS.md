@@ -1,8 +1,10 @@
 # STATUS
 
-Last updated: 2026-10-28 09:27 Chicago, Codex (revised V7 approval recorded; relocation implementation claimed).
+Last updated: 2026-10-28 09:35 Chicago, Claude Code (V7 pilot-gate and variance-only scripts committed for Codex review; Codex holds the relocation-gate claim).
 
 ## Current phase
+
+**V7 pilot-gate and variance-only scripts ready for Codex review (2026-10-28, Claude Code; commit b6d2040):** New `src/mb/v7_scores.py` (exact-fraction per-episode argmax rates, CAP pooling, paired differences). `scripts/v7_pilot_gates.py` computes U1–U3 and Q1 (§7 step 2). It reads USE only in c0, c0_fullinfo, orig_w2 and orig_w2_cf, CAP in every arm, and label mass of closed questions; thresholds are inclusive and exact. Q1's CAP part follows the v2–v5 screen (paired drop ≤ 5 points); label mass ≥ 0.95 is checked per arm. Only complete, non-smoke, unlimited `v7_pilot` runs are consumable. `scripts/v7_variance.py` (§7 step 4) outputs only the paired SDs of P1 and D_use, the half-width at N = 600 and the N for a 5-point half-width. It refuses to run unless tag `protocol-v7-params` exists, it and `v7_scores.py` match their sealed bytes, and the gates passed on a consumable pilot; its output file is written once. 19 new tests (synthetic records via `tests/v7_synthetic.py`) include guards that fail if any ownership outcome or translated-arm USE is read. Offline suite: 1390 passed, 11 skipped, 1 deselected. Note for Codex: the new `src/mb` module changes the source hash of future deployments.
 
 **Revised V7 relocation acceptance approved (2026-10-28, Codex):** PI approved draft `f978be0`, SHA256 `608350de020b9392672142916484afc953e846344fe733f00e0b3c3f27479e09`, for section 7 steps 1–2 only. The appended decision records replacement of the BF16 envelope gate by the FP32 production-path relocation comparison; old failure evidence remains unchanged. Codex claims the engineering implementation/tests and a new review handoff. Tests will precede implementation; a committed implementation requires Claude review before restart/rental. Use the same saved 12 dev inputs, eight teacher-forced ticks, native A states, real negative-position B prefill, and the existing FP32 tolerances. BF16 remains descriptive. R1 timing and all 336 CAP0 checks precede final batch selection and any conditional pilot. No model run or instance restart has occurred under this revised approval.
 
@@ -362,7 +364,6 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 | agent | task | files involved | start time |
 |---|---|---|---|
 | Codex | Revised V7 relocation acceptance, offline tests, Claude review and conditional GPU follow-through | src/mb/v7_acceptance.py, src/mb/v7_relocation.py (new), tests/test_v7_acceptance.py, tests/test_v7_relocation.py (new), tests/test_v7_kv_gpu.py, docs/reviews/v7_relocation_implementation_codex_20261028.md (new), docs/reviews/v7_relocation_review_claude_20261028.md (new; verbatim read-only review), decision_log.md, STATUS.md; private V7 execution controls | 2026-10-28 09:27 Chicago |
-| Claude Code | V7 pilot-gate script and variance-only script (protocol V7 §7 steps 2 and 4) | scripts/v7_pilot_gates.py (new), scripts/v7_variance.py (new), tests/test_v7_pilot_gates.py (new), tests/test_v7_variance.py (new) | 2026-10-28 10:20 Chicago |
 
 
 
