@@ -347,7 +347,6 @@ Reset-document verification: all seven relative links resolve; whitespace checks
 
 | agent | task | files involved | start time |
 |---|---|---|---|
-| Claude Code | Review of Codex's V7 engine (e98225f) | docs/reviews/v7_engine_review_claude_20261028.md (new) | 2026-10-28 01:35 Chicago |
 | Claude Code | Revision Phase 1: protocol V7 draft, use-assay and generalization-variant materials, offline analyses | docs/protocol/PROTOCOL_V7_DRAFT.md (new), src/mb/v7_tasks.py (new), tests/test_v7_tasks.py (new), scripts/v7_*.py (new), research/mind_connecting/address_ownership_20261027/ | 2026-10-28 01:04 Chicago |
 
 

@@ -342,9 +342,11 @@ def declared_spans(tok: PreTrainedTokenizerBase, ep: V7Episode, role: tasks.Role
     enc = tok(segment, add_special_tokens=False, return_offsets_mapping=True)
     if enc["input_ids"] != chat.encode(tok, segment):
         raise RuntimeError("offset encoding differs from the chat encoding")
-    offset = len(chat.turn(tok, "system", tasks.SYSTEM_PROMPT)) + 1  # system turn, then <|im_start|>
+    system = len(chat.turn(tok, "system", tasks.SYSTEM_PROMPT))
+    offset = system + 1  # system turn, then <|im_start|>
     shift = len("user\n")
-    spans = []
+    # The first token is a typical attention sink; translation moves it with the rest of the bank.
+    spans = [("first_token", 0, 1), ("system_turn", 0, system)]
     for name, (lo, hi) in sorted(c.ranges.items(), key=lambda kv: kv[1]):
         idx = [i for i, (s, e) in enumerate(enc["offset_mapping"]) if e > lo + shift and s < hi + shift]
         spans.append((name, offset + idx[0], offset + idx[-1] + 1))

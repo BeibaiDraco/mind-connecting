@@ -188,3 +188,12 @@ def test_third_person_frame_only_on_base():
     for variant in ("table", "laptop"):
         with pytest.raises(ValueError):
             v7.private_user_message(v7.make_episodes(1, "v7_test", variant)[0], "B", frame="third_strict")
+
+
+def test_sink_and_system_spans_are_declared(tok):
+    ep = v7.make_episodes(1, "v7_test", "base")[0]
+    ids = v7.private_prefix_ids(tok, ep, "B")
+    spans = {n: (s, e) for n, s, e in v7.declared_spans(tok, ep, "B")}
+    assert spans["first_token"] == (0, 1) and ids[0] == chat.IM_START
+    s, e = spans["system_turn"]
+    assert ids[s:e] == chat.turn(tok, "system", tasks.SYSTEM_PROMPT)
